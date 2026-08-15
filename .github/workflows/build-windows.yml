@@ -5,6 +5,9 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-windows:
     runs-on: windows-latest
@@ -21,47 +24,30 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install telethon pywebview pyinstaller
-
-    - name: Build Single Executable with PyInstaller
-      run: |
-        pyinstaller --noconfirm --onedir --windowed --name "LightWidget" `
-          --add-data "ui;ui" `
-          --add-data "ios;ios" `
-          --hidden-import "telethon" `
-          --hidden-import "webview" `
-          --hidden-import "webview.platforms.winforms" `
-          --hidden-import "webview.platforms.edgechromium" `
-          app.py
+        pip install telethon pywebview pythonnet pyinstaller
 
     - name: Build Single-File Executable (.exe)
       run: |
-        pyinstaller --noconfirm --onefile --windowed --name "LightWidget" `
-          --add-data "ui;ui" `
-          --add-data "ios;ios" `
-          --hidden-import "telethon" `
-          --hidden-import "webview" `
-          --hidden-import "webview.platforms.winforms" `
-          --hidden-import "webview.platforms.edgechromium" `
-          app.py
+        python build_exe.py
 
-    - name: Upload Single-File EXE Artifact
+    - name: Upload EXE Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: LightWidget-Windows-EXE
+        name: LightWidget-Windows
         path: dist/LightWidget.exe
+        if-no-files-found: error
 
-    - name: Create GitHub Release
+    - name: Create or Update GitHub Release
       uses: softprops/action-gh-release@v2
-      if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/main'
       with:
-        tag_name: v1.0.0-windows
-        name: LightWidget for Windows v1.0.0
+        tag_name: v1.0.0
+        name: "LightWidget for Windows v1.0.0"
         body: |
-          ### ⚡ LightWidget for Windows
+          ### ⚡ LightWidget for Windows (Single Executable)
           
-          Скачай файл `LightWidget.exe` ниже и запусти на Windows (Windows 10/11).
-          Установка не требуется — запускается в 1 клик!
+          Скачай файл `LightWidget.exe` ниже и запусти на Windows 10/11.
+          Установка не требуется.
         files: dist/LightWidget.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
