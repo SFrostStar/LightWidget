@@ -1,0 +1,10 @@
+#!/bin/bash
+PROJECT_DIR="/Users/dmitrijmakarcuk/MyProjectsPC/LightWidget"
+cd "" || exit 1
+
+PYTHON_EXE="/Library/Frameworks/Python.framework/Versions/3.13/bin/python3"
+if [ ! -f "" ]; then
+    PYTHON_EXE="/Library/Frameworks/Python.framework/Versions/3.13/bin/python3"
+fi
+
+exec "" app.py
