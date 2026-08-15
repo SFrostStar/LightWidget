@@ -1,7 +1,7 @@
 {
   "status": "ON",
   "is_outage": false,
-  "address": "ENC:v1:ilcYRxG1HBoA3edYSG5Y9GAvqSNkZCUYfQn55i4iUEH8O9ykaDCv+vamwvBq8Zd+fE0QPSJuhyWGMAgCDqPQNG93gB+T",
+  "address": "ENC:v1:md1dygslEOqjzll6gLMcNNAd+xwqwoJuGTDpMvCL9sZgv1osqKSTBSax5++TGZjHDFMJM/ACrXrulBUqYzC+L4bbiU+2",
   "reason": "Штатный режим электросети (отключений не зафиксировано)",
   "start_time_str": null,
   "end_time_str": null,
@@ -12,5 +12,5 @@
   "elapsed_seconds": null,
   "progress_percent": 0.0,
   "raw_text": "За Вашою адресою наразі не зафіксовано відключень. Якщо бажаєте подати заявку на відсутність світла - натисніть на кнопку \"Повідомити про відсутність світла\" 👇",
-  "updated_at": "2026-08-15T20:10:26.604181"
+  "updated_at": "2026-08-15T23:11:32.420480"
 }

@@ -2,7 +2,41 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:/1lhWx8ClbnGXWbBgX37cqOV4S50pqVZEqaMn5O+TEFkruzft+GgJmubXDNGprOtfbxTFG9Qoq/DZ/VUQvBs0endNjX7",
+    "address": "ENC:v1:xPVAy80+zNshJow1qa2A5WXL3/qM2ZhH/W+xmAxVqInj88Bq5FJIoy9121HxeJMgMx5cA4Tf9HGxedoM6GN62+xUfLm3",
+    "reason": "Штатный режим электросети (отключений не зафиксировано)",
+    "start_time_str": null,
+    "end_time_str": null,
+    "start_timestamp": null,
+    "end_timestamp": null,
+    "total_seconds": null,
+    "remaining_seconds": null,
+    "elapsed_seconds": null,
+    "progress_percent": 0.0,
+    "raw_text": "За Вашою адресою наразі не зафіксовано відключень. Якщо бажаєте подати заявку на відсутність світла - натисніть на кнопку \"Повідомити про відсутність світла\" 👇",
+    "updated_at": "2026-08-15T23:11:32.420480",
+    "timestamp": "2026-08-15T23:11:32.423585"
+  },
+  {
+    "status": "ON",
+    "is_outage": false,
+    "address": "ENC:v1:WLiTGYPkG+8IYkpEjtqVg0J6tbC73KPjRdNndNEnOsaKaHXtwwJNi6yhxIcaP/XKMGgdjHvhxKqngboWXrh2RmU7nNPr",
+    "reason": "Штатный режим электросети (отключений не зафиксировано)",
+    "start_time_str": null,
+    "end_time_str": null,
+    "start_timestamp": null,
+    "end_timestamp": null,
+    "total_seconds": null,
+    "remaining_seconds": null,
+    "elapsed_seconds": null,
+    "progress_percent": 0.0,
+    "raw_text": "За Вашою адресою наразі не зафіксовано відключень. Якщо бажаєте подати заявку на відсутність світла - натисніть на кнопку \"Повідомити про відсутність світла\" 👇",
+    "updated_at": "2026-08-15T23:11:16.227702",
+    "timestamp": "2026-08-15T23:11:16.232063"
+  },
+  {
+    "status": "ON",
+    "is_outage": false,
+    "address": "ENC:v1:21daiCrbP2WIGdC+jkVX+PCQkHsNJGAd4b1hCMAue4rc4y+XhYXSgGYg1OhkoKrb1SlM0EVKVMcrIjBXI0GfbuZDfvyR",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -19,7 +53,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:nsJfZ42y/wJlDsOyp9PG/3HxqH0GDlGhOrZvoAM8IrN3Wz5bnBap1ZWl8NFPPMyygOvp/ecbqGnM3JNmB81Elktd45NM",
+    "address": "ENC:v1:4/u+1ZLKrRqGzcWIZADR0jZ/hOSS9H7Sl9GLLRcwCwJSieoSbunWuTjpD099WYl+ssbT7d2GBRnHMqWDeO8DZPbjEYrR",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -36,7 +70,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:Xn2EEmjeXzL7NjF+rTgL8zinxwMGw+21Zozkhqr3hIgZDT7DAwXCpjDf2MlP7gG5uz6Q2V+zgZff7HYkxInlOSgiz3ep",
+    "address": "ENC:v1:kIlugHUVbC6OlCXRmiGlP7LHHOSx7g9hyGdvGeBWaM/DAs6LYLOLY9F/6WCELkLC1jc4wOcU1ZiSy0ew0a434R1v4dUG",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -53,7 +87,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:sD2vTG7gEsTZLfJ3zzUa4XOFFv8GIn6IXAsbWAr8CV2d689GpTPZwIEUc8xXnE5gb1nFq2f/mw9VwdZJnJqBWfyuHTfn",
+    "address": "ENC:v1:Njz4Zn0vwS+z28W8mKMCp9sw1pbRGdTwVIwTMNDHewQMDvHrFj0xihq4Zhn5KaZQTrvNFPPYIa/wr0hNokRaI3Yf3OWH",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -70,7 +104,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:EhWKfD8XD+NIMMBSQj+bLEy+5gwPI4vBKGaNikKtSOv2qWj/MiK8T/7DR0WxcwHcnge361Ut8Q+6IctBMY9cN2Ros/yr",
+    "address": "ENC:v1:hSCI9q8mjL1RdEJCtt98LtbfUyBR2K7VWs3v8RBOgZjq4FY5H3x2hVhyBcPzu2bfRjWP9MXHmifWNmq3GT4oToMrxzed",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -87,7 +121,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:OOww0SRgdL/B0X/BxQz6fjf33/nxfPGG2iBLNf9BSvxmxaC8FcATJ4C0QgEdfQv48i32XoZ5pMTYzvvDDog4khJJcemM",
+    "address": "ENC:v1:zZ4HQE2HAwmbHuwahtAFfdAbgEnG1XOQIhpk/fRPks7KNSWqnl8Lu2RQ8EJqL+Xl+grPZ/10lhsJHd91Wn+Ai7WCCecV",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -104,7 +138,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:zZ1k57MptjAW6N3XLNvnKfRVwtMc0avOf8e+LA93YBVgy6xzMmbUn4PPkzORRhy0Y7AGha/HoU5HvTmjobtsCnVJMf0M",
+    "address": "ENC:v1:5KxDGSzHsQWRtc4c9ntuFY6CIUR5h4M9hix6FwuCgTuBIGCUHlkQwyxFsDlQqX5Aj6uLxa6Cm2XBXFXpCr3WG2lTQ/Jm",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -121,7 +155,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:pPW/9wRDB5bWQWNJTujkvQAmY3b3QmnnLL+pxnvUTgKtEdQjg11kUSCxT2m277BBod+tMQRZUuFTif83ueO7hl9r1Vng",
+    "address": "ENC:v1:mf+HeAmJcpU2R6aGbvPIad6OfJXE11JnZNJz6cNp3o51+XkXF631JVEWOj/m6woXRxrdi7egnN6/3HAxh7Ae/MlfS3Eh",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -138,7 +172,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:KY9bcjxKSyAWstcyCmGwX5U8QRBMOlpdtmatt4rVIAok4bjnjQPbfPBPO/pJFEmBCviDJjt1NQzIrG1aD10Q0W+oaSGU",
+    "address": "ENC:v1:jfMHiXezjShZFIaths7V40QW0xclWAQHK1zPGF7o2q/OJE/Zz3B0ohP8YVGG8tmSKlo5fosrvml4izCUmosplBDUSE6X",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -155,7 +189,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:g9rUF5iTfIpYj4aLywAX1n+/i1+tKHn3yOB2TiW/hluKd9kd71I8L1pcwcAUOLjcayZgHyRs4AJWaJSpXNn9mRkGI+FB",
+    "address": "ENC:v1:8CfrpvgZLK4HlvnNwE9EuhsvMDiZFFkHYI4emhZEzJz3YoIXoIFCgX1moa6PF/P8vWDxLCHs4/wbIO261MAo99h2cwfq",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -172,7 +206,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:YNejtHtIyq0lJ7yPzt153y9DTJnGA+a2gONlJYiwUrWCRXoSy1HRCA6nAX/qsX4Hrk3DvaFhP1lnNvA8h945G1m7QnJA",
+    "address": "ENC:v1:A0E5LRzu/be/sTJStjxgLvLJcc0N0/xrPYp2gFJX45e8sEDQHykS0wTZHUhqFiHESzi+SyunbeTou9TlBMVBmJQ/eLYT",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -189,7 +223,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:JO8Fg8xegJY3FJ8Ma0np0QFLwnqFT+Xfyg8ZHU3j2uI/I3tA6IeSybyfNmHlElHthVOlKTWBHfPpuXJ73+0ly2yNwSJ+",
+    "address": "ENC:v1:7weQvp7cBrtfg0zW5vBo1WbB313ZfzSFCFQC8oh2/8mW01sB6jKWvd/pOTyKSAxcJrvpBOnVQ3I4MCTcw7pTI+pNQQhb",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -206,7 +240,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:8f6AfDXH3vUBl4UVni7fe6yU811D9/IuQaVTDEb7NUse/bDMov9iVPlQ1M1vBLW6FQ/7SzX2Njsk4vCdKY0PRns3WXhm",
+    "address": "ENC:v1:3xTL/cTHFBKfqFd/Uo5iE/jXO3ffmyGAy0egdXVIPHteAcrsiZeUGTqFCz+QYjoyd1t9VvO4bRuYdA0io2bzzB6KAps+",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -223,7 +257,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:0rlWDDNQfJXldE1NlDQgNeNkmlBdMwRGTVaoH+BhvdC02yFhIdYdQl6GZD8iO0AFwU6EfL8A/vGt2tfFMF5PokgXBgWC",
+    "address": "ENC:v1:84TwRcf5B42bSQxW1WiGSSR4e2W9m9bTCLrPHk3c8BzFIrGDY6I7858GR1BFQbrS5LrEyaopSpS+oX8GdrKb7DFaHKaB",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -240,7 +274,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:hkT5XOwo7UPTnUofpQ3ImtvU7uB8WU0FlURLKaSC/ejcQSucvJrt1fdYGp3cb9exDOyM9xUFIhhanBe2+J4hfi5/BMLq",
+    "address": "ENC:v1:DogfyZCqcPYqmKRzTyjtKTk0xv/CDQ6koRe650zf5t2uZEcgMl9lBKRDR27mrtKuD2B+AmwISwV7Ef5A3uloy5h+lNkC",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -257,7 +291,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:WsywbY4npH4u2JKy9OafwwVwkZJoxJ7TKxb4t5o9tzoVfv9iM3rQuTclwEgvUeGNI47Nd+qkhtLo+yhexRfA4tvNvk8h",
+    "address": "ENC:v1:Ns1zzXI8ueNH7gaFyAL2TmDp2y08b6YEVQWprlHKqwmhQIO/Xd/mIp6+0mi5/gK9mH2+JPBzdZODORl7TdKqRPLxeSIo",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -274,7 +308,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:3kAyVQwDlYMpUTeZl68CS4wz03tnOjvC6X3yP92k3gwAKKYNXsXz81V49VCQcgBPfF49bKuZieTo3M5UwxHxIAt5cZj8",
+    "address": "ENC:v1:ocsXg2OptYd3FTVJmr4xjYAvJgO/1VtVzEU9EwLdCFYaBpHcHzJWz2ZkPo2sqrzlLvkQ/vM+ggfD9Ik9FydAs+ZPt7jM",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -291,7 +325,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:xQsygPa2dx8w3j/VzkjLm1S/boiF7zFiVLxH81OETtU9tyKt5Jb1f6+uDATsxueHIwOY8hCRqdgnsZu2UFVrUMoupD69",
+    "address": "ENC:v1:11pcVEW0lrqJMMrAPhTLHm0pSm9DSQYRVdW5d67izU9ipScfNi8IyQ2h/CEm4L9IyNoCQ6gETcM6VmDNqG5e19FFndAI",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -308,7 +342,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:QpwwRg4e9EwsnGVDLaA+dMfLMtdY9KnfD1yXq3OQDEC+B+0InNfjmTFd/RYYMt6ikTLKm8qn4Vr4e9xvrqgdSTU1cs49",
+    "address": "ENC:v1:af++hkGez8JtDVOs2ZVrlh/EKZrcM388cNNlsYU0gEmqdl6M1yxWnGVWzBi7RA49tlqwP2J0k0aeZgrelK0a0EEGAi5v",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -325,7 +359,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:rVEduS8JwZyhFiN857Uh2nlTXdaV50St1fHK2L1veyFsDB0L0ymqobmJ8d+ibmmr/bK0lMLatljqm0j0D4Wu8ANI7Gc7",
+    "address": "ENC:v1:KO1HNEr+oXsXhQ66EB73kPewNkWDHGGb9iNtvXlO754pzN4D1Qn5TaXIvjwHCN8b1Im8up/1E7rhoXh5T3JbQ+b3f79r",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -342,7 +376,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:NOQPm1mdgkdbZl3Ff/oHtT3lxhTbJekADWp/eSxcAmSNCFWxhToYTxgcGPyjjUD1uvipboFGkf209Hh91DXsW0j4wGHv",
+    "address": "ENC:v1:/CCcluEfQqqjxDug4lWxA6MsK1dBTGDeD8AiUcuP4qAIyulNJJxpFVYq84UfKaf9Re/QZCZhXKWg2zoVAf7XVGBXpXcV",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -359,7 +393,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:gYIFiawNDZ5DFbf6ZQ6bbxmaenMlb9CMPexK0iTIYPcYLolomR4NjwwbErcZewTX7Pspx/iyscIveq5mRyvv6VNzNEgu",
+    "address": "ENC:v1:dey6niveq2UqKYtTppKvyF+3HyYyuXWAKSGu6IFgPyTFOdIOQ6+onaJxYNRVgU3s2zSdpncaB8kFZm9ulCLRt1NNDMAK",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -376,7 +410,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:ro4deT6nIoF6Kr+cCNrFk5jW+3b4d+j0TRrMcddA12tenxqpdKPwj6vS0Z8TvRraXqiuRm9b8unXJYV0PZNqxDSgBM14",
+    "address": "ENC:v1:OFEw4es5/SbM4VnjIg1sF8ifEIuoMmDLQ1RZV+BZtncTpaKR/V6ym9epTHzGOA+V3UpouuqjuV2jK3gNdWIZja9ONIs5",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -393,7 +427,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:jAqaH7fA41U4MkFA3f5O4fGrSQ3V2sZL/luiwh4bQiyma1/R3gFSgzW1c4pbHlE5udmW8im3dPvG6RRc5CwQSZNWCoyK",
+    "address": "ENC:v1:L8itG6weJY64ydfKt0kDxK2bOhCzMAJDHPKVfLjaOK8CeDP9VLfaGfljvvQuN72GXjO2XQR5wWYCrszmU7d4+kT2ApYg",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -410,7 +444,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:XQ9KdiSPNIT9bvCvGIYgUl5DgN41gFzK/TKQSuYEPfHHWvOKANTKmMPjgb3eIkN+u7h6+VIrH5c7dtv/9nIv26AN/HaJ",
+    "address": "ENC:v1:0+P2CgO2vCt+BQV5Zt2VWsr39fx3/mYbxxVWJzWfqbdp9fOPKisqEJlor6Zu6jIzCdWOEhBRJf24tpsqHl6Kvetqtz6Y",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -427,7 +461,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:O6tbfxau+5Q5Oxp8H2op0IUUbDIjDRzlG0mikOSRiufl3lfTLNMlfzFeeWLUBCscVsJVTr6lLPZhHjIBZCuWt7SYD9ul",
+    "address": "ENC:v1:GWErueqATUBgyYtg3u25ICOFFAGpUPemlyrUhb85MR9S+I3X3Z7aWe1AEb+u9rUeks7K4rZ074vIMnaaNCah366cmEfU",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -444,7 +478,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:omdh6AEaLuP+92cfILmjzzMTrNJNGSllJce/4nEHxnkPFBq9KBleTOMg5wUmZVNy28ddIaMbgCYLUWRnGYFiPtfLUihJ",
+    "address": "ENC:v1:U4kbLRVi3hMhgEvSyy7ybl6fvN2EJYLpCqkLKaL0Mf2IRH5p/dgkoEajUkrW5627IJRe+npD88t5XXMbAhvwtNvbYeev",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -461,7 +495,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:py6WGbsNfaEsewLwptCU8yy+fXe3kFg/GVG5OL27sIZ3M2m2vgUhTFABmH6Kxbh2qTOocZXSKaheUYwrJTJ/FYNhxRGO",
+    "address": "ENC:v1:G4S5SyfzbDCT0AdrRh5ATDkgSyDywySXB5zpRM7aDIMJaFcAS4NMhtqfTRbkDhaH7MAo1OHe/fI41WaHPJNf1RX/NlMw",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -478,7 +512,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:agPkwOLRuzQK+DjD5c2Nxz3r6uVb7P9DNgc7wdzZsPOgyTFtPELTp85Te3sqN3m6prfbfBWMIbVUsT7VyVV8htpogxnL",
+    "address": "ENC:v1:mSAoM1Ianp2fIw3RfxAJdDqpZOcYW+bpF3g47Ty598lzgVxRNzdSgkSws6XjlGBnJm9r6ODujsLra2iPhvJ3H11ayFJv",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -495,7 +529,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:fh3AgaQDKBWo3hyQNDkqgngGoOyHsaOYhjqqvmPNCKAcDKxtqz3YX4Ov0gHYaTYh9SxOnOaW0JHWxhlCOzS1JpvtrmBX",
+    "address": "ENC:v1:mdA4Xqf2lX7tQukg7pFIMxA7ET9kHOJniuHN3+l9Jub2wRTCR0cD/BO32tN4Bhq9AHfxxdt4iGOdbQj1WdyBrKuFb8Ci",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -512,7 +546,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:hqITjpasQYGgCGnt/Bxmb81jfsTeNIxO5weV+McVgxHqjyyZt8q+z8ixKgeUkMidcZlgmv7X9wTbYPQd+4q1ioSHfmZV",
+    "address": "ENC:v1:OmkVEVVnXULCKk4Oi2jF2w01w6SACU8PJxlYulM793f+hYD+4xk3UeuQQVYmsjW95XpSm+w7Xt6qHZu42vgLn2JOwQA1",
     "reason": "Электросеть работает в штатном режиме (время отключения завершено)",
     "start_time_str": "15.08.2026 09:34",
     "end_time_str": "15.08.2026 16:34",
@@ -529,7 +563,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:t6tkOBZEZ63R0dJ/mDAQggSwC/fVC4uyiDs8M/2t3M822NNbjVSgMjVE2rXfL6Z7TuFKkQEDTG6dkyw1oR+6nDdh/yz9",
+    "address": "ENC:v1:8M7AfUyZtY49m0QTuXFhM777WwdvGnhztkW8aGidjJ3JYp9MzEyI6DwMMrlFoUBvR66Ydn8cFGJmfF/ClMrNOTcDN7Vh",
     "reason": "Электросеть работает в штатном режиме (время отключения завершено)",
     "start_time_str": "15.08.2026 09:34",
     "end_time_str": "15.08.2026 16:34",
@@ -546,7 +580,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:Y4I2Tq1R6t6XKHJiOfkXV4QKY0WZvpGb8HqSBnbL/3o+HMAIp6BXILcR53/CwakCW5p0zdqHwp7dFFoHe/UHAdPOcIWj",
+    "address": "ENC:v1:G5Zo/wJcLIIK2jUxANeylbkbCvUX5hQoreY6oMOqOadpUPQoLtZo6DgrkZHvqVhwZtbLSLuPkPDzZve0n8wwk5og8BhY",
     "reason": "Электросеть работает в штатном режиме (время отключения завершено)",
     "start_time_str": "15.08.2026 09:34",
     "end_time_str": "15.08.2026 16:34",
@@ -563,7 +597,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:33V2pkUnILBjMchcKoPhYKrJ55hTwJcRXjGs55fselwF0rpuIqt+RHroSCfrO0O6tEEwhUH9lcE69gAsn2W+0i2C6dDW",
+    "address": "ENC:v1:PPvcgOI/02LxmcXBEsSzOCO2SAyx5uVEgLdp+1iKTCpFVLTBm42RzNk4b6qqineB0NIg/u1OAf9Mohg18iwHHzkIFa49",
     "reason": "Электросеть работает в штатном режиме (время отключения завершено)",
     "start_time_str": "15.08.2026 09:34",
     "end_time_str": "15.08.2026 16:34",
@@ -580,7 +614,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:CWlTDRLqcxMBdKHroTo1ax2kAxssnYq77WpKqlrpJPgpfgtb6GCv94CqZTEuW2vg478OcWlr8aUaOyAnxTtmXcM+ayqe",
+    "address": "ENC:v1:lgR+rsnWxYisqZGjY22munP6o8o3krmqjneVxQbV8Owx1UhPPMxhAJZUOroiDM5AhNpouy1krto9yLoYNzc5eUGygZMF",
     "reason": "Электросеть работает в штатном режиме (время отключения завершено)",
     "start_time_str": "15.08.2026 09:34",
     "end_time_str": "15.08.2026 16:34",
@@ -597,7 +631,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:oR6/NAKraIJJze2WW5iJl4nCeZ/HiSglVUQcmMT2dfjG2yl8/6P0cIFAhmSFGx3dmDHC/j/1EBVQkDiG8n4xBJQMpeIE",
+    "address": "ENC:v1:B8gnxjBOF/m/V93CPJk6P/rDf1XI+g5iLUq5JhLvmfzBVKo+nTftXYYAWBxbwTF+NRbP3yBDm/9nFbVzJW4PSLWa0h2i",
     "reason": "Электросеть работает в штатном режиме (время отключения завершено)",
     "start_time_str": "15.08.2026 09:34",
     "end_time_str": "15.08.2026 16:34",
@@ -614,7 +648,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:eNkh7Jyv2IMl7LbLBvcRrdbijmwAbqolz9yU360Qy6Q4RESzlTvd3lSOxYhm0TK2TQXdJZmNJtHuUMF7dbd0boyhWgNL",
+    "address": "ENC:v1:V5txDnHjo3Pm38J6hkrQ2jIyndCXuyTKXPcgCPiT3+aTLwoS6Sm/kJxAUw1G6T6P7p0i0/ihq6QmAFxBFfwoMK3Yqg3f",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -631,7 +665,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:hGuzkJFDtkWbZr29cHCKjyPglp1kDYeB/vpAcRxyS7l6TSovqBaxzmZCJCt62dDmhGNOKIXTN9mrMMpJhXRfx8V+QOnY",
+    "address": "ENC:v1:vPyquYz5W3kpjszNHdfkW4DGrEyam3l/FiKkxnhPsNoxR1BbAISFgDI2hKVZyd0wAb0MCR9cZuyNnbim34l68f3bVZl+",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -648,7 +682,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:G4Q+IhqfxBXqG6tANJt12k7e9P6qPlQJPMlnTgAuNN3oG2B33DR8MABTOM8qh2sxy9/AChRaWY5DCG9VlEfrUOycWD1O",
+    "address": "ENC:v1:uCr0JsIFicTOpKgFLRsFRD0ISbpy/IPcR4MnOy3bwAsmArV2H7MW4PYUw7ey9IA4UZApg9yP0uGwfD3MesjtD9MrIJB3",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -665,7 +699,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:myd9KMaJ/oT6+zr43BvuabEa+GYm0H321cqZapiU/hbQ5F0vp14nQUnn03pgoI4v7R0P1WXbVIuWBcWohl1iMZbgN8S7",
+    "address": "ENC:v1:nJzETYLlEPU5syFH609Ju4lfA9b02a6CDGu75fBYL/wJKb+iyctEOYgIi0IqtwNaXxmRxj/GSh92CeEGFdST2sBeega5",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -682,7 +716,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:0NOEFrzx9B9cKsS9E+KK3La9M4HcWSnzMa2H4SI4D9lTJkglXARLw/GYYrAltnsN6TvCEj5lprSfrEc/Oih1TYqwkSy4",
+    "address": "ENC:v1:M6qxTbvx081ZNedoCntA8QODidql0gGLJ/H1Iu2lK1L1LbriageWlt2VWIB1LYk3srGCQ1wXYjTLERwuOhp4GLYn2eta",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -699,7 +733,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:XsBEnJQMrVefpAa4rabi/IjsbFfp4IOWpLuqhFhf3+sjoXJ0v8JaM7KOFWreMXERB9Hf8Io6BXkUc/+0ycIdbJ4nELcb",
+    "address": "ENC:v1:8uHel/FQeEp4SJqFw0INLuNzcQxPgPh8nd+vvLQ8BS/TEC2hssBWniUoSU3lq1KVhHSm40EyaPLAFdHx41XZCe3p2NW2",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -716,7 +750,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:kDyCvHX3/vfzLq/ejcDK8VqR+mzuyi0cvi1U7m5H8fC38dXiBLYRRUGpmp10o5Rq6d+C337w9wh/AwvImAlX5TgreKeH",
+    "address": "ENC:v1:k8MYmJ2Pn71zzIYtG4WcL5tlmjqAuGpJv0qhQ/7DMIkQudqurYbr/hpxSDr58OdPQTxTqkA42N3uIRiNuzmehevWrabK",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -733,7 +767,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:vnSME0ZKNZsMVKzMYViVztp5ehoW/EQJf7V4sZefC5KqMIUcumXwT1nLH9F0EGaWeYj+Kn/Sh9AHIzbRyxXCS46gm2SB",
+    "address": "ENC:v1:GGfwiSlkg7915EXjHiQ/Z5g5088q/e1Cpf1+ha9RSSDAaTTGU9ZoXqIgw/EhesYPW0QqRoUl/yzkHV7Anwlr7qDL9aa8",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -750,7 +784,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:8PxTtuAlLBJn1a+D6Uq1n9sBucSFkjVCFU0Xdj7umkwBYM8JMygE3umBIpZfXqY6qCqgJjUot+bw51OUBH0w6XeCypot",
+    "address": "ENC:v1:3Pua8GKMrqQXD/wlxlsJFt2ZxCQ7ca+OuGIY9m44/L1LPdyCkJYGj4CFpq4KnuQqxZ6DgV/uZNRM89UHUhJOzQGt4Xi+",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -767,7 +801,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:lIzsmdP6Ho5lo2OlXkpMYXEvkBZCSRQIxMwDT1KSIIIbUHznlwoeha/ww1QEPwI0d7vC9LUBhIEpK/sxDdpEfgj6AmMZ",
+    "address": "ENC:v1:jr7X4dFfoDnwlmeT4t1PwqWpfVZZP8sNkXtg22zD8sj9hF1P7/VqAdyY7vbKZ14Ks9GK1P9sebO7wSFcBCZtyjM6IUxk",
     "reason": "Электросеть работает в штатном режиме (время отключения завершено)",
     "start_time_str": "15.08.2026 09:34",
     "end_time_str": "15.08.2026 16:34",
@@ -784,7 +818,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:EWEBCO08m6zaqH0n1iIIBj1mtZptz0GV/YpzQbyqBktYV1Rbm1amxDbw+JwkpYcStygEvvowoouf9zQHg+ss02RS7WMb",
+    "address": "ENC:v1:X/2g2liJeOLzHbeNiQTkCWFoZFQ2gdE1R8JLBcQ0zW822GSemgRslVAMXYzNWj5PS4K9YYEObK1UcX2Y9YCVNVJKAiOT",
     "reason": "Электросеть работает в штатном режиме (время отключения завершено)",
     "start_time_str": "15.08.2026 09:34",
     "end_time_str": "15.08.2026 16:34",
@@ -801,7 +835,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:Up6ENEQuNTRruDivyNtV2Wk9qeKfl8Yud4Pdwk6bvHtk7QE8IOUgULTiC3/MNpXvg+bzb8GW+nPUTvQNYEVDfQ06/CQ8",
+    "address": "ENC:v1:vSDjnZhtqzSgkqylibeWVSx3F5Es5toc7JyRdelHCn1o64Bdom2chaO+gIdgbK8vC81LI94dlCJ5NZ/XTCCmTSLGTR3f",
     "reason": "Электросеть работает в штатном режиме (время отключения завершено)",
     "start_time_str": "15.08.2026 09:34",
     "end_time_str": "15.08.2026 16:34",
@@ -818,7 +852,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:C/zTyLbVgvdORaVZxLrN3G1VmwIsVr5Fil7urDAy49Fd4iR3ef2R4f6giwxC4TSa4uJ2OW0gMOuRrGvPPldp2s+KLCmD",
+    "address": "ENC:v1:BELDP7f+xA0k2TBrwsTZgGzNf1drZMv92vxhTEHj3MJ0CLrb2djYqiI4L6ZuxSv3Qj/Jfh7ZBNDvqhwhWDw/GZe2LPPT",
     "reason": "Электросеть работает в штатном режиме (время отключения завершено)",
     "start_time_str": "15.08.2026 09:34",
     "end_time_str": "15.08.2026 16:34",

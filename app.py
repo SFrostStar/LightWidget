@@ -253,8 +253,20 @@ def main():
     bridge.set_window(window)
     window.events.closed += lambda: os._exit(0)
 
-    # After page loads, inject account number directly into the DOM
+    # After page loads, configure window space behavior and inject account number directly into the DOM
     def on_window_loaded():
+        # Prevent macOS from switching spaces/desktops - force window to current active space
+        if sys.platform == "darwin":
+            try:
+                import AppKit
+                AppKit.NSApp.activateIgnoringOtherApps_(True)
+                for nswin in AppKit.NSApp.windows():
+                    # NSWindowCollectionBehaviorMoveToActiveSpace (2) | NSWindowCollectionBehaviorFullScreenAuxiliary (256)
+                    nswin.setCollectionBehavior_(2 | 256)
+                    nswin.orderFrontRegardless()
+            except Exception as e:
+                print(f"[MacOS Space Fix] {e}")
+
         acc = config_mgr.get("account_number", "")
         print(f"[Window] Loaded. Injecting account_number='{acc}'")
         if acc and window:
