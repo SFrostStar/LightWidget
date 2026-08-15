@@ -81,11 +81,12 @@ html, body {
   width: 26px;
   height: 26px;
   border-radius: var(--radius-sm);
-  background: var(--accent-blue);
+  background: #1c1d22;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: #ffffff;
 }
 
 .brand-name {
@@ -95,7 +96,7 @@ html, body {
 }
 
 .brand-name .highlight {
-  color: var(--accent-blue);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .brand-status-dot {
