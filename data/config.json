@@ -1,0 +1,20 @@
+{
+  "telegram": {
+    "api_id": "33001683",
+    "api_hash": "ENC:v1:TjVccf1exw7nSeOS29YeM7dTZqEmYwaS/JQukMXqkHo1B1izaxcUgJkOmEnHqlmK",
+    "phone": "ENC:v1:rQpCqjpIAxzGH0Gd+HYY2deNDm1wS2Negvlzrwk=",
+    "bot_username": "@DTEKOdeskiElektromerezhiBot",
+    "filter_address": "ENC:v1:/PFHOh2Qtdg3t6jyYbo7GavxdiFIxJlCDvaLN4xK5C52tosVk0L17OQ=",
+    "auto_connect": false
+  },
+  "account_number": "ENC:v1:+HyMr4O98KQfiBXQN6a+BgaGwhtcTg==",
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8088,
+    "enabled": true
+  },
+  "notifications": {
+    "macos_sound": true,
+    "macos_banner": true
+  }
+}

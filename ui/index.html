@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LightWidget — Мониторинг отключений света</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Window Header / Drag Bar -->
+    <header class="titlebar" style="--wails-draggable:drag">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <span class="brand-name">Light<span class="highlight">Widget</span></span>
+        <span class="brand-status-dot on" id="brandStatusDot" title="Статус электросети"></span>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-tabs">
+        <button class="nav-tab active" data-tab="monitor">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          Монитор
+        </button>
+        <button class="nav-tab" data-tab="simulator">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+          Тест / Симулятор
+        </button>
+        <button class="nav-tab" data-tab="iphone">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+          </svg>
+          iPhone Виджет
+        </button>
+        <button class="nav-tab" data-tab="telegram">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.5 2L2 9.5l7 3 2.5 7.5 4-4 6 5z"></path>
+          </svg>
+          Telegram
+        </button>
+        <button class="nav-tab" data-tab="history">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <polyline points="23 20 23 14 17 14"></polyline>
+            <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+          </svg>
+          История
+        </button>
+      </nav>
+
+      <!-- Window Actions -->
+      <div class="window-controls">
+        <button class="win-btn widget-toggle" id="btnSwitchToWidgetMode" title="Свернуть в виджет на рабочий стол">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+        </button>
+        <button class="win-btn minimize" id="btnMinimize" title="Свернуть">
+          <svg viewBox="0 0 24 24" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2"></line></svg>
+        </button>
+        <button class="win-btn close" id="btnClose" title="Закрыть">
+          <svg viewBox="0 0 24 24" width="12" height="12"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2"></line><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2"></line></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- TAB 1: MONITOR (MINIMALIST CLEAN DASHBOARD) -->
+      <section class="tab-pane active" id="tab-monitor">
+        <div class="minimal-monitor">
+          
+          <!-- Status & Time Header -->
+          <div class="monitor-header">
+            <div class="monitor-heading">Мониторинг сети</div>
+            <div class="monitor-header-actions">
+              <span class="last-updated-tag" id="lastUpdatedText">Синхронизировано</span>
+              <button class="minimal-header-btn" id="btnRefreshStatus" type="button" title="Запросить статус у бота">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                <span>Обновить</span>
+              </button>
+              <div class="clock-display" id="systemClock">--:--:--</div>
+            </div>
+          </div>
+
+          <!-- Hero Timer -->
+          <div class="timer-card" id="timerSection">
+            <div class="timer-value" id="timerDigits">
+              <span id="cdHours">00</span><span class="t-colon">:</span><span id="cdMinutes">00</span><span class="t-colon">:</span><span id="cdSeconds">00</span>
+            </div>
+            <div class="timer-subtitle" id="timerLabel">до ориентировочного включения</div>
+
+            <!-- Slim Minimal Progress Bar -->
+            <div class="slim-progress-box">
+              <div class="slim-progress-track">
+                <div class="slim-progress-fill" id="progressBarFill" style="width: 0%"></div>
+              </div>
+              <div class="slim-progress-meta">
+                <span>Пройдено времени</span>
+                <span id="progressPercentText">0%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Clean Info Table / List -->
+          <div class="info-list">
+            <div class="info-row" id="rowAddress">
+              <span class="info-key">Адрес:</span>
+              <div class="info-val-group">
+                <span class="info-val address-masked" id="detailAddress">••••••••••••••••••••••••</span>
+                <button class="minimal-toggle-btn" id="btnToggleAddress" type="button">
+                  <span id="addrToggleText">Показать</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="info-row" id="rowReason" style="display: none;">
+              <span class="info-key">Причина:</span>
+              <span class="info-val" id="detailReason">Аварийно-восстановительные работы</span>
+            </div>
+
+            <div class="info-row" id="rowStart" style="display: none;">
+              <span class="info-key">Начало:</span>
+              <span class="info-val" id="detailStart">—</span>
+            </div>
+
+            <div class="info-row" id="rowEnd" style="display: none;">
+              <span class="info-key">Ожидается:</span>
+              <span class="info-val" id="detailEnd">—</span>
+            </div>
+
+            <div class="info-row" id="rowAccountNumber">
+              <span class="info-key" title="Особый номер дома (Особливий рахунок будинку)">Особый счет дома:</span>
+              <div class="info-val-group">
+                <input type="text" id="inputAccountNumber" class="account-number-input masked" placeholder="Не указан" autocomplete="off" data-form-type="other" data-lpignore="true" spellcheck="false" readonly title="Нажмите, чтобы скопировать" />
+                <button class="minimal-toggle-btn" id="btnEditAccount" type="button" title="Редактировать номер счета">
+                  <span id="accountEditText">Редактировать</span>
+                </button>
+                <button class="minimal-toggle-btn" id="btnToggleAccount" type="button" title="Показать / скрыть">
+                  <span id="accountToggleText">Показать</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB 2: SIMULATOR (TEST MESSAGES) -->
+      <section class="tab-pane" id="tab-simulator">
+        <div class="card-container">
+          <div class="section-title">
+            <h2>🧪 Тестовый симулятор сообщений</h2>
+            <p>Ты можешь мгновенно протестировать работу приложения, вставив любое сообщение от бота ДТЭК или выбрав готовый шаблон.</p>
+          </div>
+
+          <div class="presets-row">
+            <button class="preset-btn" id="btnPresetOutage">
+              ⚡ Отключение (Чайки Максима, 25)
+            </button>
+            <button class="preset-btn" id="btnPresetRestored">
+              💡 Свет включен (Восстановлено)
+            </button>
+            <button class="preset-btn" id="btnPresetDelay">
+              ⚠️ Перенос времени включения
+            </button>
+          </div>
+
+          <div class="input-group">
+            <label for="simMessageInput">Текст сообщения от Telegram-бота:</label>
+            <textarea id="simMessageInput" rows="5" placeholder="Вставь сюда сообщение из Telegram..."></textarea>
+          </div>
+
+          <div class="button-row">
+            <button class="primary-btn" id="btnApplySimMessage">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              Распарсить и применить к виджету
+            </button>
+            <button class="secondary-btn" id="btnClearSimInput">Очистить</button>
+          </div>
+
+          <div class="sim-result-box" id="simResultBox" style="display: none;">
+            <h4>Результат распознавания:</h4>
+            <pre id="simResultJson"></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: IPHONE WIDGET (SCRIPTABLE) -->
+      <section class="tab-pane" id="tab-iphone">
+        <div class="card-container">
+          <div class="section-title">
+            <h2>📱 Настройка виджета на iPhone</h2>
+            <p>Твой Mac автоматически раздает локальный API для приложения <strong>Scriptable</strong> на iOS.</p>
+          </div>
+
+          <div class="server-status-card">
+            <div class="server-status-icon">🌐</div>
+            <div class="server-status-info">
+              <span class="server-label">Локальный адрес API для твоего iPhone:</span>
+              <div class="endpoint-box">
+                <code id="localApiEndpoint">http://192.168.1.100:8088/api/status</code>
+                <button class="copy-small-btn" id="btnCopyEndpoint">Скопировать URL</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="guide-steps">
+            <div class="step-item">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>Установи Scriptable</strong>
+                <span>Скачай бесплатное приложение <em>Scriptable</em> из App Store на свой iPhone.</span>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>Создай скрипт виджета</strong>
+                <span>Открой Scriptable, нажми <strong>+</strong> в правом верхнем углу, вставь код ниже и сохрани с именем <code>LightWidget</code>.</span>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Добавь виджет на экран</strong>
+                <span>Зажми экран iPhone, нажми <strong>+</strong>, найди Scriptable, выбери размер виджета и укажи скрипт <code>LightWidget</code>.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="code-preview-wrap">
+            <div class="code-preview-header">
+              <span>JS Код для Scriptable (iOS)</span>
+              <button class="primary-btn small" id="btnCopyScriptableCode">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Скопировать код виджета
+              </button>
+            </div>
+            <textarea id="scriptableCodeArea" readonly></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: TELEGRAM SETTINGS -->
+      <section class="tab-pane" id="tab-telegram">
+        <div class="card-container">
+          <div class="section-title">
+            <h2>✈️ Подключение Telegram (Telethon)</h2>
+            <p>Автоматическое получение новых сообщений от официального бота ДТЭК.</p>
+          </div>
+
+          <div class="tg-status-banner" id="tgStatusBanner">
+            <span class="tg-status-dot" id="tgStatusDot"></span>
+            <span class="tg-status-text" id="tgStatusText">Статус: Ожидание настройки</span>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="tgApiId">Telegram API ID:</label>
+              <input type="text" id="tgApiId" placeholder="Например: 24591024">
+              <span class="help-text">Получить можно на <a href="https://my.telegram.org" target="_blank">my.telegram.org</a></span>
+            </div>
+
+            <div class="form-group">
+              <label for="tgApiHash">Telegram API Hash:</label>
+              <input type="password" id="tgApiHash" placeholder="32-значный хэш...">
+            </div>
+
+            <div class="form-group">
+              <label for="tgPhone">Номер телефона:</label>
+              <input type="text" id="tgPhone" placeholder="+380991234567">
+            </div>
+
+            <div class="form-group">
+              <label for="tgBotUsername">Юзернейм бота:</label>
+              <input type="text" id="tgBotUsername" value="dtek_odeski_elektromerezhi_bot" placeholder="dtek_odeski_elektromerezhi_bot">
+            </div>
+
+            <div class="form-group full-width">
+              <label for="tgFilterAddress">Фильтр по адресу (ключевое слово):</label>
+              <input type="text" id="tgFilterAddress" value="Чайки Максима" placeholder="Например: Чайки Максима">
+              <span class="help-text">Скрипт будет реагировать только на сообщения с этой улицей или номером дома.</span>
+            </div>
+          </div>
+
+          <div class="button-row">
+            <button class="primary-btn" id="btnSaveAndConnectTg">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Сохранить и подключиться
+            </button>
+            <button class="secondary-btn" id="btnDisconnectTg">Отключить</button>
+          </div>
+
+          <!-- Auth Code Modal/Prompt -->
+          <div class="auth-prompt" id="authCodePrompt" style="display: none;">
+            <label for="tgCodeInput">Введите код подтверждения из Telegram:</label>
+            <div class="code-input-row">
+              <input type="text" id="tgCodeInput" placeholder="Код подтверждения">
+              <button class="primary-btn" id="btnSubmitCode">Подтвердить код</button>
+            </div>
+          </div>
+
+          <!-- 2FA Password Prompt -->
+          <div class="auth-prompt" id="authPassPrompt" style="display: none;">
+            <label for="tgPassInput">Введите пароль двухфакторной аутентификации (2FA):</label>
+            <div class="code-input-row">
+              <input type="password" id="tgPassInput" placeholder="Ваш 2FA пароль">
+              <button class="primary-btn" id="btnSubmitPass">Войти</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: HISTORY -->
+      <section class="tab-pane" id="tab-history">
+        <div class="card-container">
+          <div class="section-title" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h2>📜 История отключений</h2>
+              <p>Журнал последних зафиксированных отключений и восстановлений электроснабжения.</p>
+            </div>
+            <button class="secondary-btn" id="btnClearHistory" type="button" style="padding: 6px 12px; font-size: 11px; margin-top: 0;">
+              Очистить историю
+            </button>
+          </div>
+
+          <div class="history-list" id="historyList">
+            <div class="history-empty">История отключений пока пуста.</div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Desktop Widget Card (Square Mode) -->
+  <div class="desktop-widget-view" id="desktopWidgetView" style="display: none;">
+    <div class="desktop-widget-card" id="widgetCard">
+      <div class="widget-header">
+        <div class="widget-status" id="widgetStatusBadge">
+          <span class="widget-dot"></span>
+          <span class="widget-status-text" id="widgetStatusText">СВЕТ ЕСТЬ</span>
+        </div>
+        <button class="widget-icon-btn" id="btnExpandWidget" title="Развернуть главное окно">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+        </button>
+      </div>
+
+      <div class="widget-center">
+        <div class="widget-countdown" id="widgetCountdown">00:00:00</div>
+        <div class="widget-end-badge" id="widgetEndTime">до 20:00</div>
+      </div>
+
+      <div class="widget-footer">
+        <div class="widget-progress-track">
+          <div class="widget-progress-fill" id="widgetProgressFill" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
