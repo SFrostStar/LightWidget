@@ -13,8 +13,8 @@
  * 4. Нажми "Готово" и добавь виджет Scriptable на домашний экран!
  */
 
-// УКАЖИ АДРЕС ТВОЕГО MAC В ЛОКАЛЬНОЙ СЕТИ ИЛИ ПУБЛИЧНЫЙ URL:
-const SERVER_URL = "http://localhost:8088/api/status";
+// URL ТВОЕГО ОБЛАЧНОГО СЕРВЕРА 24/7:
+const SERVER_URL = "https://lightwidget.onrender.com/api/status";
 
 // Получение данных
 let data = null;
