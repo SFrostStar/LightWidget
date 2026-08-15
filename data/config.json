@@ -1,20 +1,22 @@
 {
   "telegram": {
     "api_id": "33001683",
-    "api_hash": "ENC:v1:TjVccf1exw7nSeOS29YeM7dTZqEmYwaS/JQukMXqkHo1B1izaxcUgJkOmEnHqlmK",
-    "phone": "ENC:v1:rQpCqjpIAxzGH0Gd+HYY2deNDm1wS2Negvlzrwk=",
+    "api_hash": "ENC:v1:8v4eWm7ZgjcQLSrdMBj6Rf/ypWPZbIhtWN3BfmKVzr7pEOPM6Q7Y7Y20syc9TJeq",
+    "phone": "ENC:v1:oSbpEGtjJGb7AdLZdPFGjJextHX9y2s6hQ1B3u8=",
     "bot_username": "@DTEKOdeskiElektromerezhiBot",
-    "filter_address": "ENC:v1:/PFHOh2Qtdg3t6jyYbo7GavxdiFIxJlCDvaLN4xK5C52tosVk0L17OQ=",
-    "auto_connect": false
+    "filter_address": "ENC:v1:3LlD2NcvtWFz/28E9iRuvxoPHMf08/vQW66PPBG5edCc68vEL4Yxy3s="
   },
-  "account_number": "ENC:v1:+HyMr4O98KQfiBXQN6a+BgaGwhtcTg==",
+  "account_number": "ENC:v1:pdhR8v7j9cejWodbmDMjmuinFll51A==",
   "server": {
     "host": "0.0.0.0",
     "port": 8088,
     "enabled": true
   },
+  "appearance": {
+    "theme": "oled"
+  },
   "notifications": {
-    "macos_sound": true,
-    "macos_banner": true
+    "sound": false,
+    "macos_sound": false
   }
 }

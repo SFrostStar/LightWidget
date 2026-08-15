@@ -8,20 +8,24 @@ from telethon.errors import (
     SessionPasswordNeededError,
     PhoneCodeInvalidError,
     PhoneCodeExpiredError,
-    FloodWaitError
+    FloodWaitError,
+    AuthKeyDuplicatedError,
+    AuthKeyUnregisteredError,
+    AuthKeyInvalidError,
+    SecurityError
 )
 from core.parser import parse_message
 from core.notifier import send_macos_notification
 from core.crypto import DATA_DIR
 
-SESSION_PATH = os.path.join(DATA_DIR, "telethon_session")
-
 class TelegramService:
-    def __init__(self, config_manager, storage_manager, on_state_updated=None, on_status_change=None):
+    def __init__(self, config_manager, storage_manager, on_state_updated=None, on_status_change=None, session_name="telethon_session"):
         self.config_manager = config_manager
         self.storage_manager = storage_manager
         self.on_state_updated = on_state_updated
         self.on_status_change = on_status_change
+        self.session_name = session_name
+        self.session_path = os.path.join(DATA_DIR, session_name)
         
         self.client = None
         self.loop = None
@@ -36,6 +40,17 @@ class TelegramService:
         print(f"[TelegramService] Status: {status} | Msg: {message}")
         if self.on_status_change:
             self.on_status_change(status, message)
+
+    def _reset_session_file(self):
+        """Safely delete corrupt/conflicted session files."""
+        for ext in [".session", ".session-journal"]:
+            fpath = f"{self.session_path}{ext}"
+            if os.path.exists(fpath):
+                try:
+                    os.remove(fpath)
+                    print(f"[TelegramService] Removed invalid session file: {fpath}")
+                except Exception as e:
+                    print(f"[TelegramService] Could not remove {fpath}: {e}")
 
     def start(self):
         if self.is_running:
@@ -60,6 +75,10 @@ class TelegramService:
         asyncio.set_event_loop(self.loop)
         try:
             self.loop.run_until_complete(self._connect_and_listen())
+        except (AuthKeyDuplicatedError, AuthKeyUnregisteredError, AuthKeyInvalidError, SecurityError) as e:
+            print(f"[TelegramService] Session key conflict: {e}")
+            self._reset_session_file()
+            self._set_status("AUTH_CODE_REQUIRED", "Сессия сброшена (одновременный вход). Нажмите 'Подключиться' и введите код.")
         except Exception as e:
             traceback.print_exc()
             self._set_status("ERROR", f"Ошибка: {str(e)}")
@@ -74,9 +93,15 @@ class TelegramService:
         self.phone = phone
 
         os.makedirs(DATA_DIR, exist_ok=True)
-        self.client = TelegramClient(SESSION_PATH, api_id, api_hash, loop=self.loop)
-
-        await self.client.connect()
+        
+        try:
+            self.client = TelegramClient(self.session_path, api_id, api_hash, loop=self.loop)
+            await self.client.connect()
+        except (AuthKeyDuplicatedError, AuthKeyUnregisteredError, AuthKeyInvalidError, SecurityError) as e:
+            print(f"[TelegramService] Connection failed due to auth key conflict: {e}")
+            self._reset_session_file()
+            self.client = TelegramClient(self.session_path, api_id, api_hash, loop=self.loop)
+            await self.client.connect()
 
         if not await self.client.is_user_authorized():
             if not phone:

@@ -1,8 +1,25 @@
 [
   {
+    "status": "OFF",
+    "is_outage": true,
+    "address": "ENC:v1:PXH2izitqs0xruFfnp2rh6bfp/neyA9VxusEvc2ZhG4ThrUMJm/OkI10y/iXh4uhb3fSCema+QP6yTe0Lub36/kf9EtJ",
+    "reason": "Аварійні ремонтні роботи",
+    "start_time_str": "15.08.2026 09:34",
+    "end_time_str": "15.08.2026 23:59",
+    "start_timestamp": 1786775640,
+    "end_timestamp": 1786827540,
+    "total_seconds": 51900,
+    "remaining_seconds": 56,
+    "elapsed_seconds": 51844,
+    "progress_percent": 99.9,
+    "raw_text": "❗️ За адресою м. Одеса, вул. Чайки Максима, 25 зафіксовано відключення. \nПричина: Аварійні ремонтні роботи. \n🕦 Час початку: 15.08.2026 09:34. \n🕦 Орієнтовний час відновлення електроенергії: 15.08.2026 23:59.",
+    "updated_at": "2026-08-15T23:58:04.485951",
+    "timestamp": "2026-08-15T23:58:04.491045"
+  },
+  {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:ymJiENXaiovsMzQ3KGsqnUT30xnT8/bEOghGQTzLEMkFjauorPzaFTgFKQRW+89Qw7+42z8svsv0YCwG2lYKCT3K79Vr",
+    "address": "ENC:v1:9i99B4bZEysoeMP1DVL7U76E0/UKkZe9vCyA9qpeQuXvLWDULa5j0M4wxOVZHMMJdbjLhL9/Ie+HM0lqi8MYSQGSosrK",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -19,7 +36,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:bip/MeWdbM4GTvORukyW+X0A7PLf87FW4GYNU3sCQ31gZQ558TUCetEAKKJIXfjS9AdMZic7bvPJtD2yv8ln5/O+T22J",
+    "address": "ENC:v1:+UijIN0YAHStmbmjMBzY6E9xdsipGTxsMWgPDUa5mlVe20o3rzZKhh0Bh/i+o1pJsLT5skPhXik8qpRb0pj6br3ky5/p",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -36,7 +53,7 @@
   {
     "status": "OFF",
     "is_outage": true,
-    "address": "ENC:v1:hPeLzexPzGzkMK708Vc+9HZ9MnXr50FdhXXKZMBNXQJRnteNQXGXkQh9a+zhY5apdc2oB3Lb6jhb8o/6UT0TyACmMEPU",
+    "address": "ENC:v1:Yr6u5OcWFAjWl/JY9YLy6yP9d1eIgKO5vCDkUxoQJJriovNfr+iqc0JGiz/rSVr7344qiiriB5aMQr7s5Srf6Kk/z5x8",
     "reason": "Аварійні ремонтні роботи",
     "start_time_str": "15.08.2026 09:34",
     "end_time_str": "15.08.2026 23:32",
@@ -53,7 +70,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:gfeR4yRn6SIJNKGy31LZiG2fPJGMlAP3kgf7vpi3gHh++jPWkEJFgAOPEan7oYog/UXKpI3QPZpsk7cZuo5NXOeRzC7P",
+    "address": "ENC:v1:DekfZhWLn1/x8sQVUNgqEZlHWQ8lKrVk5vs9FFbqlvi2Hq+bTGtmjXFQ/X3oESOG6hJ2Bhm4EU7aswtQLsd9BwU1EVOZ",
     "reason": "Электросеть работает в штатном режиме (время отключения завершено)",
     "start_time_str": "15.08.2026 09:34",
     "end_time_str": "15.08.2026 23:31",
@@ -70,7 +87,7 @@
   {
     "status": "OFF",
     "is_outage": true,
-    "address": "ENC:v1:NdLZJXQ30weOFfNDONkZ8eWUBLNDuWav2wBsIoy+BKCEUxES+WnDBjjkqKtZXvOgkH/9buLKj7qNmmk3tMwyxeF90o3L",
+    "address": "ENC:v1:5aj/1hFRWSZplXOE5msDNJF35SHu+Zmz5DFtVJHj9BQp41sxsImKjOevrceFai4K0HQzaOekPKSGk6zvSHA1rQ68jJlA",
     "reason": "Аварійні ремонтні роботи",
     "start_time_str": "15.08.2026 09:34",
     "end_time_str": "15.08.2026 23:33",
@@ -87,7 +104,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:nypNj1wjvTZNUTyozoA4wfhW3Sz9vk/VrdY9A7KEVk/kv4pMmhTdoqNGR9uR6+MtcWW6j7de7JVxEg/z7WliS6/NMGfK",
+    "address": "ENC:v1:M/bgjJO3UEo7NWWV4B1gfI814BHfJ+BSL8OeiPrgZuSZIAdMN/4B9RjD/R9u/A+rCdO9keufs75gaXMtU969iJD1tNZ9",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
@@ -104,7 +121,7 @@
   {
     "status": "ON",
     "is_outage": false,
-    "address": "ENC:v1:Nks1RU5+yzL6FT3c+8RMzFHVmyjely+gILY13jn3FYRZX6KWieawIES6ujzSLZQYPDSXnB7J2366xOwfcQLTx4y0SuA8",
+    "address": "ENC:v1:eEAiGZDAfyMPctaXJXmp0xzEMC2rgQIIPX0iwRuasBKvxUD6/pIrqcVazv4R/DNvhniDxBAjoSe+eSkJTtIKeLq/scyg",
     "reason": "Штатный режим электросети (отключений не зафиксировано)",
     "start_time_str": null,
     "end_time_str": null,
