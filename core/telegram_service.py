@@ -73,7 +73,7 @@ class TelegramService:
         phone = str(cfg.get("phone", "")).strip()
         self.phone = phone
 
-        os.makedirs(SESSION_DIR, exist_ok=True)
+        os.makedirs(DATA_DIR, exist_ok=True)
         self.client = TelegramClient(SESSION_PATH, api_id, api_hash, loop=self.loop)
 
         await self.client.connect()

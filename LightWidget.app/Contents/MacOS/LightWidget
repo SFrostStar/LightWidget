@@ -1,10 +1,10 @@
 #!/bin/bash
 PROJECT_DIR="/Users/dmitrijmakarcuk/MyProjectsPC/LightWidget"
-cd "" || exit 1
+cd "$PROJECT_DIR" || exit 1
 
 PYTHON_EXE="/Library/Frameworks/Python.framework/Versions/3.13/bin/python3"
-if [ ! -f "" ]; then
-    PYTHON_EXE="/Library/Frameworks/Python.framework/Versions/3.13/bin/python3"
+if [ ! -f "$PYTHON_EXE" ]; then
+    PYTHON_EXE="$(which python3)"
 fi
 
-exec "" app.py
+exec "$PYTHON_EXE" app.py
