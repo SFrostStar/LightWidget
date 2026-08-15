@@ -12,7 +12,7 @@ DEFAULT_CONFIG = {
         "api_hash": "",
         "phone": "",
         "bot_username": "dtek_odeski_elektromerezhi_bot",
-        "filter_address": "Чайки Максима",
+        "filter_address": "",
         "auto_connect": False
     },
     "account_number": "",
@@ -21,7 +21,15 @@ DEFAULT_CONFIG = {
         "port": 8088,
         "enabled": True
     },
+    "appearance": {
+        "theme": "midnight",
+        "accent": "blue",
+        "show_seconds": True,
+        "show_pulse": True
+    },
     "notifications": {
+        "sound": True,
+        "banner": True,
         "macos_sound": True,
         "macos_banner": True
     }

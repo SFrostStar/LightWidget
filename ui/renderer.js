@@ -97,7 +97,7 @@ const toast = document.getElementById('toast');
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
   setupTabs();
-  setupPresets();
+  setupSettings();
   setupEventListeners();
   setupWidgetModeListeners();
   startSystemClock();
@@ -132,13 +132,20 @@ function setupTabs() {
 
 // --- Clock & Countdown Engine ---
 function startSystemClock() {
-  setInterval(() => {
+  const update = () => {
+    if (!elSystemClock) return;
     const now = new Date();
     const h = String(now.getHours()).padStart(2, '0');
     const m = String(now.getMinutes()).padStart(2, '0');
-    const s = String(now.getSeconds()).padStart(2, '0');
-    elSystemClock.textContent = `${h}:${m}:${s}`;
-  }, 1000);
+    if (appSettings.showSeconds) {
+      const s = String(now.getSeconds()).padStart(2, '0');
+      elSystemClock.textContent = `${h}:${m}:${s}`;
+    } else {
+      elSystemClock.textContent = `${h}:${m}`;
+    }
+  };
+  update();
+  setInterval(update, 1000);
 }
 
 function updateCountdown() {
@@ -414,47 +421,171 @@ function exitWidgetMode() {
   }
 }
 
-// --- Simulator Presets ---
-function setupPresets() {
-  if (btnPresetOutage) {
-    btnPresetOutage.addEventListener('click', () => {
-      const now = new Date();
-      const day = String(now.getDate()).padStart(2, '0');
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const year = now.getFullYear();
+// --- Settings & Personalization ---
+let appSettings = {
+  theme: localStorage.getItem('lightwidget_theme') || 'midnight',
+  accent: localStorage.getItem('lightwidget_accent') || 'blue',
+  showSeconds: localStorage.getItem('lightwidget_show_seconds') !== 'false',
+  showPulse: localStorage.getItem('lightwidget_show_pulse') !== 'false',
+  sound: localStorage.getItem('lightwidget_sound') !== 'false',
+  banner: localStorage.getItem('lightwidget_banner') !== 'false',
+};
 
-      simMessageInput.value = `❗️ За адресою м. Одеса, вул. Чайки Максима, 25 зафіксовано відключення. \nПричина: Аварійні ремонтні роботи. \n🕦 Час початку: ${day}.${month}.${year} 09:34. \n🕦 Орієнтовний час відновлення електроенергії: ${day}.${month}.${year} 16:34.\n\n--------------------------------------\n❗️ За адресою м. Одеса, вул. Чайки Максима, 25 зафіксовано відключення. \nПричина: Модернізація мереж для підвищення надійності. \n🕦 Час початку: ${day}.${month}.${year} 09:35. \n🕦 Орієнтовний час відновлення електроенергії: ${day}.${month}.${year} 20:00.`;
+function applyTheme(themeName, save = true) {
+  appSettings.theme = themeName;
+  document.body.setAttribute('data-theme', themeName);
+  document.querySelectorAll('.theme-card').forEach(card => {
+    if (card.getAttribute('data-theme') === themeName) {
+      card.classList.add('active');
+    } else {
+      card.classList.remove('active');
+    }
+  });
+  localStorage.setItem('lightwidget_theme', themeName);
+  if (save && window.pywebview?.api?.save_config) {
+    window.pywebview.api.save_config({ appearance: { theme: themeName } });
+  }
+}
+
+function applyAccent(accentName, save = true) {
+  appSettings.accent = accentName;
+  document.body.setAttribute('data-accent', accentName);
+  document.querySelectorAll('.accent-swatch').forEach(swatch => {
+    if (swatch.getAttribute('data-accent') === accentName) {
+      swatch.classList.add('active');
+    } else {
+      swatch.classList.remove('active');
+    }
+  });
+  localStorage.setItem('lightwidget_accent', accentName);
+  if (save && window.pywebview?.api?.save_config) {
+    window.pywebview.api.save_config({ appearance: { accent: accentName } });
+  }
+}
+
+function applySettingsState() {
+  applyTheme(appSettings.theme, false);
+  applyAccent(appSettings.accent, false);
+
+  const chkSec = document.getElementById('settingShowSeconds');
+  const chkPulse = document.getElementById('settingShowPulse');
+  const chkSound = document.getElementById('settingSound');
+  const chkBanner = document.getElementById('settingBanner');
+
+  if (chkSec) chkSec.checked = appSettings.showSeconds;
+  if (chkPulse) chkPulse.checked = appSettings.showPulse;
+  if (chkSound) chkSound.checked = appSettings.sound;
+  if (chkBanner) chkBanner.checked = appSettings.banner;
+
+  if (elBrandStatusDot) {
+    if (!appSettings.showPulse) {
+      elBrandStatusDot.style.animation = 'none';
+      elBrandStatusDot.style.boxShadow = 'none';
+    } else {
+      elBrandStatusDot.style.animation = '';
+      elBrandStatusDot.style.boxShadow = '';
+    }
+  }
+}
+
+function setupSettings() {
+  applySettingsState();
+
+  // Theme cards
+  document.querySelectorAll('.theme-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const theme = card.getAttribute('data-theme');
+      applyTheme(theme, true);
+      showToast(`Тема изменена: ${card.querySelector('.theme-title')?.textContent || theme}`);
+    });
+  });
+
+  // Accent swatches
+  document.querySelectorAll('.accent-swatch').forEach(swatch => {
+    swatch.addEventListener('click', () => {
+      const accent = swatch.getAttribute('data-accent');
+      applyAccent(accent, true);
+      showToast(`Акцентный цвет обновлен!`);
+    });
+  });
+
+  // Toggles
+  const chkSec = document.getElementById('settingShowSeconds');
+  if (chkSec) {
+    chkSec.addEventListener('change', () => {
+      appSettings.showSeconds = chkSec.checked;
+      localStorage.setItem('lightwidget_show_seconds', chkSec.checked);
+      if (window.pywebview?.api?.save_config) {
+        window.pywebview.api.save_config({ appearance: { show_seconds: chkSec.checked } });
+      }
     });
   }
 
-  if (btnPresetRestored) {
-    btnPresetRestored.addEventListener('click', () => {
-      const now = new Date();
-      const day = String(now.getDate()).padStart(2, '0');
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const year = now.getFullYear();
-      const h = String(now.getHours()).padStart(2, '0');
-      const m = String(now.getMinutes()).padStart(2, '0');
-
-      simMessageInput.value = `✅ За адресою м. Одеса, вул. Чайки Максима, 25 електропостачання відновлено!\n🕦 Час відновлення: ${day}.${month}.${year} ${h}:${m}.`;
+  const chkPulse = document.getElementById('settingShowPulse');
+  if (chkPulse) {
+    chkPulse.addEventListener('change', () => {
+      appSettings.showPulse = chkPulse.checked;
+      localStorage.setItem('lightwidget_show_pulse', chkPulse.checked);
+      applySettingsState();
+      if (window.pywebview?.api?.save_config) {
+        window.pywebview.api.save_config({ appearance: { show_pulse: chkPulse.checked } });
+      }
     });
   }
 
-  if (btnPresetDelay) {
-    btnPresetDelay.addEventListener('click', () => {
-      const now = new Date();
-      const day = String(now.getDate()).padStart(2, '0');
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const year = now.getFullYear();
-      const endH = String((now.getHours() + 6) % 24).padStart(2, '0');
-
-      simMessageInput.value = `⚠️ За адресою м. Одеса, вул. Чайки Максима, 25 змінено час відновлення електроенергії.\n🕦 Новий орієнтовний час відновлення електроенергії: ${day}.${month}.${year} ${endH}:30.\nПричина: Ускладнення робіт на підстанції.`;
+  const chkSound = document.getElementById('settingSound');
+  if (chkSound) {
+    chkSound.addEventListener('change', () => {
+      appSettings.sound = chkSound.checked;
+      localStorage.setItem('lightwidget_sound', chkSound.checked);
+      if (window.pywebview?.api?.save_config) {
+        window.pywebview.api.save_config({ notifications: { sound: chkSound.checked, macos_sound: chkSound.checked } });
+      }
     });
   }
 
+  const chkBanner = document.getElementById('settingBanner');
+  if (chkBanner) {
+    chkBanner.addEventListener('change', () => {
+      appSettings.banner = chkBanner.checked;
+      localStorage.setItem('lightwidget_banner', chkBanner.checked);
+      if (window.pywebview?.api?.save_config) {
+        window.pywebview.api.save_config({ notifications: { banner: chkBanner.checked, macos_banner: chkBanner.checked } });
+      }
+    });
+  }
+
+  // Reset Button
+  const btnReset = document.getElementById('btnResetSettings');
+  if (btnReset) {
+    btnReset.addEventListener('click', () => {
+      appSettings.theme = 'midnight';
+      appSettings.accent = 'blue';
+      appSettings.showSeconds = true;
+      appSettings.showPulse = true;
+      appSettings.sound = true;
+      appSettings.banner = true;
+      localStorage.removeItem('lightwidget_theme');
+      localStorage.removeItem('lightwidget_accent');
+      localStorage.removeItem('lightwidget_show_seconds');
+      localStorage.removeItem('lightwidget_show_pulse');
+      localStorage.removeItem('lightwidget_sound');
+      localStorage.removeItem('lightwidget_banner');
+      applySettingsState();
+      if (window.pywebview?.api?.save_config) {
+        window.pywebview.api.save_config({
+          appearance: { theme: 'midnight', accent: 'blue', show_seconds: true, show_pulse: true },
+          notifications: { sound: true, banner: true, macos_sound: true, macos_banner: true }
+        });
+      }
+      showToast('Настройки сброшены по умолчанию');
+    });
+  }
+
+  // Simulator clear button
   if (btnClearSimInput) {
     btnClearSimInput.addEventListener('click', () => {
-      simMessageInput.value = '';
+      if (simMessageInput) simMessageInput.value = '';
       if (simResultBox) simResultBox.style.display = 'none';
     });
   }
@@ -805,8 +936,21 @@ async function initApp() {
       if (tgApiHash) tgApiHash.value = cfg.telegram.api_hash || '';
       if (tgPhone) tgPhone.value = cfg.telegram.phone || '';
       if (tgBotUsername) tgBotUsername.value = cfg.telegram.bot_username || 'dtek_odeski_elektromerezhi_bot';
-      if (tgFilterAddress) tgFilterAddress.value = cfg.telegram.filter_address || 'Чайки Максима';
+      if (tgFilterAddress) tgFilterAddress.value = cfg.telegram.filter_address || '';
     }
+
+    // Sync appearance settings from Python config if saved
+    if (cfg?.appearance) {
+      if (cfg.appearance.theme) appSettings.theme = cfg.appearance.theme;
+      if (cfg.appearance.accent) appSettings.accent = cfg.appearance.accent;
+      if (cfg.appearance.show_seconds !== undefined) appSettings.showSeconds = cfg.appearance.show_seconds;
+      if (cfg.appearance.show_pulse !== undefined) appSettings.showPulse = cfg.appearance.show_pulse;
+    }
+    if (cfg?.notifications) {
+      if (cfg.notifications.sound !== undefined) appSettings.sound = cfg.notifications.sound;
+      if (cfg.notifications.banner !== undefined) appSettings.banner = cfg.notifications.banner;
+    }
+    applySettingsState();
 
     // Load account number - simple: just ask Python
     let accNum = '';

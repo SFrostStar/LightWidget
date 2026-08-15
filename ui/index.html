@@ -33,7 +33,7 @@
             <circle cx="12" cy="12" r="10"></circle>
             <polyline points="12 6 12 12 16 14"></polyline>
           </svg>
-          Монитор
+          Статус
         </button>
         <button class="nav-tab" data-tab="simulator">
           <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
@@ -42,14 +42,14 @@
             <line x1="16" y1="13" x2="8" y2="13"></line>
             <line x1="16" y1="17" x2="8" y2="17"></line>
           </svg>
-          Тест / Симулятор
+          Парс
         </button>
         <button class="nav-tab" data-tab="iphone">
           <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="5" y="2" width="14" height="20" rx="3" ry="3"></rect>
             <line x1="12" y1="18" x2="12.01" y2="18"></line>
           </svg>
-          iPhone Виджет
+          Виджет
         </button>
         <button class="nav-tab" data-tab="telegram">
           <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
@@ -64,6 +64,13 @@
             <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
           </svg>
           История
+        </button>
+        <button class="nav-tab" data-tab="settings">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          Настройки
         </button>
       </nav>
 
@@ -164,35 +171,22 @@
         </div>
       </section>
 
-      <!-- TAB 2: SIMULATOR (TEST MESSAGES) -->
+      <!-- TAB 2: SIMULATOR (ПАРС СООБЩЕНИЙ) -->
       <section class="tab-pane" id="tab-simulator">
         <div class="card-container">
           <div class="section-title">
-            <h2>🧪 Тестовый симулятор сообщений</h2>
-            <p>Ты можешь мгновенно протестировать работу приложения, вставив любое сообщение от бота ДТЭК или выбрав готовый шаблон.</p>
-          </div>
-
-          <div class="presets-row">
-            <button class="preset-btn" id="btnPresetOutage">
-              ⚡ Отключение (Чайки Максима, 25)
-            </button>
-            <button class="preset-btn" id="btnPresetRestored">
-              💡 Свет включен (Восстановлено)
-            </button>
-            <button class="preset-btn" id="btnPresetDelay">
-              ⚠️ Перенос времени включения
-            </button>
+            <h2>⚡ Введите сообщение для парса</h2>
+            <p>текст от телеграмм бота</p>
           </div>
 
           <div class="input-group">
-            <label for="simMessageInput">Текст сообщения от Telegram-бота:</label>
-            <textarea id="simMessageInput" rows="5" placeholder="Вставь сюда сообщение из Telegram..."></textarea>
+            <textarea id="simMessageInput" rows="6" placeholder="Вставьте сюда скопированный текст сообщения от бота ДТЭК..."></textarea>
           </div>
 
           <div class="button-row">
             <button class="primary-btn" id="btnApplySimMessage">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              Распарсить и применить к виджету
+              Распарсить и применить к статусу
             </button>
             <button class="secondary-btn" id="btnClearSimInput">Очистить</button>
           </div>
@@ -204,23 +198,12 @@
         </div>
       </section>
 
-      <!-- TAB 3: IPHONE WIDGET (SCRIPTABLE) -->
+      <!-- TAB 3: WIDGET (АЙФОН ВИДЖЕТ) -->
       <section class="tab-pane" id="tab-iphone">
         <div class="card-container">
           <div class="section-title">
-            <h2>📱 Настройка виджета на iPhone</h2>
-            <p>Твой Mac автоматически раздает локальный API для приложения <strong>Scriptable</strong> на iOS.</p>
-          </div>
-
-          <div class="server-status-card">
-            <div class="server-status-icon">🌐</div>
-            <div class="server-status-info">
-              <span class="server-label">Локальный адрес API для твоего iPhone:</span>
-              <div class="endpoint-box">
-                <code id="localApiEndpoint">http://192.168.1.100:8088/api/status</code>
-                <button class="copy-small-btn" id="btnCopyEndpoint">Скопировать URL</button>
-              </div>
-            </div>
+            <h2>📱 Айфон виджет</h2>
+            <p>Пошаговая инструкция по настройке виджета на iPhone через приложение Scriptable.</p>
           </div>
 
           <div class="guide-steps">
@@ -299,8 +282,27 @@
 
             <div class="form-group full-width">
               <label for="tgFilterAddress">Фильтр по адресу (ключевое слово):</label>
-              <input type="text" id="tgFilterAddress" value="Чайки Максима" placeholder="Например: Чайки Максима">
-              <span class="help-text">Скрипт будет реагировать только на сообщения с этой улицей или номером дома.</span>
+              <input type="text" id="tgFilterAddress" placeholder="Впишите сюда улицу как в тексте ниже">
+              
+              <!-- Address Helper Guide Card -->
+              <div class="address-guide-card">
+                <div class="guide-card-header">
+                  <span class="guide-card-icon">💡</span>
+                  <span class="guide-card-title">Откуда взять ключевое слово:</span>
+                </div>
+                <div class="guide-chat-sample">
+                  <div class="chat-instruction-row">1. Зайдите в телеграмм бот дтек</div>
+                  <div class="chat-instruction-row">2. Нажмите или напишите <strong>"Графік відключень🕒"</strong></div>
+                  <div class="chat-box-visual">
+                    м. Город, вул. <strong class="highlight-address-target">ВАШ АДРЕСС</strong><br>
+                    о/р  <br>
+                    ккр
+                  </div>
+                  <div class="chat-instruction-row" style="margin-top: 8px;">
+                    3. Скопируйте текст который у вас вместо <strong>"ВАШ АДРЕСС"</strong> и вставьте его в фильтр по адресу выше.
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -348,6 +350,149 @@
           <div class="history-list" id="historyList">
             <div class="history-empty">История отключений пока пуста.</div>
           </div>
+        </div>
+      </section>
+
+      <!-- TAB 6: SETTINGS (ПЕРСОНАЛИЗАЦИЯ И ТЕМЫ) -->
+      <section class="tab-pane" id="tab-settings">
+        <div class="card-container">
+          <div class="section-title">
+            <h2>🎨 Настройки и персонализация</h2>
+            <p>Настройте внешний вид, цветовые темы, звуки и параметры отображения приложения.</p>
+          </div>
+
+          <!-- Theme Selection Cards -->
+          <div class="settings-group">
+            <label class="settings-label">Тема оформления интерфейса:</label>
+            <div class="theme-grid">
+              <div class="theme-card active" data-theme="midnight">
+                <div class="theme-preview midnight">
+                  <div class="tp-header"></div>
+                  <div class="tp-dot"></div>
+                  <div class="tp-body"></div>
+                </div>
+                <div class="theme-meta">
+                  <span class="theme-title">Midnight</span>
+                  <span class="theme-desc">Классический графит</span>
+                </div>
+              </div>
+
+              <div class="theme-card" data-theme="oled">
+                <div class="theme-preview oled">
+                  <div class="tp-header"></div>
+                  <div class="tp-dot"></div>
+                  <div class="tp-body"></div>
+                </div>
+                <div class="theme-meta">
+                  <span class="theme-title">OLED Black</span>
+                  <span class="theme-desc">Глубокий черный</span>
+                </div>
+              </div>
+
+              <div class="theme-card" data-theme="cyber">
+                <div class="theme-preview cyber">
+                  <div class="tp-header"></div>
+                  <div class="tp-dot"></div>
+                  <div class="tp-body"></div>
+                </div>
+                <div class="theme-meta">
+                  <span class="theme-title">Cyber Violet</span>
+                  <span class="theme-desc">Неоновый фиолетовый</span>
+                </div>
+              </div>
+
+              <div class="theme-card" data-theme="emerald">
+                <div class="theme-preview emerald">
+                  <div class="tp-header"></div>
+                  <div class="tp-dot"></div>
+                  <div class="tp-body"></div>
+                </div>
+                <div class="theme-meta">
+                  <span class="theme-title">Emerald</span>
+                  <span class="theme-desc">Темный изумруд</span>
+                </div>
+              </div>
+
+              <div class="theme-card" data-theme="titanium">
+                <div class="theme-preview titanium">
+                  <div class="tp-header"></div>
+                  <div class="tp-dot"></div>
+                  <div class="tp-body"></div>
+                </div>
+                <div class="theme-meta">
+                  <span class="theme-title">Titanium</span>
+                  <span class="theme-desc">Теплый титановый</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accent Colors -->
+          <div class="settings-group">
+            <label class="settings-label">Акцентный цвет элементов:</label>
+            <div class="accent-palette">
+              <button type="button" class="accent-swatch active" data-accent="blue" style="--swatch-color: #0a84ff;" title="Apple Blue"></button>
+              <button type="button" class="accent-swatch" data-accent="green" style="--swatch-color: #30d158;" title="Neon Green"></button>
+              <button type="button" class="accent-swatch" data-accent="amber" style="--swatch-color: #ff9f0a;" title="Electric Amber"></button>
+              <button type="button" class="accent-swatch" data-accent="purple" style="--swatch-color: #bf5af2;" title="Neon Violet"></button>
+              <button type="button" class="accent-swatch" data-accent="white" style="--swatch-color: #ffffff;" title="Monochrome White"></button>
+            </div>
+          </div>
+
+          <!-- Feature Toggles -->
+          <div class="settings-group">
+            <label class="settings-label">Параметры отображения и уведомлений:</label>
+            <div class="toggles-list">
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Отображать секунды в часах</span>
+                  <span class="toggle-desc">Показывать точное время с секундами в шапке статуса</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="settingShowSeconds" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Пульсирующий индикатор электросети</span>
+                  <span class="toggle-desc">Мягкая пульсация точки статуса в шапке</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="settingShowPulse" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Звуковые эффекты</span>
+                  <span class="toggle-desc">Воспроизводить звук при отключении или включении света</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="settingSound" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Системные баннеры уведомлений</span>
+                  <span class="toggle-desc">Всплывающие уведомления macOS / Windows</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="settingBanner" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="button-row" style="margin-top: 20px;">
+            <button class="secondary-btn" id="btnResetSettings" type="button">Сбросить по умолчанию</button>
+          </div>
+
         </div>
       </section>
 
