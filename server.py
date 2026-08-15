@@ -2,10 +2,28 @@ import os
 import sys
 import time
 import signal
+import threading
+import urllib.request
 from core.config import ConfigManager
 from core.storage import StorageManager
 from core.api_server import APIServer, get_local_ip
 from core.telegram_service import TelegramService
+
+def start_keep_alive(app_url):
+    def pinger():
+        print(f"[KeepAlive] Self-pinger active for: {app_url}")
+        while True:
+            time.sleep(8 * 60)  # Ping every 8 minutes (Render sleeps after 15 min of inactivity)
+            try:
+                target = f"{app_url.rstrip('/')}/api/health"
+                req = urllib.request.Request(target, headers={"User-Agent": "LightWidget-KeepAlive/1.0"})
+                with urllib.request.urlopen(req, timeout=20) as resp:
+                    print(f"[KeepAlive] Ping {target} -> Status {resp.status}")
+            except Exception as e:
+                print(f"[KeepAlive] Ping note: {e}")
+
+    t = threading.Thread(target=pinger, daemon=True)
+    t.start()
 
 def main():
     print("=" * 50)
@@ -46,6 +64,11 @@ def main():
         on_message=on_state_updated
     )
     api_server.start()
+
+    # Start KeepAlive Self-Pinger for Render / Cloud (to prevent sleep mode)
+    external_url = os.environ.get("RENDER_EXTERNAL_URL") or "https://lightwidget.onrender.com"
+    if external_url:
+        start_keep_alive(external_url)
 
     local_ip = get_local_ip()
     print(f"[API Server] Listening on http://0.0.0.0:{api_port}")
