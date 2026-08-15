@@ -1,0 +1,67 @@
+name: Build Windows Application (.exe)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install telethon pywebview pyinstaller
+
+    - name: Build Single Executable with PyInstaller
+      run: |
+        pyinstaller --noconfirm --onedir --windowed --name "LightWidget" `
+          --add-data "ui;ui" `
+          --add-data "ios;ios" `
+          --hidden-import "telethon" `
+          --hidden-import "webview" `
+          --hidden-import "webview.platforms.winforms" `
+          --hidden-import "webview.platforms.edgechromium" `
+          app.py
+
+    - name: Build Single-File Executable (.exe)
+      run: |
+        pyinstaller --noconfirm --onefile --windowed --name "LightWidget" `
+          --add-data "ui;ui" `
+          --add-data "ios;ios" `
+          --hidden-import "telethon" `
+          --hidden-import "webview" `
+          --hidden-import "webview.platforms.winforms" `
+          --hidden-import "webview.platforms.edgechromium" `
+          app.py
+
+    - name: Upload Single-File EXE Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: LightWidget-Windows-EXE
+        path: dist/LightWidget.exe
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main'
+      with:
+        tag_name: v1.0.0-windows
+        name: LightWidget for Windows v1.0.0
+        body: |
+          ### ⚡ LightWidget for Windows
+          
+          Скачай файл `LightWidget.exe` ниже и запусти на Windows (Windows 10/11).
+          Установка не требуется — запускается в 1 клик!
+        files: dist/LightWidget.exe
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

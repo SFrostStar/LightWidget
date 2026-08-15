@@ -12,9 +12,9 @@ from telethon.errors import (
 )
 from core.parser import parse_message
 from core.notifier import send_macos_notification
+from core.crypto import DATA_DIR
 
-SESSION_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
-SESSION_PATH = os.path.join(SESSION_DIR, "telethon_session")
+SESSION_PATH = os.path.join(DATA_DIR, "telethon_session")
 
 class TelegramService:
     def __init__(self, config_manager, storage_manager, on_state_updated=None, on_status_change=None):

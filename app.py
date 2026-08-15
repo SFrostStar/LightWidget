@@ -9,9 +9,14 @@ from core.api_server import APIServer, get_local_ip
 from core.telegram_service import TelegramService
 from core.notifier import send_macos_notification
 
-UI_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ui")
+def get_resource_path(relative_path):
+    if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), relative_path)
+
+UI_DIR = get_resource_path("ui")
 INDEX_PATH = os.path.join(UI_DIR, "index.html")
-IOS_SCRIPT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ios", "widget_ios.js")
+IOS_SCRIPT_PATH = get_resource_path(os.path.join("ios", "widget_ios.js"))
 
 class ApiBridge:
     def __init__(self, config_mgr, storage_mgr, tg_service, window=None):

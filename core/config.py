@@ -1,9 +1,10 @@
+import sys
 import os
 import json
 import copy
-from .crypto import encrypt_value, decrypt_value
+from .crypto import encrypt_value, decrypt_value, DATA_DIR
 
-CONFIG_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "config.json")
+CONFIG_PATH = os.path.join(DATA_DIR, "config.json")
 
 DEFAULT_CONFIG = {
     "telegram": {

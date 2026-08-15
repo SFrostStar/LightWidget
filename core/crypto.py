@@ -1,10 +1,16 @@
+import sys
 import os
 import hmac
 import hashlib
 import base64
 import secrets
 
-DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
+def _get_base_dir():
+    if getattr(sys, 'frozen', False):
+        return os.path.dirname(sys.executable)
+    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+DATA_DIR = os.path.join(_get_base_dir(), "data")
 KEY_FILE = os.path.join(DATA_DIR, ".secret.key")
 PREFIX = "ENC:v1:"
 

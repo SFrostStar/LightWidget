@@ -1,9 +1,9 @@
+import sys
 import os
 import json
 from datetime import datetime
-from .crypto import encrypt_value, decrypt_value
+from .crypto import encrypt_value, decrypt_value, DATA_DIR
 
-DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
 STATE_FILE = os.path.join(DATA_DIR, "state.json")
 HISTORY_FILE = os.path.join(DATA_DIR, "history.json")
 
