@@ -1,0 +1,28 @@
+{
+  "telegram": {
+    "api_id": "",
+    "api_hash": "",
+    "phone": "",
+    "bot_username": "dtek_odeski_elektromerezhi_bot",
+    "filter_address": "",
+    "auto_connect": false
+  },
+  "account_number": "",
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8088,
+    "enabled": true
+  },
+  "appearance": {
+    "theme": "midnight",
+    "accent": "blue",
+    "show_seconds": true,
+    "show_pulse": true
+  },
+  "notifications": {
+    "sound": true,
+    "banner": true,
+    "macos_sound": true,
+    "macos_banner": true
+  }
+}

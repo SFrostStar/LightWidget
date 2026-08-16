@@ -15,7 +15,6 @@ KEY_FILE = os.path.join(DATA_DIR, ".secret.key")
 PREFIX = "ENC:v1:"
 
 def _get_or_create_key() -> bytes:
-    """Retrieve or generate a 32-byte machine encryption key."""
     os.makedirs(DATA_DIR, exist_ok=True)
     if os.path.exists(KEY_FILE):
         try:
@@ -26,7 +25,6 @@ def _get_or_create_key() -> bytes:
         except Exception:
             pass
     
-    # Generate new high-entropy 32-byte key
     new_key = secrets.token_bytes(32)
     try:
         with open(KEY_FILE, "wb") as f:
@@ -45,18 +43,16 @@ def _get_key() -> bytes:
     return _KEY
 
 def encrypt_value(plain_text: str) -> str:
-    """Encrypt a string into ENC:v1:<base64> format."""
     if not plain_text or not isinstance(plain_text, str):
         return plain_text
     
     if plain_text.startswith(PREFIX):
-        return plain_text  # Already encrypted
+        return plain_text
     
     key = _get_key()
     iv = secrets.token_bytes(16)
     data = plain_text.encode("utf-8")
     
-    # Stream cipher using HMAC-SHA256 counter mode
     ciphertext = bytearray()
     block_index = 0
     for offset in range(0, len(data), 32):
@@ -72,12 +68,11 @@ def encrypt_value(plain_text: str) -> str:
     return f"{PREFIX}{b64}"
 
 def decrypt_value(enc_text: str) -> str:
-    """Decrypt an ENC:v1:<base64> string back to plain text."""
     if not enc_text or not isinstance(enc_text, str):
         return enc_text
     
     if not enc_text.startswith(PREFIX):
-        return enc_text  # Not encrypted, return as is
+        return enc_text
     
     try:
         key = _get_key()

@@ -42,7 +42,6 @@ class TelegramService:
             self.on_status_change(status, message)
 
     def _reset_session_file(self):
-        """Safely delete corrupt/conflicted session files."""
         for ext in [".session", ".session-journal"]:
             fpath = f"{self.session_path}{ext}"
             if os.path.exists(fpath):
@@ -98,211 +97,157 @@ class TelegramService:
             self.client = TelegramClient(self.session_path, api_id, api_hash, loop=self.loop)
             await self.client.connect()
         except (AuthKeyDuplicatedError, AuthKeyUnregisteredError, AuthKeyInvalidError, SecurityError) as e:
-            print(f"[TelegramService] Connection failed due to auth key conflict: {e}")
+            print(f"[TelegramService] Caught session error during connect: {e}")
             self._reset_session_file()
             self.client = TelegramClient(self.session_path, api_id, api_hash, loop=self.loop)
             await self.client.connect()
 
         if not await self.client.is_user_authorized():
             if not phone:
-                self._set_status("AUTH_PHONE_REQUIRED", "Требуется номер телефона для входа")
+                self._set_status("AUTH_CODE_REQUIRED", "Введите номер телефона в настройках")
                 return
-
             try:
-                print(f"[TelegramService] Requesting code for phone: {phone}")
-                sent = await self.client.send_code_request(phone)
-                self.phone_code_hash = sent.phone_code_hash
+                sent_code = await self.client.send_code_request(phone)
+                self.phone_code_hash = sent_code.phone_code_hash
                 self._set_status("AUTH_CODE_REQUIRED", f"Код подтверждения отправлен на {phone}")
+                return
             except FloodWaitError as e:
-                self._set_status("AUTH_ERROR", f"Слишком много попыток. Подождите {e.seconds} сек.")
+                self._set_status("ERROR", f"Слишком много попыток. Подождите {e.seconds} сек.")
                 return
-            except Exception as ex:
-                self._set_status("AUTH_ERROR", f"Ошибка отправки кода: {str(ex)}")
-                return
-
-            # Keep client alive while waiting for user to input code
-            while self.is_running and not await self.client.is_user_authorized():
-                await asyncio.sleep(0.5)
-
-            if not self.is_running or not await self.client.is_user_authorized():
+            except Exception as e:
+                self._set_status("ERROR", f"Ошибка авторизации: {str(e)}")
                 return
 
-        self._set_status("CONNECTED", "Успешно подключено к Telegram!")
-        self._register_handlers()
-        await self._sync_recent_history()
-        await self.client.run_until_disconnected()
+        self._set_status("CONNECTED", "Успешно подключено к Telegram")
+
+        bot_username = cfg.get("bot_username", "dtek_odeski_elektromerezhi_bot")
+        
+        @self.client.on(events.NewMessage(chats=bot_username))
+        async def handler(event):
+            msg_text = event.raw_text
+            print(f"[TelegramService] Received message from @{bot_username}:\n{msg_text[:100]}...")
+            self._process_message(msg_text)
+
+        await self._fetch_recent_history(bot_username)
+
+        while self.is_running:
+            await asyncio.sleep(1)
+
+    async def _fetch_recent_history(self, bot_username):
+        try:
+            entity = await self.client.get_entity(bot_username)
+            messages = await self.client.get_messages(entity, limit=5)
+            for msg in messages:
+                if msg.text:
+                    parsed = self._process_message(msg.text, is_history=True)
+                    if parsed:
+                        break
+        except Exception as e:
+            print(f"[TelegramService] History fetch warning: {e}")
+
+    def _process_message(self, text: str, is_history: bool = False):
+        cfg = self.config_manager.get("telegram", {})
+        filter_address = cfg.get("filter_address", "").strip().lower()
+
+        parsed = parse_message(text)
+        if not parsed:
+            return None
+
+        if filter_address:
+            addr = parsed.get("address", "").lower()
+            raw = text.lower()
+            if filter_address not in addr and filter_address not in raw:
+                print(f"[TelegramService] Message ignored (filter '{filter_address}' not in address '{parsed.get('address')}')")
+                return None
+
+        self.storage_manager.save_state(parsed)
+        self.storage_manager.add_history(parsed)
+
+        if not is_history:
+            notif = self.config_manager.get("notifications", {})
+            enable_banner = notif.get("banner", True) and notif.get("macos_banner", True)
+            enable_sound = notif.get("sound", True) and notif.get("macos_sound", True)
+
+            if enable_banner:
+                if parsed["status"] == "OFF":
+                    snd = "Basso" if enable_sound else ""
+                    send_macos_notification(
+                        "⚡ Внимание: Отключение света!",
+                        f"Ориентировочно до {parsed['end_time_str'] or 'неизвестно'}",
+                        f"{parsed['address']} ({parsed['reason']})",
+                        sound=snd
+                    )
+                else:
+                    snd = "Glass" if enable_sound else ""
+                    send_macos_notification(
+                        "💡 Свет включен!",
+                        parsed['address'],
+                        "Электросеть работает в штатном режиме.",
+                        sound=snd
+                    )
+
+        if self.on_state_updated:
+            self.on_state_updated(parsed)
+
+        return parsed
 
     def submit_code(self, code: str):
-        if not self.loop or not self.client:
-            return {"success": False, "error": "Клиент не запущен. Нажмите 'Подключиться' снова."}
+        if not self.client or not self.loop:
+            return {"success": False, "error": "Клиент не запущен"}
         
-        future = asyncio.run_coroutine_threadsafe(self._auth_with_code(code), self.loop)
-        try:
-            return future.result(timeout=20)
-        except Exception as e:
-            return {"success": False, "error": str(e)}
-
-    async def _auth_with_code(self, code: str):
-        code_clean = str(code).strip().replace(" ", "").replace("-", "")
-        try:
-            print(f"[TelegramService] Signing in with code: {code_clean}")
-            await self.client.sign_in(self.phone, code_clean, phone_code_hash=self.phone_code_hash)
-            self._set_status("CONNECTED", "Успешно подключено!")
-            return {"success": True}
-        except SessionPasswordNeededError:
-            self._set_status("PASSWORD_REQUIRED", "Требуется 2FA пароль")
-            return {"success": False, "requires_password": True, "error": "Требуется 2FA пароль"}
-        except PhoneCodeInvalidError:
-            self._set_status("AUTH_ERROR", "Неверный код подтверждения")
-            return {"success": False, "error": "Неверный код подтверждения"}
-        except PhoneCodeExpiredError:
-            self._set_status("AUTH_ERROR", "Срок действия кода истек. Запросите заново.")
-            return {"success": False, "error": "Срок действия кода истек"}
-        except Exception as e:
-            err_msg = str(e)
-            if "Two-step verification" in err_msg or "password" in err_msg.lower():
+        async def _submit():
+            try:
+                await self.client.sign_in(phone=self.phone, code=code, phone_code_hash=self.phone_code_hash)
+                self._set_status("CONNECTED", "Авторизация успешна!")
+                return {"success": True}
+            except SessionPasswordNeededError:
                 self._set_status("PASSWORD_REQUIRED", "Требуется 2FA пароль")
-                return {"success": False, "requires_password": True, "error": err_msg}
-            self._set_status("AUTH_ERROR", err_msg)
-            return {"success": False, "error": err_msg}
+                return {"success": False, "requires_password": True}
+            except (PhoneCodeInvalidError, PhoneCodeExpiredError) as e:
+                return {"success": False, "error": f"Неверный или просроченный код: {str(e)}"}
+            except Exception as e:
+                return {"success": False, "error": str(e)}
+
+        future = asyncio.run_coroutine_threadsafe(_submit(), self.loop)
+        return future.result()
 
     def submit_password(self, password: str):
-        if not self.loop or not self.client:
+        if not self.client or not self.loop:
             return {"success": False, "error": "Клиент не запущен"}
-        future = asyncio.run_coroutine_threadsafe(self._auth_with_password(password), self.loop)
-        try:
-            return future.result(timeout=20)
-        except Exception as e:
-            return {"success": False, "error": str(e)}
-
-    async def _auth_with_password(self, password: str):
-        try:
-            print("[TelegramService] Signing in with 2FA password...")
-            await self.client.sign_in(password=password)
-            self._set_status("CONNECTED", "Успешно подключено!")
-            return {"success": True}
-        except Exception as e:
-            self._set_status("AUTH_ERROR", str(e))
-            return {"success": False, "error": str(e)}
-
-    def _register_handlers(self):
-        cfg = self.config_manager.get("telegram", {})
-        bot_username = cfg.get("bot_username", "").lstrip("@").strip()
-        address_filter = cfg.get("filter_address", "").strip().lower()
-
-        @self.client.on(events.NewMessage())
-        async def on_new_message(event):
+        
+        async def _submit_pwd():
             try:
-                sender = await event.get_sender()
-                sender_str = ""
-                if sender:
-                    sender_username = getattr(sender, 'username', '') or ''
-                    sender_title = getattr(sender, 'title', '') or ''
-                    sender_first = getattr(sender, 'first_name', '') or ''
-                    sender_str = f"{sender_username} {sender_title} {sender_first}".lower()
-                
-                # Match bot if configured
-                if bot_username:
-                    bot_clean = bot_username.lower().lstrip("@")
-                    if bot_clean not in sender_str:
-                        if "відключення" not in (event.text or "") and "відновлено" not in (event.text or ""):
-                            return
+                await self.client.sign_in(password=password)
+                self._set_status("CONNECTED", "2FA авторизация успешна!")
+                return {"success": True}
+            except Exception as e:
+                return {"success": False, "error": f"Ошибка пароля: {str(e)}"}
 
-                msg_text = event.text or ""
-                if not msg_text:
-                    return
-
-                # If address filter is specified, ensure it matches or is a direct address reply
-                is_address_match = not address_filter or (address_filter in msg_text.lower()) or ("за вашою адресою" in msg_text.lower()) or ("не зафіксовано відключень" in msg_text.lower())
-                if not is_address_match:
-                    print(f"[Telegram] Message ignored (filter '{address_filter}' not found)")
-                    return
-
-                parsed = parse_message(msg_text)
-                if parsed:
-                    print(f"[Telegram] New Outage Status: {parsed['status']} | Address: {parsed['address']}")
-                    self.storage_manager.save_state(parsed)
-                    self.storage_manager.add_history(parsed)
-
-                    # Send notification
-                    if parsed["status"] == "OFF":
-                        send_macos_notification(
-                            "⚡ Внимание: Отключение света!",
-                            f"Ориентировочно до {parsed['end_time_str'] or 'неизвестно'}",
-                            f"{parsed['address']} ({parsed['reason']})",
-                            sound="Basso"
-                        )
-                    else:
-                        send_macos_notification(
-                            "💡 Свет восстановлен!",
-                            parsed['address'],
-                            "Электроснабжение снова работает в штатном режиме.",
-                            sound="Glass"
-                        )
-
-                    if self.on_state_updated:
-                        self.on_state_updated(parsed)
-            except Exception as ex:
-                print(f"[Telegram] Error processing message: {ex}")
-
-    async def _query_bot_status(self):
-        cfg = self.config_manager.get("telegram", {})
-        bot_username = cfg.get("bot_username", "").lstrip("@").strip()
-        if not bot_username or not self.client:
-            return
-        try:
-            entity = await self.client.get_input_entity(bot_username)
-            print(f"[TelegramService] Resetting bot state with '/start' to @{bot_username}...")
-            await self.client.send_message(entity, "/start")
-            await asyncio.sleep(1.5)
-            print(f"[TelegramService] Sending command '💡Можливі відключення' to @{bot_username}...")
-            await self.client.send_message(entity, "💡Можливі відключення")
-        except Exception as e:
-            print(f"[TelegramService] Error sending query to bot: {e}")
-
-    async def _sync_recent_history(self):
-        cfg = self.config_manager.get("telegram", {})
-        bot_username = cfg.get("bot_username", "").lstrip("@").strip()
-        address_filter = cfg.get("filter_address", "").strip().lower()
-
-        if not bot_username or not self.client:
-            return
-
-        try:
-            print(f"[TelegramService] Syncing recent messages from @{bot_username}...")
-            entity = await self.client.get_input_entity(bot_username)
-            messages = await self.client.get_messages(entity, limit=20)
-            
-            for msg in messages:
-                text = msg.text or ""
-                if not text:
-                    continue
-                # If address filter is specified, check if present or direct address reply
-                is_address_match = not address_filter or (address_filter in text.lower()) or ("за вашою адресою" in text.lower()) or ("не зафіксовано відключень" in text.lower())
-                if not is_address_match:
-                    continue
-
-                parsed = parse_message(text)
-                if parsed:
-                    print(f"[TelegramService] Synced message: {parsed['status']} | {parsed['address']} | End: {parsed['end_time_str']}")
-                    self.storage_manager.save_state(parsed)
-                    self.storage_manager.add_history(parsed)
-                    if self.on_state_updated:
-                        self.on_state_updated(parsed)
-                    break
-        except Exception as e:
-            print(f"[TelegramService] History sync info: {e}")
+        future = asyncio.run_coroutine_threadsafe(_submit_pwd(), self.loop)
+        return future.result()
 
     def sync_now(self):
-        if self.client and self.loop and self.loop.is_running():
-            asyncio.run_coroutine_threadsafe(self._sync_recent_history(), self.loop)
-            asyncio.run_coroutine_threadsafe(self._query_bot_status(), self.loop)
+        if not self.client or not self.loop or not self.client.is_connected():
+            return {"success": False, "error": "Не подключено к Telegram"}
+
+        async def _sync():
+            try:
+                bot_username = self.config_manager.get("telegram", {}).get("bot_username", "dtek_odeski_elektromerezhi_bot")
+                await self._fetch_recent_history(bot_username)
+                return {"success": True}
+            except Exception as e:
+                return {"success": False, "error": str(e)}
+
+        future = asyncio.run_coroutine_threadsafe(_sync(), self.loop)
+        return future.result()
 
     def stop(self):
         self.is_running = False
         if self.client and self.loop and self.loop.is_running():
-            try:
-                asyncio.run_coroutine_threadsafe(self.client.disconnect(), self.loop)
-            except Exception:
-                pass
-        self._set_status("DISCONNECTED", "Отключено")
+            async def _disconnect():
+                try:
+                    await self.client.disconnect()
+                except Exception:
+                    pass
+            asyncio.run_coroutine_threadsafe(_disconnect(), self.loop)
+        self._set_status("DISCONNECTED", "Отключено от Telegram")

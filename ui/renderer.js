@@ -1,10 +1,8 @@
-// LightWidget Renderer JS
 
 let currentState = null;
 let countdownInterval = null;
 let isAccountEditing = false;
 
-// DOM Elements
 const elBrandStatusDot = document.getElementById('brandStatusDot');
 const elLivePill = document.getElementById('livePill');
 const elLivePillText = document.getElementById('livePillText');
@@ -37,11 +35,9 @@ const elBtnToggleAccount = document.getElementById('btnToggleAccount');
 const elAccountToggleText = document.getElementById('accountToggleText');
 const elLastUpdatedText = document.getElementById('lastUpdatedText');
 
-// Tabs
 const navTabs = document.querySelectorAll('.nav-tab');
 const tabPanes = document.querySelectorAll('.tab-pane');
 
-// Simulator
 const simMessageInput = document.getElementById('simMessageInput');
 const btnApplySimMessage = document.getElementById('btnApplySimMessage');
 const btnClearSimInput = document.getElementById('btnClearSimInput');
@@ -51,13 +47,11 @@ const btnPresetDelay = document.getElementById('btnPresetDelay');
 const simResultBox = document.getElementById('simResultBox');
 const simResultJson = document.getElementById('simResultJson');
 
-// iPhone
 const localApiEndpoint = document.getElementById('localApiEndpoint');
 const btnCopyEndpoint = document.getElementById('btnCopyEndpoint');
 const scriptableCodeArea = document.getElementById('scriptableCodeArea');
 const btnCopyScriptableCode = document.getElementById('btnCopyScriptableCode');
 
-// Telegram
 const tgStatusBanner = document.getElementById('tgStatusBanner');
 const tgStatusText = document.getElementById('tgStatusText');
 const tgApiId = document.getElementById('tgApiId');
@@ -74,10 +68,8 @@ const authPassPrompt = document.getElementById('authPassPrompt');
 const tgPassInput = document.getElementById('tgPassInput');
 const btnSubmitPass = document.getElementById('btnSubmitPass');
 
-// History
 const historyList = document.getElementById('historyList');
 
-// Window & Widget Controls
 const appContainer = document.querySelector('.app-container');
 const desktopWidgetView = document.getElementById('desktopWidgetView');
 const btnSwitchToWidgetMode = document.getElementById('btnSwitchToWidgetMode');
@@ -94,15 +86,13 @@ const btnRefreshStatus = document.getElementById('btnRefreshStatus');
 const btnOpenSimulator = document.getElementById('btnOpenSimulator');
 const toast = document.getElementById('toast');
 
-// --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
   setupTabs();
   setupSettings();
   setupEventListeners();
   setupWidgetModeListeners();
   startSystemClock();
-  
-  // Start checking pywebview API availability
+
   waitForPywebview();
 });
 
@@ -112,7 +102,6 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove('show'), 2500);
 }
 
-// --- Tabs Management ---
 function setupTabs() {
   navTabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -130,7 +119,6 @@ function setupTabs() {
   });
 }
 
-// --- Clock & Countdown Engine ---
 function startSystemClock() {
   const update = () => {
     if (!elSystemClock) return;
@@ -172,7 +160,6 @@ function updateCountdown() {
     if (widgetEndTime) widgetEndTime.textContent = 'стабильно';
     if (widgetProgressFill) widgetProgressFill.style.width = '100%';
 
-    // Hide outage rows
     if (elRowReason) elRowReason.style.display = 'none';
     if (elRowStart) elRowStart.style.display = 'none';
     if (elRowEnd) elRowEnd.style.display = 'none';
@@ -186,54 +173,39 @@ function updateCountdown() {
   const diff = Math.max(0, endTs - nowTs);
 
   if (diff === 0) {
-    if (elBrandStatusDot) elBrandStatusDot.className = 'brand-status-dot on';
-    const elapsedAfter = nowTs - endTs;
-    if (elapsedAfter < 15) {
-      const graceRemaining = 15 - elapsedAfter;
-      if (elTimerDigits) {
-        elTimerDigits.innerHTML = `<span style="font-size: 20px; color: #ff9f0a; font-weight: 700; text-align: center;">Таймер закончился! Свет должен быть (${graceRemaining}с)</span>`;
-      }
-      if (elTimerLabel) {
-        elTimerLabel.textContent = 'Ориентировочное время вышло';
-        elTimerLabel.style.color = '#ff9f0a';
-      }
-
-      if (elLivePill) elLivePill.className = 'live-pill off';
-      if (elLivePillText) elLivePillText.textContent = 'СВЕТ ЕСТЬ';
-      if (elStatusBadge) elStatusBadge.className = 'status-badge off';
-      if (elStatusLabel) elStatusLabel.textContent = 'СВЕТ ДОЛЖЕН БЫТЬ';
-
-      if (widgetCountdown) {
-        widgetCountdown.innerHTML = `<span style="font-size: 13px; color: #ff9f0a; font-weight: 700; line-height: 1.2;">СВЕТ ДОЛЖЕН БЫТЬ<br>(${graceRemaining}с)</span>`;
-      }
-      if (widgetStatusText) widgetStatusText.textContent = 'ВРЕМЯ НАСТУПИЛО';
-      if (widgetStatusBadge) widgetStatusBadge.className = 'widget-status warn';
-    } else {
-      if (elTimerDigits) {
-        elTimerDigits.innerHTML = `<span style="font-size: 30px; color: #30d158; font-weight: 800; letter-spacing: -0.5px;">СВЕТ ЕСТЬ</span>`;
-      }
-      if (elTimerLabel) {
-        elTimerLabel.textContent = 'Время отключения завершено • Электросеть работает';
-        elTimerLabel.style.color = '#30d158';
-      }
-
-      if (elLivePill) elLivePill.className = 'live-pill';
-      if (elLivePillText) elLivePillText.textContent = 'СВЕТ ЕСТЬ';
-      if (elStatusBadge) elStatusBadge.className = 'status-badge';
-      if (elStatusLabel) elStatusLabel.textContent = 'СВЕТ ЕСТЬ';
-
-      if (widgetCountdown) {
-        widgetCountdown.innerHTML = `<span style="font-size: 17px; color: #30d158; font-weight: 800; line-height: 1.1;">СВЕТ ЕСТЬ</span>`;
-      }
-      if (widgetStatusText) widgetStatusText.textContent = 'СВЕТ ЕСТЬ';
-      if (widgetStatusBadge) widgetStatusBadge.className = 'widget-status';
-      if (widgetEndTime) widgetEndTime.textContent = 'стабильно';
-
-      // Hide outage details
-      if (elRowReason) elRowReason.style.display = 'none';
-      if (elRowStart) elRowStart.style.display = 'none';
-      if (elRowEnd) elRowEnd.style.display = 'none';
+    document.documentElement.setAttribute('data-power-status', 'ON');
+    document.body.setAttribute('data-power-status', 'ON');
+    const appContainer = document.querySelector('.app-container');
+    if (appContainer) {
+      appContainer.classList.remove('power-off');
+      appContainer.classList.add('power-on');
     }
+
+    if (elBrandStatusDot) elBrandStatusDot.className = 'brand-status-dot on';
+
+    if (elTimerDigits) {
+      elTimerDigits.innerHTML = `<span style="font-size: 30px; color: #30d158; font-weight: 800; letter-spacing: -0.5px;">СВЕТ ЕСТЬ</span>`;
+    }
+    if (elTimerLabel) {
+      elTimerLabel.textContent = 'Время отключения завершено • Электросеть работает';
+      elTimerLabel.style.color = '#30d158';
+    }
+
+    if (elLivePill) elLivePill.className = 'live-pill';
+    if (elLivePillText) elLivePillText.textContent = 'СВЕТ ЕСТЬ';
+    if (elStatusBadge) elStatusBadge.className = 'status-badge';
+    if (elStatusLabel) elStatusLabel.textContent = 'СВЕТ ЕСТЬ';
+
+    if (widgetCountdown) {
+      widgetCountdown.innerHTML = `<span style="font-size: 17px; color: #30d158; font-weight: 800; line-height: 1.1;">СВЕТ ЕСТЬ</span>`;
+    }
+    if (widgetStatusText) widgetStatusText.textContent = 'СВЕТ ЕСТЬ';
+    if (widgetStatusBadge) widgetStatusBadge.className = 'widget-status';
+    if (widgetEndTime) widgetEndTime.textContent = 'стабильно';
+
+    if (elRowReason) elRowReason.style.display = 'none';
+    if (elRowStart) elRowStart.style.display = 'none';
+    if (elRowEnd) elRowEnd.style.display = 'none';
 
     if (elProgressBarFill) elProgressBarFill.style.width = '100%';
     if (elProgressPercentText) elProgressPercentText.textContent = '100%';
@@ -241,17 +213,37 @@ function updateCountdown() {
     return;
   }
 
-  // Active Outage Countdown
-  const hours = Math.floor(diff / 3600);
+  const days = Math.floor(diff / 86400);
+  const hours = Math.floor((diff % 86400) / 3600);
   const minutes = Math.floor((diff % 3600) / 60);
   const seconds = diff % 60;
+  const showSeconds = appSettings.showSeconds !== false;
 
-  const hStr = String(hours).padStart(2, '0');
-  const mStr = String(minutes).padStart(2, '0');
-  const sStr = String(seconds).padStart(2, '0');
+  const parts = [];
+  const textParts = [];
+
+  if (days > 0) {
+    parts.push(`<span class="cd-unit"><span class="cd-num">${days}</span><span class="cd-label">д</span></span>`);
+    textParts.push(`${days}д`);
+  }
+  if (days > 0 || hours > 0) {
+    const hDisplay = (days > 0) ? hours : (hours < 10 ? `0${hours}` : hours);
+    parts.push(`<span class="cd-unit"><span class="cd-num">${hDisplay}</span><span class="cd-label">ч</span></span>`);
+    textParts.push(`${hours}ч`);
+  }
+  if (days > 0 || hours > 0 || minutes > 0) {
+    const mDisplay = (days === 0 && hours === 0) ? minutes : String(minutes).padStart(2, '0');
+    parts.push(`<span class="cd-unit"><span class="cd-num">${mDisplay}</span><span class="cd-label">м</span></span>`);
+    textParts.push(`${minutes}м`);
+  }
+  if (showSeconds || (days === 0 && hours === 0 && minutes === 0)) {
+    const sDisplay = (days === 0 && hours === 0 && minutes === 0) ? seconds : String(seconds).padStart(2, '0');
+    parts.push(`<span class="cd-unit"><span class="cd-num">${sDisplay}</span><span class="cd-label">с</span></span>`);
+    textParts.push(`${seconds}с`);
+  }
 
   if (elTimerDigits) {
-    elTimerDigits.innerHTML = `<span id="cdHours">${hStr}</span><span class="t-colon">:</span><span id="cdMinutes">${mStr}</span><span class="t-colon">:</span><span id="cdSeconds">${sStr}</span>`;
+    elTimerDigits.innerHTML = parts.join('');
   }
   if (elTimerLabel) {
     elTimerLabel.textContent = 'до ориентировочного включения';
@@ -259,9 +251,8 @@ function updateCountdown() {
   }
 
   if (elBrandStatusDot) elBrandStatusDot.className = 'brand-status-dot off';
-  if (widgetCountdown) widgetCountdown.textContent = `${hStr}:${mStr}:${sStr}`;
+  if (widgetCountdown) widgetCountdown.textContent = textParts.join(' ');
 
-  // Progress Bar
   const total = Math.max(1, endTs - startTs);
   const elapsed = Math.max(0, Math.min(total, nowTs - startTs));
   const pct = Math.min(100, Math.max(0, Math.round((elapsed / total) * 100)));
@@ -271,7 +262,6 @@ function updateCountdown() {
   if (widgetProgressFill) widgetProgressFill.style.width = `${pct}%`;
 }
 
-// Address Toggle State
 let isAddressRevealed = false;
 const btnToggleAddress = document.getElementById('btnToggleAddress');
 const addrToggleText = document.getElementById('addrToggleText');
@@ -323,18 +313,29 @@ function formatWithRelativeDay(dateStr) {
   return dateStr;
 }
 
-// --- Render State to UI ---
 function renderState(state) {
   if (!state) return;
   currentState = state;
 
   const isOutage = state.status === 'OFF';
 
+  document.documentElement.setAttribute('data-power-status', isOutage ? 'OFF' : 'ON');
+  document.body.setAttribute('data-power-status', isOutage ? 'OFF' : 'ON');
+  const appContainer = document.querySelector('.app-container');
+  if (appContainer) {
+    if (isOutage) {
+      appContainer.classList.add('power-off');
+      appContainer.classList.remove('power-on');
+    } else {
+      appContainer.classList.add('power-on');
+      appContainer.classList.remove('power-off');
+    }
+  }
+
   if (elBrandStatusDot) {
     elBrandStatusDot.className = isOutage ? 'brand-status-dot off' : 'brand-status-dot on';
   }
 
-  // Hero Card Classes & Badges
   if (isOutage) {
     if (elHeroCard) elHeroCard.className = 'hero-card outage';
     if (elLivePill) elLivePill.className = 'live-pill off';
@@ -362,7 +363,6 @@ function renderState(state) {
     if (widgetEndTime) widgetEndTime.textContent = 'стабильно';
   }
 
-  // Details
   updateAddressDisplay();
   if (elRowReason) elRowReason.style.display = isOutage ? 'flex' : 'none';
   if (elRowStart) elRowStart.style.display = isOutage ? 'flex' : 'none';
@@ -374,20 +374,16 @@ function renderState(state) {
     if (elDetailEnd) elDetailEnd.innerHTML = formatWithRelativeDay(state.end_time_str || 'Уточняется');
   }
 
-  // Account number is loaded ONLY in initApp, not synced here
-
   if (state.updated_at) {
     const d = new Date(state.updated_at);
     elLastUpdatedText.textContent = `Обновлено: ${d.toLocaleTimeString()}`;
   }
 
-  // Start or refresh countdown ticker
   if (countdownInterval) clearInterval(countdownInterval);
   updateCountdown();
   countdownInterval = setInterval(updateCountdown, 1000);
 }
 
-// --- Desktop Widget Mode Toggling ---
 function setupWidgetModeListeners() {
   if (btnSwitchToWidgetMode) {
     btnSwitchToWidgetMode.addEventListener('click', (e) => {
@@ -421,7 +417,6 @@ function exitWidgetMode() {
   }
 }
 
-// --- Settings & Personalization ---
 let appSettings = {
   theme: localStorage.getItem('lightwidget_theme') || 'midnight',
   accent: localStorage.getItem('lightwidget_accent') || 'blue',
@@ -430,10 +425,13 @@ let appSettings = {
   sound: localStorage.getItem('lightwidget_sound') !== 'false',
   banner: localStorage.getItem('lightwidget_banner') !== 'false',
 };
+window.appSettings = appSettings;
 
 function applyTheme(themeName, save = true) {
+  if (!themeName) return;
   appSettings.theme = themeName;
   document.body.setAttribute('data-theme', themeName);
+  document.documentElement.setAttribute('data-theme', themeName);
   document.querySelectorAll('.theme-card').forEach(card => {
     if (card.getAttribute('data-theme') === themeName) {
       card.classList.add('active');
@@ -448,8 +446,10 @@ function applyTheme(themeName, save = true) {
 }
 
 function applyAccent(accentName, save = true) {
+  if (!accentName) return;
   appSettings.accent = accentName;
   document.body.setAttribute('data-accent', accentName);
+  document.documentElement.setAttribute('data-accent', accentName);
   document.querySelectorAll('.accent-swatch').forEach(swatch => {
     if (swatch.getAttribute('data-accent') === accentName) {
       swatch.classList.add('active');
@@ -472,13 +472,18 @@ function applySettingsState() {
   const chkSound = document.getElementById('settingSound');
   const chkBanner = document.getElementById('settingBanner');
 
-  if (chkSec) chkSec.checked = appSettings.showSeconds;
-  if (chkPulse) chkPulse.checked = appSettings.showPulse;
-  if (chkSound) chkSound.checked = appSettings.sound;
-  if (chkBanner) chkBanner.checked = appSettings.banner;
+  const isSec = (appSettings.showSeconds === true || appSettings.showSeconds === 'true');
+  const isPulse = (appSettings.showPulse === true || appSettings.showPulse === 'true');
+  const isSound = (appSettings.sound === true || appSettings.sound === 'true');
+  const isBanner = (appSettings.banner === true || appSettings.banner === 'true');
+
+  if (chkSec) chkSec.checked = isSec;
+  if (chkPulse) chkPulse.checked = isPulse;
+  if (chkSound) chkSound.checked = isSound;
+  if (chkBanner) chkBanner.checked = isBanner;
 
   if (elBrandStatusDot) {
-    if (!appSettings.showPulse) {
+    if (!isPulse) {
       elBrandStatusDot.style.animation = 'none';
       elBrandStatusDot.style.boxShadow = 'none';
     } else {
@@ -488,28 +493,29 @@ function applySettingsState() {
   }
 }
 
+window.applyTheme = applyTheme;
+window.applyAccent = applyAccent;
+window.applySettingsState = applySettingsState;
+
 function setupSettings() {
   applySettingsState();
 
-  // Theme cards
   document.querySelectorAll('.theme-card').forEach(card => {
     card.addEventListener('click', () => {
       const theme = card.getAttribute('data-theme');
       applyTheme(theme, true);
-      showToast(`Тема изменена: ${card.querySelector('.theme-title')?.textContent || theme}`);
+      showToast(`Тема: ${card.querySelector('.theme-title')?.textContent || theme}`);
     });
   });
 
-  // Accent swatches
   document.querySelectorAll('.accent-swatch').forEach(swatch => {
     swatch.addEventListener('click', () => {
       const accent = swatch.getAttribute('data-accent');
       applyAccent(accent, true);
-      showToast(`Акцентный цвет обновлен!`);
+      showToast(`Цвет обновлен!`);
     });
   });
 
-  // Toggles
   const chkSec = document.getElementById('settingShowSeconds');
   if (chkSec) {
     chkSec.addEventListener('change', () => {
@@ -555,7 +561,6 @@ function setupSettings() {
     });
   }
 
-  // Reset Button
   const btnReset = document.getElementById('btnResetSettings');
   if (btnReset) {
     btnReset.addEventListener('click', () => {
@@ -582,7 +587,6 @@ function setupSettings() {
     });
   }
 
-  // Simulator clear button
   if (btnClearSimInput) {
     btnClearSimInput.addEventListener('click', () => {
       if (simMessageInput) simMessageInput.value = '';
@@ -591,8 +595,6 @@ function setupSettings() {
   }
 }
 
-// --- Event Listeners ---
-// Auto-size Account Input (module scope so initApp can use it)
 function autoSizeAccountInput() {
   if (!elInputAccountNumber) return;
   const len = Math.max(8, (elInputAccountNumber.value || '').length);
@@ -607,7 +609,6 @@ function setupEventListeners() {
     });
   }
 
-  // Account Number Toggle (Show / Hide) via CSS class
   let isAccountRevealed = false;
   if (elBtnToggleAccount && elInputAccountNumber) {
     elBtnToggleAccount.addEventListener('click', () => {
@@ -623,8 +624,6 @@ function setupEventListeners() {
     });
   }
 
-  // --- Account Number: SIMPLE approach ---
-  // Save ONLY on explicit "Применить" or Enter. Nothing else saves.
   const saveAccount = async () => {
     if (!elInputAccountNumber) return;
     isAccountEditing = false;
@@ -655,7 +654,7 @@ function setupEventListeners() {
   }
 
   if (elInputAccountNumber) {
-    // Copy on click (when not editing)
+
     elInputAccountNumber.addEventListener('click', () => {
       if (isAccountEditing) return;
       const val = elInputAccountNumber.value.trim();
@@ -669,12 +668,10 @@ function setupEventListeners() {
       setTimeout(() => elInputAccountNumber.classList.remove('copy-flash'), 2000);
     });
 
-    // Auto-resize while typing
     elInputAccountNumber.addEventListener('input', () => {
       autoSizeAccountInput();
     });
 
-    // Enter = save
     elInputAccountNumber.addEventListener('keydown', async (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
@@ -685,13 +682,31 @@ function setupEventListeners() {
 
   if (btnRefreshStatus) {
     btnRefreshStatus.addEventListener('click', async () => {
-      if (window.pywebview?.api) {
-        if (window.pywebview.api.sync_history) {
-          await window.pywebview.api.sync_history();
+      if (btnRefreshStatus.classList.contains('is-refreshing')) return;
+      btnRefreshStatus.classList.add('is-refreshing');
+      const startTime = Date.now();
+      const cycleMs = 750;
+
+      try {
+        if (window.pywebview?.api) {
+          if (window.pywebview.api.sync_history) {
+            await window.pywebview.api.sync_history();
+          }
+          const state = await window.pywebview.api.get_state();
+          renderState(state);
         }
-        const state = await window.pywebview.api.get_state();
-        renderState(state);
-        showToast('Синхронизация и обновление...');
+      } catch (err) {
+        console.error('Sync error:', err);
+      } finally {
+        const elapsed = Date.now() - startTime;
+
+        const targetDuration = Math.max(cycleMs * 2, Math.ceil(elapsed / cycleMs) * cycleMs);
+        const remaining = Math.max(0, targetDuration - elapsed);
+
+        setTimeout(() => {
+          btnRefreshStatus.classList.remove('is-refreshing');
+          showToast('Синхронизировано');
+        }, remaining);
       }
     });
   }
@@ -733,8 +748,7 @@ function setupEventListeners() {
     });
   }
 
-  // iPhone Buttons
-  if (btnCopyEndpoint) {
+  if (btnCopyEndpoint && localApiEndpoint) {
     btnCopyEndpoint.addEventListener('click', () => {
       navigator.clipboard.writeText(localApiEndpoint.textContent);
       showToast('URL скопирован в буфер обмена!');
@@ -748,7 +762,6 @@ function setupEventListeners() {
     });
   }
 
-  // Telegram Settings Buttons
   if (btnSaveAndConnectTg) {
     btnSaveAndConnectTg.addEventListener('click', async () => {
       const cfg = {
@@ -815,7 +828,6 @@ function setupEventListeners() {
     });
   }
 
-  // Window Controls
   if (btnMinimize) {
     btnMinimize.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -835,7 +847,6 @@ function setupEventListeners() {
   }
 }
 
-// --- Load Sub-tabs Data ---
 async function loadHistory() {
   if (!window.pywebview?.api) return;
   const history = await window.pywebview.api.get_history();
@@ -865,14 +876,17 @@ async function loadHistory() {
 
 async function loadIPhoneData() {
   if (!window.pywebview?.api) return;
-  const info = await window.pywebview.api.get_iphone_info();
-  if (info) {
-    localApiEndpoint.textContent = info.endpoint;
-    scriptableCodeArea.value = info.scriptable_code;
+  try {
+    const info = await window.pywebview.api.get_iphone_info();
+    if (info) {
+      if (localApiEndpoint) localApiEndpoint.textContent = info.endpoint || '';
+      if (scriptableCodeArea) scriptableCodeArea.value = info.scriptable_code || '';
+    }
+  } catch (err) {
+    console.error('loadIPhoneData error:', err);
   }
 }
 
-// --- Callback for Python Bridge ---
 window.onStateUpdatedFromPython = function(state) {
   renderState(state);
 };
@@ -896,7 +910,6 @@ window.onTelegramStatusChange = function(status, message) {
   }
 };
 
-// --- Pywebview Initializer ---
 let isAppInitialized = false;
 
 window.addEventListener('pywebviewready', () => {
@@ -939,20 +952,36 @@ async function initApp() {
       if (tgFilterAddress) tgFilterAddress.value = cfg.telegram.filter_address || '';
     }
 
-    // Sync appearance settings from Python config if saved
     if (cfg?.appearance) {
-      if (cfg.appearance.theme) appSettings.theme = cfg.appearance.theme;
-      if (cfg.appearance.accent) appSettings.accent = cfg.appearance.accent;
-      if (cfg.appearance.show_seconds !== undefined) appSettings.showSeconds = cfg.appearance.show_seconds;
-      if (cfg.appearance.show_pulse !== undefined) appSettings.showPulse = cfg.appearance.show_pulse;
+      if (cfg.appearance.theme) {
+        appSettings.theme = cfg.appearance.theme;
+        localStorage.setItem('lightwidget_theme', cfg.appearance.theme);
+      }
+      if (cfg.appearance.accent) {
+        appSettings.accent = cfg.appearance.accent;
+        localStorage.setItem('lightwidget_accent', cfg.appearance.accent);
+      }
+      if (cfg.appearance.show_seconds !== undefined) {
+        appSettings.showSeconds = cfg.appearance.show_seconds;
+        localStorage.setItem('lightwidget_show_seconds', cfg.appearance.show_seconds);
+      }
+      if (cfg.appearance.show_pulse !== undefined) {
+        appSettings.showPulse = cfg.appearance.show_pulse;
+        localStorage.setItem('lightwidget_show_pulse', cfg.appearance.show_pulse);
+      }
     }
     if (cfg?.notifications) {
-      if (cfg.notifications.sound !== undefined) appSettings.sound = cfg.notifications.sound;
-      if (cfg.notifications.banner !== undefined) appSettings.banner = cfg.notifications.banner;
+      if (cfg.notifications.sound !== undefined) {
+        appSettings.sound = cfg.notifications.sound;
+        localStorage.setItem('lightwidget_sound', cfg.notifications.sound);
+      }
+      if (cfg.notifications.banner !== undefined) {
+        appSettings.banner = cfg.notifications.banner;
+        localStorage.setItem('lightwidget_banner', cfg.notifications.banner);
+      }
     }
     applySettingsState();
 
-    // Load account number - simple: just ask Python
     let accNum = '';
     try {
       accNum = await window.pywebview.api.get_account_number();

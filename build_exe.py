@@ -1,12 +1,7 @@
-import os
 import sys
 import PyInstaller.__main__
 
 def build():
-    print("=" * 50)
-    print(f"Building LightWidget Single EXE on {sys.platform}...")
-    print("=" * 50)
-    
     sep = ';' if sys.platform == 'win32' else ':'
     
     params = [

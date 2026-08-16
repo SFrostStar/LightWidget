@@ -3,9 +3,6 @@ import subprocess
 import os
 
 def send_notification(title: str, subtitle: str, message: str, sound: str = "Submarine"):
-    """
-    Sends native desktop notification on macOS or Windows without external dependencies.
-    """
     if sys.platform == "darwin":
         try:
             script = f'display notification "{message}" with title "{title}" subtitle "{subtitle}"'
@@ -17,7 +14,6 @@ def send_notification(title: str, subtitle: str, message: str, sound: str = "Sub
             print(f"[Notifier] macOS error: {e}")
     elif sys.platform == "win32":
         try:
-            # Native Windows balloon/toast notification via PowerShell without extra packages
             ps_script = f'''
             [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms");
             $obj = New-Object System.Windows.Forms.NotifyIcon;
@@ -32,6 +28,4 @@ def send_notification(title: str, subtitle: str, message: str, sound: str = "Sub
         except Exception as e:
             print(f"[Notifier] Windows error: {e}")
 
-# Backwards compatibility alias
 send_macos_notification = send_notification
-

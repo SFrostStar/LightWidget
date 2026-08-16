@@ -43,10 +43,8 @@ class ConfigManager:
     def _decrypt_cfg(self, cfg: dict) -> dict:
         if not isinstance(cfg, dict):
             return cfg
-        # Decrypt account_number
         if "account_number" in cfg:
             cfg["account_number"] = decrypt_value(cfg["account_number"])
-        # Decrypt telegram fields
         if "telegram" in cfg and isinstance(cfg["telegram"], dict):
             tg = cfg["telegram"]
             if "filter_address" in tg:
@@ -96,6 +94,16 @@ class ConfigManager:
         encrypted_data = self._encrypt_cfg(self.config)
         with open(self.filepath, "w", encoding="utf-8") as f:
             json.dump(encrypted_data, f, ensure_ascii=False, indent=2)
+
+    def update(self, new_data: dict):
+        def _deep_update(target, src):
+            for k, v in src.items():
+                if isinstance(v, dict) and k in target and isinstance(target[k], dict):
+                    _deep_update(target[k], v)
+                else:
+                    target[k] = v
+        _deep_update(self.config, new_data)
+        self.save()
 
     def get(self, key, default=None):
         return self.config.get(key, default)

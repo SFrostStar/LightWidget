@@ -6,10 +6,8 @@ from core.storage import StorageManager
 from core.parser import parse_message
 
 def get_local_ip():
-    """Returns local network IP address of the Mac."""
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
-        # Doesn't even have to be reachable
         s.connect(('10.255.255.255', 1))
         IP = s.getsockname()[0]
     except Exception:
@@ -55,13 +53,19 @@ class StatusRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
     def do_POST(self):
-        if self.path in ['/api/message', '/api/inject']:
+        path = self.path.split('?')[0]
+        if path in ['/api/status', '/api/update', '/api/state', '/api/message', '/api/inject']:
             content_length = int(self.headers.get('Content-Length', 0))
             body = self.rfile.read(content_length).decode('utf-8')
             try:
                 data = json.loads(body) if body.startswith('{') else {"text": body}
-                msg_text = data.get("text", "")
-                parsed = parse_message(msg_text)
+                
+                if "status" in data:
+                    parsed = data
+                else:
+                    msg_text = data.get("text", "")
+                    parsed = parse_message(msg_text)
+
                 if parsed:
                     StatusRequestHandler.storage.save_state(parsed)
                     StatusRequestHandler.storage.add_history(parsed)
@@ -69,6 +73,11 @@ class StatusRequestHandler(BaseHTTPRequestHandler):
                         StatusRequestHandler.on_message_callback(parsed)
                     self._set_headers()
                     self.wfile.write(json.dumps({"success": True, "state": parsed}, ensure_ascii=False).encode('utf-8'))
+                    return
+                else:
+                    self.send_response(400)
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"error": "Could not parse message"}, ensure_ascii=False).encode('utf-8'))
                     return
             except Exception as e:
                 self.send_response(400)
@@ -79,7 +88,6 @@ class StatusRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def log_message(self, format, *args):
-        # Silence standard HTTP access logging to keep console clean
         return
 
 class ReusableHTTPServer(HTTPServer):
@@ -101,9 +109,8 @@ class APIServer:
             self.server = ReusableHTTPServer((self.host, self.port), StatusRequestHandler)
             self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
             self.thread.start()
-            print(f"[API Server] Running at http://{get_local_ip()}:{self.port}/api/status")
-        except Exception as e:
-            print(f"[API Server] Warning: could not start HTTP server on port {self.port}: {e}")
+        except Exception:
+            pass
 
     def stop(self):
         if self.server:
