@@ -248,21 +248,49 @@ del "%~f0"
                         bat_path = os.path.join(self.base_dir, "update_swap.bat")
                         with open(bat_path, "w") as f:
                             f.write(bat_script)
-                        subprocess.Popen(["cmd.exe", "/c", bat_path], shell=True)
+                        creation_flag = getattr(subprocess, 'CREATE_NO_WINDOW', 0x08000000)
+                        subprocess.Popen(["cmd.exe", "/c", bat_path], shell=True, creationflags=creation_flag)
+                        os._exit(0)
+                    else:
+                        creation_flag = getattr(subprocess, 'CREATE_NO_WINDOW', 0x08000000)
+                        subprocess.Popen([exe_path], creationflags=creation_flag)
                         os._exit(0)
                 elif sys.platform == "darwin":
-                    subprocess.Popen(["open", "-n", exe_path])
+                    if ".app" in exe_path:
+                        app_bundle = exe_path.split(".app")[0] + ".app"
+                        subprocess.Popen(["open", "-n", app_bundle], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                    else:
+                        subprocess.Popen(["open", "-n", exe_path], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                     os._exit(0)
 
-            # Python source restart
-            python = sys.executable
+            # Check if LightWidget.app exists on Desktop or in Applications
             if sys.platform == "darwin":
-                script = f'do shell script "{python} \\"{os.path.join(self.base_dir, "app.py")}\\" > /dev/null 2>&1 &"'
-                subprocess.Popen(["osascript", "-e", script])
-                os._exit(0)
+                app_candidates = [
+                    "/Applications/LightWidget.app",
+                    os.path.expanduser("~/Desktop/LightWidget.app"),
+                    os.path.join(self.base_dir, "LightWidget.app")
+                ]
+                for ap in app_candidates:
+                    if os.path.exists(ap):
+                        subprocess.Popen(["open", "-n", ap], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                        os._exit(0)
+
+            # Pure detached silent restart without opening any terminal
+            python = sys.executable
+            app_py = os.path.join(self.base_dir, "app.py")
+            if sys.platform == "win32":
+                creation_flag = getattr(subprocess, 'CREATE_NO_WINDOW', 0x08000000)
+                subprocess.Popen([python, app_py], cwd=self.base_dir, creationflags=creation_flag)
             else:
-                subprocess.Popen([python, os.path.join(self.base_dir, "app.py")], cwd=self.base_dir)
-                os._exit(0)
+                subprocess.Popen(
+                    [python, app_py],
+                    cwd=self.base_dir,
+                    stdin=subprocess.DEVNULL,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    start_new_session=True
+                )
+            os._exit(0)
         except Exception as e:
             print(f"[Updater] Restart error: {e}")
             os._exit(0)
