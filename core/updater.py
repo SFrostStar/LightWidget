@@ -46,38 +46,45 @@ class UpdateManager:
             parts.append(0)
         return tuple(parts[:3])
 
+    def _format_version(self, v_tuple: tuple) -> str:
+        return f"{v_tuple[0]}.{v_tuple[1]}.{v_tuple[2]}"
+
     def get_local_version(self) -> dict:
         v_paths = [
             os.path.join(self.base_dir, "version.json"),
             os.path.join(getattr(sys, '_MEIPASS', self.base_dir), "version.json"),
-            os.path.join(os.path.dirname(self.base_dir), "version.json")
+            os.path.dirname(self.base_dir) if not os.path.exists(os.path.join(self.base_dir, "version.json")) else self.base_dir
         ]
-        for vp in v_paths:
+        ver_str = "2.3.1"
+        msg_str = "LightWidget Release 2.3.1"
+        date_str = "2026-08-17"
+        
+        for vp in [os.path.join(self.base_dir, "version.json"), os.path.join(getattr(sys, '_MEIPASS', self.base_dir), "version.json")]:
             if os.path.exists(vp):
                 try:
                     with open(vp, "r", encoding="utf-8") as f:
                         vdata = json.load(f)
-                        ver = vdata.get("version", "2.3.0")
-                        return {
-                            "version": ver,
-                            "tag": f"v{ver}" if not ver.startswith("v") else ver,
-                            "message": vdata.get("message", "LightWidget Release"),
-                            "date": vdata.get("date", "2026-08-17")
-                        }
+                        ver_str = str(vdata.get("version", "2.3.1"))
+                        msg_str = vdata.get("message", "LightWidget Release 2.3.1")
+                        date_str = vdata.get("date", "2026-08-17")
+                        break
                 except Exception:
                     pass
 
+        v_tuple = self._parse_version(ver_str)
+        formatted_ver = self._format_version(v_tuple)
+
         return {
-            "version": "2.3.0",
-            "tag": "v2.3.0",
-            "message": "LightWidget Release",
-            "date": "2026-08-17"
+            "version": formatted_ver,
+            "display": f"Версия {formatted_ver}",
+            "tag": f"v{formatted_ver}",
+            "message": msg_str,
+            "date": date_str
         }
 
     def check_updates(self) -> dict:
         local_info = self.get_local_version()
-        local_tag = local_info.get("tag", "v2.3.0")
-        local_v_tuple = self._parse_version(local_tag)
+        local_v_tuple = self._parse_version(local_info["version"])
 
         headers = {
             "User-Agent": "LightWidget-AutoUpdater/1.0",
@@ -146,6 +153,7 @@ class UpdateManager:
                 break
 
         remote_v_tuple = self._parse_version(remote_tag)
+        remote_version_str = self._format_version(remote_v_tuple)
         has_update = bool(remote_tag and remote_v_tuple > local_v_tuple)
 
         return {
@@ -153,9 +161,10 @@ class UpdateManager:
             "has_update": has_update,
             "local": local_info,
             "remote": {
+                "version": remote_version_str,
                 "tag": remote_tag,
                 "title": remote_title,
-                "message": remote_body or f"Новый релиз {remote_tag}",
+                "message": remote_body or f"Новый релиз {remote_version_str}",
                 "date": published_date,
                 "url": html_url,
                 "download_url": download_url

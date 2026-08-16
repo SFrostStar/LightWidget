@@ -1286,6 +1286,9 @@ const updateHeroIcon = document.getElementById('updateHeroIcon');
 const updateStatusTitle = document.getElementById('updateStatusTitle');
 const updateVersionTag = document.getElementById('updateVersionTag');
 const updateStatusDesc = document.getElementById('updateStatusDesc');
+const updateInstalledPill = document.getElementById('updateInstalledPill');
+const updateLastCheckTime = document.getElementById('updateLastCheckTime');
+const updateLastCheckSub = document.getElementById('updateLastCheckSub');
 
 const updateCommitCard = document.getElementById('updateCommitCard');
 const updateCommitHash = document.getElementById('updateCommitHash');
@@ -1302,8 +1305,17 @@ const updateProgressSub = document.getElementById('updateProgressSub');
 
 const btnCheckUpdates = document.getElementById('btnCheckUpdates');
 const btnPerformUpdate = document.getElementById('btnPerformUpdate');
+const updateAutoCheckSwitch = document.getElementById('updateAutoCheckSwitch');
 
 let isUpdating = false;
+
+function formatCleanVersion(rawVer) {
+  if (!rawVer) return '2.3.1';
+  const clean = String(rawVer).replace(/^v/i, '').trim();
+  const parts = clean.split('.').map(p => parseInt(p, 10) || 0);
+  while (parts.length < 3) parts.push(0);
+  return `${parts[0]}.${parts[1]}.${parts[2]}`;
+}
 
 async function checkAppUpdates(showToastOnClean = false) {
   if (!window.pywebview?.api?.check_for_updates) return;
@@ -1316,32 +1328,39 @@ async function checkAppUpdates(showToastOnClean = false) {
     const res = await window.pywebview.api.check_for_updates();
     console.log('[Updater] Check response:', res);
 
+    const now = new Date();
+    const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+    if (updateLastCheckTime) updateLastCheckTime.textContent = `Сегодня в ${timeStr}`;
+    if (updateLastCheckSub) updateLastCheckSub.textContent = 'Проверка в фоновом режиме';
+
     if (res && res.success) {
-      const localTag = res.local?.tag || res.local?.version || 'v2.3.0';
-      if (updateVersionTag) updateVersionTag.textContent = localTag;
+      const localVer = formatCleanVersion(res.local?.version || '2.3.0');
+      if (updateVersionTag) updateVersionTag.textContent = localVer;
+      if (updateInstalledPill) updateInstalledPill.textContent = localVer;
 
       if (res.has_update && res.remote) {
+        const remoteVer = formatCleanVersion(res.remote?.version || res.remote?.tag);
         // Release update available
         if (updateNavDot) updateNavDot.style.display = 'block';
         if (updateHeroCard) updateHeroCard.classList.add('has-update');
         
         if (updateHeroIconWrap) {
+          updateHeroIconWrap.className = 'macos-icon-badge badge-blue';
           updateHeroIconWrap.innerHTML = `
-            <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
-              <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
-              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
-              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
           `;
         }
 
-        if (updateStatusTitle) updateStatusTitle.textContent = `Доступен релиз ${res.remote.tag}!`;
-        if (updateStatusDesc) updateStatusDesc.textContent = res.remote.title || `Новая версия ${res.remote.tag} на GitHub`;
+        if (updateStatusTitle) updateStatusTitle.textContent = `Доступно обновление: LightWidget ${remoteVer}`;
+        if (updateStatusDesc) updateStatusDesc.textContent = res.remote.title || `Новая версия ${remoteVer} на GitHub Releases`;
 
         if (updateCommitCard) updateCommitCard.style.display = 'block';
-        if (updateCommitHash) updateCommitHash.textContent = res.remote.tag;
-        if (updateCommitMessage) updateCommitMessage.textContent = res.remote.message || 'Новые улучшения и исправления';
+        if (updateCommitHash) updateCommitHash.textContent = remoteVer;
+        if (updateCommitMessage) updateCommitMessage.textContent = res.remote.message || 'Официальный стабильный релиз LightWidget';
         if (updateCommitAuthorName) updateCommitAuthorName.textContent = 'GitHub Release';
         if (updateCommitDateStr) {
           const d = res.remote.date ? new Date(res.remote.date) : new Date();
@@ -1354,27 +1373,31 @@ async function checkAppUpdates(showToastOnClean = false) {
         if (btnPerformUpdate) {
           btnPerformUpdate.style.display = 'inline-flex';
           btnPerformUpdate.innerHTML = `
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            Обновить до ${res.remote.tag}
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Обновить до ${remoteVer}</span>
           `;
         }
-        showToast(`Доступен релиз ${res.remote.tag}`);
+        showToast(`Доступна новая версия ${remoteVer}`);
       } else {
         // Up to date
         if (updateNavDot) updateNavDot.style.display = 'none';
         if (updateHeroCard) updateHeroCard.classList.remove('has-update');
         
         if (updateHeroIconWrap) {
+          updateHeroIconWrap.className = 'macos-icon-badge badge-green';
           updateHeroIconWrap.innerHTML = `
-            <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              <path d="m9 12 2 2 4-4"></path>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8">
+              <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
           `;
         }
 
-        if (updateStatusTitle) updateStatusTitle.textContent = `У вас установлена последняя версия (${localTag})`;
-        if (updateStatusDesc) updateStatusDesc.textContent = `Приложение полностью обновлено • ${res.local?.message || 'Актуальный релиз'}`;
+        if (updateStatusTitle) updateStatusTitle.textContent = `LightWidget ${localVer} — установлена новейшая версия`;
+        if (updateStatusDesc) updateStatusDesc.textContent = `Все компоненты актуальны • Проверено сегодня в ${timeStr}`;
 
         if (updateCommitCard) updateCommitCard.style.display = 'none';
         if (btnPerformUpdate) btnPerformUpdate.style.display = 'none';
@@ -1382,7 +1405,7 @@ async function checkAppUpdates(showToastOnClean = false) {
         if (showToastOnClean) showToast('У вас установлена последняя версия');
       }
     } else {
-      if (updateStatusTitle) updateStatusTitle.textContent = 'Статус обновлений';
+      if (updateStatusTitle) updateStatusTitle.textContent = 'Центр обновлений';
       if (updateStatusDesc) updateStatusDesc.textContent = res?.error || 'Не удалось проверить обновления';
       if (showToastOnClean) showToast('Не удалось связаться с GitHub');
     }

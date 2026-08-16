@@ -603,71 +603,166 @@
       </section>
 
       <section class="tab-pane" id="tab-updates">
-        <div class="updates-container">
-          <div class="panel-header">
-            <h2>Центр обновлений</h2>
-            <p>Автоматическая проверка новых коммитов и обновление в 1 клик</p>
-          </div>
-
-          <div class="update-hero-card" id="updateHeroCard">
-            <div class="update-hero-icon-wrap" id="updateHeroIconWrap">
-              <svg class="update-hero-icon" id="updateHeroIcon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                <path d="m9 12 2 2 4-4"></path>
-              </svg>
-            </div>
-            <div class="update-hero-content">
-              <div class="update-hero-top">
-                <span class="update-status-title" id="updateStatusTitle">Проверка наличия обновлений...</span>
-                <span class="update-version-tag" id="updateVersionTag">HEAD</span>
+        <div class="macos-update-view">
+          
+          <!-- Top macOS Header & App Card -->
+          <div class="macos-update-hero" id="updateHeroCard">
+            <div class="macos-app-icon-wrapper">
+              <img src="flat_app_icon.png" alt="LightWidget" class="macos-app-icon" id="updateAppIcon" />
+              <div class="macos-icon-badge badge-green" id="updateHeroIconWrap">
+                <svg id="updateHeroIcon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
               </div>
-              <p class="update-status-desc" id="updateStatusDesc">Подключение к GitHub репозиторию...</p>
+            </div>
+
+            <div class="macos-hero-info">
+              <div class="macos-hero-title-row">
+                <h2 class="macos-app-name">LightWidget</h2>
+                <span class="macos-version-pill" id="updateVersionTag">2.3.1</span>
+              </div>
+              <div class="macos-status-line" id="updateStatusTitle">У вас установлена новейшая версия</div>
+              <div class="macos-status-subtext" id="updateStatusDesc">Автоматическая проверка выполнена • Релиз стабилен</div>
+            </div>
+
+            <div class="macos-hero-actions">
+              <button class="macos-primary-btn" id="btnPerformUpdate" type="button" style="display: none;">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Обновить сейчас</span>
+              </button>
+              <button class="macos-secondary-btn" id="btnCheckUpdates" type="button" title="Проверить наличие обновлений">
+                <svg class="spin-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                </svg>
+                <span>Проверить обновления</span>
+              </button>
             </div>
           </div>
 
-          <div class="update-commit-card" id="updateCommitCard" style="display: none;">
-            <div class="update-commit-header">
-              <span class="commit-badge">Свежий коммит</span>
-              <span class="commit-hash" id="updateCommitHash">#828115e</span>
+          <!-- macOS Progress Card (visible during updates) -->
+          <div class="macos-progress-card" id="updateProgressCard" style="display: none;">
+            <div class="macos-progress-header">
+              <span class="macos-progress-stage" id="updateStageLabel">Загрузка обновления...</span>
+              <span class="macos-progress-percent" id="updatePercentLabel">0%</span>
             </div>
-            <div class="commit-msg" id="updateCommitMessage">Загрузка информации об изменениях...</div>
-            <div class="commit-footer">
-              <span class="commit-author" id="updateCommitAuthor">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                <span id="updateCommitAuthorName">Автор</span>
-              </span>
-              <span class="commit-date" id="updateCommitDate">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span id="updateCommitDateStr">Дата</span>
-              </span>
-              <a href="#" class="commit-link" id="updateCommitLink" target="_blank" title="Открыть коммит на GitHub">
-                GitHub
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            <div class="macos-progress-bar-bg">
+              <div class="macos-progress-bar-fill" id="updateProgressFill" style="width: 0%;"></div>
+            </div>
+            <div class="macos-progress-footer" id="updateProgressSub">Пожалуйста, не закрывайте программу во время установки</div>
+          </div>
+
+          <!-- macOS Release Notes (shown when update available) -->
+          <div class="macos-release-card" id="updateCommitCard" style="display: none;">
+            <div class="macos-release-header">
+              <div class="macos-release-badge-wrap">
+                <span class="macos-release-badge">Новый релиз</span>
+                <span class="macos-release-version" id="updateCommitHash">2.4.0</span>
+              </div>
+              <a href="#" class="macos-release-link" id="updateCommitLink" target="_blank">
+                <span>Открыть на GitHub</span>
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
               </a>
             </div>
+            <div class="macos-release-notes" id="updateCommitMessage">Загрузка информации об изменениях...</div>
+            <div class="macos-release-meta">
+              <div class="macos-meta-item">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <span id="updateCommitDateStr">Дата релиза</span>
+              </div>
+              <div class="macos-meta-item">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span id="updateCommitAuthorName">GitHub Release</span>
+              </div>
+            </div>
           </div>
 
-          <div class="update-progress-card" id="updateProgressCard" style="display: none;">
-            <div class="update-progress-top">
-              <span class="update-stage-label" id="updateStageLabel">Подготовка к обновлению...</span>
-              <span class="update-percent-label" id="updatePercentLabel">0%</span>
+          <!-- macOS Inset Grouped Settings Box -->
+          <div class="macos-settings-group">
+            <div class="macos-setting-row">
+              <div class="macos-row-left">
+                <div class="macos-row-icon icon-blue">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 4 23 10 17 10"></polyline>
+                    <polyline points="1 20 1 14 7 14"></polyline>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                  </svg>
+                </div>
+                <div class="macos-row-texts">
+                  <span class="macos-row-title">Автоматическая проверка</span>
+                  <span class="macos-row-subtitle">Проверять наличие новых версий при каждом запуске</span>
+                </div>
+              </div>
+              <div class="macos-row-right">
+                <label class="macos-switch">
+                  <input type="checkbox" id="updateAutoCheckSwitch" checked />
+                  <span class="macos-slider"></span>
+                </label>
+              </div>
             </div>
-            <div class="update-progress-track">
-              <div class="update-progress-fill" id="updateProgressFill" style="width: 0%;"></div>
+
+            <div class="macos-setting-row">
+              <div class="macos-row-left">
+                <div class="macos-row-icon icon-purple">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                  </svg>
+                </div>
+                <div class="macos-row-texts">
+                  <span class="macos-row-title">Установленная версия</span>
+                  <span class="macos-row-subtitle">Текущая стабильная версия приложения</span>
+                </div>
+              </div>
+              <div class="macos-row-right">
+                <span class="macos-pill-value" id="updateInstalledPill">2.3.1</span>
+              </div>
             </div>
-            <div class="update-progress-sub" id="updateProgressSub">Пожалуйста, не закрывайте программу</div>
+
+            <div class="macos-setting-row">
+              <div class="macos-row-left">
+                <div class="macos-row-icon icon-teal">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                  </svg>
+                </div>
+                <div class="macos-row-texts">
+                  <span class="macos-row-title">Канал обновлений</span>
+                  <span class="macos-row-subtitle">Официальные релизы на GitHub</span>
+                </div>
+              </div>
+              <div class="macos-row-right">
+                <span class="macos-text-value">GitHub Releases</span>
+              </div>
+            </div>
+
+            <div class="macos-setting-row">
+              <div class="macos-row-left">
+                <div class="macos-row-icon icon-gray">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                </div>
+                <div class="macos-row-texts">
+                  <span class="macos-row-title">Последняя проверка</span>
+                  <span class="macos-row-subtitle" id="updateLastCheckSub">Проверка в фоновом режиме</span>
+                </div>
+              </div>
+              <div class="macos-row-right">
+                <span class="macos-text-value" id="updateLastCheckTime">Сегодня</span>
+              </div>
+            </div>
           </div>
 
-          <div class="update-actions-row">
-            <button class="primary-btn update-btn" id="btnPerformUpdate" type="button" style="display: none;">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-              Обновить сейчас
-            </button>
-            <button class="secondary-btn" id="btnCheckUpdates" type="button">
-              <svg class="spin-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-              Проверить обновления
-            </button>
-          </div>
         </div>
       </section>
 

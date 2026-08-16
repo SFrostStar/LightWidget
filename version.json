@@ -1,7 +1,6 @@
 {
-  "version": "2.3.0",
-  "commit": "9541e3635184c7bb68fe4f49ff91f3e81f0a2ebe",
-  "short_sha": "9541e36",
+  "version": "2.3.1",
+  "name": "2.3.1",
   "date": "2026-08-17",
-  "message": "v2.3 / Update log"
+  "message": "v2.3.1 / Update log"
 }
