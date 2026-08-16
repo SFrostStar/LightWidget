@@ -25,7 +25,9 @@ DEFAULT_CONFIG = {
         "theme": "midnight",
         "accent": "blue",
         "show_seconds": True,
-        "show_pulse": True
+        "show_pulse": True,
+        "show_stats": True,
+        "show_heatmap": True
     },
     "notifications": {
         "sound": True,

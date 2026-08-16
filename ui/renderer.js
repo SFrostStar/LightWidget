@@ -382,6 +382,220 @@ function renderState(state) {
   if (countdownInterval) clearInterval(countdownInterval);
   updateCountdown();
   countdownInterval = setInterval(updateCountdown, 1000);
+  updateNetworkStats();
+}
+
+let cachedHistory = [];
+
+function updateNetworkStats(history) {
+  if (Array.isArray(history)) cachedHistory = history;
+  const historyData = cachedHistory;
+
+  const elTimeOn = document.getElementById('statsTimeOn');
+  const elTimeOff = document.getElementById('statsTimeOff');
+  const elPercentOn = document.getElementById('statsPercentOn');
+  const elPercentOff = document.getElementById('statsPercentOff');
+  const elOutageCount = document.getElementById('statsOutageCount');
+  const elUptimeBadge = document.getElementById('statsUptimeBadge');
+  const elRatioOn = document.getElementById('ratioFillOn');
+  const elRatioOff = document.getElementById('ratioFillOff');
+
+  if (!elTimeOn) return;
+
+  const now = Date.now();
+  const dayMs = 24 * 60 * 60 * 1000;
+  const dayAgo = now - dayMs;
+
+  let totalOffSeconds = 0;
+  let outageEvents = 0;
+
+  if (Array.isArray(historyData) && historyData.length > 0) {
+    historyData.forEach(item => {
+      const itemTime = new Date(item.timestamp || item.updated_at).getTime();
+      if (itemTime >= dayAgo && item.status === 'OFF') {
+        outageEvents++;
+        const total = item.total_seconds || (item.end_timestamp && item.start_timestamp ? (item.end_timestamp - item.start_timestamp) : 0);
+        if (total > 0) {
+          totalOffSeconds += total;
+        }
+      }
+    });
+  }
+
+  if (currentState && (currentState.status === 'OFF' || currentState.is_outage === true)) {
+    if (outageEvents === 0) outageEvents = 1;
+    const elapsed = currentState.elapsed_seconds || 0;
+    if (elapsed > 0 && totalOffSeconds < elapsed) {
+      totalOffSeconds = elapsed;
+    }
+  }
+
+  totalOffSeconds = Math.min(86400, Math.max(0, totalOffSeconds));
+  const totalOnSeconds = 86400 - totalOffSeconds;
+
+  const pctOn = Math.round((totalOnSeconds / 86400) * 100);
+  const pctOff = 100 - pctOn;
+
+  const onH = Math.floor(totalOnSeconds / 3600);
+  const onM = Math.floor((totalOnSeconds % 3600) / 60);
+  const offH = Math.floor(totalOffSeconds / 3600);
+  const offM = Math.floor((totalOffSeconds % 3600) / 60);
+
+  elTimeOn.textContent = `${onH}ч ${String(onM).padStart(2, '0')}м`;
+  elTimeOff.textContent = `${offH}ч ${String(offM).padStart(2, '0')}м`;
+  if (elPercentOn) elPercentOn.textContent = `${pctOn}% суток`;
+  if (elPercentOff) elPercentOff.textContent = `${pctOff}% суток`;
+  if (elOutageCount) elOutageCount.textContent = `${outageEvents}`;
+
+  if (elUptimeBadge) {
+    elUptimeBadge.textContent = `${pctOn}% со светом`;
+    if (pctOn < 80) {
+      elUptimeBadge.className = 'stats-uptime-badge warning';
+    } else {
+      elUptimeBadge.className = 'stats-uptime-badge';
+    }
+  }
+
+  if (elRatioOn) elRatioOn.style.width = `${pctOn}%`;
+  if (elRatioOff) elRatioOff.style.width = `${pctOff}%`;
+
+  renderHeatmap(historyData);
+}
+
+let cachedDailyStats = {};
+try {
+  const saved = localStorage.getItem('lightwidget_daily_stats');
+  if (saved) cachedDailyStats = JSON.parse(saved);
+} catch (e) {}
+
+function renderHeatmap(historyData, extraDailyStats) {
+  const grid = document.getElementById('heatmapGrid');
+  const monthsRow = document.getElementById('ghMonthsRow');
+  const badge = document.getElementById('heatmapSummaryBadge');
+  if (!grid) return;
+
+  grid.innerHTML = '';
+  if (monthsRow) monthsRow.innerHTML = '';
+
+  const ruMonths = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
+  const now = new Date();
+  const numWeeks = 18;
+  const currentDayOfWeek = (now.getDay() + 6) % 7;
+
+  const historyMap = Object.assign({}, cachedDailyStats, extraDailyStats || {});
+
+  if (Array.isArray(historyData)) {
+    historyData.forEach(item => {
+      const itemDateStr = (item.timestamp || item.updated_at || '').split('T')[0];
+      if (itemDateStr) {
+        if (!historyMap[itemDateStr]) historyMap[itemDateStr] = { count: 0, offSec: 0, recorded: true };
+        if (item.status === 'OFF') {
+          historyMap[itemDateStr].count++;
+          const total = item.total_seconds || (item.end_timestamp && item.start_timestamp ? (item.end_timestamp - item.start_timestamp) : 0);
+          historyMap[itemDateStr].offSec += (total > 0 ? total : 3600);
+        }
+      }
+    });
+  }
+
+  const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  if (!historyMap[todayKey]) {
+    historyMap[todayKey] = { count: 0, offSec: 0, recorded: true };
+  }
+  if (currentState && (currentState.status === 'OFF' || currentState.is_outage === true)) {
+    historyMap[todayKey].count = Math.max(1, historyMap[todayKey].count);
+    const elapsed = currentState.elapsed_seconds || 3600;
+    if (historyMap[todayKey].offSec < elapsed) {
+      historyMap[todayKey].offSec = elapsed;
+    }
+  }
+
+  Object.assign(cachedDailyStats, historyMap);
+  try { localStorage.setItem('lightwidget_daily_stats', JSON.stringify(cachedDailyStats)); } catch (e) {}
+
+  let totalDaysWithOutages = 0;
+  let lastMonthLabelCol = -4;
+
+  for (let w = 0; w < numWeeks; w++) {
+    const weekStartOffset = (numWeeks - 1 - w) * 7 + currentDayOfWeek;
+    const weekStartDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - weekStartOffset);
+    const mIdx = weekStartDate.getMonth();
+    const monthName = ruMonths[mIdx];
+
+    if (monthsRow && (w === 0 || (w - lastMonthLabelCol >= 3 && weekStartDate.getDate() <= 7))) {
+      const mSpan = document.createElement('span');
+      mSpan.className = 'gh-month-label';
+      mSpan.style.gridColumn = `${w + 1}`;
+      mSpan.textContent = monthName;
+      monthsRow.appendChild(mSpan);
+      lastMonthLabelCol = w;
+    }
+
+    for (let d = 0; d < 7; d++) {
+      const dayIndex = w * 7 + d;
+      const daysFromToday = dayIndex - (numWeeks * 7 - 1 - (6 - currentDayOfWeek));
+      const targetDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + daysFromToday);
+      const isFuture = daysFromToday > 0;
+      const isToday = daysFromToday === 0;
+
+      const dateKey = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, '0')}-${String(targetDate.getDate()).padStart(2, '0')}`;
+      const dateFormatted = `${targetDate.getDate()} ${ruMonths[targetDate.getMonth()]}`;
+
+      const cell = document.createElement('div');
+      cell.className = 'gh-cell';
+
+      if (isFuture) {
+        cell.style.opacity = '0';
+        cell.style.pointerEvents = 'none';
+      } else {
+        const hist = historyMap[dateKey];
+        let lvl = 'gh-lvl-empty';
+        let tip = `${dateFormatted}: Нет зафиксированных данных`;
+
+        if (isToday) {
+          if (hist && hist.offSec > 0) {
+            totalDaysWithOutages++;
+            const offHours = Math.round((hist.offSec / 3600) * 10) / 10;
+            lvl = hist.offSec > 4 * 3600 ? 'gh-lvl-red' : 'gh-lvl-amber';
+            tip = `${dateFormatted} (Сегодня): Отключение ~${offHours}ч`;
+          } else {
+            lvl = 'gh-lvl-green';
+            tip = `${dateFormatted} (Сегодня): Свет есть • Сеть активна`;
+          }
+        } else if (hist && hist.recorded) {
+          const offSec = hist.offSec || 0;
+          const offHours = Math.round((offSec / 3600) * 10) / 10;
+          if (offSec > 4 * 3600) {
+            totalDaysWithOutages++;
+            lvl = 'gh-lvl-red';
+            tip = `${dateFormatted}: Без света ${offHours}ч (Длительное отключение)`;
+          } else if (offSec > 0) {
+            totalDaysWithOutages++;
+            lvl = 'gh-lvl-amber';
+            tip = `${dateFormatted}: Без света ${offHours}ч (Плановые работы)`;
+          } else {
+            lvl = 'gh-lvl-green';
+            tip = `${dateFormatted}: Свет был весь день (100%)`;
+          }
+        }
+
+        cell.classList.add(lvl);
+        cell.setAttribute('title', tip);
+      }
+
+      grid.appendChild(cell);
+    }
+  }
+
+  if (badge) {
+    if (totalDaysWithOutages === 0) {
+      badge.textContent = '100% стабильно';
+      badge.className = 'heatmap-summary-badge';
+    } else {
+      badge.textContent = `${totalDaysWithOutages} дн. с отключениями`;
+      badge.className = 'heatmap-summary-badge warning';
+    }
+  }
 }
 
 function setupWidgetModeListeners() {
@@ -422,6 +636,8 @@ let appSettings = {
   accent: localStorage.getItem('lightwidget_accent') || 'blue',
   showSeconds: localStorage.getItem('lightwidget_show_seconds') !== 'false',
   showPulse: localStorage.getItem('lightwidget_show_pulse') !== 'false',
+  showStats: localStorage.getItem('lightwidget_show_stats') !== 'false',
+  showHeatmap: localStorage.getItem('lightwidget_show_heatmap') !== 'false',
   sound: localStorage.getItem('lightwidget_sound') !== 'false',
   banner: localStorage.getItem('lightwidget_banner') !== 'false',
 };
@@ -469,18 +685,44 @@ function applySettingsState() {
 
   const chkSec = document.getElementById('settingShowSeconds');
   const chkPulse = document.getElementById('settingShowPulse');
+  const chkStats = document.getElementById('settingShowStats');
+  const chkHeatmap = document.getElementById('settingShowHeatmap');
   const chkSound = document.getElementById('settingSound');
   const chkBanner = document.getElementById('settingBanner');
 
   const isSec = (appSettings.showSeconds === true || appSettings.showSeconds === 'true');
   const isPulse = (appSettings.showPulse === true || appSettings.showPulse === 'true');
+  const isStats = (appSettings.showStats === true || appSettings.showStats === 'true');
+  const isHeatmap = (appSettings.showHeatmap === true || appSettings.showHeatmap === 'true');
   const isSound = (appSettings.sound === true || appSettings.sound === 'true');
   const isBanner = (appSettings.banner === true || appSettings.banner === 'true');
 
   if (chkSec) chkSec.checked = isSec;
   if (chkPulse) chkPulse.checked = isPulse;
+  if (chkStats) chkStats.checked = isStats;
+  if (chkHeatmap) chkHeatmap.checked = isHeatmap;
   if (chkSound) chkSound.checked = isSound;
   if (chkBanner) chkBanner.checked = isBanner;
+
+  const statsCard = document.getElementById('statsCard');
+  const heatmapCard = document.getElementById('activityHeatmapCard');
+  const bottomGrid = document.querySelector('.monitor-bottom-grid');
+
+  if (statsCard) statsCard.style.display = isStats ? 'flex' : 'none';
+  if (heatmapCard) heatmapCard.style.display = isHeatmap ? 'flex' : 'none';
+
+  if (bottomGrid) {
+    if (!isStats && !isHeatmap) {
+      bottomGrid.style.display = 'none';
+    } else {
+      bottomGrid.style.display = 'grid';
+      if (isStats && isHeatmap) {
+        bottomGrid.style.gridTemplateColumns = '1fr 1fr';
+      } else {
+        bottomGrid.style.gridTemplateColumns = '1fr';
+      }
+    }
+  }
 
   if (elBrandStatusDot) {
     if (!isPulse) {
@@ -527,6 +769,30 @@ function setupSettings() {
     });
   }
 
+  const chkStats = document.getElementById('settingShowStats');
+  if (chkStats) {
+    chkStats.addEventListener('change', () => {
+      appSettings.showStats = chkStats.checked;
+      localStorage.setItem('lightwidget_show_stats', chkStats.checked);
+      applySettingsState();
+      if (window.pywebview?.api?.save_config) {
+        window.pywebview.api.save_config({ appearance: { show_stats: chkStats.checked } });
+      }
+    });
+  }
+
+  const chkHeatmap = document.getElementById('settingShowHeatmap');
+  if (chkHeatmap) {
+    chkHeatmap.addEventListener('change', () => {
+      appSettings.showHeatmap = chkHeatmap.checked;
+      localStorage.setItem('lightwidget_show_heatmap', chkHeatmap.checked);
+      applySettingsState();
+      if (window.pywebview?.api?.save_config) {
+        window.pywebview.api.save_config({ appearance: { show_heatmap: chkHeatmap.checked } });
+      }
+    });
+  }
+
   const chkPulse = document.getElementById('settingShowPulse');
   if (chkPulse) {
     chkPulse.addEventListener('change', () => {
@@ -568,12 +834,16 @@ function setupSettings() {
       appSettings.accent = 'blue';
       appSettings.showSeconds = true;
       appSettings.showPulse = true;
+      appSettings.showStats = true;
+      appSettings.showHeatmap = true;
       appSettings.sound = true;
       appSettings.banner = true;
       localStorage.removeItem('lightwidget_theme');
       localStorage.removeItem('lightwidget_accent');
       localStorage.removeItem('lightwidget_show_seconds');
       localStorage.removeItem('lightwidget_show_pulse');
+      localStorage.removeItem('lightwidget_show_stats');
+      localStorage.removeItem('lightwidget_show_heatmap');
       localStorage.removeItem('lightwidget_sound');
       localStorage.removeItem('lightwidget_banner');
       applySettingsState();
@@ -684,8 +954,6 @@ function setupEventListeners() {
     btnRefreshStatus.addEventListener('click', async () => {
       if (btnRefreshStatus.classList.contains('is-refreshing')) return;
       btnRefreshStatus.classList.add('is-refreshing');
-      const startTime = Date.now();
-      const cycleMs = 750;
 
       try {
         if (window.pywebview?.api) {
@@ -698,15 +966,8 @@ function setupEventListeners() {
       } catch (err) {
         console.error('Sync error:', err);
       } finally {
-        const elapsed = Date.now() - startTime;
-
-        const targetDuration = Math.max(cycleMs * 2, Math.ceil(elapsed / cycleMs) * cycleMs);
-        const remaining = Math.max(0, targetDuration - elapsed);
-
-        setTimeout(() => {
-          btnRefreshStatus.classList.remove('is-refreshing');
-          showToast('Синхронизировано');
-        }, remaining);
+        btnRefreshStatus.classList.remove('is-refreshing');
+        showToast('Синхронизировано');
       }
     });
   }
@@ -849,7 +1110,15 @@ function setupEventListeners() {
 
 async function loadHistory() {
   if (!window.pywebview?.api) return;
-  const history = await window.pywebview.api.get_history();
+  const [history, dailyStats] = await Promise.all([
+    window.pywebview.api.get_history ? window.pywebview.api.get_history() : [],
+    window.pywebview.api.get_daily_stats ? window.pywebview.api.get_daily_stats() : {}
+  ]);
+  if (dailyStats && typeof dailyStats === 'object') {
+    Object.assign(cachedDailyStats, dailyStats);
+    try { localStorage.setItem('lightwidget_daily_stats', JSON.stringify(cachedDailyStats)); } catch (e) {}
+  }
+  if (Array.isArray(history)) updateNetworkStats(history);
   if (!history || history.length === 0) {
     historyList.innerHTML = '<div class="history-empty">История отключений пока пуста.</div>';
     return;
@@ -888,6 +1157,7 @@ async function loadIPhoneData() {
 }
 
 window.onStateUpdatedFromPython = function(state) {
+  if (btnRefreshStatus) btnRefreshStatus.classList.remove('is-refreshing');
   renderState(state);
 };
 
@@ -996,7 +1266,207 @@ async function initApp() {
     }
 
     loadIPhoneData();
+
+    setTimeout(() => {
+      checkAppUpdates(false);
+    }, 2000);
   } catch (e) {
     console.error('Init error:', e);
   }
 }
+
+/* ==========================================================================
+   Auto-Update System Logic
+   ========================================================================== */
+
+const updateNavDot = document.getElementById('updateNavDot');
+const updateHeroCard = document.getElementById('updateHeroCard');
+const updateHeroIconWrap = document.getElementById('updateHeroIconWrap');
+const updateHeroIcon = document.getElementById('updateHeroIcon');
+const updateStatusTitle = document.getElementById('updateStatusTitle');
+const updateVersionTag = document.getElementById('updateVersionTag');
+const updateStatusDesc = document.getElementById('updateStatusDesc');
+
+const updateCommitCard = document.getElementById('updateCommitCard');
+const updateCommitHash = document.getElementById('updateCommitHash');
+const updateCommitMessage = document.getElementById('updateCommitMessage');
+const updateCommitAuthorName = document.getElementById('updateCommitAuthorName');
+const updateCommitDateStr = document.getElementById('updateCommitDateStr');
+const updateCommitLink = document.getElementById('updateCommitLink');
+
+const updateProgressCard = document.getElementById('updateProgressCard');
+const updateStageLabel = document.getElementById('updateStageLabel');
+const updatePercentLabel = document.getElementById('updatePercentLabel');
+const updateProgressFill = document.getElementById('updateProgressFill');
+const updateProgressSub = document.getElementById('updateProgressSub');
+
+const btnCheckUpdates = document.getElementById('btnCheckUpdates');
+const btnPerformUpdate = document.getElementById('btnPerformUpdate');
+
+let isUpdating = false;
+
+async function checkAppUpdates(showToastOnClean = false) {
+  if (!window.pywebview?.api?.check_for_updates) return;
+  
+  const spinIcon = btnCheckUpdates?.querySelector('.spin-icon');
+  if (spinIcon) spinIcon.classList.add('is-spinning');
+  if (btnCheckUpdates) btnCheckUpdates.disabled = true;
+
+  try {
+    const res = await window.pywebview.api.check_for_updates();
+    console.log('[Updater] Check response:', res);
+
+    if (res && res.success) {
+      const localShort = res.local?.short_sha || 'local';
+      if (updateVersionTag) updateVersionTag.textContent = `#${localShort}`;
+
+      if (res.has_update && res.remote) {
+        // Update available
+        if (updateNavDot) updateNavDot.style.display = 'block';
+        if (updateHeroCard) updateHeroCard.classList.add('has-update');
+        
+        if (updateHeroIconWrap) {
+          updateHeroIconWrap.innerHTML = `
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+              <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
+              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+            </svg>
+          `;
+        }
+
+        if (updateStatusTitle) updateStatusTitle.textContent = 'Доступно обновление!';
+        if (updateStatusDesc) updateStatusDesc.textContent = `Доступна новая версия (#${res.remote.short_sha}) на GitHub`;
+
+        if (updateCommitCard) updateCommitCard.style.display = 'block';
+        if (updateCommitHash) updateCommitHash.textContent = `#${res.remote.short_sha}`;
+        if (updateCommitMessage) updateCommitMessage.textContent = res.remote.message || 'Без описания';
+        if (updateCommitAuthorName) updateCommitAuthorName.textContent = res.remote.author || 'Разработчик';
+        if (updateCommitDateStr) {
+          const d = res.remote.date ? new Date(res.remote.date) : new Date();
+          updateCommitDateStr.textContent = `${d.toLocaleDateString()} ${d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}`;
+        }
+        if (updateCommitLink && res.remote.url) {
+          updateCommitLink.href = res.remote.url;
+        }
+
+        if (btnPerformUpdate) {
+          btnPerformUpdate.style.display = 'inline-flex';
+          btnPerformUpdate.innerHTML = `
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Обновить до #${res.remote.short_sha}
+          `;
+        }
+        showToast(`Доступно обновление #${res.remote.short_sha}`);
+      } else {
+        // Up to date
+        if (updateNavDot) updateNavDot.style.display = 'none';
+        if (updateHeroCard) updateHeroCard.classList.remove('has-update');
+        
+        if (updateHeroIconWrap) {
+          updateHeroIconWrap.innerHTML = `
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <path d="m9 12 2 2 4-4"></path>
+            </svg>
+          `;
+        }
+
+        if (updateStatusTitle) updateStatusTitle.textContent = 'У вас установлена последняя версия';
+        if (updateStatusDesc) updateStatusDesc.textContent = `Текущий коммит: #${localShort} • Приложение актуально`;
+
+        if (updateCommitCard) updateCommitCard.style.display = 'none';
+        if (btnPerformUpdate) btnPerformUpdate.style.display = 'none';
+
+        if (showToastOnClean) showToast('У вас установлена последняя версия');
+      }
+    } else {
+      if (updateStatusTitle) updateStatusTitle.textContent = 'Статус обновлений';
+      if (updateStatusDesc) updateStatusDesc.textContent = res?.error || 'Не удалось проверить обновления';
+      if (showToastOnClean) showToast('Не удалось связаться с GitHub');
+    }
+  } catch (err) {
+    console.error('[Updater] check error:', err);
+  } finally {
+    if (spinIcon) spinIcon.classList.remove('is-spinning');
+    if (btnCheckUpdates) btnCheckUpdates.disabled = false;
+  }
+}
+
+async function setProgressStage(percent, stageText, subText) {
+  if (updateProgressFill) updateProgressFill.style.width = `${percent}%`;
+  if (updatePercentLabel) updatePercentLabel.textContent = `${Math.round(percent)}%`;
+  if (stageText && updateStageLabel) updateStageLabel.textContent = stageText;
+  if (subText && updateProgressSub) updateProgressSub.textContent = subText;
+}
+
+async function startUpdateProcess() {
+  if (isUpdating) return;
+  isUpdating = true;
+
+  if (btnPerformUpdate) btnPerformUpdate.disabled = true;
+  if (btnCheckUpdates) btnCheckUpdates.disabled = true;
+  if (updateProgressCard) updateProgressCard.style.display = 'block';
+
+  try {
+    // Stage 1: Connecting
+    await setProgressStage(15, 'Подключение к GitHub...', 'Проверка ветки main...');
+    await new Promise(r => setTimeout(r, 450));
+
+    // Stage 2: Pulling repository
+    await setProgressStage(35, 'Загрузка обновлений (git pull)...', 'Скачивание измененных файлов...');
+    
+    let pullResult = null;
+    if (window.pywebview?.api?.perform_update) {
+      pullResult = await window.pywebview.api.perform_update();
+    }
+    await new Promise(r => setTimeout(r, 400));
+
+    if (pullResult && pullResult.success === false) {
+      await setProgressStage(100, 'Ошибка обновления', pullResult.error || 'Проверьте соединение с интернетом');
+      if (updateProgressCard) updateProgressCard.style.borderColor = '#ff453a';
+      showToast('Ошибка при загрузке обновления');
+      isUpdating = false;
+      if (btnPerformUpdate) btnPerformUpdate.disabled = false;
+      if (btnCheckUpdates) btnCheckUpdates.disabled = false;
+      return;
+    }
+
+    // Stage 3: Applying files
+    await setProgressStage(70, 'Применение изменений...', 'Обновление интерфейса и скриптов...');
+    await new Promise(r => setTimeout(r, 500));
+
+    await setProgressStage(90, 'Финализация...', 'Сборка и подготовка к запуску...');
+    await new Promise(r => setTimeout(r, 450));
+
+    // Stage 4: Ready to restart
+    await setProgressStage(100, 'Готово! Перезапуск...', 'Приложение перезапускается через мгновение...');
+    showToast('Обновление завершено! Перезапуск...');
+    await new Promise(r => setTimeout(r, 600));
+
+    // Trigger restart
+    if (window.pywebview?.api?.restart_app) {
+      await window.pywebview.api.restart_app();
+    }
+  } catch (err) {
+    console.error('[Updater] update failed:', err);
+    await setProgressStage(100, 'Ошибка обновления', String(err));
+    isUpdating = false;
+    if (btnPerformUpdate) btnPerformUpdate.disabled = false;
+    if (btnCheckUpdates) btnCheckUpdates.disabled = false;
+  }
+}
+
+if (btnCheckUpdates) {
+  btnCheckUpdates.addEventListener('click', () => {
+    checkAppUpdates(true);
+  });
+}
+
+if (btnPerformUpdate) {
+  btnPerformUpdate.addEventListener('click', () => {
+    startUpdateProcess();
+  });
+}
+

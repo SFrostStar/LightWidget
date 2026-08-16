@@ -9,6 +9,7 @@ from core.parser import parse_message
 from core.api_server import APIServer, get_local_ip
 from core.telegram_service import TelegramService
 from core.notifier import send_macos_notification
+from core.updater import UpdateManager
 
 def get_resource_path(relative_path):
     if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
@@ -20,11 +21,12 @@ INDEX_PATH = os.path.join(UI_DIR, "index.html")
 IOS_SCRIPT_PATH = get_resource_path(os.path.join("ios", "widget_ios.js"))
 
 class ApiBridge:
-    def __init__(self, config_mgr, storage_mgr, tg_service, window=None):
+    def __init__(self, config_mgr: ConfigManager, storage_mgr: StorageManager, tg_service: TelegramService, window=None):
         self.config_mgr = config_mgr
         self.storage_mgr = storage_mgr
         self.tg_service = tg_service
         self.window = window
+        self.update_mgr = UpdateManager()
 
     def set_window(self, window):
         self.window = window
@@ -86,10 +88,23 @@ class ApiBridge:
         return True
 
     def get_history(self):
-        return self.storage_mgr.get_history()
+        return self.storage_mgr.get_history(limit=500)
+
+    def get_daily_stats(self):
+        return self.storage_mgr.load_daily_stats()
 
     def clear_history(self):
         return self.storage_mgr.clear_history()
+
+    def check_for_updates(self):
+        return self.update_mgr.check_updates()
+
+    def perform_update(self):
+        return self.update_mgr.pull_update()
+
+    def restart_app(self):
+        self.update_mgr.restart_application()
+        return True
 
     def get_iphone_info(self):
         local_ip = get_local_ip()
@@ -283,6 +298,8 @@ def main():
         accent = appr.get("accent", "blue")
         show_sec = "true" if appr.get("show_seconds", True) else "false"
         show_pls = "true" if appr.get("show_pulse", True) else "false"
+        show_stats = "true" if appr.get("show_stats", True) else "false"
+        show_hmap = "true" if appr.get("show_heatmap", True) else "false"
         sound = "true" if notif.get("sound", True) else "false"
         banner = "true" if notif.get("banner", True) else "false"
 
@@ -296,6 +313,8 @@ def main():
                         if (window.appSettings) {{
                             window.appSettings.showSeconds = {show_sec};
                             window.appSettings.showPulse = {show_pls};
+                            window.appSettings.showStats = {show_stats};
+                            window.appSettings.showHeatmap = {show_hmap};
                             window.appSettings.sound = {sound};
                             window.appSettings.banner = {banner};
                         }}

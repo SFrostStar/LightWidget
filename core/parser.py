@@ -57,8 +57,31 @@ def parse_datetime(dt_str):
 
     return None
 
+def is_menu_service_message(text: str) -> bool:
+    if not text:
+        return False
+    t = text.strip().lower()
+    menu_patterns = [
+        r"^/?start$",
+        r"оберіть\s+(потрібний\s+розділ|тип\s+об'єкта|особовий\s+рахунок)",
+        r"натиснувши\s+кнопку\s+нижче",
+        r"вітаємо\s+у\s+чат-боті",
+        r"^💡\s*можливі\s+відключення",
+        r"^можливі\s+відключення",
+        r"^☰\s*меню",
+        r"^повідомити\s+про\s+відсутність\s+світла",
+        r"^головне\s+меню",
+    ]
+    for pat in menu_patterns:
+        if re.search(pat, t):
+            return True
+    return False
+
 def parse_single_block(text_clean: str) -> dict:
     if not text_clean or len(text_clean.strip()) < 5:
+        return None
+
+    if is_menu_service_message(text_clean):
         return None
 
     is_no_outage = bool(re.search(r"(не\s+зафіксовано\s+відключень|відключень\s+не\s+зафіксовано|немає\s+відключень|відключення\s+відсутні|наразі\s+не\s+зафіксовано|подати\s+заявку\s+на\s+відсутність\s+світла|повідомити\s+про\s+відсутність\s+світла)", text_clean, re.IGNORECASE))

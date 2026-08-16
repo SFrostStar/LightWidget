@@ -17,7 +17,9 @@
     "theme": "midnight",
     "accent": "blue",
     "show_seconds": true,
-    "show_pulse": true
+    "show_pulse": true,
+    "show_stats": true,
+    "show_heatmap": true
   },
   "notifications": {
     "sound": true,

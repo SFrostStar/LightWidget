@@ -88,6 +88,13 @@
           </svg>
           Настройки
         </button>
+        <button class="nav-tab nav-tab-updates" data-tab="updates" id="navTabUpdates">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+          </svg>
+          Обновления
+          <span class="update-nav-dot" id="updateNavDot" style="display: none;"></span>
+        </button>
       </nav>
 
       <div class="window-controls">
@@ -173,6 +180,85 @@
                 <button class="minimal-toggle-btn" id="btnToggleAccount" type="button" title="Показать / скрыть">
                   <span id="accountToggleText">Показать</span>
                 </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="monitor-bottom-grid">
+            <div class="stats-overview-card" id="statsCard">
+              <div class="stats-card-header">
+                <div class="stats-title-group">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg>
+                  <span>Статистика за 24ч</span>
+                </div>
+                <span class="stats-uptime-badge" id="statsUptimeBadge">100% со светом</span>
+              </div>
+
+              <div class="stats-grid">
+                <div class="stats-item">
+                  <div class="stats-item-label">
+                    <span class="stat-dot on"></span>
+                    <span>Со светом</span>
+                  </div>
+                  <div class="stats-item-value on" id="statsTimeOn">24ч 00м</div>
+                  <div class="stats-item-sub" id="statsPercentOn">100% суток</div>
+                </div>
+
+                <div class="stats-item">
+                  <div class="stats-item-label">
+                    <span class="stat-dot off"></span>
+                    <span>Без света</span>
+                  </div>
+                  <div class="stats-item-value off" id="statsTimeOff">0ч 00м</div>
+                  <div class="stats-item-sub" id="statsPercentOff">0% суток</div>
+                </div>
+
+                <div class="stats-item">
+                  <div class="stats-item-label">
+                    <span class="stat-dot warn"></span>
+                    <span>Отключений</span>
+                  </div>
+                  <div class="stats-item-value" id="statsOutageCount">0</div>
+                  <div class="stats-item-sub">за 24 часа</div>
+                </div>
+              </div>
+
+              <div class="stats-ratio-bar">
+                <div class="stats-ratio-fill on" id="ratioFillOn" style="width: 100%;"></div>
+                <div class="stats-ratio-fill off" id="ratioFillOff" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <div class="activity-heatmap-card" id="activityHeatmapCard">
+              <div class="stats-card-header">
+                <div class="stats-title-group">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                  <span>Активность сети</span>
+                </div>
+                <span class="heatmap-summary-badge" id="heatmapSummaryBadge">100% стабильно</span>
+              </div>
+
+              <div class="github-graph-container">
+                <div class="gh-days-col">
+                  <span>Пн</span>
+                  <span>Ср</span>
+                  <span>Пт</span>
+                </div>
+                <div class="gh-matrix-wrapper">
+                  <div class="gh-months-row" id="ghMonthsRow"></div>
+                  <div class="gh-heatmap-matrix" id="heatmapGrid"></div>
+                </div>
+              </div>
+
+              <div class="heatmap-footer">
+                <span class="heatmap-legend-label">Отключение</span>
+                <div class="heatmap-legend-cells">
+                  <span class="gh-cell gh-lvl-red" title="Длительное отключение (>4ч)"></span>
+                  <span class="gh-cell gh-lvl-amber" title="Плановые работы (1-4ч)"></span>
+                  <span class="gh-cell gh-lvl-empty" title="Начало фиксации"></span>
+                  <span class="gh-cell gh-lvl-green" title="Свет есть (100%)"></span>
+                </div>
+                <span class="heatmap-legend-label">Свет есть</span>
               </div>
             </div>
           </div>
@@ -454,6 +540,28 @@
 
               <div class="toggle-item">
                 <div class="toggle-info">
+                  <span class="toggle-title">Статистика за 24 часа</span>
+                  <span class="toggle-desc">Показывать блок со статистикой аптайма на главном экране</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="settingShowStats" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">График активности сети</span>
+                  <span class="toggle-desc">Показывать GitHub-style сетку стабильности сети</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="settingShowHeatmap" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-item">
+                <div class="toggle-info">
                   <span class="toggle-title">Пульсирующий индикатор электросети</span>
                   <span class="toggle-desc">Мягкая пульсация точки статуса в шапке</span>
                 </div>
@@ -491,6 +599,75 @@
             <button class="secondary-btn" id="btnResetSettings" type="button">Сбросить по умолчанию</button>
           </div>
 
+        </div>
+      </section>
+
+      <section class="tab-pane" id="tab-updates">
+        <div class="updates-container">
+          <div class="panel-header">
+            <h2>Центр обновлений</h2>
+            <p>Автоматическая проверка новых коммитов и обновление в 1 клик</p>
+          </div>
+
+          <div class="update-hero-card" id="updateHeroCard">
+            <div class="update-hero-icon-wrap" id="updateHeroIconWrap">
+              <svg class="update-hero-icon" id="updateHeroIcon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+            </div>
+            <div class="update-hero-content">
+              <div class="update-hero-top">
+                <span class="update-status-title" id="updateStatusTitle">Проверка наличия обновлений...</span>
+                <span class="update-version-tag" id="updateVersionTag">HEAD</span>
+              </div>
+              <p class="update-status-desc" id="updateStatusDesc">Подключение к GitHub репозиторию...</p>
+            </div>
+          </div>
+
+          <div class="update-commit-card" id="updateCommitCard" style="display: none;">
+            <div class="update-commit-header">
+              <span class="commit-badge">Свежий коммит</span>
+              <span class="commit-hash" id="updateCommitHash">#828115e</span>
+            </div>
+            <div class="commit-msg" id="updateCommitMessage">Загрузка информации об изменениях...</div>
+            <div class="commit-footer">
+              <span class="commit-author" id="updateCommitAuthor">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span id="updateCommitAuthorName">Автор</span>
+              </span>
+              <span class="commit-date" id="updateCommitDate">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <span id="updateCommitDateStr">Дата</span>
+              </span>
+              <a href="#" class="commit-link" id="updateCommitLink" target="_blank" title="Открыть коммит на GitHub">
+                GitHub
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="update-progress-card" id="updateProgressCard" style="display: none;">
+            <div class="update-progress-top">
+              <span class="update-stage-label" id="updateStageLabel">Подготовка к обновлению...</span>
+              <span class="update-percent-label" id="updatePercentLabel">0%</span>
+            </div>
+            <div class="update-progress-track">
+              <div class="update-progress-fill" id="updateProgressFill" style="width: 0%;"></div>
+            </div>
+            <div class="update-progress-sub" id="updateProgressSub">Пожалуйста, не закрывайте программу</div>
+          </div>
+
+          <div class="update-actions-row">
+            <button class="primary-btn update-btn" id="btnPerformUpdate" type="button" style="display: none;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Обновить сейчас
+            </button>
+            <button class="secondary-btn" id="btnCheckUpdates" type="button">
+              <svg class="spin-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              Проверить обновления
+            </button>
+          </div>
         </div>
       </section>
 

@@ -1,5 +1,6 @@
 import asyncio
 import threading
+import time
 import os
 import re
 import traceback
@@ -153,15 +154,18 @@ class TelegramService:
         if not parsed:
             return None
 
+        if (not parsed.get("address") or parsed.get("address") == "Не указан") and cfg.get("filter_address"):
+            parsed["address"] = cfg.get("filter_address").strip()
+
         if filter_address:
             addr = parsed.get("address", "").lower()
             raw = text.lower()
-            if filter_address not in addr and filter_address not in raw:
+            if addr != "не указан" and filter_address not in addr and filter_address not in raw:
                 print(f"[TelegramService] Message ignored (filter '{filter_address}' not in address '{parsed.get('address')}')")
                 return None
 
-        if (not parsed.get("address") or parsed.get("address") == "Не указан") and cfg.get("filter_address"):
-            parsed["address"] = cfg.get("filter_address").strip()
+        prev_state = self.storage_manager.get_state()
+        prev_status = prev_state.get("status", "ON")
 
         self.storage_manager.save_state(parsed)
         self.storage_manager.add_history(parsed)
@@ -183,7 +187,7 @@ class TelegramService:
                 else:
                     snd = "Glass" if enable_sound else ""
                     send_macos_notification(
-                        "💡 Свет включен!",
+                        "💡 Свет есть!",
                         parsed['address'],
                         "Электросеть работает в штатном режиме.",
                         sound=snd
@@ -236,9 +240,45 @@ class TelegramService:
         async def _sync():
             try:
                 bot_username = self.config_manager.get("telegram", {}).get("bot_username", "dtek_odeski_elektromerezhi_bot")
+                entity = await self.client.get_entity(bot_username)
+                
+                print(f"[TelegramService] Sending '/start' to @{bot_username}...")
+                await self.client.send_message(entity, "/start")
+
+                await asyncio.sleep(1.2)
+
+                clicked = False
+                messages = await self.client.get_messages(entity, limit=4)
+                for msg in messages:
+                    if msg.buttons:
+                        for row in msg.buttons:
+                            for btn in row:
+                                btn_text = (btn.text or "").lower()
+                                if "можливі відключення" in btn_text or "відключен" in btn_text:
+                                    try:
+                                        print(f"[TelegramService] Clicking button: '{btn.text}'...")
+                                        await btn.click()
+                                        clicked = True
+                                        break
+                                    except Exception as be:
+                                        print(f"[TelegramService] Button click note: {be}")
+                            if clicked:
+                                break
+                    if clicked:
+                        break
+
+                if not clicked:
+                    print(f"[TelegramService] Sending '💡Можливі відключення' text...")
+                    await self.client.send_message(entity, "💡Можливі відключення")
+
+                await asyncio.sleep(1.5)
                 await self._fetch_recent_history(bot_username)
+
+                if self.on_state_updated:
+                    self.on_state_updated(self.storage_manager.get_state())
                 return {"success": True}
             except Exception as e:
+                print(f"[TelegramService] Sync error: {e}")
                 return {"success": False, "error": str(e)}
 
         future = asyncio.run_coroutine_threadsafe(_sync(), self.loop)
