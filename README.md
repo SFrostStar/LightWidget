@@ -12,12 +12,6 @@
 Откройте терминал и напишите "xattr -cr /Applications/LightWidget.app"
 Откройте программу
 ```
-Либо:
-```bash
-cd LightWidget
-python3 app.py
-```
-
 ---
 
 ## 📱 Настройка на iPhone
