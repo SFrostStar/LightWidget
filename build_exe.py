@@ -15,6 +15,8 @@ def build():
         '--clean',
         f'--add-data=ui{sep}ui',
         f'--add-data=ios{sep}ios',
+        f'--add-data=version.json{sep}.',
+        f'--add-data=core/notifier_bundle{sep}core/notifier_bundle',
         '--hidden-import=telethon',
         '--hidden-import=webview',
         '--hidden-import=urllib.request',
