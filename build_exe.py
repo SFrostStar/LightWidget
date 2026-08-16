@@ -46,6 +46,11 @@ def build():
     if sys.platform == 'darwin':
         app_path = os.path.join("dist", "LightWidget.app")
         if os.path.exists(app_path):
+            try:
+                subprocess.run(["codesign", "--force", "--deep", "--sign", "-", app_path], check=False)
+            except Exception:
+                pass
+
             staging_dir = "dist_dmg"
             if os.path.exists(staging_dir):
                 shutil.rmtree(staging_dir)
