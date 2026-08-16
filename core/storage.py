@@ -10,7 +10,7 @@ HISTORY_FILE = os.path.join(DATA_DIR, "history.json")
 DEFAULT_STATE = {
     "status": "ON",
     "is_outage": False,
-    "address": "м. Одеса, вул. Чайки Максима, 25",
+    "address": "Не указан",
     "reason": "Електромережі працюють у штатному режимі",
     "start_time_str": None,
     "end_time_str": None,

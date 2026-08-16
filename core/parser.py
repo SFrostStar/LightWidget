@@ -72,7 +72,7 @@ def parse_single_block(text_clean: str) -> dict:
     else:
         status = "OFF" if ("❗️" in text_clean or "⚠️" in text_clean) else "ON"
 
-    address = "м. Одеса, вул. Чайки Максима, 25"
+    address = "Не указан"
     addr_match = re.search(r"(?:Електропостачання\s+)?за адресою\s+(.+?)(?:\s+в\s+даний\s+момент|\s+зафіксовано|\s+змінено|\s+відновлено|\s+відсутня|\r?\n|$)", text_clean, re.IGNORECASE)
     if addr_match and "вашою адресою" not in addr_match.group(1).lower():
         address = addr_match.group(1).strip().rstrip('.,;')

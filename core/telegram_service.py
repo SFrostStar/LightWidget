@@ -160,6 +160,9 @@ class TelegramService:
                 print(f"[TelegramService] Message ignored (filter '{filter_address}' not in address '{parsed.get('address')}')")
                 return None
 
+        if (not parsed.get("address") or parsed.get("address") == "Не указан") and cfg.get("filter_address"):
+            parsed["address"] = cfg.get("filter_address").strip()
+
         self.storage_manager.save_state(parsed)
         self.storage_manager.add_history(parsed)
 

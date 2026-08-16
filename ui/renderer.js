@@ -268,7 +268,7 @@ const addrToggleText = document.getElementById('addrToggleText');
 const eyeIcon = document.getElementById('eyeIcon');
 
 function updateAddressDisplay() {
-  const fullAddress = currentState?.address || 'м. Одеса, вул. Чайки Максима, 25';
+  const fullAddress = currentState?.address || 'Не указан';
   if (isAddressRevealed) {
     elDetailAddress.textContent = fullAddress;
     elDetailAddress.className = 'info-val';
