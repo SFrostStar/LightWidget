@@ -1,0 +1,118 @@
+name: Build & Release (macOS DMG & Windows EXE)
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-macos:
+    name: Build macOS (.dmg)
+    runs-on: macos-13
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install telethon pywebview pyobjc pyinstaller
+
+      - name: Build macOS App & DMG
+        run: |
+          python build_exe.py
+
+      - name: Upload macOS DMG Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: LightWidget-macOS-DMG
+          path: dist/LightWidget-macOS.dmg
+          if-no-files-found: error
+
+  build-windows:
+    name: Build Windows (.exe)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install telethon pywebview pythonnet pyinstaller
+
+      - name: Build Single-File Executable (.exe)
+        run: |
+          python build_exe.py
+
+      - name: Upload Windows EXE Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: LightWidget-Windows-EXE
+          path: dist/LightWidget.exe
+          if-no-files-found: error
+
+  release:
+    name: Publish GitHub Release
+    needs: [build-macos, build-windows]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Download macOS Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: LightWidget-macOS-DMG
+          path: release_assets/
+
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: LightWidget-Windows-EXE
+          path: release_assets/
+
+      - name: Create or Update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v2.0
+          name: "⚡ LightWidget v2.0 (macOS & Windows)"
+          body: |
+            ## ⚡ LightWidget — Update 2.0
+
+            ### 📦 Файлы для загрузки:
+            * 🍏 **macOS:** Скачайте `LightWidget-macOS.dmg`, откройте образ и перетащите `LightWidget.app` в папку «Программы» (Applications).
+            * 🪟 **Windows:** Скачайте `LightWidget.exe` и запустите (установка не требуется).
+
+            ---
+
+            ### 🚀 Что нового в Update 2.0:
+            * **[+]** Поддержка круглосуточной автономной синхронизации 24/7 через облачный Render сервер.
+            * **[+]** Сквозное шифрование конфиденциальных данных и токенов (HMAC-SHA256).
+            * **[+]** Сохранение параметров отображения и уведомлений.
+            * **[+]** Автоматический KeepAlive механизм для сервера.
+            * **[/]** Полностью переработанный и стабилизированный компактный виджет для iOS (Scriptable).
+            * **[/]** Исправлены ошибки таймера и отображения статуса питания.
+            * **[/]** Улучшен контраст для светлых тем оформления.
+            * **[-]** Очистка кодовой базы и удаление лишних комментариев.
+          files: |
+            release_assets/LightWidget-macOS.dmg
+            release_assets/LightWidget.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
