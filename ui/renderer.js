@@ -1317,11 +1317,11 @@ async function checkAppUpdates(showToastOnClean = false) {
     console.log('[Updater] Check response:', res);
 
     if (res && res.success) {
-      const localShort = res.local?.short_sha || 'local';
-      if (updateVersionTag) updateVersionTag.textContent = `#${localShort}`;
+      const localTag = res.local?.tag || res.local?.version || 'v2.3.0';
+      if (updateVersionTag) updateVersionTag.textContent = localTag;
 
       if (res.has_update && res.remote) {
-        // Update available
+        // Release update available
         if (updateNavDot) updateNavDot.style.display = 'block';
         if (updateHeroCard) updateHeroCard.classList.add('has-update');
         
@@ -1336,13 +1336,13 @@ async function checkAppUpdates(showToastOnClean = false) {
           `;
         }
 
-        if (updateStatusTitle) updateStatusTitle.textContent = 'Доступно обновление!';
-        if (updateStatusDesc) updateStatusDesc.textContent = `Доступна новая версия (#${res.remote.short_sha}) на GitHub`;
+        if (updateStatusTitle) updateStatusTitle.textContent = `Доступен релиз ${res.remote.tag}!`;
+        if (updateStatusDesc) updateStatusDesc.textContent = res.remote.title || `Новая версия ${res.remote.tag} на GitHub`;
 
         if (updateCommitCard) updateCommitCard.style.display = 'block';
-        if (updateCommitHash) updateCommitHash.textContent = `#${res.remote.short_sha}`;
-        if (updateCommitMessage) updateCommitMessage.textContent = res.remote.message || 'Без описания';
-        if (updateCommitAuthorName) updateCommitAuthorName.textContent = res.remote.author || 'Разработчик';
+        if (updateCommitHash) updateCommitHash.textContent = res.remote.tag;
+        if (updateCommitMessage) updateCommitMessage.textContent = res.remote.message || 'Новые улучшения и исправления';
+        if (updateCommitAuthorName) updateCommitAuthorName.textContent = 'GitHub Release';
         if (updateCommitDateStr) {
           const d = res.remote.date ? new Date(res.remote.date) : new Date();
           updateCommitDateStr.textContent = `${d.toLocaleDateString()} ${d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}`;
@@ -1355,10 +1355,10 @@ async function checkAppUpdates(showToastOnClean = false) {
           btnPerformUpdate.style.display = 'inline-flex';
           btnPerformUpdate.innerHTML = `
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            Обновить до #${res.remote.short_sha}
+            Обновить до ${res.remote.tag}
           `;
         }
-        showToast(`Доступно обновление #${res.remote.short_sha}`);
+        showToast(`Доступен релиз ${res.remote.tag}`);
       } else {
         // Up to date
         if (updateNavDot) updateNavDot.style.display = 'none';
@@ -1373,8 +1373,8 @@ async function checkAppUpdates(showToastOnClean = false) {
           `;
         }
 
-        if (updateStatusTitle) updateStatusTitle.textContent = 'У вас установлена последняя версия';
-        if (updateStatusDesc) updateStatusDesc.textContent = `Текущий коммит: #${localShort} • Приложение актуально`;
+        if (updateStatusTitle) updateStatusTitle.textContent = `У вас установлена последняя версия (${localTag})`;
+        if (updateStatusDesc) updateStatusDesc.textContent = `Приложение полностью обновлено • ${res.local?.message || 'Актуальный релиз'}`;
 
         if (updateCommitCard) updateCommitCard.style.display = 'none';
         if (btnPerformUpdate) btnPerformUpdate.style.display = 'none';

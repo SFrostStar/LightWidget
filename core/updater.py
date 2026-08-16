@@ -28,33 +28,25 @@ class UpdateManager:
             pass
         return "SFrostStar/LightWidget"
 
-    def get_local_commit(self) -> dict:
-        # 1. Try git if repository is available
-        if os.path.exists(os.path.join(self.base_dir, ".git")):
-            try:
-                cmd = ["git", "rev-parse", "HEAD"]
-                res = subprocess.run(cmd, cwd=self.base_dir, capture_output=True, text=True, check=True)
-                sha = res.stdout.strip()
+    def _parse_version(self, v_str: str) -> tuple:
+        if not v_str:
+            return (0, 0, 0)
+        cleaned = v_str.strip().lower().lstrip("v")
+        # Extract digits like 2.3.0 -> (2, 3, 0)
+        parts = []
+        for p in cleaned.split("."):
+            num = ""
+            for ch in p:
+                if ch.isdigit():
+                    num += ch
+                else:
+                    break
+            parts.append(int(num) if num else 0)
+        while len(parts) < 3:
+            parts.append(0)
+        return tuple(parts[:3])
 
-                msg_cmd = ["git", "log", "-1", "--pretty=%B"]
-                msg_res = subprocess.run(msg_cmd, cwd=self.base_dir, capture_output=True, text=True)
-                msg = msg_res.stdout.strip() if msg_res.returncode == 0 else ""
-
-                date_cmd = ["git", "log", "-1", "--pretty=%cd", "--date=iso"]
-                date_res = subprocess.run(date_cmd, cwd=self.base_dir, capture_output=True, text=True)
-                date_str = date_res.stdout.strip() if date_res.returncode == 0 else ""
-
-                if sha:
-                    return {
-                        "sha": sha,
-                        "short_sha": sha[:7],
-                        "message": msg or "v2.3 / Update log",
-                        "date": date_str
-                    }
-            except Exception:
-                pass
-
-        # 2. Try reading version.json
+    def get_local_version(self) -> dict:
         v_paths = [
             os.path.join(self.base_dir, "version.json"),
             os.path.join(getattr(sys, '_MEIPASS', self.base_dir), "version.json"),
@@ -65,39 +57,28 @@ class UpdateManager:
                 try:
                     with open(vp, "r", encoding="utf-8") as f:
                         vdata = json.load(f)
-                        c = vdata.get("commit", "9541e3635184c7bb68fe4f49ff91f3e81f0a2ebe")
+                        ver = vdata.get("version", "2.3.0")
                         return {
-                            "sha": c,
-                            "short_sha": vdata.get("short_sha", c[:7]),
-                            "message": vdata.get("message", "v2.3 / Update log"),
+                            "version": ver,
+                            "tag": f"v{ver}" if not ver.startswith("v") else ver,
+                            "message": vdata.get("message", "LightWidget Release"),
                             "date": vdata.get("date", "2026-08-17")
                         }
                 except Exception:
                     pass
 
-        # 3. Fallback to current embedded release info
-        default_sha = "9541e3635184c7bb68fe4f49ff91f3e81f0a2ebe"
         return {
-            "sha": default_sha,
-            "short_sha": default_sha[:7],
-            "message": "v2.3 / Update log",
+            "version": "2.3.0",
+            "tag": "v2.3.0",
+            "message": "LightWidget Release",
             "date": "2026-08-17"
         }
 
     def check_updates(self) -> dict:
-        local_info = self.get_local_commit()
-        local_sha = local_info.get("sha", "")
+        local_info = self.get_local_version()
+        local_tag = local_info.get("tag", "v2.3.0")
+        local_v_tuple = self._parse_version(local_tag)
 
-        # 1. Primary check via git ls-remote (works with private/public and SSH/HTTPS credentials)
-        remote_sha = ""
-        try:
-            res = subprocess.run(["git", "ls-remote", "origin", "main"], cwd=self.base_dir, capture_output=True, text=True, timeout=6)
-            if res.returncode == 0 and res.stdout.strip():
-                remote_sha = res.stdout.strip().split()[0]
-        except Exception:
-            pass
-
-        # 2. If git ls-remote didn't return or we want rich commit metadata, query GitHub API
         headers = {
             "User-Agent": "LightWidget-AutoUpdater/1.0",
             "Accept": "application/vnd.github.v3+json"
@@ -108,57 +89,76 @@ class UpdateManager:
         except Exception:
             ctx = ssl._create_unverified_context()
 
-        remote_data = None
-        if self.repo_name:
-            url = f"https://api.github.com/repos/{self.repo_name}/commits/main"
+        releases_list = []
+        url = f"https://api.github.com/repos/{self.repo_name}/releases"
+        try:
+            req = urllib.request.Request(url, headers=headers)
             try:
-                req = urllib.request.Request(url, headers=headers)
-                try:
-                    with urllib.request.urlopen(req, context=ctx, timeout=5) as response:
-                        if response.status == 200:
-                            remote_data = json.loads(response.read().decode('utf-8'))
-                except Exception:
-                    uctx = ssl._create_unverified_context()
-                    with urllib.request.urlopen(req, context=uctx, timeout=5) as response:
-                        if response.status == 200:
-                            remote_data = json.loads(response.read().decode('utf-8'))
+                with urllib.request.urlopen(req, context=ctx, timeout=7) as response:
+                    if response.status == 200:
+                        releases_list = json.loads(response.read().decode('utf-8'))
             except Exception:
-                pass
+                uctx = ssl._create_unverified_context()
+                with urllib.request.urlopen(req, context=uctx, timeout=7) as response:
+                    if response.status == 200:
+                        releases_list = json.loads(response.read().decode('utf-8'))
+        except Exception as e:
+            print(f"[Updater] Releases fetch error: {e}")
 
-        if remote_data and "sha" in remote_data:
-            remote_sha = remote_data.get("sha", "")
-            commit_obj = remote_data.get("commit", {})
-            message = commit_obj.get("message", "").strip()
-            author_name = commit_obj.get("author", {}).get("name", "Разработчик")
-            commit_date = commit_obj.get("author", {}).get("date", "")
-            html_url = remote_data.get("html_url", "")
-        else:
-            message = f"Новые обновления в ветке main ({remote_sha[:7]})" if remote_sha else ""
-            author_name = "GitHub"
-            commit_date = ""
-            html_url = f"https://github.com/{self.repo_name}"
-
-        if not remote_sha:
+        if not releases_list or not isinstance(releases_list, list):
             return {
                 "success": False,
-                "error": "Не удалось связаться с удаленным репозиторием (проверьте интернет)",
+                "error": "Не удалось получить список релизов с GitHub",
                 "local": local_info,
                 "has_update": False
             }
 
-        has_update = bool(local_sha and remote_sha and local_sha != remote_sha and local_sha != "local")
+        # Filter out drafts
+        valid_releases = [r for r in releases_list if not r.get("draft", False) and r.get("tag_name") != "main"]
+        if not valid_releases:
+            valid_releases = [r for r in releases_list if not r.get("draft", False)]
+
+        if not valid_releases:
+            return {
+                "success": True,
+                "has_update": False,
+                "local": local_info,
+                "message": "Релизы не найдены"
+            }
+
+        latest_rel = valid_releases[0]
+        remote_tag = latest_rel.get("tag_name", "")
+        remote_title = latest_rel.get("name", remote_tag)
+        remote_body = latest_rel.get("body", "").strip()
+        published_date = latest_rel.get("published_at", "")
+        html_url = latest_rel.get("html_url", f"https://github.com/{self.repo_name}/releases")
+
+        # Find matching platform asset
+        assets = latest_rel.get("assets", [])
+        download_url = None
+        for a in assets:
+            name = a.get("name", "").lower()
+            if sys.platform == "win32" and name.endswith(".exe"):
+                download_url = a.get("browser_download_url")
+                break
+            elif sys.platform == "darwin" and (name.endswith(".dmg") or name.endswith(".zip")):
+                download_url = a.get("browser_download_url")
+                break
+
+        remote_v_tuple = self._parse_version(remote_tag)
+        has_update = bool(remote_tag and remote_v_tuple > local_v_tuple)
 
         return {
             "success": True,
             "has_update": has_update,
             "local": local_info,
             "remote": {
-                "sha": remote_sha,
-                "short_sha": remote_sha[:7] if remote_sha else "unknown",
-                "message": message,
-                "author": author_name,
-                "date": commit_date,
-                "url": html_url
+                "tag": remote_tag,
+                "title": remote_title,
+                "message": remote_body or f"Новый релиз {remote_tag}",
+                "date": published_date,
+                "url": html_url,
+                "download_url": download_url
             }
         }
 
