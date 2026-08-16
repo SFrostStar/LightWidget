@@ -21,6 +21,8 @@ def build():
     ]
     
     if sys.platform == 'win32':
+        if os.path.exists("ui/app_icon.ico"):
+            params.append('--icon=ui/app_icon.ico')
         params.extend([
             '--onefile',
             '--hidden-import=webview.platforms.winforms',
@@ -29,6 +31,8 @@ def build():
             '--hidden-import=pythonnet',
         ])
     else:
+        if os.path.exists("ui/AppIcon.icns"):
+            params.append('--icon=ui/AppIcon.icns')
         params.extend([
             '--hidden-import=objc',
             '--hidden-import=Cocoa',
@@ -46,6 +50,8 @@ def build():
             os.makedirs(staging_dir, exist_ok=True)
             
             shutil.copytree(app_path, os.path.join(staging_dir, "LightWidget.app"))
+            if os.path.exists("ui/AppIcon.icns"):
+                shutil.copyfile("ui/AppIcon.icns", os.path.join(staging_dir, ".VolumeIcon.icns"))
             try:
                 os.symlink("/Applications", os.path.join(staging_dir, "Applications"))
             except Exception:
