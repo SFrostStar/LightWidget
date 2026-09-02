@@ -57,18 +57,18 @@ class UpdateManager :
         os .path .join (getattr (sys ,'_MEIPASS',self .base_dir ),"version.json"),
         os .path .dirname (self .base_dir )if not os .path .exists (os .path .join (self .base_dir ,"version.json"))else self .base_dir
         ]
-        ver_str ="2.3.2"
-        msg_str ="LightWidget Release 2.3.2"
-        date_str ="2026-08-17"
+        ver_str ="2.3.3"
+        msg_str ="LightWidget Release 2.3.3"
+        date_str ="2026-09-02"
 
         for vp in [os .path .join (self .base_dir ,"version.json"),os .path .join (getattr (sys ,'_MEIPASS',self .base_dir ),"version.json")]:
             if os .path .exists (vp ):
                 try :
                     with open (vp ,"r",encoding ="utf-8")as f :
                         vdata =json .load (f )
-                        ver_str =str (vdata .get ("version","2.3.2"))
-                        msg_str =vdata .get ("message","LightWidget Release 2.3.2")
-                        date_str =vdata .get ("date","2026-08-17")
+                        ver_str =str (vdata .get ("version","2.3.3"))
+                        msg_str =vdata .get ("message","LightWidget Release 2.3.3")
+                        date_str =vdata .get ("date","2026-09-02")
                         break
                 except Exception :
                     pass
