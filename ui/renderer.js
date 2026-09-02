@@ -102,16 +102,46 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove('show'), 2500);
 }
 
-function setupTabs() {
-  navTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const target = tab.getAttribute('data-tab');
-      navTabs.forEach(t => t.classList.remove('active'));
-      tabPanes.forEach(p => p.classList.remove('active'));
+let currentTabIndex = 0;
 
+function setupTabs() {
+  const tabsArray = Array.from(navTabs);
+  tabsArray.forEach((tab, index) => {
+    if (tab.classList.contains('active')) {
+      currentTabIndex = index;
+    }
+    tab.addEventListener('click', () => {
+      if (tab.classList.contains('active')) return;
+      const target = tab.getAttribute('data-tab');
+      const nextPane = document.getElementById(`tab-${target}`);
+      if (!nextPane) return;
+
+      const newIndex = index;
+      const direction = newIndex > currentTabIndex ? 'right' : 'left';
+      currentTabIndex = newIndex;
+
+      const currentPane = document.querySelector('.tab-pane.active');
+
+      navTabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
-      const pane = document.getElementById(`tab-${target}`);
-      if (pane) pane.classList.add('active');
+
+      if (currentPane && currentPane !== nextPane) {
+        currentPane.classList.remove('slide-in-right', 'slide-in-left', 'slide-out-right', 'slide-out-left');
+        currentPane.classList.add(direction === 'right' ? 'slide-out-left' : 'slide-out-right');
+
+        nextPane.classList.remove('slide-in-right', 'slide-in-left', 'slide-out-right', 'slide-out-left');
+        nextPane.classList.add('active', direction === 'right' ? 'slide-in-right' : 'slide-in-left');
+
+        setTimeout(() => {
+          if (currentPane !== nextPane) {
+            currentPane.classList.remove('active', 'slide-out-left', 'slide-out-right');
+          }
+          nextPane.classList.remove('slide-in-right', 'slide-in-left');
+        }, 250);
+      } else {
+        tabPanes.forEach(p => p.classList.remove('active', 'slide-in-right', 'slide-in-left', 'slide-out-right', 'slide-out-left'));
+        nextPane.classList.add('active');
+      }
 
       if (target === 'history') loadHistory();
       if (target === 'iphone') loadIPhoneData();
@@ -139,13 +169,14 @@ function startSystemClock() {
 function updateCountdown() {
   if (!currentState || currentState.status !== 'OFF' || !currentState.end_timestamp) {
     if (elTimerDigits) {
-      elTimerDigits.innerHTML = '<span style="font-size: 30px; color: #30d158; font-weight: 800; letter-spacing: -0.5px;">СВЕТ ЕСТЬ</span>';
+      elTimerDigits.innerHTML = '<span class="status-heading-on"><span class="status-bolt">⚡</span> Свет есть</span>';
     }
     if (elProgressBarFill) elProgressBarFill.style.width = '100%';
     if (elProgressPercentText) elProgressPercentText.textContent = '100%';
     if (elTimerLabel) {
       elTimerLabel.textContent = 'Электросеть работает в штатном режиме';
-      elTimerLabel.style.color = '#30d158';
+      elTimerLabel.className = 'timer-subtitle status-sub-on';
+      elTimerLabel.style.color = '';
     }
 
     if (elLivePill) elLivePill.className = 'live-pill';
@@ -154,7 +185,7 @@ function updateCountdown() {
     if (elStatusLabel) elStatusLabel.textContent = 'СВЕТ ЕСТЬ';
 
     if (elBrandStatusDot) elBrandStatusDot.className = 'brand-status-dot on';
-    if (widgetCountdown) widgetCountdown.innerHTML = '<span style="font-size: 17px; color: #30d158; font-weight: 800; line-height: 1.1;">СВЕТ ЕСТЬ</span>';
+    if (widgetCountdown) widgetCountdown.innerHTML = '<span class="widget-heading-on">⚡ Свет есть</span>';
     if (widgetStatusText) widgetStatusText.textContent = 'СВЕТ ЕСТЬ';
     if (widgetStatusBadge) widgetStatusBadge.className = 'widget-status';
     if (widgetEndTime) widgetEndTime.textContent = 'стабильно';
@@ -184,11 +215,12 @@ function updateCountdown() {
     if (elBrandStatusDot) elBrandStatusDot.className = 'brand-status-dot on';
 
     if (elTimerDigits) {
-      elTimerDigits.innerHTML = `<span style="font-size: 30px; color: #30d158; font-weight: 800; letter-spacing: -0.5px;">СВЕТ ЕСТЬ</span>`;
+      elTimerDigits.innerHTML = '<span class="status-heading-on"><span class="status-bolt">⚡</span> Свет есть</span>';
     }
     if (elTimerLabel) {
       elTimerLabel.textContent = 'Время отключения завершено • Электросеть работает';
-      elTimerLabel.style.color = '#30d158';
+      elTimerLabel.className = 'timer-subtitle status-sub-on';
+      elTimerLabel.style.color = '';
     }
 
     if (elLivePill) elLivePill.className = 'live-pill';
@@ -197,7 +229,7 @@ function updateCountdown() {
     if (elStatusLabel) elStatusLabel.textContent = 'СВЕТ ЕСТЬ';
 
     if (widgetCountdown) {
-      widgetCountdown.innerHTML = `<span style="font-size: 17px; color: #30d158; font-weight: 800; line-height: 1.1;">СВЕТ ЕСТЬ</span>`;
+      widgetCountdown.innerHTML = '<span class="widget-heading-on">⚡ Свет есть</span>';
     }
     if (widgetStatusText) widgetStatusText.textContent = 'СВЕТ ЕСТЬ';
     if (widgetStatusBadge) widgetStatusBadge.className = 'widget-status';
@@ -247,6 +279,7 @@ function updateCountdown() {
   }
   if (elTimerLabel) {
     elTimerLabel.textContent = 'до ориентировочного включения';
+    elTimerLabel.className = 'timer-subtitle status-sub-off';
     elTimerLabel.style.color = '';
   }
 
@@ -643,6 +676,15 @@ let appSettings = {
 };
 window.appSettings = appSettings;
 
+const themeDefaultAccent = {
+  cyber: 'purple',
+  sapphire: 'cyan',
+  emerald: 'green',
+  amber: 'amber',
+  titanium: 'gold',
+  light: 'white'
+};
+
 function applyTheme(themeName, save = true) {
   if (!themeName) return;
   appSettings.theme = themeName;
@@ -655,9 +697,29 @@ function applyTheme(themeName, save = true) {
       card.classList.remove('active');
     }
   });
+
+  const accentGroup = document.getElementById('accentSettingsGroup');
+  let effectiveAccent = appSettings.accent;
+  if (accentGroup) {
+    if (themeName === 'midnight' || themeName === 'oled') {
+      accentGroup.classList.remove('is-hidden');
+      effectiveAccent = localStorage.getItem('lightwidget_accent') || 'blue';
+      applyAccent(effectiveAccent, false);
+    } else {
+      accentGroup.classList.add('is-hidden');
+      effectiveAccent = themeDefaultAccent[themeName] || 'blue';
+      applyAccent(effectiveAccent, false);
+    }
+  }
+
   localStorage.setItem('lightwidget_theme', themeName);
   if (save && window.pywebview?.api?.save_config) {
-    window.pywebview.api.save_config({ appearance: { theme: themeName } });
+    window.pywebview.api.save_config({
+      appearance: {
+        theme: themeName,
+        accent: effectiveAccent
+      }
+    });
   }
 }
 
@@ -673,9 +735,16 @@ function applyAccent(accentName, save = true) {
       swatch.classList.remove('active');
     }
   });
-  localStorage.setItem('lightwidget_accent', accentName);
+  if (appSettings.theme === 'midnight' || appSettings.theme === 'oled') {
+    localStorage.setItem('lightwidget_accent', accentName);
+  }
   if (save && window.pywebview?.api?.save_config) {
-    window.pywebview.api.save_config({ appearance: { accent: accentName } });
+    window.pywebview.api.save_config({
+      appearance: {
+        theme: appSettings.theme,
+        accent: accentName
+      }
+    });
   }
 }
 
@@ -1051,40 +1120,95 @@ function setupEventListeners() {
     });
   }
 
-  if (btnSubmitCode) {
-    btnSubmitCode.addEventListener('click', async () => {
-      const code = tgCodeInput.value.trim();
-      if (!code) return;
+  async function handleCodeSubmit() {
+    const code = tgCodeInput.value.trim();
+    if (!code) {
+      showToast('Введите код подтверждения');
+      return;
+    }
+    if (btnSubmitCode) {
+      btnSubmitCode.disabled = true;
+      btnSubmitCode.textContent = 'Проверка...';
+    }
+    try {
       if (window.pywebview?.api) {
         const res = await window.pywebview.api.submit_tg_code(code);
         if (res?.success) {
           showToast('Авторизация успешна!');
+          tgCodeInput.value = '';
           authCodePrompt.style.display = 'none';
           authPassPrompt.style.display = 'none';
         } else if (res?.requires_password) {
           showToast('Требуется 2FA пароль');
           authCodePrompt.style.display = 'none';
           authPassPrompt.style.display = 'block';
+          if (tgPassInput) tgPassInput.focus();
         } else {
           showToast(`Ошибка: ${res?.error || 'Неверный код'}`);
         }
       }
-    });
+    } catch (err) {
+      showToast(`Ошибка: ${err?.message || err}`);
+    } finally {
+      if (btnSubmitCode) {
+        btnSubmitCode.disabled = false;
+        btnSubmitCode.textContent = 'Подтвердить код';
+      }
+    }
   }
 
-  if (btnSubmitPass) {
-    btnSubmitPass.addEventListener('click', async () => {
-      const pass = tgPassInput.value;
-      if (!pass) return;
+  async function handlePassSubmit() {
+    const pass = tgPassInput.value;
+    if (!pass) {
+      showToast('Введите пароль 2FA');
+      return;
+    }
+    if (btnSubmitPass) {
+      btnSubmitPass.disabled = true;
+      btnSubmitPass.textContent = 'Вход...';
+    }
+    try {
       if (window.pywebview?.api) {
         const res = await window.pywebview.api.submit_tg_password(pass);
         if (res?.success) {
           showToast('2FA авторизация успешна!');
+          tgPassInput.value = '';
           authPassPrompt.style.display = 'none';
           authCodePrompt.style.display = 'none';
         } else {
           showToast(`Ошибка: ${res?.error || 'Неверный пароль'}`);
         }
+      }
+    } catch (err) {
+      showToast(`Ошибка: ${err?.message || err}`);
+    } finally {
+      if (btnSubmitPass) {
+        btnSubmitPass.disabled = false;
+        btnSubmitPass.textContent = 'Войти';
+      }
+    }
+  }
+
+  if (btnSubmitCode) {
+    btnSubmitCode.addEventListener('click', handleCodeSubmit);
+  }
+  if (tgCodeInput) {
+    tgCodeInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleCodeSubmit();
+      }
+    });
+  }
+
+  if (btnSubmitPass) {
+    btnSubmitPass.addEventListener('click', handlePassSubmit);
+  }
+  if (tgPassInput) {
+    tgPassInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handlePassSubmit();
       }
     });
   }
@@ -1110,37 +1234,45 @@ function setupEventListeners() {
 
 async function loadHistory() {
   if (!window.pywebview?.api) return;
-  const [history, dailyStats] = await Promise.all([
-    window.pywebview.api.get_history ? window.pywebview.api.get_history() : [],
-    window.pywebview.api.get_daily_stats ? window.pywebview.api.get_daily_stats() : {}
-  ]);
-  if (dailyStats && typeof dailyStats === 'object') {
-    Object.assign(cachedDailyStats, dailyStats);
-    try { localStorage.setItem('lightwidget_daily_stats', JSON.stringify(cachedDailyStats)); } catch (e) {}
-  }
-  if (Array.isArray(history)) updateNetworkStats(history);
-  if (!history || history.length === 0) {
-    historyList.innerHTML = '<div class="history-empty">История отключений пока пуста.</div>';
-    return;
-  }
+  try {
+    const history = window.pywebview.api.get_history ? await window.pywebview.api.get_history() : [];
+    const dailyStats = window.pywebview.api.get_daily_stats ? await window.pywebview.api.get_daily_stats() : {};
+    if (dailyStats && typeof dailyStats === 'object') {
+      Object.assign(cachedDailyStats, dailyStats);
+      try { localStorage.setItem('lightwidget_daily_stats', JSON.stringify(cachedDailyStats)); } catch (e) {}
+    }
+    if (Array.isArray(history)) updateNetworkStats(history);
+    if (!history || history.length === 0) {
+      historyList.innerHTML = '<div class="history-empty">История отключений пока пуста.</div>';
+      return;
+    }
 
-  historyList.innerHTML = '';
-  history.forEach(item => {
-    const isOutage = item.status === 'OFF';
-    const div = document.createElement('div');
-    div.className = 'history-item';
-    div.innerHTML = `
-      <div class="history-item-left">
-        <span class="history-badge ${isOutage ? 'off' : 'on'}">${isOutage ? 'ОТКЛЮЧЕНИЕ' : 'СВЕТ ВКЛЮЧЕН'}</span>
-        <div class="history-details">
-          <span class="history-title">${item.address || 'Адрес не указан'}</span>
-          <span class="history-sub">${item.reason || ''} ${item.end_time_str ? `• До: ${item.end_time_str}` : ''}</span>
+    historyList.innerHTML = '';
+    history.forEach(item => {
+      const isOutage = item.status === 'OFF';
+      const dateObj = new Date(item.timestamp || item.updated_at);
+      const isToday = dateObj.toDateString() === new Date().toDateString();
+      const timeFormatted = isToday 
+        ? dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+        : `${dateObj.toLocaleDateString([], {day: 'numeric', month: 'short'})}, ${dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+
+      const div = document.createElement('div');
+      div.className = 'history-item';
+      div.innerHTML = `
+        <div class="history-item-left">
+          <span class="history-badge ${isOutage ? 'off' : 'on'}">${isOutage ? 'ОТКЛЮЧЕНИЕ' : 'СВЕТ ВКЛЮЧЕН'}</span>
+          <div class="history-details">
+            <span class="history-title">${item.address || 'Адрес не указан'}</span>
+            <span class="history-sub">${isOutage ? (item.reason || 'Отключение электроэнергии') : 'Электросеть работает в штатном режиме'}${isOutage && item.end_time_str ? ` • До: ${item.end_time_str}` : ''}</span>
+          </div>
         </div>
-      </div>
-      <div class="history-time">${new Date(item.timestamp || item.updated_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
-    `;
-    historyList.appendChild(div);
-  });
+        <div class="history-time">${timeFormatted}</div>
+      `;
+      historyList.appendChild(div);
+    });
+  } catch (err) {
+    console.error('loadHistory error:', err);
+  }
 }
 
 async function loadIPhoneData() {
@@ -1222,15 +1354,24 @@ async function initApp() {
       if (tgFilterAddress) tgFilterAddress.value = cfg.telegram.filter_address || '';
     }
 
+    const localTheme = localStorage.getItem('lightwidget_theme');
+    const localAccent = localStorage.getItem('lightwidget_accent');
+
+    if (localTheme) {
+      appSettings.theme = localTheme;
+    } else if (cfg?.appearance?.theme) {
+      appSettings.theme = cfg.appearance.theme;
+      localStorage.setItem('lightwidget_theme', appSettings.theme);
+    }
+
+    if (localAccent) {
+      appSettings.accent = localAccent;
+    } else if (cfg?.appearance?.accent) {
+      appSettings.accent = cfg.appearance.accent;
+      localStorage.setItem('lightwidget_accent', appSettings.accent);
+    }
+
     if (cfg?.appearance) {
-      if (cfg.appearance.theme) {
-        appSettings.theme = cfg.appearance.theme;
-        localStorage.setItem('lightwidget_theme', cfg.appearance.theme);
-      }
-      if (cfg.appearance.accent) {
-        appSettings.accent = cfg.appearance.accent;
-        localStorage.setItem('lightwidget_accent', cfg.appearance.accent);
-      }
       if (cfg.appearance.show_seconds !== undefined) {
         appSettings.showSeconds = cfg.appearance.show_seconds;
         localStorage.setItem('lightwidget_show_seconds', cfg.appearance.show_seconds);
@@ -1238,6 +1379,14 @@ async function initApp() {
       if (cfg.appearance.show_pulse !== undefined) {
         appSettings.showPulse = cfg.appearance.show_pulse;
         localStorage.setItem('lightwidget_show_pulse', cfg.appearance.show_pulse);
+      }
+      if (cfg.appearance.show_stats !== undefined) {
+        appSettings.showStats = cfg.appearance.show_stats;
+        localStorage.setItem('lightwidget_show_stats', cfg.appearance.show_stats);
+      }
+      if (cfg.appearance.show_heatmap !== undefined) {
+        appSettings.showHeatmap = cfg.appearance.show_heatmap;
+        localStorage.setItem('lightwidget_show_heatmap', cfg.appearance.show_heatmap);
       }
     }
     if (cfg?.notifications) {
@@ -1251,6 +1400,15 @@ async function initApp() {
       }
     }
     applySettingsState();
+
+    if (window.pywebview?.api?.save_config) {
+      window.pywebview.api.save_config({
+        appearance: {
+          theme: appSettings.theme,
+          accent: appSettings.accent
+        }
+      });
+    }
 
     let accNum = '';
     try {
@@ -1274,10 +1432,6 @@ async function initApp() {
     console.error('Init error:', e);
   }
 }
-
-/* ==========================================================================
-   Auto-Update System Logic
-   ========================================================================== */
 
 const updateNavDot = document.getElementById('updateNavDot');
 const updateHeroCard = document.getElementById('updateHeroCard');
@@ -1310,7 +1464,7 @@ const updateAutoCheckSwitch = document.getElementById('updateAutoCheckSwitch');
 let isUpdating = false;
 
 function formatCleanVersion(rawVer) {
-  if (!rawVer) return '2.3.1';
+  if (!rawVer) return '2.3.2';
   const clean = String(rawVer).replace(/^v/i, '').trim();
   const parts = clean.split('.').map(p => parseInt(p, 10) || 0);
   while (parts.length < 3) parts.push(0);
@@ -1340,7 +1494,7 @@ async function checkAppUpdates(showToastOnClean = false) {
 
       if (res.has_update && res.remote) {
         const remoteVer = formatCleanVersion(res.remote?.version || res.remote?.tag);
-        // Release update available
+        
         if (updateNavDot) updateNavDot.style.display = 'block';
         if (updateHeroCard) updateHeroCard.classList.add('has-update');
         
@@ -1383,7 +1537,7 @@ async function checkAppUpdates(showToastOnClean = false) {
         }
         showToast(`Доступна новая версия ${remoteVer}`);
       } else {
-        // Up to date
+        
         if (updateNavDot) updateNavDot.style.display = 'none';
         if (updateHeroCard) updateHeroCard.classList.remove('has-update');
         
@@ -1433,11 +1587,11 @@ async function startUpdateProcess() {
   if (updateProgressCard) updateProgressCard.style.display = 'block';
 
   try {
-    // Stage 1: Connecting
+    
     await setProgressStage(15, 'Подключение к GitHub...', 'Проверка ветки main...');
     await new Promise(r => setTimeout(r, 450));
 
-    // Stage 2: Pulling repository
+    
     await setProgressStage(35, 'Загрузка обновлений (git pull)...', 'Скачивание измененных файлов...');
     
     let pullResult = null;
@@ -1456,19 +1610,19 @@ async function startUpdateProcess() {
       return;
     }
 
-    // Stage 3: Applying files
+    
     await setProgressStage(70, 'Применение изменений...', 'Обновление интерфейса и скриптов...');
     await new Promise(r => setTimeout(r, 500));
 
     await setProgressStage(90, 'Финализация...', 'Сборка и подготовка к запуску...');
     await new Promise(r => setTimeout(r, 450));
 
-    // Stage 4: Ready to restart
+    
     await setProgressStage(100, 'Готово! Перезапуск...', 'Приложение перезапускается через мгновение...');
     showToast('Обновление завершено! Перезапуск...');
     await new Promise(r => setTimeout(r, 600));
 
-    // Trigger restart
+    
     if (window.pywebview?.api?.restart_app) {
       await window.pywebview.api.restart_app();
     }

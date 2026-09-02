@@ -34,3 +34,5 @@ env/
 venv/
 .vscode/
 .idea/
+
+CHANGELOG.md

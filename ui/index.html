@@ -475,6 +475,18 @@
                 </div>
               </div>
 
+              <div class="theme-card" data-theme="light">
+                <div class="theme-preview light">
+                  <div class="tp-header"></div>
+                  <div class="tp-dot"></div>
+                  <div class="tp-body"></div>
+                </div>
+                <div class="theme-meta">
+                  <span class="theme-title">Snow Light</span>
+                  <span class="theme-desc">Светлый минимализм</span>
+                </div>
+              </div>
+
               <div class="theme-card" data-theme="cyber">
                 <div class="theme-preview cyber">
                   <div class="tp-header"></div>
@@ -487,6 +499,18 @@
                 </div>
               </div>
 
+              <div class="theme-card" data-theme="sapphire">
+                <div class="theme-preview sapphire">
+                  <div class="tp-header"></div>
+                  <div class="tp-dot"></div>
+                  <div class="tp-body"></div>
+                </div>
+                <div class="theme-meta">
+                  <span class="theme-title">Sapphire</span>
+                  <span class="theme-desc">Морской индиго</span>
+                </div>
+              </div>
+
               <div class="theme-card" data-theme="emerald">
                 <div class="theme-preview emerald">
                   <div class="tp-header"></div>
@@ -496,6 +520,18 @@
                 <div class="theme-meta">
                   <span class="theme-title">Emerald</span>
                   <span class="theme-desc">Темный изумруд</span>
+                </div>
+              </div>
+
+              <div class="theme-card" data-theme="amber">
+                <div class="theme-preview amber">
+                  <div class="tp-header"></div>
+                  <div class="tp-dot"></div>
+                  <div class="tp-body"></div>
+                </div>
+                <div class="theme-meta">
+                  <span class="theme-title">Sunset Amber</span>
+                  <span class="theme-desc">Теплый янтарный</span>
                 </div>
               </div>
 
@@ -513,13 +549,18 @@
             </div>
           </div>
 
-          <div class="settings-group">
-            <label class="settings-label">Акцентный цвет элементов:</label>
-            <div class="accent-palette">
+          <div class="settings-group" id="accentSettingsGroup">
+            <div class="settings-label-row">
+              <label class="settings-label">Акцентный цвет элементов (для Midnight / OLED):</label>
+            </div>
+            <div class="accent-palette" id="accentPalette">
               <button type="button" class="accent-swatch active" data-accent="blue" style="--swatch-color: #0a84ff;" title="Apple Blue"></button>
-              <button type="button" class="accent-swatch" data-accent="green" style="--swatch-color: #30d158;" title="Neon Green"></button>
-              <button type="button" class="accent-swatch" data-accent="amber" style="--swatch-color: #ff9f0a;" title="Electric Amber"></button>
               <button type="button" class="accent-swatch" data-accent="purple" style="--swatch-color: #bf5af2;" title="Neon Violet"></button>
+              <button type="button" class="accent-swatch" data-accent="green" style="--swatch-color: #30d158;" title="Emerald Green"></button>
+              <button type="button" class="accent-swatch" data-accent="amber" style="--swatch-color: #ff9f0a;" title="Electric Amber"></button>
+              <button type="button" class="accent-swatch" data-accent="teal" style="--swatch-color: #2dd4bf;" title="Turquoise Teal"></button>
+              <button type="button" class="accent-swatch" data-accent="cyan" style="--swatch-color: #64d2ff;" title="Cyan Turquoise"></button>
+              <button type="button" class="accent-swatch" data-accent="gold" style="--swatch-color: #ffd60a;" title="Warm Gold"></button>
               <button type="button" class="accent-swatch" data-accent="white" style="--swatch-color: #ffffff;" title="Monochrome White"></button>
             </div>
           </div>
@@ -605,7 +646,7 @@
       <section class="tab-pane" id="tab-updates">
         <div class="macos-update-view">
           
-          <!-- Top macOS Header & App Card -->
+          
           <div class="macos-update-hero" id="updateHeroCard">
             <div class="macos-app-icon-wrapper">
               <img src="flat_app_icon.png" alt="LightWidget" class="macos-app-icon" id="updateAppIcon" />
@@ -619,7 +660,7 @@
             <div class="macos-hero-info">
               <div class="macos-hero-title-row">
                 <h2 class="macos-app-name">LightWidget</h2>
-                <span class="macos-version-pill" id="updateVersionTag">2.3.1</span>
+                <span class="macos-version-pill" id="updateVersionTag">2.3.2</span>
               </div>
               <div class="macos-status-line" id="updateStatusTitle">У вас установлена новейшая версия</div>
               <div class="macos-status-subtext" id="updateStatusDesc">Автоматическая проверка выполнена • Релиз стабилен</div>
@@ -643,7 +684,7 @@
             </div>
           </div>
 
-          <!-- macOS Progress Card (visible during updates) -->
+          
           <div class="macos-progress-card" id="updateProgressCard" style="display: none;">
             <div class="macos-progress-header">
               <span class="macos-progress-stage" id="updateStageLabel">Загрузка обновления...</span>
@@ -655,7 +696,7 @@
             <div class="macos-progress-footer" id="updateProgressSub">Пожалуйста, не закрывайте программу во время установки</div>
           </div>
 
-          <!-- macOS Release Notes (shown when update available) -->
+          
           <div class="macos-release-card" id="updateCommitCard" style="display: none;">
             <div class="macos-release-header">
               <div class="macos-release-badge-wrap">
@@ -684,7 +725,7 @@
             </div>
           </div>
 
-          <!-- macOS Inset Grouped Settings Box -->
+          
           <div class="macos-settings-group">
             <div class="macos-setting-row">
               <div class="macos-row-left">
@@ -723,7 +764,7 @@
                 </div>
               </div>
               <div class="macos-row-right">
-                <span class="macos-pill-value" id="updateInstalledPill">2.3.1</span>
+                <span class="macos-pill-value" id="updateInstalledPill">2.3.2</span>
               </div>
             </div>
 
@@ -741,24 +782,6 @@
               </div>
               <div class="macos-row-right">
                 <span class="macos-text-value">GitHub Releases</span>
-              </div>
-            </div>
-
-            <div class="macos-setting-row">
-              <div class="macos-row-left">
-                <div class="macos-row-icon icon-gray">
-                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polyline points="12 6 12 12 16 14"></polyline>
-                  </svg>
-                </div>
-                <div class="macos-row-texts">
-                  <span class="macos-row-title">Последняя проверка</span>
-                  <span class="macos-row-subtitle" id="updateLastCheckSub">Проверка в фоновом режиме</span>
-                </div>
-              </div>
-              <div class="macos-row-right">
-                <span class="macos-text-value" id="updateLastCheckTime">Сегодня</span>
               </div>
             </div>
           </div>
