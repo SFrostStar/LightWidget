@@ -1,9 +1,7 @@
-# Byte-compiled / optimized files
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Local User Data and Secrets
 data/config.json
 data/state.json
 data/history.json
@@ -13,21 +11,18 @@ data/*.session
 data/*.session-journal
 data/*.key
 
-# Application builds & packaging
 LightWidget.app/
 build/
 dist/
 *.spec
 *.exe
 
-# macOS & OS artifacts
 .DS_Store
 .AppleDouble
 .LSOverride
 Icon
 ._*
 
-# Environment & IDE
 .env
 .venv
 env/
@@ -36,3 +31,4 @@ venv/
 .idea/
 
 CHANGELOG.md
+.github/
