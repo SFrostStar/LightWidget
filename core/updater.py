@@ -2,6 +2,8 @@ import os
 import sys
 import json
 import ssl
+import shutil
+import tempfile
 import subprocess
 import urllib .request
 import urllib .error
@@ -218,10 +220,26 @@ class UpdateManager :
                     break
 
             if download_url :
-                target_file =os .path .join (self .base_dir ,"LightWidget_update"+(".exe"if sys .platform =="win32"else ".dmg"))
+                temp_dir =tempfile .gettempdir ()
+                ext =".exe"if sys .platform =="win32"else ".dmg"
+                target_file =os .path .join (temp_dir ,f"LightWidget_update{ext }")
                 req2 =urllib .request .Request (download_url ,headers =headers )
-                with urllib .request .urlopen (req2 ,context =uctx ,timeout =30 )as r ,open (target_file ,"wb")as f :
+                with urllib .request .urlopen (req2 ,context =uctx ,timeout =60 )as r ,open (target_file ,"wb")as f :
                     f .write (r .read ())
+
+                if sys .platform =="darwin"and target_file .endswith (".dmg"):
+                    mount_dir =os .path .join (temp_dir ,"lw_dmg_mount")
+                    os .makedirs (mount_dir ,exist_ok =True )
+                    subprocess .run (["hdiutil","detach",mount_dir ,"-force"],capture_output =True )
+                    m_res =subprocess .run (["hdiutil","attach",target_file ,"-nobrowse","-mountpoint",mount_dir ],capture_output =True ,text =True )
+                    if m_res .returncode ==0 :
+                        src_app =os .path .join (mount_dir ,"LightWidget.app")
+                        dest_app =os .path .join (temp_dir ,"LightWidget_New.app")
+                        if os .path .exists (src_app ):
+                            if os .path .exists (dest_app ):
+                                shutil .rmtree (dest_app ,ignore_errors =True )
+                            shutil .copytree (src_app ,dest_app ,symlinks =True )
+                        subprocess .run (["hdiutil","detach",mount_dir ,"-force"],capture_output =True )
 
                 return {
                 "success":True ,
@@ -238,46 +256,62 @@ class UpdateManager :
 
     def restart_application (self ):
         try :
-            is_frozen =getattr (sys ,'frozen',False )
-            if is_frozen :
+            temp_dir =tempfile .gettempdir ()
+            if sys .platform =="darwin":
+                new_app =os .path .join (temp_dir ,"LightWidget_New.app")
+                dmg_file =os .path .join (temp_dir ,"LightWidget_update.dmg")
                 exe_path =sys .executable
-                if sys .platform =="win32":
-                    update_file =os .path .join (self .base_dir ,"LightWidget_update.exe")
-                    if os .path .exists (update_file ):
-                        bat_script =f"""@echo off
-timeout /t 1 /nobreak > NUL
+                app_bundle =None
+                if ".app"in exe_path :
+                    app_bundle =exe_path .split (".app")[0 ]+".app"
+                if not app_bundle :
+                    for ap in ["/Applications/LightWidget.app",os .path .expanduser ("~/Desktop/LightWidget.app"),os .path .join (self .base_dir ,"LightWidget.app")]:
+                        if os .path .exists (ap ):
+                            app_bundle =ap
+                            break
+
+                if app_bundle and os .path .exists (new_app ):
+                    swap_sh =f"""#!/bin/bash
+sleep 1.2
+rm -rf "{app_bundle }"
+cp -R "{new_app }" "{app_bundle }"
+rm -rf "{new_app }"
+open -n "{app_bundle }"
+rm -f "$0"
+"""
+                    sh_path =os .path .join (temp_dir ,"lw_swap.sh")
+                    with open (sh_path ,"w",encoding ="utf-8")as f :
+                        f .write (swap_sh )
+                    os .chmod (sh_path ,0o755 )
+                    subprocess .Popen (["/bin/bash",sh_path ],stdout =subprocess .DEVNULL ,stderr =subprocess .DEVNULL ,start_new_session =True )
+                    os ._exit (0 )
+                elif os .path .exists (dmg_file ):
+                    subprocess .Popen (["open",dmg_file ],stdout =subprocess .DEVNULL ,stderr =subprocess .DEVNULL )
+                    os ._exit (0 )
+                elif app_bundle :
+                    subprocess .Popen (["open","-n",app_bundle ],stdout =subprocess .DEVNULL ,stderr =subprocess .DEVNULL )
+                    os ._exit (0 )
+
+            elif sys .platform =="win32":
+                update_file =os .path .join (temp_dir ,"LightWidget_update.exe")
+                exe_path =sys .executable
+                if os .path .exists (update_file )and exe_path .lower ().endswith (".exe"):
+                    bat_script =f"""@echo off
+timeout /t 2 /nobreak > NUL
 move /y "{update_file }" "{exe_path }"
 start "" "{exe_path }"
 del "%~f0"
 """
-                        bat_path =os .path .join (self .base_dir ,"update_swap.bat")
-                        with open (bat_path ,"w")as f :
-                            f .write (bat_script )
-                        creation_flag =getattr (subprocess ,'CREATE_NO_WINDOW',0x08000000 )
-                        subprocess .Popen (["cmd.exe","/c",bat_path ],shell =True ,creationflags =creation_flag )
-                        os ._exit (0 )
-                    else :
-                        creation_flag =getattr (subprocess ,'CREATE_NO_WINDOW',0x08000000 )
-                        subprocess .Popen ([exe_path ],creationflags =creation_flag )
-                        os ._exit (0 )
-                elif sys .platform =="darwin":
-                    if ".app"in exe_path :
-                        app_bundle =exe_path .split (".app")[0 ]+".app"
-                        subprocess .Popen (["open","-n",app_bundle ],stdout =subprocess .DEVNULL ,stderr =subprocess .DEVNULL )
-                    else :
-                        subprocess .Popen (["open","-n",exe_path ],stdout =subprocess .DEVNULL ,stderr =subprocess .DEVNULL )
+                    bat_path =os .path .join (temp_dir ,"update_swap.bat")
+                    with open (bat_path ,"w")as f :
+                        f .write (bat_script )
+                    creation_flag =getattr (subprocess ,'CREATE_NO_WINDOW',0x08000000 )
+                    subprocess .Popen (["cmd.exe","/c",bat_path ],shell =True ,creationflags =creation_flag )
                     os ._exit (0 )
-
-            if sys .platform =="darwin":
-                app_candidates =[
-                "/Applications/LightWidget.app",
-                os .path .expanduser ("~/Desktop/LightWidget.app"),
-                os .path .join (self .base_dir ,"LightWidget.app")
-                ]
-                for ap in app_candidates :
-                    if os .path .exists (ap ):
-                        subprocess .Popen (["open","-n",ap ],stdout =subprocess .DEVNULL ,stderr =subprocess .DEVNULL )
-                        os ._exit (0 )
+                elif exe_path .lower ().endswith (".exe"):
+                    creation_flag =getattr (subprocess ,'CREATE_NO_WINDOW',0x08000000 )
+                    subprocess .Popen ([exe_path ],creationflags =creation_flag )
+                    os ._exit (0 )
 
             python =sys .executable
             app_py =os .path .join (self .base_dir ,"app.py")
