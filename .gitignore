@@ -31,4 +31,6 @@ venv/
 .idea/
 
 CHANGELOG.md
-.github/
+.github/workflows/release.yml
+release/
+release_assets/
