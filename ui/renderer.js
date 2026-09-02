@@ -419,6 +419,10 @@ function renderState(state) {
 }
 
 let cachedHistory = [];
+try {
+  const savedHist = localStorage.getItem('lightwidget_history');
+  if (savedHist) cachedHistory = JSON.parse(savedHist);
+} catch (e) {}
 
 function updateNetworkStats(history) {
   if (Array.isArray(history)) cachedHistory = history;
@@ -1241,35 +1245,41 @@ async function loadHistory() {
       Object.assign(cachedDailyStats, dailyStats);
       try { localStorage.setItem('lightwidget_daily_stats', JSON.stringify(cachedDailyStats)); } catch (e) {}
     }
-    if (Array.isArray(history)) updateNetworkStats(history);
+    if (Array.isArray(history)) {
+      cachedHistory = history;
+      try { localStorage.setItem('lightwidget_history', JSON.stringify(history)); } catch (e) {}
+      updateNetworkStats(history);
+    }
     if (!history || history.length === 0) {
-      historyList.innerHTML = '<div class="history-empty">История отключений пока пуста.</div>';
+      if (historyList) historyList.innerHTML = '<div class="history-empty">История отключений пока пуста.</div>';
       return;
     }
 
-    historyList.innerHTML = '';
-    history.forEach(item => {
-      const isOutage = item.status === 'OFF';
-      const dateObj = new Date(item.timestamp || item.updated_at);
-      const isToday = dateObj.toDateString() === new Date().toDateString();
-      const timeFormatted = isToday 
-        ? dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-        : `${dateObj.toLocaleDateString([], {day: 'numeric', month: 'short'})}, ${dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+    if (historyList) {
+      historyList.innerHTML = '';
+      history.forEach(item => {
+        const isOutage = item.status === 'OFF';
+        const dateObj = new Date(item.timestamp || item.updated_at);
+        const isToday = dateObj.toDateString() === new Date().toDateString();
+        const timeFormatted = isToday 
+          ? dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+          : `${dateObj.toLocaleDateString([], {day: 'numeric', month: 'short'})}, ${dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
 
-      const div = document.createElement('div');
-      div.className = 'history-item';
-      div.innerHTML = `
-        <div class="history-item-left">
-          <span class="history-badge ${isOutage ? 'off' : 'on'}">${isOutage ? 'ОТКЛЮЧЕНИЕ' : 'СВЕТ ВКЛЮЧЕН'}</span>
-          <div class="history-details">
-            <span class="history-title">${item.address || 'Адрес не указан'}</span>
-            <span class="history-sub">${isOutage ? (item.reason || 'Отключение электроэнергии') : 'Электросеть работает в штатном режиме'}${isOutage && item.end_time_str ? ` • До: ${item.end_time_str}` : ''}</span>
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        div.innerHTML = `
+          <div class="history-item-left">
+            <span class="history-badge ${isOutage ? 'off' : 'on'}">${isOutage ? 'ОТКЛЮЧЕНИЕ' : 'СВЕТ ВКЛЮЧЕН'}</span>
+            <div class="history-details">
+              <span class="history-title">${item.address || 'Адрес не указан'}</span>
+              <span class="history-sub">${isOutage ? (item.reason || 'Отключение электроэнергии') : 'Электросеть работает в штатном режиме'}${isOutage && item.end_time_str ? ` • До: ${item.end_time_str}` : ''}</span>
+            </div>
           </div>
-        </div>
-        <div class="history-time">${timeFormatted}</div>
-      `;
-      historyList.appendChild(div);
-    });
+          <div class="history-time">${timeFormatted}</div>
+        `;
+        historyList.appendChild(div);
+      });
+    }
   } catch (err) {
     console.error('loadHistory error:', err);
   }
@@ -1291,6 +1301,7 @@ async function loadIPhoneData() {
 window.onStateUpdatedFromPython = function(state) {
   if (btnRefreshStatus) btnRefreshStatus.classList.remove('is-refreshing');
   renderState(state);
+  loadHistory();
 };
 
 window.onTelegramStatusChange = function(status, message) {
@@ -1344,6 +1355,7 @@ async function initApp() {
   try {
     const state = await window.pywebview.api.get_state();
     renderState(state);
+    await loadHistory();
 
     const cfg = await window.pywebview.api.get_config();
     if (cfg?.telegram) {
@@ -1464,7 +1476,7 @@ const updateAutoCheckSwitch = document.getElementById('updateAutoCheckSwitch');
 let isUpdating = false;
 
 function formatCleanVersion(rawVer) {
-  if (!rawVer) return '2.3.3';
+  if (!rawVer) return '2.3.4';
   const clean = String(rawVer).replace(/^v/i, '').trim();
   const parts = clean.split('.').map(p => parseInt(p, 10) || 0);
   while (parts.length < 3) parts.push(0);
