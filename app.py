@@ -2,6 +2,8 @@ import os
 import sys
 import json
 import threading
+import time
+import re
 import webview
 from core .config import ConfigManager
 from core .storage import StorageManager
@@ -19,6 +21,51 @@ def get_resource_path (relative_path ):
 UI_DIR =get_resource_path ("ui")
 INDEX_PATH =os .path .join (UI_DIR ,"index.html")
 IOS_SCRIPT_PATH =get_resource_path (os .path .join ("ios","widget_ios.js"))
+
+def _apply_macos_window_mode (enabled :bool ,native_window =None ):
+    if sys .platform !="darwin":
+        return
+    try :
+        import Cocoa
+        import Quartz
+
+        def apply ():
+            try :
+                app =Cocoa .NSApplication .sharedApplication ()
+                targets =[native_window ]if native_window else list (app .windows ())
+                for w in targets :
+                    if not w :
+                        continue
+                    is_match =(w ==native_window )or (hasattr (w ,"title")and (w .title ()=="LightWidget"or "LightWidget"in str (w .title ())))
+                    if not is_match and len (targets )==1 :
+                        is_match =True
+                    if is_match :
+                        w .setOpaque_ (False )
+                        w .setBackgroundColor_ (Cocoa .NSColor .clearColor ())
+                        w .setHasShadow_ (True )
+                        if enabled :
+                            w .setMinSize_ (Cocoa .NSMakeSize (165 ,165 ))
+                            behavior =(
+                            Cocoa .NSWindowCollectionBehaviorCanJoinAllSpaces |
+                            Cocoa .NSWindowCollectionBehaviorStationary |
+                            Cocoa .NSWindowCollectionBehaviorIgnoresCycle
+                            )
+                            w .setCollectionBehavior_ (behavior )
+                            w .setLevel_ (Quartz .kCGDesktopIconWindowLevel +1 )
+                        else :
+                            w .setMinSize_ (Cocoa .NSMakeSize (880 ,560 ))
+                            w .setLevel_ (Cocoa .NSNormalWindowLevel )
+                            behavior =(
+                            Cocoa .NSWindowCollectionBehaviorManaged |
+                            Cocoa .NSWindowCollectionBehaviorParticipatesInCycle
+                            )
+                            w .setCollectionBehavior_ (behavior )
+            except Exception :
+                pass
+
+        Cocoa .NSOperationQueue .mainQueue ().addOperationWithBlock_ (apply )
+    except Exception :
+        pass
 
 class ApiBridge :
     def __init__ (self ,config_mgr :ConfigManager ,storage_mgr :StorageManager ,tg_service :TelegramService ,window =None ):
@@ -42,6 +89,17 @@ class ApiBridge :
             print (f"[Bridge] get_state error: {e }")
             return {}
 
+    def delete_planned_outage (self ,start_timestamp :int ,end_timestamp :int =None ):
+        try :
+            res =self .storage_mgr .delete_planned_outage (int (start_timestamp ),int (end_timestamp )if end_timestamp is not None else None )
+            if isinstance (res ,dict ):
+                res =res .copy ()
+                res ["account_number"]=self .config_mgr .get ("account_number","")
+            return res or {}
+        except Exception as e :
+            print (f"[Bridge] delete_planned_outage error: {e }")
+            return self .get_state ()
+
     def parse_and_apply (self ,text ):
         try :
             parsed =parse_message (text )
@@ -54,20 +112,29 @@ class ApiBridge :
                 enable_sound =notif .get ("sound",True )and notif .get ("macos_sound",True )
 
                 if enable_banner :
-                    if parsed ["status"]=="OFF":
-                        snd ="Basso"if enable_sound else ""
+                    custom_sound =notif .get ("sound_name")
+                    if parsed .get ("is_planned")and parsed .get ("start_timestamp")and parsed ["start_timestamp"]>int (time .time ()):
+                        snd =(custom_sound or "Ping")if enable_sound else ""
+                        send_macos_notification (
+                        "⏳ Запланированы ремонтные работы!",
+                        f"С {parsed ['start_time_str']or '?'} до {parsed ['end_time_str']or '?'}",
+                        parsed .get ("reason","Ремонтные работы"),
+                        sound =snd
+                        )
+                    elif parsed ["status"]=="OFF":
+                        snd =(custom_sound or "Basso")if enable_sound else ""
                         send_macos_notification (
                         "⚡ Внимание: Отключение света!",
                         f"Ориентировочно до {parsed ['end_time_str']or 'неизвестно'}",
-                        f"{parsed ['address']} ({parsed ['reason']})",
+                        parsed .get ("reason","Отключение электроэнергии"),
                         sound =snd
                         )
                     else :
-                        snd ="Glass"if enable_sound else ""
+                        snd =(custom_sound or "Glass")if enable_sound else ""
                         send_macos_notification (
-                        "💡 Свет включен!",
-                        parsed ['address'],
+                        "💡 Свет есть!",
                         "Электросеть работает в штатном режиме.",
+                        "",
                         sound =snd
                         )
 
@@ -133,6 +200,13 @@ class ApiBridge :
             print (f"[Bridge] clear_history error: {e }")
             return False
 
+    def delete_history_record (self ,timestamp ):
+        try :
+            return self .storage_mgr .delete_history_record (timestamp )
+        except Exception as e :
+            print (f"[Bridge] delete_history_record error: {e }")
+            return False
+
     def check_for_updates (self ):
         try :
             return self .update_mgr .check_updates ()
@@ -155,6 +229,29 @@ class ApiBridge :
             print (f"[Bridge] restart_app error: {e }")
             return False
 
+    def notify (self ,title :str ,subtitle :str ,message :str ,sound :str ="Glass"):
+        try :
+            send_macos_notification (title ,subtitle ,message ,sound )
+            return True
+        except Exception as e :
+            print (f"[Bridge] notify error: {e }")
+            return False
+
+    def play_sound (self ,sound_name :str ="Glass"):
+        try :
+            if sys .platform =="darwin":
+                import subprocess
+                p =f"/System/Library/Sounds/{sound_name }.aiff"
+                if os .path .exists (p ):
+                    subprocess .Popen (["afplay",p ],stdout =subprocess .DEVNULL ,stderr =subprocess .DEVNULL )
+                else :
+                    cmd =["osascript","-e","beep 1"]
+                    subprocess .Popen (cmd ,stdout =subprocess .DEVNULL ,stderr =subprocess .DEVNULL )
+            return True
+        except Exception as e :
+            print (f"[Bridge] play_sound error: {e }")
+            return False
+
     def get_iphone_info (self ):
         try :
             local_ip =get_local_ip ()
@@ -165,9 +262,10 @@ class ApiBridge :
             if os .path .exists (IOS_SCRIPT_PATH ):
                 with open (IOS_SCRIPT_PATH ,"r",encoding ="utf-8")as f :
                     script_content =f .read ()
-                    script_content =script_content .replace (
-                    'const SERVER_URL = "http://localhost:8088/api/status";',
-                    f'const SERVER_URL = "{endpoint }";'
+                    script_content =re .sub (
+                    r'const\s+SERVER_URL\s*=\s*["\'].*?["\'];',
+                    f'const SERVER_URL = "{endpoint }";',
+                    script_content
                     )
 
             return {
@@ -230,41 +328,12 @@ class ApiBridge :
             return {"success":False }
 
         try :
-            if sys .platform =="darwin":
-                try :
-                    import Cocoa
-                    import Quartz
-
-                    def apply_cocoa_window_mode ():
-                        try :
-                            app =Cocoa .NSApplication .sharedApplication ()
-                            for w in app .windows ():
-                                if w .title ()=="LightWidget":
-                                    w .setOpaque_ (False )
-                                    w .setBackgroundColor_ (Cocoa .NSColor .clearColor ())
-                                    w .setHasShadow_ (True )
-                                    if enabled :
-                                        behavior =(
-                                        Cocoa .NSWindowCollectionBehaviorCanJoinAllSpaces |
-                                        Cocoa .NSWindowCollectionBehaviorStationary |
-                                        Cocoa .NSWindowCollectionBehaviorIgnoresCycle
-                                        )
-                                        w .setCollectionBehavior_ (behavior )
-                                        w .setLevel_ (Quartz .kCGDesktopIconWindowLevel +1 )
-                                    else :
-                                        w .setLevel_ (Cocoa .NSNormalWindowLevel )
-                                        w .setCollectionBehavior_ (Cocoa .NSWindowCollectionBehaviorDefault )
-                        except Exception :
-                            pass
-
-                    Cocoa .NSOperationQueue .mainQueue ().addOperationWithBlock_ (apply_cocoa_window_mode )
-                except Exception :
-                    pass
+            _apply_macos_window_mode (enabled ,getattr (self .window ,"native",None ))
 
             if enabled :
                 self .window .resize (165 ,165 )
             else :
-                self .window .resize (840 ,560 )
+                self .window .resize (960 ,620 )
             return {"success":True ,"mode":"widget"if enabled else "normal"}
         except Exception as ex :
             print (f"[ApiBridge] Error setting widget mode: {ex }")
@@ -308,6 +377,8 @@ class ApiBridge :
                 if not raw_text :
                     if state .get ("status")=="OFF":
                         raw_text =f"❗️ За адресою {state .get ('address')} зафіксовано відключення.\nПричина: {state .get ('reason')}.\n🕦 Час початку: {state .get ('start_time_str')}.\n🕦 Орієнтовний час відновлення електроенергії: {state .get ('end_time_str')}."
+                    elif state .get ("status")=="PLANNED":
+                        raw_text =f"💡 За адресою {state .get ('address')} заплановані ремонтні роботи.\n🕦 Час початку: {state .get ('start_time_str')}.\n🕦 Час завершення: {state .get ('end_time_str')}.\n В цей час електроенергія буде відсутня."
                     else :
                         raw_text =f"✅ За адресою {state .get ('address')} електропостачання відновлено!"
 
@@ -381,7 +452,7 @@ def main ():
     js_api =bridge ,
     width =960 ,
     height =620 ,
-    min_size =(880 ,560 ),
+    min_size =(165 ,165 ),
     resizable =True ,
     frameless =True ,
     easy_drag =is_mac ,
@@ -392,6 +463,7 @@ def main ():
     window .events .closed +=lambda :os ._exit (0 )
 
     def on_window_loaded ():
+        _apply_macos_window_mode (False ,getattr (window ,"native",None ))
         try :
             acc =config_mgr .get ("account_number","")
             appr =config_mgr .get ("appearance",{})

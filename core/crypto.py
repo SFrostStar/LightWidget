@@ -5,12 +5,30 @@ import hashlib
 import base64
 import secrets
 
-def _get_base_dir ():
+def _get_data_dir ():
     if getattr (sys ,'frozen',False ):
-        return os .path .dirname (sys .executable )
-    return os .path .dirname (os .path .dirname (os .path .abspath (__file__ )))
+        if sys .platform =="darwin":
+            base =os .path .expanduser ("~/Library/Application Support/LightWidget")
+        elif sys .platform =="win32":
+            base =os .path .join (os .environ .get ("APPDATA",os .path .expanduser ("~")),"LightWidget")
+        else :
+            base =os .path .expanduser ("~/.config/LightWidget")
+        os .makedirs (base ,exist_ok =True )
+        old_data =os .path .join (os .path .dirname (sys .executable ),"data")
+        if os .path .exists (old_data )and os .path .isdir (old_data ):
+            for fname in os .listdir (old_data ):
+                src =os .path .join (old_data ,fname )
+                dst =os .path .join (base ,fname )
+                if os .path .isfile (src )and not os .path .exists (dst ):
+                    try :
+                        import shutil
+                        shutil .copy2 (src ,dst )
+                    except Exception :
+                        pass
+        return base
+    return os .path .join (os .path .dirname (os .path .dirname (os .path .abspath (__file__ ))),"data")
 
-DATA_DIR =os .path .join (_get_base_dir (),"data")
+DATA_DIR =_get_data_dir ()
 KEY_FILE =os .path .join (DATA_DIR ,".secret.key")
 PREFIX ="ENC:v1:"
 

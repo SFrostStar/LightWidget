@@ -2,6 +2,7 @@
 let currentState = null;
 let countdownInterval = null;
 let isAccountEditing = false;
+let lightOnSince = localStorage.getItem('lightwidget_light_on_since') ? parseInt(localStorage.getItem('lightwidget_light_on_since'), 10) : null;
 
 const elBrandStatusDot = document.getElementById('brandStatusDot');
 const elLivePill = document.getElementById('livePill');
@@ -34,6 +35,14 @@ const elAccountEditText = document.getElementById('accountEditText');
 const elBtnToggleAccount = document.getElementById('btnToggleAccount');
 const elAccountToggleText = document.getElementById('accountToggleText');
 const elLastUpdatedText = document.getElementById('lastUpdatedText');
+const elPlannedOutageSection = document.getElementById('plannedOutageSection');
+const elPlannedHeaderDot = document.getElementById('plannedHeaderDot');
+const elPlannedCounterBadge = document.getElementById('plannedCounterBadge');
+const elPlannedEmptyState = document.getElementById('plannedEmptyState');
+const elPlannedContentState = document.getElementById('plannedContentState');
+const elPlannedList = document.getElementById('plannedList');
+const elWidgetPlannedAlert = document.getElementById('widgetPlannedAlert');
+const elWidgetPlannedCd = document.getElementById('widgetPlannedCd');
 
 const navTabs = document.querySelectorAll('.nav-tab');
 const tabPanes = document.querySelectorAll('.tab-pane');
@@ -41,11 +50,8 @@ const tabPanes = document.querySelectorAll('.tab-pane');
 const simMessageInput = document.getElementById('simMessageInput');
 const btnApplySimMessage = document.getElementById('btnApplySimMessage');
 const btnClearSimInput = document.getElementById('btnClearSimInput');
-const btnPresetOutage = document.getElementById('btnPresetOutage');
-const btnPresetRestored = document.getElementById('btnPresetRestored');
-const btnPresetDelay = document.getElementById('btnPresetDelay');
-const simResultBox = document.getElementById('simResultBox');
-const simResultJson = document.getElementById('simResultJson');
+const simStatusBanner = document.getElementById('simStatusBanner');
+const simStatusText = document.getElementById('simStatusText');
 
 const localApiEndpoint = document.getElementById('localApiEndpoint');
 const btnCopyEndpoint = document.getElementById('btnCopyEndpoint');
@@ -85,6 +91,12 @@ const btnClose = document.getElementById('btnClose');
 const btnRefreshStatus = document.getElementById('btnRefreshStatus');
 const btnOpenSimulator = document.getElementById('btnOpenSimulator');
 const toast = document.getElementById('toast');
+const plannedContextMenu = document.getElementById('plannedContextMenu');
+const btnDeletePlannedItem = document.getElementById('btnDeletePlannedItem');
+const plannedThCountdown = document.getElementById('plannedThCountdown');
+const widgetPlannedLabel = document.getElementById('widgetPlannedLabel');
+let plannedContextMenuTarget = null;
+const triggeredPlannedStartRefreshes = new Set();
 
 document.addEventListener('DOMContentLoaded', () => {
   setupTabs();
@@ -96,10 +108,19 @@ document.addEventListener('DOMContentLoaded', () => {
   waitForPywebview();
 });
 
+let toastTimeout = null;
+
 function showToast(msg) {
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2500);
+  const toastEl = document.getElementById('toast');
+  const toastMsgEl = document.getElementById('toastMessage') || toastEl;
+  if (!toastEl) return;
+  if (toastMsgEl) toastMsgEl.textContent = msg;
+  const pos = appSettings.toastPosition || 'bottom-right';
+  toastEl.className = `toast pos-${pos} show`;
+  if (toastTimeout) clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toastEl.classList.remove('show');
+  }, 2600);
 }
 
 let currentTabIndex = 0;
@@ -166,18 +187,310 @@ function startSystemClock() {
   setInterval(update, 1000);
 }
 
+function formatLightOnDuration(ms) {
+  const totalMinutes = Math.floor(ms / 60000);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  if (hours > 0) return `${hours} ч ${minutes} мин`;
+  return `${minutes} мин`;
+}
+
+function showLightOnStatus(extraNote) {
+  if (elTimerDigits) {
+    elTimerDigits.innerHTML = '<span class="status-heading-on"><span class="status-bolt">⚡</span> Свет есть</span>';
+  }
+  if (elTimerLabel) {
+    if (extraNote) {
+      elTimerLabel.textContent = extraNote;
+    } else {
+      const sinceText = lightOnSince ? formatLightOnDuration(Date.now() - lightOnSince) : null;
+      elTimerLabel.textContent = sinceText ? `Со светом уже: ${sinceText}` : 'Электросеть работает в штатном режиме';
+    }
+    elTimerLabel.className = 'timer-subtitle status-sub-on';
+    elTimerLabel.style.color = '';
+  }
+}
+
+function getPlannedOutagesList(state) {
+  if (!state) return [];
+  const nowTs = Math.floor(Date.now() / 1000);
+  let list = Array.isArray(state.planned_outages) ? state.planned_outages.slice() : [];
+  if (list.length === 0 && state.is_planned && state.start_timestamp && state.status !== 'OFF') {
+    list = [{
+      start_time_str: state.start_time_str,
+      end_time_str: state.end_time_str,
+      start_timestamp: state.start_timestamp,
+      end_timestamp: state.end_timestamp,
+      reason: state.reason
+    }];
+  }
+  return list.filter(item => !item.end_timestamp || item.end_timestamp > nowTs)
+             .sort((a, b) => (a.start_timestamp || 0) - (b.start_timestamp || 0));
+}
+
+function formatPlannedDateColumn(item) {
+  let dObj = null;
+  if (item.start_timestamp) {
+    dObj = new Date(item.start_timestamp * 1000);
+  } else if (item.start_time_str) {
+    const m = item.start_time_str.match(/^(\d{1,2})\.(\d{1,2})\.(\d{2,4})/);
+    if (m) {
+      const yr = m[3].length === 2 ? parseInt('20' + m[3], 10) : parseInt(m[3], 10);
+      dObj = new Date(yr, parseInt(m[2], 10) - 1, parseInt(m[1], 10));
+    }
+  }
+  if (!dObj || isNaN(dObj.getTime())) {
+    return item.start_time_str ? item.start_time_str.split(' ')[0] : '—';
+  }
+
+  const pad = n => String(n).padStart(2, '0');
+  const d = pad(dObj.getDate());
+  const m = pad(dObj.getMonth() + 1);
+  const yy = String(dObj.getFullYear()).slice(-2);
+  const baseDate = `${d}.${m}.${yy}`;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const targetMidnight = new Date(dObj);
+  targetMidnight.setHours(0, 0, 0, 0);
+  const diffDays = Math.round((targetMidnight - today) / (1000 * 60 * 60 * 24));
+
+  let rel = '';
+  if (diffDays === 0) rel = 'сегодня';
+  else if (diffDays === 1) rel = 'завтра';
+  else if (diffDays === 2) rel = 'послезавтра';
+  else if (diffDays === -1) rel = 'вчера';
+
+  if (rel) {
+    return `${baseDate} <span class="rel-tag">(${rel})</span>`;
+  }
+  return baseDate;
+}
+
+function formatPlannedTimeColumn(item) {
+  let sTime = '';
+  let eTime = '';
+  if (item.start_time_str) {
+    const m = item.start_time_str.match(/(\d{1,2}:\d{2})/);
+    if (m) sTime = m[1];
+  }
+  if (!sTime && item.start_timestamp) {
+    const d = new Date(item.start_timestamp * 1000);
+    sTime = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+  }
+
+  if (item.end_time_str) {
+    const m = item.end_time_str.match(/(\d{1,2}:\d{2})/);
+    if (m) eTime = m[1];
+  }
+  if (!eTime && item.end_timestamp) {
+    const d = new Date(item.end_timestamp * 1000);
+    eTime = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+  }
+
+  if (sTime && eTime) return `${sTime} - ${eTime}`;
+  if (sTime) return `С ${sTime}`;
+  if (eTime) return `До ${eTime}`;
+  return '—';
+}
+
+function formatPlannedCountdownColumn(item, nowTs) {
+  const pad = n => String(n).padStart(2, '0');
+  if (item.start_timestamp && nowTs >= item.start_timestamp) {
+    if (item.end_timestamp && nowTs < item.end_timestamp) {
+      const diffEnd = Math.max(0, item.end_timestamp - nowTs);
+      const days = Math.floor(diffEnd / 86400);
+      const hours = Math.floor((diffEnd % 86400) / 3600);
+      const mins = Math.floor((diffEnd % 3600) / 60);
+      const secs = diffEnd % 60;
+      const cdStr = days > 0 ? `${days}д ${pad(hours)}:${pad(mins)}:${pad(secs)}` : `${pad(hours)}:${pad(mins)}:${pad(secs)}`;
+      return `<span class="active-now" title="До окончания: ${cdStr}"><span class="pulse-dot-red"></span>${cdStr}</span>`;
+    }
+    if (!item.end_timestamp) {
+      return '<span class="active-now"><span class="pulse-dot-red"></span>Идет сейчас</span>';
+    }
+    return '<span style="color: var(--text-muted);">Завершено</span>';
+  }
+
+  if (!item.start_timestamp) return '—';
+
+  const diff = Math.max(0, item.start_timestamp - nowTs);
+  const days = Math.floor(diff / 86400);
+  const hours = Math.floor((diff % 86400) / 3600);
+  const mins = Math.floor((diff % 3600) / 60);
+  const secs = diff % 60;
+
+  if (days > 0) {
+    return `${days}д ${pad(hours)}:${pad(mins)}:${pad(secs)}`;
+  }
+  return `${pad(hours)}:${pad(mins)}:${pad(secs)}`;
+}
+
+let lastRenderedPlannedCount = -1;
+
+function updatePlannedOutagesDisplay(forceRebuild = false) {
+  if (!elPlannedOutageSection) return;
+  const nowTs = Math.floor(Date.now() / 1000);
+  const plannedList = getPlannedOutagesList(currentState);
+
+  if (plannedList.length === 0) {
+    elPlannedOutageSection.classList.remove('has-planned');
+    if (elPlannedCounterBadge) elPlannedCounterBadge.style.display = 'none';
+    if (elPlannedEmptyState) elPlannedEmptyState.style.display = 'flex';
+    if (elPlannedContentState) elPlannedContentState.style.display = 'none';
+    if (elWidgetPlannedAlert) elWidgetPlannedAlert.style.display = 'none';
+    lastRenderedPlannedCount = 0;
+    return;
+  }
+
+  elPlannedOutageSection.classList.add('has-planned');
+  if (elPlannedCounterBadge) {
+    elPlannedCounterBadge.style.display = 'inline-flex';
+    elPlannedCounterBadge.textContent = String(plannedList.length);
+  }
+  if (elPlannedEmptyState) elPlannedEmptyState.style.display = 'none';
+  if (elPlannedContentState) elPlannedContentState.style.display = 'flex';
+  if (elWidgetPlannedAlert) elWidgetPlannedAlert.style.display = 'inline-flex';
+
+  const nearest = plannedList[0];
+  if (nearest && nearest.start_timestamp && elWidgetPlannedCd) {
+    if (nowTs >= nearest.start_timestamp && (!nearest.end_timestamp || nowTs < nearest.end_timestamp)) {
+      if (widgetPlannedLabel) widgetPlannedLabel.textContent = 'До конца: ';
+      if (nearest.end_timestamp) {
+        const diffEnd = Math.max(0, nearest.end_timestamp - nowTs);
+        const pad = n => String(n).padStart(2, '0');
+        const d = Math.floor(diffEnd / 86400);
+        const h = Math.floor((diffEnd % 86400) / 3600);
+        const m = Math.floor((diffEnd % 3600) / 60);
+        const s = diffEnd % 60;
+        elWidgetPlannedCd.textContent = d > 0 ? `${d}д ${h}ч ${m}м` : `${pad(h)}:${pad(m)}:${pad(s)}`;
+      } else {
+        elWidgetPlannedCd.textContent = 'Идет сейчас';
+      }
+    } else {
+      if (widgetPlannedLabel) widgetPlannedLabel.textContent = 'До откл: ';
+      const diff = Math.max(0, nearest.start_timestamp - nowTs);
+      const pad = n => String(n).padStart(2, '0');
+      const d = Math.floor(diff / 86400);
+      const h = Math.floor((diff % 86400) / 3600);
+      const m = Math.floor((diff % 3600) / 60);
+      const s = diff % 60;
+      elWidgetPlannedCd.textContent = d > 0 ? `${d}д ${h}ч ${m}м` : `${pad(h)}:${pad(m)}:${pad(s)}`;
+    }
+  }
+
+  if (plannedThCountdown) {
+    const hasActive = plannedList.some(it => it.start_timestamp && nowTs >= it.start_timestamp && (!it.end_timestamp || nowTs < it.end_timestamp));
+    plannedThCountdown.textContent = hasActive ? 'До окончания' : 'До отключения';
+  }
+
+  if (forceRebuild || lastRenderedPlannedCount !== plannedList.length || !elPlannedList || elPlannedList.children.length !== plannedList.length) {
+    if (elPlannedList) {
+      elPlannedList.innerHTML = '';
+      plannedList.forEach((item, idx) => {
+        const row = document.createElement('div');
+        const isCurrent = item.start_timestamp && nowTs >= item.start_timestamp && (!item.end_timestamp || nowTs < item.end_timestamp);
+        row.className = isCurrent ? 'planned-item-row is-current' : 'planned-item-row';
+        row.id = `plannedRow_${idx}`;
+        row.dataset.idx = String(idx);
+        row.dataset.startTs = String(item.start_timestamp || '');
+        row.dataset.endTs = String(item.end_timestamp || '');
+        row.innerHTML = `
+          <span class="col-num">${idx + 1}.</span>
+          <span class="col-date">${formatPlannedDateColumn(item)}</span>
+          <span class="col-time">${formatPlannedTimeColumn(item)}</span>
+          <span class="col-countdown" id="plannedCdRow_${idx}">${formatPlannedCountdownColumn(item, nowTs)}</span>
+        `;
+        elPlannedList.appendChild(row);
+      });
+    }
+    lastRenderedPlannedCount = plannedList.length;
+  } else {
+    plannedList.forEach((item, idx) => {
+      const cdEl = document.getElementById(`plannedCdRow_${idx}`);
+      if (cdEl) {
+        cdEl.innerHTML = formatPlannedCountdownColumn(item, nowTs);
+      }
+      const row = document.getElementById(`plannedRow_${idx}`);
+      if (row) {
+        row.dataset.idx = String(idx);
+        row.dataset.startTs = String(item.start_timestamp || '');
+        row.dataset.endTs = String(item.end_timestamp || '');
+        const isCurrent = item.start_timestamp && nowTs >= item.start_timestamp && (!item.end_timestamp || nowTs < item.end_timestamp);
+        if (isCurrent && !row.classList.contains('is-current')) {
+          row.classList.add('is-current');
+        } else if (!isCurrent && row.classList.contains('is-current')) {
+          row.classList.remove('is-current');
+        }
+      }
+    });
+  }
+}
+
 function updateCountdown() {
+  const nowTs = Math.floor(Date.now() / 1000);
+
+  updatePlannedOutagesDisplay(false);
+
+  const plannedList = getPlannedOutagesList(currentState);
+  plannedList.forEach(item => {
+    if (item.start_timestamp && nowTs >= item.start_timestamp) {
+      if (!triggeredPlannedStartRefreshes.has(item.start_timestamp)) {
+        triggeredPlannedStartRefreshes.add(item.start_timestamp);
+        if (btnRefreshStatus) {
+          if (btnRefreshStatus.disabled) {
+            btnRefreshStatus.disabled = false;
+            btnRefreshStatus.classList.remove('is-cooldown');
+          }
+          btnRefreshStatus.click();
+        }
+      }
+    }
+  });
+
+  if (currentState && Array.isArray(currentState.planned_outages)) {
+    const prevCount = currentState.planned_outages.length;
+    currentState.planned_outages = currentState.planned_outages.filter(it => !it.end_timestamp || it.end_timestamp > nowTs);
+    if (currentState.planned_outages.length !== prevCount) {
+      if (currentState.planned_outages.length > 0) {
+        const nextPo = currentState.planned_outages[0];
+        currentState.is_planned = true;
+        currentState.start_timestamp = nextPo.start_timestamp;
+        currentState.end_timestamp = nextPo.end_timestamp;
+        currentState.start_time_str = nextPo.start_time_str;
+        currentState.end_time_str = nextPo.end_time_str;
+      } else {
+        currentState.is_planned = false;
+        currentState.start_timestamp = null;
+        currentState.end_timestamp = null;
+        currentState.start_time_str = null;
+        currentState.end_time_str = null;
+      }
+      updatePlannedOutagesDisplay(true);
+    }
+  } else if (currentState && currentState.end_timestamp && nowTs >= currentState.end_timestamp && currentState.is_planned) {
+    currentState.is_planned = false;
+    currentState.start_timestamp = null;
+    currentState.end_timestamp = null;
+    currentState.start_time_str = null;
+    currentState.end_time_str = null;
+    updatePlannedOutagesDisplay(true);
+  }
+
   if (!currentState || currentState.status !== 'OFF' || !currentState.end_timestamp) {
-    if (elTimerDigits) {
-      elTimerDigits.innerHTML = '<span class="status-heading-on"><span class="status-bolt">⚡</span> Свет есть</span>';
+    if (currentState && currentState.light_on_since) {
+      lightOnSince = currentState.light_on_since;
+    } else if (lightOnSince === null) {
+      const saved = localStorage.getItem('lightwidget_light_on_since');
+      lightOnSince = saved ? parseInt(saved, 10) : Date.now();
+      localStorage.setItem('lightwidget_light_on_since', lightOnSince);
     }
-    if (elProgressBarFill) elProgressBarFill.style.width = '100%';
+    showLightOnStatus();
+    if (elProgressBarFill) {
+      elProgressBarFill.className = 'slim-progress-fill';
+      elProgressBarFill.style.width = '100%';
+    }
     if (elProgressPercentText) elProgressPercentText.textContent = '100%';
-    if (elTimerLabel) {
-      elTimerLabel.textContent = 'Электросеть работает в штатном режиме';
-      elTimerLabel.className = 'timer-subtitle status-sub-on';
-      elTimerLabel.style.color = '';
-    }
 
     if (elLivePill) elLivePill.className = 'live-pill';
     if (elLivePillText) elLivePillText.textContent = 'СВЕТ ЕСТЬ';
@@ -185,11 +498,14 @@ function updateCountdown() {
     if (elStatusLabel) elStatusLabel.textContent = 'СВЕТ ЕСТЬ';
 
     if (elBrandStatusDot) elBrandStatusDot.className = 'brand-status-dot on';
-    if (widgetCountdown) widgetCountdown.innerHTML = '<span class="widget-heading-on">⚡ Свет есть</span>';
+    if (widgetCountdown) widgetCountdown.innerHTML = '<span class="widget-heading-on"><span class="status-bolt">⚡</span> Свет есть</span>';
     if (widgetStatusText) widgetStatusText.textContent = 'СВЕТ ЕСТЬ';
     if (widgetStatusBadge) widgetStatusBadge.className = 'widget-status';
     if (widgetEndTime) widgetEndTime.textContent = 'стабильно';
-    if (widgetProgressFill) widgetProgressFill.style.width = '100%';
+    if (widgetProgressFill) {
+      widgetProgressFill.className = 'widget-bar-fill';
+      widgetProgressFill.style.width = '100%';
+    }
 
     if (elRowReason) elRowReason.style.display = 'none';
     if (elRowStart) elRowStart.style.display = 'none';
@@ -197,7 +513,6 @@ function updateCountdown() {
     return;
   }
 
-  const nowTs = Math.floor(Date.now() / 1000);
   const endTs = currentState.end_timestamp;
   const startTs = currentState.start_timestamp || (endTs - 3600);
 
@@ -208,20 +523,19 @@ function updateCountdown() {
     document.body.setAttribute('data-power-status', 'ON');
     const appContainer = document.querySelector('.app-container');
     if (appContainer) {
-      appContainer.classList.remove('power-off');
+      appContainer.classList.remove('power-off', 'power-planned');
       appContainer.classList.add('power-on');
     }
 
     if (elBrandStatusDot) elBrandStatusDot.className = 'brand-status-dot on';
 
-    if (elTimerDigits) {
-      elTimerDigits.innerHTML = '<span class="status-heading-on"><span class="status-bolt">⚡</span> Свет есть</span>';
+    if (currentState && currentState.light_on_since) {
+      lightOnSince = currentState.light_on_since;
+    } else if (lightOnSince === null) {
+      lightOnSince = Date.now();
+      localStorage.setItem('lightwidget_light_on_since', lightOnSince);
     }
-    if (elTimerLabel) {
-      elTimerLabel.textContent = 'Время отключения завершено • Электросеть работает';
-      elTimerLabel.className = 'timer-subtitle status-sub-on';
-      elTimerLabel.style.color = '';
-    }
+    showLightOnStatus('Время отключения завершено • Электросеть работает');
 
     if (elLivePill) elLivePill.className = 'live-pill';
     if (elLivePillText) elLivePillText.textContent = 'СВЕТ ЕСТЬ';
@@ -229,7 +543,7 @@ function updateCountdown() {
     if (elStatusLabel) elStatusLabel.textContent = 'СВЕТ ЕСТЬ';
 
     if (widgetCountdown) {
-      widgetCountdown.innerHTML = '<span class="widget-heading-on">⚡ Свет есть</span>';
+      widgetCountdown.innerHTML = '<span class="widget-heading-on"><span class="status-bolt">⚡</span> Свет есть</span>';
     }
     if (widgetStatusText) widgetStatusText.textContent = 'СВЕТ ЕСТЬ';
     if (widgetStatusBadge) widgetStatusBadge.className = 'widget-status';
@@ -239,9 +553,15 @@ function updateCountdown() {
     if (elRowStart) elRowStart.style.display = 'none';
     if (elRowEnd) elRowEnd.style.display = 'none';
 
-    if (elProgressBarFill) elProgressBarFill.style.width = '100%';
+    if (elProgressBarFill) {
+      elProgressBarFill.className = 'slim-progress-fill';
+      elProgressBarFill.style.width = '100%';
+    }
     if (elProgressPercentText) elProgressPercentText.textContent = '100%';
-    if (widgetProgressFill) widgetProgressFill.style.width = '100%';
+    if (widgetProgressFill) {
+      widgetProgressFill.className = 'widget-bar-fill';
+      widgetProgressFill.style.width = '100%';
+    }
     return;
   }
 
@@ -290,9 +610,15 @@ function updateCountdown() {
   const elapsed = Math.max(0, Math.min(total, nowTs - startTs));
   const pct = Math.min(100, Math.max(0, Math.round((elapsed / total) * 100)));
 
-  if (elProgressBarFill) elProgressBarFill.style.width = `${pct}%`;
+  if (elProgressBarFill) {
+    elProgressBarFill.className = 'slim-progress-fill';
+    elProgressBarFill.style.width = `${pct}%`;
+  }
   if (elProgressPercentText) elProgressPercentText.textContent = `${pct}%`;
-  if (widgetProgressFill) widgetProgressFill.style.width = `${pct}%`;
+  if (widgetProgressFill) {
+    widgetProgressFill.className = 'widget-bar-fill';
+    widgetProgressFill.style.width = `${pct}%`;
+  }
 }
 
 let isAddressRevealed = false;
@@ -351,11 +677,28 @@ function renderState(state) {
   currentState = state;
 
   const isOutage = state.status === 'OFF';
+  const nowTs = Math.floor(Date.now() / 1000);
+  const plannedList = getPlannedOutagesList(state);
+  const isUpcomingPlanned = !isOutage && (plannedList.length > 0 || (state.is_planned && state.start_timestamp && (nowTs < state.start_timestamp)));
+
+  if (isOutage) {
+    lightOnSince = null;
+    localStorage.removeItem('lightwidget_light_on_since');
+  } else {
+    if (state.light_on_since) {
+      lightOnSince = state.light_on_since;
+    } else if (lightOnSince === null) {
+      const saved = localStorage.getItem('lightwidget_light_on_since');
+      lightOnSince = saved ? parseInt(saved, 10) : Date.now();
+    }
+    localStorage.setItem('lightwidget_light_on_since', lightOnSince);
+  }
 
   document.documentElement.setAttribute('data-power-status', isOutage ? 'OFF' : 'ON');
   document.body.setAttribute('data-power-status', isOutage ? 'OFF' : 'ON');
   const appContainer = document.querySelector('.app-container');
   if (appContainer) {
+    appContainer.classList.remove('power-off', 'power-planned');
     if (isOutage) {
       appContainer.classList.add('power-off');
       appContainer.classList.remove('power-on');
@@ -383,6 +726,7 @@ function renderState(state) {
       const match = state.end_time_str?.match(/\d{1,2}:\d{2}/);
       widgetEndTime.textContent = match ? `до ${match[0]}` : (state.end_time_str ? `до ${state.end_time_str}` : 'уточняется');
     }
+
   } else {
     if (elHeroCard) elHeroCard.className = 'hero-card normal';
     if (elLivePill) elLivePill.className = 'live-pill';
@@ -396,13 +740,16 @@ function renderState(state) {
     if (widgetEndTime) widgetEndTime.textContent = 'стабильно';
   }
 
-  updateAddressDisplay();
-  if (elRowReason) elRowReason.style.display = isOutage ? 'flex' : 'none';
-  if (elRowStart) elRowStart.style.display = isOutage ? 'flex' : 'none';
-  if (elRowEnd) elRowEnd.style.display = isOutage ? 'flex' : 'none';
+  updatePlannedOutagesDisplay(true);
 
-  if (isOutage) {
-    if (elDetailReason) elDetailReason.textContent = state.reason || 'Аварийно-восстановительные работы';
+  updateAddressDisplay();
+  const showRows = isOutage || isUpcomingPlanned;
+  if (elRowReason) elRowReason.style.display = showRows ? 'flex' : 'none';
+  if (elRowStart) elRowStart.style.display = showRows ? 'flex' : 'none';
+  if (elRowEnd) elRowEnd.style.display = showRows ? 'flex' : 'none';
+
+  if (showRows) {
+    if (elDetailReason) elDetailReason.textContent = state.reason || (isUpcomingPlanned ? 'Запланированы ремонтные работы' : 'Аварийно-восстановительные работы');
     if (elDetailStart) elDetailStart.innerHTML = formatWithRelativeDay(state.start_time_str);
     if (elDetailEnd) elDetailEnd.innerHTML = formatWithRelativeDay(state.end_time_str || 'Уточняется');
   }
@@ -422,7 +769,7 @@ let cachedHistory = [];
 try {
   const savedHist = localStorage.getItem('lightwidget_history');
   if (savedHist) cachedHistory = JSON.parse(savedHist);
-} catch (e) {}
+} catch (e) { }
 
 function updateNetworkStats(history) {
   if (Array.isArray(history)) cachedHistory = history;
@@ -503,7 +850,7 @@ let cachedDailyStats = {};
 try {
   const saved = localStorage.getItem('lightwidget_daily_stats');
   if (saved) cachedDailyStats = JSON.parse(saved);
-} catch (e) {}
+} catch (e) { }
 
 function renderHeatmap(historyData, extraDailyStats) {
   const grid = document.getElementById('heatmapGrid');
@@ -519,21 +866,43 @@ function renderHeatmap(historyData, extraDailyStats) {
   const numWeeks = 18;
   const currentDayOfWeek = (now.getDay() + 6) % 7;
 
-  const historyMap = Object.assign({}, cachedDailyStats, extraDailyStats || {});
+  const historyMap = {};
+  if (extraDailyStats && typeof extraDailyStats === 'object' && Object.keys(extraDailyStats).length > 0) {
+    Object.keys(extraDailyStats).forEach(k => {
+      historyMap[k] = Object.assign({}, extraDailyStats[k]);
+    });
+  } else if (cachedDailyStats && typeof cachedDailyStats === 'object') {
+    Object.keys(cachedDailyStats).forEach(k => {
+      historyMap[k] = Object.assign({}, cachedDailyStats[k]);
+    });
+  }
 
+  const computedFromHistory = {};
   if (Array.isArray(historyData)) {
     historyData.forEach(item => {
       const itemDateStr = (item.timestamp || item.updated_at || '').split('T')[0];
       if (itemDateStr) {
-        if (!historyMap[itemDateStr]) historyMap[itemDateStr] = { count: 0, offSec: 0, recorded: true };
+        if (!computedFromHistory[itemDateStr]) {
+          computedFromHistory[itemDateStr] = { count: 0, offSec: 0, recorded: true };
+        }
         if (item.status === 'OFF') {
-          historyMap[itemDateStr].count++;
+          computedFromHistory[itemDateStr].count++;
           const total = item.total_seconds || (item.end_timestamp && item.start_timestamp ? (item.end_timestamp - item.start_timestamp) : 0);
-          historyMap[itemDateStr].offSec += (total > 0 ? total : 3600);
+          computedFromHistory[itemDateStr].offSec += (total > 0 ? total : 3600);
         }
       }
     });
   }
+
+  Object.keys(computedFromHistory).forEach(k => {
+    if (!historyMap[k]) {
+      historyMap[k] = computedFromHistory[k];
+    } else {
+      historyMap[k].count = Math.max(historyMap[k].count || 0, computedFromHistory[k].count || 0);
+      historyMap[k].offSec = Math.max(historyMap[k].offSec || 0, computedFromHistory[k].offSec || 0);
+      historyMap[k].recorded = true;
+    }
+  });
 
   const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
   if (!historyMap[todayKey]) {
@@ -547,8 +916,29 @@ function renderHeatmap(historyData, extraDailyStats) {
     }
   }
 
-  Object.assign(cachedDailyStats, historyMap);
-  try { localStorage.setItem('lightwidget_daily_stats', JSON.stringify(cachedDailyStats)); } catch (e) {}
+  let earliestDateKey = null;
+  Object.keys(historyMap).forEach(k => {
+    if (historyMap[k] && historyMap[k].recorded) {
+      if (!earliestDateKey || k < earliestDateKey) {
+        earliestDateKey = k;
+      }
+    }
+  });
+
+  if (earliestDateKey) {
+    const curDate = new Date(earliestDateKey + 'T00:00:00');
+    const endDate = new Date(todayKey + 'T00:00:00');
+    while (curDate <= endDate) {
+      const k = `${curDate.getFullYear()}-${String(curDate.getMonth() + 1).padStart(2, '0')}-${String(curDate.getDate()).padStart(2, '0')}`;
+      if (!historyMap[k]) {
+        historyMap[k] = { count: 0, offSec: 0, recorded: true, status: 'ON' };
+      }
+      curDate.setDate(curDate.getDate() + 1);
+    }
+  }
+
+  cachedDailyStats = Object.assign({}, historyMap);
+  try { localStorage.setItem('lightwidget_daily_stats', JSON.stringify(cachedDailyStats)); } catch (e) { }
 
   let totalDaysWithOutages = 0;
   let lastMonthLabelCol = -4;
@@ -677,6 +1067,11 @@ let appSettings = {
   showHeatmap: localStorage.getItem('lightwidget_show_heatmap') !== 'false',
   sound: localStorage.getItem('lightwidget_sound') !== 'false',
   banner: localStorage.getItem('lightwidget_banner') !== 'false',
+  navPosition: localStorage.getItem('lightwidget_nav_pos') || 'top',
+  navHover: localStorage.getItem('lightwidget_nav_hover') === 'true',
+  tabHoverInfo: localStorage.getItem('lightwidget_tab_hover_info') !== 'false',
+  toastPosition: localStorage.getItem('lightwidget_toast_pos') || 'bottom-right',
+  soundName: localStorage.getItem('lightwidget_sound_name') || 'Submarine',
 };
 window.appSettings = appSettings;
 
@@ -806,6 +1201,25 @@ function applySettingsState() {
       elBrandStatusDot.style.boxShadow = '';
     }
   }
+
+  if (appContainer) {
+    appContainer.classList.remove('nav-pos-left', 'nav-pos-right', 'nav-pos-top');
+    appContainer.classList.add(`nav-pos-${appSettings.navPosition}`);
+    appContainer.classList.toggle('nav-hover', appSettings.navHover);
+    appContainer.classList.toggle('tab-hover-info', appSettings.tabHoverInfo !== false);
+    appContainer.classList.toggle('tab-labels-always', appSettings.tabHoverInfo === false);
+  }
+  document.querySelectorAll('.nav-pos-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-pos') === appSettings.navPosition);
+  });
+  const navHoverChk = document.getElementById('settingNavHover');
+  if (navHoverChk) navHoverChk.checked = appSettings.navHover;
+  const tabHoverChk = document.getElementById('settingTabHoverInfo');
+  if (tabHoverChk) tabHoverChk.checked = appSettings.tabHoverInfo !== false;
+  const soundNameSelect = document.getElementById('settingSoundName');
+  if (soundNameSelect) soundNameSelect.value = appSettings.soundName;
+  const toastPosSelect = document.getElementById('settingToastPos');
+  if (toastPosSelect) toastPosSelect.value = appSettings.toastPosition;
 }
 
 window.applyTheme = applyTheme;
@@ -900,6 +1314,78 @@ function setupSettings() {
     });
   }
 
+  document.querySelectorAll('.nav-pos-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      appSettings.navPosition = btn.getAttribute('data-pos');
+      localStorage.setItem('lightwidget_nav_pos', appSettings.navPosition);
+      applySettingsState();
+      if (window.pywebview?.api?.save_config) {
+        window.pywebview.api.save_config({ appearance: { nav_position: appSettings.navPosition } });
+      }
+      showToast(`Панель: ${btn.querySelector('span')?.textContent || appSettings.navPosition}`);
+    });
+  });
+
+  const navHoverChk = document.getElementById('settingNavHover');
+  if (navHoverChk) {
+    navHoverChk.addEventListener('change', () => {
+      appSettings.navHover = navHoverChk.checked;
+      localStorage.setItem('lightwidget_nav_hover', navHoverChk.checked);
+      applySettingsState();
+      if (window.pywebview?.api?.save_config) {
+        window.pywebview.api.save_config({ appearance: { nav_hover: navHoverChk.checked } });
+      }
+    });
+  }
+
+  const tabHoverChk = document.getElementById('settingTabHoverInfo');
+  if (tabHoverChk) {
+    tabHoverChk.addEventListener('change', () => {
+      appSettings.tabHoverInfo = tabHoverChk.checked;
+      localStorage.setItem('lightwidget_tab_hover_info', tabHoverChk.checked);
+      applySettingsState();
+      if (window.pywebview?.api?.save_config) {
+        window.pywebview.api.save_config({ appearance: { tab_hover_info: tabHoverChk.checked } });
+      }
+      showToast(tabHoverChk.checked ? 'Название вкладок: при наведении' : 'Название вкладок: всегда');
+    });
+  }
+
+  const soundNameSelect = document.getElementById('settingSoundName');
+  const btnPreviewSound = document.getElementById('btnPreviewSound');
+  if (soundNameSelect) {
+    soundNameSelect.addEventListener('change', () => {
+      appSettings.soundName = soundNameSelect.value;
+      localStorage.setItem('lightwidget_sound_name', appSettings.soundName);
+      if (window.pywebview?.api?.save_config) {
+        window.pywebview.api.save_config({ notifications: { sound_name: appSettings.soundName } });
+      }
+    });
+  }
+  if (btnPreviewSound) {
+    btnPreviewSound.addEventListener('click', () => {
+      const soundName = (soundNameSelect && soundNameSelect.value) || appSettings.soundName || 'Glass';
+      if (window.pywebview?.api?.play_sound) {
+        window.pywebview.api.play_sound(soundName);
+      } else {
+        showToast('Прослушивание доступно только в приложении');
+      }
+    });
+  }
+
+  const toastPosSelect = document.getElementById('settingToastPos');
+  if (toastPosSelect) {
+    toastPosSelect.addEventListener('change', () => {
+      appSettings.toastPosition = toastPosSelect.value;
+      localStorage.setItem('lightwidget_toast_pos', appSettings.toastPosition);
+      applySettingsState();
+      if (window.pywebview?.api?.save_config) {
+        window.pywebview.api.save_config({ appearance: { toast_position: appSettings.toastPosition } });
+      }
+      showToast('Позиция уведомлений обновлена');
+    });
+  }
+
   const btnReset = document.getElementById('btnResetSettings');
   if (btnReset) {
     btnReset.addEventListener('click', () => {
@@ -911,6 +1397,10 @@ function setupSettings() {
       appSettings.showHeatmap = true;
       appSettings.sound = true;
       appSettings.banner = true;
+      appSettings.navPosition = 'top';
+      appSettings.navHover = false;
+      appSettings.tabHoverInfo = true;
+      appSettings.soundName = 'Submarine';
       localStorage.removeItem('lightwidget_theme');
       localStorage.removeItem('lightwidget_accent');
       localStorage.removeItem('lightwidget_show_seconds');
@@ -919,11 +1409,15 @@ function setupSettings() {
       localStorage.removeItem('lightwidget_show_heatmap');
       localStorage.removeItem('lightwidget_sound');
       localStorage.removeItem('lightwidget_banner');
+      localStorage.removeItem('lightwidget_nav_pos');
+      localStorage.removeItem('lightwidget_nav_hover');
+      localStorage.removeItem('lightwidget_tab_hover_info');
+      localStorage.removeItem('lightwidget_sound_name');
       applySettingsState();
       if (window.pywebview?.api?.save_config) {
         window.pywebview.api.save_config({
-          appearance: { theme: 'midnight', accent: 'blue', show_seconds: true, show_pulse: true },
-          notifications: { sound: true, banner: true, macos_sound: true, macos_banner: true }
+          appearance: { theme: 'midnight', accent: 'blue', show_seconds: true, show_pulse: true, nav_position: 'top', nav_hover: false, tab_hover_info: true },
+          notifications: { sound: true, banner: true, macos_sound: true, macos_banner: true, sound_name: 'Submarine' }
         });
       }
       showToast('Настройки сброшены по умолчанию');
@@ -933,7 +1427,7 @@ function setupSettings() {
   if (btnClearSimInput) {
     btnClearSimInput.addEventListener('click', () => {
       if (simMessageInput) simMessageInput.value = '';
-      if (simResultBox) simResultBox.style.display = 'none';
+      if (simStatusBanner) simStatusBanner.style.display = 'none';
     });
   }
 }
@@ -972,6 +1466,9 @@ function setupEventListeners() {
     isAccountEditing = false;
     elInputAccountNumber.readOnly = true;
     elInputAccountNumber.classList.remove('editing');
+    if (!isAccountRevealed) {
+      elInputAccountNumber.classList.add('masked');
+    }
     if (elAccountEditText) elAccountEditText.textContent = 'Редактировать';
     const val = elInputAccountNumber.value.trim();
     if (window.pywebview?.api?.save_account_number) {
@@ -987,10 +1484,17 @@ function setupEventListeners() {
         isAccountEditing = true;
         elInputAccountNumber.readOnly = false;
         elInputAccountNumber.classList.add('editing');
+        elInputAccountNumber.classList.remove('masked');
         if (elAccountEditText) elAccountEditText.textContent = 'Применить';
         elInputAccountNumber.focus();
         elInputAccountNumber.select();
       } else {
+        await saveAccount();
+      }
+    });
+
+    elInputAccountNumber.addEventListener('keydown', async (e) => {
+      if (e.key === 'Enter' && isAccountEditing) {
         await saveAccount();
       }
     });
@@ -1023,9 +1527,13 @@ function setupEventListeners() {
     });
   }
 
+  let isRefreshCooldown = false;
   if (btnRefreshStatus) {
     btnRefreshStatus.addEventListener('click', async () => {
-      if (btnRefreshStatus.classList.contains('is-refreshing')) return;
+      if (isRefreshCooldown || btnRefreshStatus.classList.contains('is-refreshing')) {
+        showToast('Подождите несколько секунд перед повторным обновлением');
+        return;
+      }
       btnRefreshStatus.classList.add('is-refreshing');
 
       try {
@@ -1041,6 +1549,14 @@ function setupEventListeners() {
       } finally {
         btnRefreshStatus.classList.remove('is-refreshing');
         showToast('Синхронизировано');
+        isRefreshCooldown = true;
+        btnRefreshStatus.classList.add('is-cooldown');
+        btnRefreshStatus.disabled = true;
+        setTimeout(() => {
+          isRefreshCooldown = false;
+          btnRefreshStatus.classList.remove('is-cooldown');
+          btnRefreshStatus.disabled = false;
+        }, 5000);
       }
     });
   }
@@ -1051,8 +1567,13 @@ function setupEventListeners() {
       if (window.pywebview?.api?.clear_history) {
         await window.pywebview.api.clear_history();
       }
+      try {
+        localStorage.removeItem('lightwidget_daily_stats');
+      } catch (e) { }
+      cachedDailyStats = {};
       loadHistory();
-      showToast('История очищена');
+      renderHeatmap([], {});
+      showToast('История и статистика очищены');
     });
   }
 
@@ -1068,17 +1589,35 @@ function setupEventListeners() {
       const text = simMessageInput.value.trim();
       if (!text) {
         showToast('Введите текст сообщения');
+        if (simStatusBanner) simStatusBanner.style.display = 'none';
         return;
       }
       if (window.pywebview?.api) {
         const res = await window.pywebview.api.parse_and_apply(text);
         if (res) {
-          if (simResultBox) simResultBox.style.display = 'block';
-          if (simResultJson) simResultJson.textContent = JSON.stringify(res, null, 2);
           renderState(res);
-          showToast('Сообщение применено!');
+          if (simStatusBanner) {
+            simStatusBanner.style.display = 'inline-flex';
+            if (simStatusText) {
+              if (res.status === 'OFF') {
+                simStatusText.textContent = 'Применено! Статус: Свет отключен';
+              } else if (res.is_planned) {
+                const count = Array.isArray(res.planned_outages) ? res.planned_outages.length : 1;
+                simStatusText.textContent = `Применено! Запланировано отключений: ${count}`;
+              } else {
+                simStatusText.textContent = 'Применено! Статус: Свет есть';
+              }
+            }
+          }
+          showToast('Применено!');
         }
       }
+    });
+  }
+
+  if (simMessageInput) {
+    simMessageInput.addEventListener('input', () => {
+      if (simStatusBanner) simStatusBanner.style.display = 'none';
     });
   }
 
@@ -1234,6 +1773,130 @@ function setupEventListeners() {
       }
     });
   }
+
+  if (elPlannedOutageSection) {
+    elPlannedOutageSection.addEventListener('contextmenu', (e) => {
+      const plannedList = getPlannedOutagesList(currentState);
+      if (!plannedList || plannedList.length === 0) return;
+      e.preventDefault();
+      const rowEl = e.target.closest('.planned-item-row');
+      let targetItem = null;
+      if (rowEl && rowEl.dataset.idx !== undefined) {
+        const idx = parseInt(rowEl.dataset.idx, 10);
+        if (!isNaN(idx) && plannedList[idx]) {
+          targetItem = plannedList[idx];
+        }
+      }
+      if (!targetItem && plannedList.length > 0) {
+        targetItem = plannedList[0];
+      }
+      if (targetItem) {
+        showPlannedContextMenu(e, targetItem);
+      }
+    });
+  }
+
+  if (elWidgetPlannedAlert) {
+    elWidgetPlannedAlert.addEventListener('contextmenu', (e) => {
+      const plannedList = getPlannedOutagesList(currentState);
+      if (!plannedList || plannedList.length === 0) return;
+      e.preventDefault();
+      showPlannedContextMenu(e, plannedList[0]);
+    });
+  }
+
+  if (btnDeletePlannedItem) {
+    btnDeletePlannedItem.addEventListener('click', async () => {
+      const target = plannedContextMenuTarget;
+      hidePlannedContextMenu();
+      if (!target) return;
+
+      try {
+        if (window.pywebview?.api?.delete_planned_outage) {
+          const updatedState = await window.pywebview.api.delete_planned_outage(target.start_timestamp, target.end_timestamp || null);
+          if (updatedState && typeof updatedState === 'object') {
+            renderState(updatedState);
+            updatePlannedOutagesDisplay(true);
+            showToast('Плановое отключение удалено');
+            return;
+          }
+        }
+      } catch (err) {
+        console.error('Delete planned outage error:', err);
+      }
+
+      if (currentState && Array.isArray(currentState.planned_outages)) {
+        currentState.planned_outages = currentState.planned_outages.filter(it => {
+          const sMatch = it.start_timestamp === target.start_timestamp;
+          const eMatch = target.end_timestamp === undefined || target.end_timestamp === null || it.end_timestamp === target.end_timestamp;
+          return !(sMatch && eMatch);
+        });
+        if (currentState.planned_outages.length > 0) {
+          const nextPo = currentState.planned_outages[0];
+          currentState.is_planned = true;
+          currentState.start_timestamp = nextPo.start_timestamp;
+          currentState.end_timestamp = nextPo.end_timestamp;
+          currentState.start_time_str = nextPo.start_time_str;
+          currentState.end_time_str = nextPo.end_time_str;
+        } else {
+          currentState.is_planned = false;
+          currentState.start_timestamp = null;
+          currentState.end_timestamp = null;
+          currentState.start_time_str = null;
+          currentState.end_time_str = null;
+        }
+        renderState(currentState);
+        updatePlannedOutagesDisplay(true);
+        showToast('Плановое отключение удалено');
+      }
+    });
+  }
+
+  window.addEventListener('click', (e) => {
+    if (plannedContextMenu && plannedContextMenu.style.display !== 'none') {
+      if (!plannedContextMenu.contains(e.target)) {
+        hidePlannedContextMenu();
+      }
+    }
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      hidePlannedContextMenu();
+    }
+  });
+
+  window.addEventListener('scroll', () => {
+    hidePlannedContextMenu();
+  }, true);
+}
+
+function hidePlannedContextMenu() {
+  if (plannedContextMenu) {
+    plannedContextMenu.style.display = 'none';
+  }
+  plannedContextMenuTarget = null;
+}
+
+function showPlannedContextMenu(e, item) {
+  if (!plannedContextMenu) return;
+  plannedContextMenuTarget = item;
+  plannedContextMenu.style.display = 'block';
+
+  const menuWidth = plannedContextMenu.offsetWidth || 140;
+  const menuHeight = plannedContextMenu.offsetHeight || 40;
+  let x = e.clientX;
+  let y = e.clientY;
+
+  if (x + menuWidth > window.innerWidth) {
+    x = Math.max(10, window.innerWidth - menuWidth - 10);
+  }
+  if (y + menuHeight > window.innerHeight) {
+    y = Math.max(10, window.innerHeight - menuHeight - 10);
+  }
+
+  plannedContextMenu.style.left = `${x}px`;
+  plannedContextMenu.style.top = `${y}px`;
 }
 
 async function loadHistory() {
@@ -1243,11 +1906,11 @@ async function loadHistory() {
     const dailyStats = window.pywebview.api.get_daily_stats ? await window.pywebview.api.get_daily_stats() : {};
     if (dailyStats && typeof dailyStats === 'object') {
       Object.assign(cachedDailyStats, dailyStats);
-      try { localStorage.setItem('lightwidget_daily_stats', JSON.stringify(cachedDailyStats)); } catch (e) {}
+      try { localStorage.setItem('lightwidget_daily_stats', JSON.stringify(cachedDailyStats)); } catch (e) { }
     }
     if (Array.isArray(history)) {
       cachedHistory = history;
-      try { localStorage.setItem('lightwidget_history', JSON.stringify(history)); } catch (e) {}
+      try { localStorage.setItem('lightwidget_history', JSON.stringify(history)); } catch (e) { }
       updateNetworkStats(history);
     }
     if (!history || history.length === 0) {
@@ -1259,24 +1922,82 @@ async function loadHistory() {
       historyList.innerHTML = '';
       history.forEach(item => {
         const isOutage = item.status === 'OFF';
+        const isPlanned = item.status === 'PLANNED';
         const dateObj = new Date(item.timestamp || item.updated_at);
         const isToday = dateObj.toDateString() === new Date().toDateString();
-        const timeFormatted = isToday 
-          ? dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-          : `${dateObj.toLocaleDateString([], {day: 'numeric', month: 'short'})}, ${dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+        const timeFormatted = isToday
+          ? dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          : `${dateObj.toLocaleDateString([], { day: 'numeric', month: 'short' })}, ${dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+        const badgeClass = isOutage ? 'off' : (isPlanned ? 'warn' : 'on');
+        const badgeText = isOutage ? 'ОТКЛЮЧЕНИЕ' : (isPlanned ? 'ПЛАНОВЫЕ' : 'СВЕТ ВКЛЮЧЕН');
+        let subText = 'Электросеть работает в штатном режиме';
+        if (isOutage) {
+          subText = `${item.reason || 'Отключение электроэнергии'}${item.end_time_str ? ` • До: ${item.end_time_str}` : ''}`;
+        } else if (isPlanned) {
+          subText = `${item.reason || 'Запланированы ремонтные работы'}${item.start_time_str ? ` • С: ${item.start_time_str}` : ''}${item.end_time_str ? ` • До: ${item.end_time_str}` : ''}`;
+        }
 
         const div = document.createElement('div');
         div.className = 'history-item';
         div.innerHTML = `
           <div class="history-item-left">
-            <span class="history-badge ${isOutage ? 'off' : 'on'}">${isOutage ? 'ОТКЛЮЧЕНИЕ' : 'СВЕТ ВКЛЮЧЕН'}</span>
+            <span class="history-badge ${badgeClass}">${badgeText}</span>
             <div class="history-details">
               <span class="history-title">${item.address || 'Адрес не указан'}</span>
-              <span class="history-sub">${isOutage ? (item.reason || 'Отключение электроэнергии') : 'Электросеть работает в штатном режиме'}${isOutage && item.end_time_str ? ` • До: ${item.end_time_str}` : ''}</span>
+              <span class="history-sub">${subText}</span>
             </div>
           </div>
-          <div class="history-time">${timeFormatted}</div>
+          <div class="history-item-right">
+            <span class="history-time">${timeFormatted}</span>
+            <button class="history-delete-btn" type="button" title="Удалить запись">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
         `;
+
+        const recordKey = item.timestamp || item.updated_at;
+        const deleteBtn = div.querySelector('.history-delete-btn');
+        if (deleteBtn) {
+          deleteBtn.addEventListener('click', async () => {
+            div.classList.add('history-item-leaving');
+            await new Promise(r => setTimeout(r, 260));
+            let ok = true;
+            try {
+              if (window.pywebview?.api?.delete_history_record) {
+                ok = await window.pywebview.api.delete_history_record(recordKey) !== false;
+              }
+            } catch (err) {
+              console.error('delete_history_record error:', err);
+              ok = false;
+            }
+            if (!ok) {
+              div.classList.remove('history-item-leaving');
+              showToast('Не удалось удалить запись');
+              return;
+            }
+            cachedHistory = cachedHistory.filter(h => (h.timestamp || h.updated_at) !== recordKey);
+            try { localStorage.setItem('lightwidget_history', JSON.stringify(cachedHistory)); } catch (e) { }
+            try {
+              if (window.pywebview?.api?.get_daily_stats) {
+                const ds = await window.pywebview.api.get_daily_stats();
+                if (ds && typeof ds === 'object') {
+                  cachedDailyStats = Object.assign({}, ds);
+                  try { localStorage.setItem('lightwidget_daily_stats', JSON.stringify(cachedDailyStats)); } catch (e2) { }
+                }
+              }
+            } catch (e3) { }
+            div.remove();
+            updateNetworkStats(cachedHistory);
+            if (historyList && historyList.children.length === 0) {
+              historyList.innerHTML = '<div class="history-empty">История отключений пока пуста.</div>';
+            }
+          });
+        }
+
         historyList.appendChild(div);
       });
     }
@@ -1298,13 +2019,13 @@ async function loadIPhoneData() {
   }
 }
 
-window.onStateUpdatedFromPython = function(state) {
+window.onStateUpdatedFromPython = function (state) {
   if (btnRefreshStatus) btnRefreshStatus.classList.remove('is-refreshing');
   renderState(state);
   loadHistory();
 };
 
-window.onTelegramStatusChange = function(status, message) {
+window.onTelegramStatusChange = function (status, message) {
   tgStatusText.textContent = `Статус: ${message || status}`;
   if (status === 'CONNECTED') {
     tgStatusBanner.className = 'tg-status-banner connected';
@@ -1411,6 +2132,27 @@ async function initApp() {
         localStorage.setItem('lightwidget_banner', cfg.notifications.banner);
       }
     }
+
+    if (!localStorage.getItem('lightwidget_nav_pos') && cfg?.appearance?.nav_position) {
+      appSettings.navPosition = cfg.appearance.nav_position;
+      localStorage.setItem('lightwidget_nav_pos', appSettings.navPosition);
+    }
+    if (localStorage.getItem('lightwidget_nav_hover') === null && cfg?.appearance?.nav_hover !== undefined) {
+      appSettings.navHover = cfg.appearance.nav_hover;
+      localStorage.setItem('lightwidget_nav_hover', appSettings.navHover);
+    }
+    if (localStorage.getItem('lightwidget_tab_hover_info') === null && cfg?.appearance?.tab_hover_info !== undefined) {
+      appSettings.tabHoverInfo = cfg.appearance.tab_hover_info;
+      localStorage.setItem('lightwidget_tab_hover_info', appSettings.tabHoverInfo);
+    }
+    if (!localStorage.getItem('lightwidget_toast_pos') && cfg?.appearance?.toast_position) {
+      appSettings.toastPosition = cfg.appearance.toast_position;
+      localStorage.setItem('lightwidget_toast_pos', appSettings.toastPosition);
+    }
+    if (!localStorage.getItem('lightwidget_sound_name') && cfg?.notifications?.sound_name) {
+      appSettings.soundName = cfg.notifications.sound_name;
+      localStorage.setItem('lightwidget_sound_name', appSettings.soundName);
+    }
     applySettingsState();
 
     if (window.pywebview?.api?.save_config) {
@@ -1426,7 +2168,7 @@ async function initApp() {
     try {
       accNum = await window.pywebview.api.get_account_number();
       console.log('[initApp] got account_number:', accNum);
-    } catch(err) {
+    } catch (err) {
       console.error('[initApp] get_account_number failed:', err);
     }
     if (elInputAccountNumber) {
@@ -1437,8 +2179,20 @@ async function initApp() {
 
     loadIPhoneData();
 
+    if (updateAutoCheckSwitch) {
+      const isAutoCheck = localStorage.getItem('lightwidget_autocheck_updates') !== 'false';
+      updateAutoCheckSwitch.checked = isAutoCheck;
+      updateAutoCheckSwitch.addEventListener('change', () => {
+        localStorage.setItem('lightwidget_autocheck_updates', updateAutoCheckSwitch.checked ? 'true' : 'false');
+        showToast(updateAutoCheckSwitch.checked ? 'Автопроверка включена' : 'Автопроверка отключена');
+      });
+    }
+
     setTimeout(() => {
-      checkAppUpdates(false);
+      const isAutoCheck = localStorage.getItem('lightwidget_autocheck_updates') !== 'false';
+      if (isAutoCheck) {
+        checkAppUpdates(false, true);
+      }
     }, 2000);
   } catch (e) {
     console.error('Init error:', e);
@@ -1476,16 +2230,16 @@ const updateAutoCheckSwitch = document.getElementById('updateAutoCheckSwitch');
 let isUpdating = false;
 
 function formatCleanVersion(rawVer) {
-  if (!rawVer) return '2.3.4';
+  if (!rawVer) return '2.3.5';
   const clean = String(rawVer).replace(/^v/i, '').trim();
   const parts = clean.split('.').map(p => parseInt(p, 10) || 0);
   while (parts.length < 3) parts.push(0);
   return `${parts[0]}.${parts[1]}.${parts[2]}`;
 }
 
-async function checkAppUpdates(showToastOnClean = false) {
+async function checkAppUpdates(showToastOnClean = false, isStartupCheck = false) {
   if (!window.pywebview?.api?.check_for_updates) return;
-  
+
   const spinIcon = btnCheckUpdates?.querySelector('.spin-icon');
   if (spinIcon) spinIcon.classList.add('is-spinning');
   if (btnCheckUpdates) btnCheckUpdates.disabled = true;
@@ -1506,10 +2260,10 @@ async function checkAppUpdates(showToastOnClean = false) {
 
       if (res.has_update && res.remote) {
         const remoteVer = formatCleanVersion(res.remote?.version || res.remote?.tag);
-        
+
         if (updateNavDot) updateNavDot.style.display = 'block';
         if (updateHeroCard) updateHeroCard.classList.add('has-update');
-        
+
         if (updateHeroIconWrap) {
           updateHeroIconWrap.className = 'macos-icon-badge badge-blue';
           updateHeroIconWrap.innerHTML = `
@@ -1530,7 +2284,7 @@ async function checkAppUpdates(showToastOnClean = false) {
         if (updateCommitAuthorName) updateCommitAuthorName.textContent = 'GitHub Release';
         if (updateCommitDateStr) {
           const d = res.remote.date ? new Date(res.remote.date) : new Date();
-          updateCommitDateStr.textContent = `${d.toLocaleDateString()} ${d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}`;
+          updateCommitDateStr.textContent = `${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
         }
         if (updateCommitLink && res.remote.url) {
           updateCommitLink.href = res.remote.url;
@@ -1548,11 +2302,14 @@ async function checkAppUpdates(showToastOnClean = false) {
           `;
         }
         showToast(`Доступна новая версия ${remoteVer}`);
+        if (isStartupCheck && window.pywebview?.api?.notify) {
+          window.pywebview.api.notify('LightWidget', 'Доступно обновление', `Доступна новая версия LightWidget ${remoteVer}`);
+        }
       } else {
-        
+
         if (updateNavDot) updateNavDot.style.display = 'none';
         if (updateHeroCard) updateHeroCard.classList.remove('has-update');
-        
+
         if (updateHeroIconWrap) {
           updateHeroIconWrap.className = 'macos-icon-badge badge-green';
           updateHeroIconWrap.innerHTML = `
@@ -1599,13 +2356,12 @@ async function startUpdateProcess() {
   if (updateProgressCard) updateProgressCard.style.display = 'block';
 
   try {
-    
+
     await setProgressStage(15, 'Подключение к GitHub...', 'Проверка ветки main...');
     await new Promise(r => setTimeout(r, 450));
 
-    
     await setProgressStage(35, 'Загрузка обновлений (git pull)...', 'Скачивание измененных файлов...');
-    
+
     let pullResult = null;
     if (window.pywebview?.api?.perform_update) {
       pullResult = await window.pywebview.api.perform_update();
@@ -1622,19 +2378,16 @@ async function startUpdateProcess() {
       return;
     }
 
-    
     await setProgressStage(70, 'Применение изменений...', 'Обновление интерфейса и скриптов...');
     await new Promise(r => setTimeout(r, 500));
 
     await setProgressStage(90, 'Финализация...', 'Сборка и подготовка к запуску...');
     await new Promise(r => setTimeout(r, 450));
 
-    
     await setProgressStage(100, 'Готово! Перезапуск...', 'Приложение перезапускается через мгновение...');
     showToast('Обновление завершено! Перезапуск...');
     await new Promise(r => setTimeout(r, 600));
 
-    
     if (window.pywebview?.api?.restart_app) {
       await window.pywebview.api.restart_app();
     }
@@ -1658,4 +2411,3 @@ if (btnPerformUpdate) {
     startUpdateProcess();
   });
 }
-

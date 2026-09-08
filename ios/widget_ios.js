@@ -45,6 +45,8 @@ async function createWidget(info) {
   w.url = "scriptable:///run?scriptName=LightWidget";
 
   let diff = getRemainingSeconds(info);
+  let diffToStart = getSecondsToStart(info);
+  let isPlanned = info && (info.status === "PLANNED" || info.is_planned) && diffToStart > 0;
   let isOutage = info && (info.status === "OFF" || info.is_outage === true) && diff > 0;
 
   w.refreshAfterDate = new Date(Date.now() + 60 * 1000);
@@ -65,7 +67,8 @@ async function createWidget(info) {
   labelText.font = Font.boldSystemFont(17);
   labelText.textColor = new Color("#ffffff");
 
-  let dotText = headerRow.addText(isOutage ? "🔴" : "🟢");
+  let dotEmoji = isOutage ? "🔴" : "🟢";
+  let dotText = headerRow.addText(dotEmoji);
   dotText.font = Font.systemFont(15);
 
   headerRow.addSpacer();
@@ -112,14 +115,29 @@ async function createWidget(info) {
     statusRow.centerAlignContent();
 
     let mainStatusText = statusRow.addText("Свет есть");
-    mainStatusText.font = Font.boldSystemFont(24);
+    mainStatusText.font = Font.boldSystemFont(22);
     mainStatusText.textColor = new Color("#34d399");
 
-    w.addSpacer(6);
+    w.addSpacer(4);
 
-    let subText = w.addText("Питание подается в штатном режиме");
-    subText.font = Font.systemFont(12);
-    subText.textColor = new Color("#9ca3af");
+    if (isPlanned) {
+      let cdTimeString = formatWidgetCountdown(diffToStart);
+      let planAlert = w.addText(`⏳ До отключения: ${cdTimeString}`);
+      planAlert.font = Font.semiboldSystemFont(13);
+      planAlert.textColor = new Color("#f59e0b");
+
+      w.addSpacer(3);
+
+      if (info.start_time_str) {
+        let recText = w.addText(`Начало работ в ${info.start_time_str}`);
+        recText.font = Font.systemFont(11);
+        recText.textColor = new Color("#e5e7eb");
+      }
+    } else {
+      let subText = w.addText("Питание подается в штатном режиме");
+      subText.font = Font.systemFont(12);
+      subText.textColor = new Color("#9ca3af");
+    }
   }
 
   return w;
@@ -197,4 +215,30 @@ function formatEndTime(info) {
   }
 
   return raw;
+}
+
+function getSecondsToStart(info) {
+  if (!info) return 0;
+  let now = new Date();
+  let nowTs = Math.floor(now.getTime() / 1000);
+
+  if (info.start_timestamp) {
+    return Math.max(0, info.start_timestamp - nowTs);
+  }
+
+  if (info.start_time_str) {
+    let match = info.start_time_str.match(/(\d{1,2})[\.\/](\d{1,2})[\.\/](\d{2,4})\s+(\d{1,2}):(\d{2})/);
+    if (match) {
+      let day = parseInt(match[1], 10);
+      let month = parseInt(match[2], 10) - 1;
+      let year = parseInt(match[3], 10);
+      if (year < 100) year += 2000;
+      let hours = parseInt(match[4], 10);
+      let minutes = parseInt(match[5], 10);
+      let targetDate = new Date(year, month, day, hours, minutes, 0);
+      return Math.max(0, Math.floor(targetDate.getTime() / 1000) - nowTs);
+    }
+  }
+
+  return 0;
 }

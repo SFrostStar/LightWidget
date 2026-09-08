@@ -201,20 +201,29 @@ class TelegramService :
             enable_sound =notif .get ("sound",True )and notif .get ("macos_sound",True )
 
             if enable_banner :
-                if parsed ["status"]=="OFF":
-                    snd ="Basso"if enable_sound else ""
+                custom_sound =notif .get ("sound_name")
+                if parsed .get ("is_planned")and parsed .get ("start_timestamp")and parsed ["start_timestamp"]>int (time .time ()):
+                    snd =(custom_sound or "Ping")if enable_sound else ""
+                    send_macos_notification (
+                    "⏳ Запланированы ремонтные работы!",
+                    f"С {parsed ['start_time_str']or '?'} до {parsed ['end_time_str']or '?'}",
+                    parsed .get ("reason","Ремонтные работы"),
+                    sound =snd
+                    )
+                elif parsed ["status"]=="OFF":
+                    snd =(custom_sound or "Basso")if enable_sound else ""
                     send_macos_notification (
                     "⚡ Внимание: Отключение света!",
                     f"Ориентировочно до {parsed ['end_time_str']or 'неизвестно'}",
-                    f"{parsed ['address']} ({parsed ['reason']})",
+                    parsed .get ("reason","Отключение электроэнергии"),
                     sound =snd
                     )
                 else :
-                    snd ="Glass"if enable_sound else ""
+                    snd =(custom_sound or "Glass")if enable_sound else ""
                     send_macos_notification (
                     "💡 Свет есть!",
-                    parsed ['address'],
                     "Электросеть работает в штатном режиме.",
+                    "",
                     sound =snd
                     )
 

@@ -27,7 +27,11 @@ DEFAULT_CONFIG ={
 "show_seconds":True ,
 "show_pulse":True ,
 "show_stats":True ,
-"show_heatmap":True
+"show_heatmap":True ,
+"nav_position":"top",
+"nav_hover":False ,
+"tab_hover_info":True ,
+"toast_position":"bottom-right"
 },
 "notifications":{
 "sound":True ,
