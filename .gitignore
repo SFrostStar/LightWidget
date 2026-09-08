@@ -30,7 +30,6 @@ venv/
 .vscode/
 .idea/
 
-CHANGELOG.md
-.github/workflows/release.yml
 release/
 release_assets/
+crash.log
