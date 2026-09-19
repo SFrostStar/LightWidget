@@ -76,7 +76,38 @@ class ApiBridge :
         self .update_mgr =UpdateManager ()
 
     def set_window (self ,window ):
-        self .window =window
+        self .window =window 
+        self ._start_network_monitor ()
+
+    def check_network (self ):
+        try :
+            import socket
+            try :
+                socket .create_connection (("1.1.1.1",53 ),timeout =1.2 )
+                return {"online":True }
+            except Exception :
+                socket .create_connection (("8.8.8.8",53 ),timeout =1.2 )
+                return {"online":True }
+        except Exception :
+            return {"online":False }
+
+    def _start_network_monitor (self ):
+        def _loop ():
+            last_state =None 
+            time .sleep (1.5 )
+            while True :
+                try :
+                    res =self .check_network ()
+                    is_online =res .get ("online",True )
+                    if is_online !=last_state :
+                        last_state =is_online 
+                        if self .window :
+                            val_str ="true"if is_online else "false"
+                            self .window .evaluate_js (f"if (window.onNetworkStatusChanged) window.onNetworkStatusChanged({val_str });")
+                except Exception :
+                    pass 
+                time .sleep (4 )
+        threading .Thread (target =_loop ,daemon =True ).start ()
 
     def get_state (self ):
         try :
@@ -474,8 +505,14 @@ def main ():
             show_pls ="true"if appr .get ("show_pulse",True )else "false"
             show_stats ="true"if appr .get ("show_stats",True )else "false"
             show_hmap ="true"if appr .get ("show_heatmap",True )else "false"
+            nav_pos =appr .get ("nav_position","top")
+            nav_hover ="true"if appr .get ("nav_hover",False )else "false"
+            tab_hover ="true"if appr .get ("tab_hover_info",True )else "false"
+            toast_pos =appr .get ("toast_position","bottom-right")
+            autocheck ="true"if appr .get ("autocheck_updates",True )else "false"
             sound ="true"if notif .get ("sound",True )else "false"
             banner ="true"if notif .get ("banner",True )else "false"
+            sound_name =notif .get ("sound_name","Submarine")
 
             if window :
                 escaped_acc =acc .replace ("'","\\'")
@@ -484,6 +521,19 @@ def main ():
                         try {{
                             localStorage.setItem('lightwidget_theme', '{theme }');
                             localStorage.setItem('lightwidget_accent', '{accent }');
+                            localStorage.setItem('lightwidget_show_seconds', {show_sec });
+                            localStorage.setItem('lightwidget_show_pulse', {show_pls });
+                            localStorage.setItem('lightwidget_show_stats', {show_stats });
+                            localStorage.setItem('lightwidget_show_heatmap', {show_hmap });
+                            localStorage.setItem('lightwidget_nav_pos', '{nav_pos }');
+                            localStorage.setItem('lightwidget_nav_hover', {nav_hover });
+                            localStorage.setItem('lightwidget_tab_hover_info', {tab_hover });
+                            localStorage.setItem('lightwidget_toast_pos', '{toast_pos }');
+                            localStorage.setItem('lightwidget_autocheck_updates', {autocheck });
+                            localStorage.setItem('lightwidget_sound', {sound });
+                            localStorage.setItem('lightwidget_banner', {banner });
+                            localStorage.setItem('lightwidget_sound_name', '{sound_name }');
+
                             if (window.applyTheme) window.applyTheme('{theme }', false);
                             if (window.applyAccent) window.applyAccent('{accent }', false);
                             if (window.appSettings) {{
@@ -493,9 +543,17 @@ def main ():
                                 window.appSettings.showPulse = {show_pls };
                                 window.appSettings.showStats = {show_stats };
                                 window.appSettings.showHeatmap = {show_hmap };
+                                window.appSettings.navPosition = '{nav_pos }';
+                                window.appSettings.navHover = {nav_hover };
+                                window.appSettings.tabHoverInfo = {tab_hover };
+                                window.appSettings.toastPosition = '{toast_pos }';
                                 window.appSettings.sound = {sound };
                                 window.appSettings.banner = {banner };
+                                window.appSettings.soundName = '{sound_name }';
                             }}
+                            var autoSwitch = document.getElementById('updateAutoCheckSwitch');
+                            if (autoSwitch) autoSwitch.checked = {autocheck };
+
                             if (window.applySettingsState) window.applySettingsState();
 
                             var el = document.getElementById('inputAccountNumber');

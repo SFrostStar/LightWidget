@@ -468,6 +468,61 @@ html, body {
   transition: opacity 0.3s ease;
 }
 
+.minimal-header-btn.is-offline,
+.minimal-header-btn.is-offline:hover {
+  opacity: 0.35 !important;
+  cursor: not-allowed !important;
+  pointer-events: none;
+  filter: grayscale(1) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: var(--text-muted) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.no-internet-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  user-select: none;
+  animation: fadeInOffline 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.no-internet-badge svg {
+  flex-shrink: 0;
+  stroke: #f87171;
+  animation: pulseOfflineIcon 2s infinite ease-in-out;
+}
+
+@keyframes fadeInOffline {
+  from {
+    opacity: 0;
+    transform: translateY(-2px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulseOfflineIcon {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 .clock-display {
   font-family: var(--font-mono);
   font-size: 12px;
@@ -1999,7 +2054,7 @@ body.widget-mode {
 
 :root[data-theme="oled"], html[data-theme="oled"], body[data-theme="oled"] {
   --bg-base: #000000;
-  --bg-sidebar: #050508;
+  --bg-sidebar: #000000;
   --bg-card: #0a0a0d;
   --bg-card-hover: #121217;
   --bg-input: #050508;
@@ -3876,7 +3931,7 @@ input:checked + .slider:before {
   flex-direction: column;
   justify-content: flex-start;
   padding: 10px 6px;
-  background: rgba(18, 19, 23, 0.88);
+  background: var(--bg-sidebar);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-right: 1px solid var(--border-color);
@@ -3895,6 +3950,8 @@ input:checked + .slider:before {
   justify-content: center;
   border-radius: 8px;
   margin-bottom: 6px;
+  position: relative;
+  z-index: 2;
 }
 
 .app-container.nav-pos-left .titlebar .nav-tabs .nav-tab[data-tab="settings"] {
@@ -3904,7 +3961,7 @@ input:checked + .slider:before {
 
 .app-container.nav-pos-left .main-content {
   margin-left: 50px;
-  transition: margin-left 0.25s ease;
+  transition: margin-left 0.25s cubic-bezier(0.16, 1, 0.3, 1), margin-right 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .app-container.nav-pos-left.nav-hover .titlebar .nav-tabs {
@@ -3918,13 +3975,9 @@ input:checked + .slider:before {
   top: 0;
   bottom: 0;
   left: 0;
-  width: 95px;
+  right: -55px;
   pointer-events: auto;
-  z-index: 10;
-}
-
-.app-container.nav-pos-left.nav-hover .titlebar .nav-tabs:hover::before {
-  width: 100%;
+  z-index: -1;
 }
 
 .app-container.nav-pos-left.nav-hover .titlebar .nav-tabs:hover {
@@ -3934,6 +3987,16 @@ input:checked + .slider:before {
 
 .app-container.nav-pos-left.nav-hover .main-content {
   margin-left: 6px;
+}
+
+.app-container.nav-pos-left.nav-hover:has(.titlebar .nav-tabs:hover) .main-content,
+.app-container.nav-pos-left.nav-hover.nav-tabs-hovered .main-content {
+  margin-left: 50px;
+}
+
+.app-container.tab-labels-always.nav-pos-left.nav-hover:has(.titlebar .nav-tabs:hover) .main-content,
+.app-container.tab-labels-always.nav-pos-left.nav-hover.nav-tabs-hovered .main-content {
+  margin-left: 136px;
 }
 
 .app-container.nav-pos-right .titlebar .nav-tabs {
@@ -3946,7 +4009,7 @@ input:checked + .slider:before {
   flex-direction: column;
   justify-content: flex-start;
   padding: 10px 6px;
-  background: rgba(18, 19, 23, 0.88);
+  background: var(--bg-sidebar);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-left: 1px solid var(--border-color);
@@ -3965,6 +4028,8 @@ input:checked + .slider:before {
   justify-content: center;
   border-radius: 8px;
   margin-bottom: 6px;
+  position: relative;
+  z-index: 2;
 }
 
 .app-container.nav-pos-right .titlebar .nav-tabs .nav-tab[data-tab="settings"] {
@@ -3974,7 +4039,7 @@ input:checked + .slider:before {
 
 .app-container.nav-pos-right .main-content {
   margin-right: 50px;
-  transition: margin-right 0.25s ease;
+  transition: margin-left 0.25s cubic-bezier(0.16, 1, 0.3, 1), margin-right 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .app-container.nav-pos-right.nav-hover .titlebar .nav-tabs {
@@ -3988,13 +4053,9 @@ input:checked + .slider:before {
   top: 0;
   bottom: 0;
   right: 0;
-  width: 95px;
+  left: -55px;
   pointer-events: auto;
-  z-index: 10;
-}
-
-.app-container.nav-pos-right.nav-hover .titlebar .nav-tabs:hover::before {
-  width: 100%;
+  z-index: -1;
 }
 
 .app-container.nav-pos-right.nav-hover .titlebar .nav-tabs:hover {
@@ -4004,6 +4065,16 @@ input:checked + .slider:before {
 
 .app-container.nav-pos-right.nav-hover .main-content {
   margin-right: 6px;
+}
+
+.app-container.nav-pos-right.nav-hover:has(.titlebar .nav-tabs:hover) .main-content,
+.app-container.nav-pos-right.nav-hover.nav-tabs-hovered .main-content {
+  margin-right: 50px;
+}
+
+.app-container.tab-labels-always.nav-pos-right.nav-hover:has(.titlebar .nav-tabs:hover) .main-content,
+.app-container.tab-labels-always.nav-pos-right.nav-hover.nav-tabs-hovered .main-content {
+  margin-right: 136px;
 }
 
 .app-container.nav-pos-left .titlebar .nav-tabs .nav-tab .nav-tab-label {
@@ -4145,6 +4216,18 @@ input:checked + .slider:before {
 [data-theme="light"] .app-container.nav-pos-right .titlebar .nav-tabs {
   background: rgba(248, 249, 250, 0.92);
   border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="oled"] .app-container.nav-pos-left .titlebar .nav-tabs,
+[data-theme="oled"] .app-container.nav-pos-right .titlebar .nav-tabs {
+  background: #000000;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="oled"] .app-container.nav-pos-left .titlebar .nav-tabs .nav-tab .nav-tab-label,
+[data-theme="oled"] .app-container.nav-pos-right .titlebar .nav-tabs .nav-tab .nav-tab-label {
+  background: #08080a;
+  border-color: rgba(255, 255, 255, 0.14);
 }
 
 [data-theme="light"] .settings-select,

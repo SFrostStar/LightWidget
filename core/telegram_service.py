@@ -16,7 +16,7 @@ AuthKeyUnregisteredError ,
 AuthKeyInvalidError ,
 SecurityError
 )
-from core .parser import parse_message
+from core .parser import parse_message ,is_menu_service_message
 from core .notifier import send_macos_notification
 from core .crypto import DATA_DIR
 
@@ -148,11 +148,32 @@ class TelegramService :
 
         bot_username =cfg .get ("bot_username","dtek_odeski_elektromerezhi_bot")
 
+        self ._msg_buffer =[]
+        self ._buffer_task =None 
+
+        async def _flush_buffer ():
+            try :
+                await asyncio .sleep (0.6 )
+                if self ._msg_buffer :
+                    texts =list (self ._msg_buffer )
+                    self ._msg_buffer .clear ()
+                    combined ="\n\n--------------------------------------\n\n".join (texts )
+                    self ._process_message (combined )
+            except asyncio .CancelledError :
+                pass 
+            except Exception as e :
+                print (f"[TelegramService] Flush buffer error: {e }")
+
         @self .client .on (events .NewMessage (chats =bot_username ))
         async def handler (event ):
-            msg_text =event .raw_text
+            msg_text =event .raw_text 
+            if not msg_text or is_menu_service_message (msg_text ):
+                return 
             print (f"[TelegramService] Received message from @{bot_username }:\n{msg_text [:100 ]}...")
-            self ._process_message (msg_text )
+            self ._msg_buffer .append (msg_text )
+            if self ._buffer_task and not self ._buffer_task .done ():
+                self ._buffer_task .cancel ()
+            self ._buffer_task =asyncio .create_task (_flush_buffer ())
 
         await self ._fetch_recent_history (bot_username )
 
@@ -162,12 +183,25 @@ class TelegramService :
     async def _fetch_recent_history (self ,bot_username ):
         try :
             entity =await self .client .get_entity (bot_username )
-            messages =await self .client .get_messages (entity ,limit =5 )
+            messages =await self .client .get_messages (entity ,limit =6 )
+            bot_texts =[]
             for msg in messages :
-                if msg .text :
-                    parsed =self ._process_message (msg .text ,is_history =True )
-                    if parsed :
-                        break
+                if getattr (msg ,"out",False ):
+                    break 
+                t =msg .text or ""
+                if t and not is_menu_service_message (t ):
+                    bot_texts .append (t )
+
+            if bot_texts :
+                bot_texts .reverse ()
+                combined ="\n\n--------------------------------------\n\n".join (bot_texts )
+                self ._process_message (combined ,is_history =True )
+            elif messages :
+                for msg in messages :
+                    if msg .text and not getattr (msg ,"out",False )and not is_menu_service_message (msg .text ):
+                        parsed =self ._process_message (msg .text ,is_history =True )
+                        if parsed :
+                            break 
         except Exception as e :
             print (f"[TelegramService] History fetch warning: {e }")
 

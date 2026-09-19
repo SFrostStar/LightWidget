@@ -31,13 +31,15 @@ DEFAULT_CONFIG ={
 "nav_position":"top",
 "nav_hover":False ,
 "tab_hover_info":True ,
-"toast_position":"bottom-right"
+"toast_position":"bottom-right",
+"autocheck_updates":True
 },
 "notifications":{
 "sound":True ,
 "banner":True ,
 "macos_sound":True ,
-"macos_banner":True
+"macos_banner":True,
+"sound_name":"Submarine"
 }
 }
 

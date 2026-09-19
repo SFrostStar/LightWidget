@@ -32,7 +32,7 @@ class UpdateManager :
 
     def _parse_version (self ,v_str :str )->tuple :
         if not v_str :
-            return (0 ,0 ,0 )
+            return (0 ,0 ,0 ,0 )
         cleaned =v_str .strip ().lower ().lstrip ("v")
 
         parts =[]
@@ -44,11 +44,13 @@ class UpdateManager :
                 else :
                     break
             parts .append (int (num )if num else 0 )
-        while len (parts )<3 :
+        while len (parts )<4 :
             parts .append (0 )
-        return tuple (parts [:3 ])
+        return tuple (parts [:4 ])
 
     def _format_version (self ,v_tuple :tuple )->str :
+        if len (v_tuple )>3 and v_tuple [3 ]>0 :
+            return f"{v_tuple [0 ]}.{v_tuple [1 ]}.{v_tuple [2 ]}.{v_tuple [3 ]}"
         return f"{v_tuple [0 ]}.{v_tuple [1 ]}.{v_tuple [2 ]}"
 
     def get_local_version (self )->dict :
@@ -57,18 +59,18 @@ class UpdateManager :
         os .path .join (getattr (sys ,'_MEIPASS',self .base_dir ),"version.json"),
         os .path .dirname (self .base_dir )if not os .path .exists (os .path .join (self .base_dir ,"version.json"))else self .base_dir
         ]
-        ver_str ="2.3.5.1"
-        msg_str ="LightWidget Release 2.3.5.1"
-        date_str ="2026-09-08"
+        ver_str ="2.3.6"
+        msg_str ="LightWidget Release 2.3.6"
+        date_str ="2026-09-19"
 
         for vp in [os .path .join (self .base_dir ,"version.json"),os .path .join (getattr (sys ,'_MEIPASS',self .base_dir ),"version.json")]:
             if os .path .exists (vp ):
                 try :
                     with open (vp ,"r",encoding ="utf-8")as f :
                         vdata =json .load (f )
-                        ver_str =str (vdata .get ("version","2.3.5.1"))
-                        msg_str =vdata .get ("message","LightWidget Release 2.3.5.1")
-                        date_str =vdata .get ("date","2026-09-08")
+                        ver_str =str (vdata .get ("version","2.3.6"))
+                        msg_str =vdata .get ("message","LightWidget Release 2.3.6")
+                        date_str =vdata .get ("date","2026-09-19")
                         break
                 except Exception :
                     pass
