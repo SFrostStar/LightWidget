@@ -3,16 +3,32 @@ import subprocess
 import os
 
 _BASE_DIR =os .path .dirname (os .path .dirname (os .path .abspath (__file__ )))
-_HELPER_APP_BIN =os .path .join (_BASE_DIR ,"core","notifier_bundle","LightWidgetNotifier.app","Contents","MacOS","notifier_bin")
+
+def _get_helper_bin ():
+    candidates =[
+        os .path .join (_BASE_DIR ,"core","notifier_bundle","LightWidgetNotifier.app","Contents","MacOS","notifier_bin")
+    ]
+    if getattr (sys ,"frozen",False ):
+        exe_dir =os .path .dirname (sys .executable )
+        candidates .append (os .path .join (os .path .dirname (exe_dir ),"Resources","core","notifier_bundle","LightWidgetNotifier.app","Contents","MacOS","notifier_bin"))
+        meipass =getattr (sys ,"_MEIPASS","")
+        if meipass :
+            candidates .append (os .path .join (meipass ,"core","notifier_bundle","LightWidgetNotifier.app","Contents","MacOS","notifier_bin"))
+            candidates .append (os .path .join (os .path .dirname (meipass ),"Resources","core","notifier_bundle","LightWidgetNotifier.app","Contents","MacOS","notifier_bin"))
+    for p in candidates :
+        if os .path .exists (p )and os .access (p ,os .X_OK ):
+            return p 
+    return None 
 
 def _setup_macos_notifications ():
     pass
 
 def send_notification (title :str ,subtitle :str ,message :str ,sound :str ="Submarine"):
     if sys .platform =="darwin":
-        if os .path .exists (_HELPER_APP_BIN )and os .access (_HELPER_APP_BIN ,os .X_OK ):
+        hbin =_get_helper_bin ()
+        if hbin :
             try :
-                cmd =[_HELPER_APP_BIN ,str (title ),str (subtitle or ""),str (message or ""),str (sound or "")]
+                cmd =[hbin ,str (title ),str (subtitle or ""),str (message or ""),str (sound or "")]
                 subprocess .Popen (cmd ,stdout =subprocess .DEVNULL ,stderr =subprocess .DEVNULL )
                 return
             except Exception :

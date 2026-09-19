@@ -582,9 +582,18 @@ if __name__ =="__main__":
         main ()
     except Exception as e :
         import traceback
+        tb =traceback .format_exc ()
+        print (tb ,file =sys .stderr )
         try :
             with open ("crash.log","w",encoding ="utf-8")as f :
-                f .write (traceback .format_exc ())
+                f .write (tb )
+        except Exception :
+            pass
+        try :
+            from core .crypto import DATA_DIR
+            os .makedirs (DATA_DIR ,exist_ok =True )
+            with open (os .path .join (DATA_DIR ,"crash.log"),"w",encoding ="utf-8")as f :
+                f .write (tb )
         except Exception :
             pass
         if sys .platform =="win32":

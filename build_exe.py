@@ -6,44 +6,43 @@ import PyInstaller.__main__
 
 
 def _codesign_app_bundle(app_path):
-    """Sign all components of a macOS .app bundle step-by-step.
-    
-    The '--deep' flag fails on PyInstaller bundles because of non-standard
-    sub-directories (python3.11, __dot__ renames, etc.). Instead we sign
-    every binary individually, from the innermost components outward.
-    """
+    frameworks_notifier = os.path.join(app_path, "Contents", "Frameworks", "core", "notifier_bundle")
+    if os.path.exists(frameworks_notifier):
+        if os.path.islink(frameworks_notifier):
+            os.unlink(frameworks_notifier)
+        else:
+            shutil.rmtree(frameworks_notifier, ignore_errors=True)
+
     sign_cmd = ["codesign", "--force", "--sign", "-"]
 
-    # 1. Sign all individual .so and .dylib files
     for root, _dirs, files in os.walk(app_path):
         for fname in files:
             fpath = os.path.join(root, fname)
             if fname.endswith((".so", ".dylib")):
                 subprocess.run(sign_cmd + [fpath], check=False)
 
-    # 2. Sign embedded .app bundles (e.g. LightWidgetNotifier*.app)
+    notifier_bin = os.path.join(app_path, "Contents", "Resources", "core", "notifier_bundle", "LightWidgetNotifier.app", "Contents", "MacOS", "notifier_bin")
+    if os.path.exists(notifier_bin):
+        subprocess.run(sign_cmd + [notifier_bin], check=False)
+
     for root, dirs, _files in os.walk(app_path):
         for dname in dirs:
-            if dname.endswith(".app") or "__dot__app" in dname:
+            if dname.endswith(".app") and root != os.path.dirname(app_path):
                 sub_app = os.path.join(root, dname)
                 subprocess.run(sign_cmd + [sub_app], check=False)
 
-    # 3. Sign embedded .framework bundles
     for root, dirs, _files in os.walk(app_path):
         for dname in dirs:
             if dname.endswith(".framework"):
                 fw_path = os.path.join(root, dname)
                 subprocess.run(sign_cmd + [fw_path], check=False)
 
-    # 4. Sign the main executable
     main_exe = os.path.join(app_path, "Contents", "MacOS", "LightWidget")
     if os.path.exists(main_exe):
         subprocess.run(sign_cmd + [main_exe], check=False)
 
-    # 5. Sign the top-level .app bundle
     subprocess.run(sign_cmd + [app_path], check=False)
 
-    # Verify
     result = subprocess.run(
         ["codesign", "--verify", "--verbose", app_path],
         capture_output=True, text=True
@@ -66,7 +65,6 @@ def build():
         f'--add-data=ui{sep}ui',
         f'--add-data=ios{sep}ios',
         f'--add-data=version.json{sep}.',
-        f'--add-data=core/notifier_bundle{sep}core/notifier_bundle',
         '--hidden-import=telethon',
         '--hidden-import=webview',
         '--hidden-import=urllib.request',
@@ -96,6 +94,12 @@ def build():
     if sys.platform == 'darwin':
         app_path = os.path.join("dist", "LightWidget.app")
         if os.path.exists(app_path):
+            target_notifier = os.path.join(app_path, "Contents", "Resources", "core", "notifier_bundle")
+            if os.path.exists(target_notifier):
+                shutil.rmtree(target_notifier, ignore_errors=True)
+            if os.path.exists("core/notifier_bundle"):
+                shutil.copytree("core/notifier_bundle", target_notifier, symlinks=False)
+
             print("[build] Signing app bundle components...")
             _codesign_app_bundle(app_path)
 

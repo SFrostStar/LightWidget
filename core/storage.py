@@ -32,6 +32,7 @@ DEFAULT_STATE ={
 class StorageManager :
     def __init__ (self ):
         os .makedirs (DATA_DIR ,exist_ok =True )
+        self .state =DEFAULT_STATE .copy ()
         self .state =self .load_state ()
         if isinstance (self .state ,dict )and self .state .get ("status")=="ON"and not self .state .get ("light_on_since"):
             self .state ["light_on_since"]=int (time .time ()*1000 )
@@ -89,8 +90,9 @@ class StorageManager :
         if isinstance (state ,dict ):
             now_ts =int (time .time ())
             curr_is_active_outage =False 
-            if isinstance (self .state ,dict )and self .state .get ("status")=="OFF":
-                e_ts =self .state .get ("end_timestamp")
+            prev_state =getattr (self ,"state",None )
+            if isinstance (prev_state ,dict )and prev_state .get ("status")=="OFF":
+                e_ts =prev_state .get ("end_timestamp")
                 if not e_ts or e_ts >now_ts :
                     curr_is_active_outage =True 
 
@@ -99,7 +101,7 @@ class StorageManager :
                 incoming_is_future_planned_only =True 
 
             if curr_is_active_outage and incoming_is_future_planned_only :
-                existing_planned =self .state .get ("planned_outages",[])or []
+                existing_planned =(prev_state .get ("planned_outages",[])if isinstance (prev_state ,dict )else [])or []
                 new_planned =state .get ("planned_outages",[])or []
                 combined_planned =list (existing_planned )
                 for po in new_planned :
@@ -109,21 +111,23 @@ class StorageManager :
                             combined_planned .append (po )
                 valid_planned =[po for po in combined_planned if (po .get ("end_timestamp")or (po .get ("start_timestamp",0 )+3600 ))>now_ts ]
                 valid_planned .sort (key =lambda x :x .get ("start_timestamp")or 0 )
-                self .state ["planned_outages"]=valid_planned 
-                state =self .state 
+                if not isinstance (prev_state ,dict ):
+                    prev_state =state .copy ()
+                prev_state ["planned_outages"]=valid_planned 
+                state =prev_state 
             else :
                 if state .get ("status")=="ON":
                     if not state .get ("light_on_since"):
-                        if isinstance (self .state ,dict )and self .state .get ("status")=="ON"and self .state .get ("light_on_since"):
-                            state ["light_on_since"]=self .state ["light_on_since"]
+                        if isinstance (prev_state ,dict )and prev_state .get ("status")=="ON"and prev_state .get ("light_on_since"):
+                            state ["light_on_since"]=prev_state ["light_on_since"]
                         else :
                             state ["light_on_since"]=int (time .time ()*1000 )
                 else :
                     state ["light_on_since"]=None 
 
                 existing_planned =[]
-                if isinstance (self .state ,dict ):
-                    existing_planned =self .state .get ("planned_outages",[])or []
+                if isinstance (prev_state ,dict ):
+                    existing_planned =prev_state .get ("planned_outages",[])or []
                 new_planned =state .get ("planned_outages")
                 if new_planned :
                     combined_planned =list (new_planned )
