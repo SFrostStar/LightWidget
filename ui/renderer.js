@@ -97,6 +97,29 @@ const plannedThCountdown = document.getElementById('plannedThCountdown');
 const widgetPlannedLabel = document.getElementById('widgetPlannedLabel');
 let plannedContextMenuTarget = null;
 const triggeredPlannedStartRefreshes = new Set();
+let isRefreshCooldown = false;
+let isNetworkOnline = (typeof navigator.onLine === 'boolean') ? navigator.onLine : true;
+
+function updateNetworkConnectivityUI(online) {
+  isNetworkOnline = (online !== false);
+  const badge = document.getElementById('noInternetBadge');
+  if (badge) {
+    badge.style.display = isNetworkOnline ? 'none' : 'inline-flex';
+  }
+  if (btnRefreshStatus) {
+    if (!isNetworkOnline) {
+      btnRefreshStatus.disabled = true;
+      btnRefreshStatus.classList.add('is-offline');
+      btnRefreshStatus.setAttribute('title', 'Нету подключения к интернету');
+    } else {
+      btnRefreshStatus.classList.remove('is-offline');
+      btnRefreshStatus.setAttribute('title', 'Запросить статус у бота');
+      if (!isRefreshCooldown && !btnRefreshStatus.classList.contains('is-refreshing')) {
+        btnRefreshStatus.disabled = false;
+      }
+    }
+  }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   setupTabs();
@@ -106,6 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
   startSystemClock();
 
   waitForPywebview();
+
+  setTimeout(() => {
+    dismissSplash();
+  }, 9000);
 });
 
 let toastTimeout = null;
@@ -1586,30 +1613,6 @@ function setupEventListeners() {
     });
   }
 
-  let isRefreshCooldown = false;
-  let isNetworkOnline = (typeof navigator.onLine === 'boolean') ? navigator.onLine : true;
-
-  function updateNetworkConnectivityUI(online) {
-    isNetworkOnline = (online !== false);
-    const badge = document.getElementById('noInternetBadge');
-    if (badge) {
-      badge.style.display = isNetworkOnline ? 'none' : 'inline-flex';
-    }
-    if (btnRefreshStatus) {
-      if (!isNetworkOnline) {
-        btnRefreshStatus.disabled = true;
-        btnRefreshStatus.classList.add('is-offline');
-        btnRefreshStatus.setAttribute('title', 'Нету подключения к интернету');
-      } else {
-        btnRefreshStatus.classList.remove('is-offline');
-        btnRefreshStatus.setAttribute('title', 'Запросить статус у бота');
-        if (!isRefreshCooldown && !btnRefreshStatus.classList.contains('is-refreshing')) {
-          btnRefreshStatus.disabled = false;
-        }
-      }
-    }
-  }
-
   async function checkConnectionNow(hintOnline) {
     if (typeof hintOnline === 'boolean' && !hintOnline) {
       updateNetworkConnectivityUI(false);
@@ -1650,17 +1653,25 @@ function setupEventListeners() {
 
       try {
         if (window.pywebview?.api) {
+          let res = null;
           if (window.pywebview.api.sync_history) {
-            await window.pywebview.api.sync_history();
+            res = await window.pywebview.api.sync_history();
           }
           const state = await window.pywebview.api.get_state();
           renderState(state);
+          await loadHistory();
+          if (res && res.success === false) {
+            showToast('Не удалось обновить статус');
+          } else {
+            localStorage.setItem('lightwidget_last_sync_time', String(Date.now()));
+            showToast('Синхронизировано');
+          }
         }
       } catch (err) {
         console.error('Sync error:', err);
+        showToast('Не удалось обновить статус');
       } finally {
         btnRefreshStatus.classList.remove('is-refreshing');
-        showToast('Синхронизировано');
         isRefreshCooldown = true;
         btnRefreshStatus.classList.add('is-cooldown');
         btnRefreshStatus.disabled = true;
@@ -2135,6 +2146,7 @@ async function loadIPhoneData() {
 
 window.onStateUpdatedFromPython = function (state) {
   if (btnRefreshStatus) btnRefreshStatus.classList.remove('is-refreshing');
+  localStorage.setItem('lightwidget_last_sync_time', String(Date.now()));
   renderState(state);
   loadHistory();
 };
@@ -2164,6 +2176,17 @@ window.addEventListener('pywebviewready', () => {
   initApp();
 });
 
+function dismissSplash() {
+  const splash = document.getElementById('appSplashOverlay');
+  if (!splash || splash.classList.contains('is-hidden')) return;
+  splash.classList.add('is-hidden');
+  setTimeout(() => {
+    if (splash.parentNode) {
+      splash.style.display = 'none';
+    }
+  }, 400);
+}
+
 function waitForPywebview() {
   if (window.pywebview?.api) {
     initApp();
@@ -2178,6 +2201,7 @@ function waitForPywebview() {
     } else if (attempts > 150) {
       clearInterval(timer);
       console.warn('Pywebview API not found after 15s');
+      dismissSplash();
     }
   }, 100);
 }
@@ -2298,8 +2322,83 @@ async function initApp() {
         checkAppUpdates(false, true);
       }
     }, 2000);
+
+    let lastSyncTime = parseInt(localStorage.getItem('lightwidget_last_sync_time'), 10) || 0;
+    if (state?.updated_at) {
+      const stateTime = new Date(state.updated_at).getTime();
+      if (!isNaN(stateTime) && stateTime > lastSyncTime) {
+        lastSyncTime = stateTime;
+        localStorage.setItem('lightwidget_last_sync_time', String(lastSyncTime));
+      }
+    }
+
+    const isWithinCooldown = lastSyncTime > 0 && (Date.now() - lastSyncTime) >= 0 && (Date.now() - lastSyncTime) < 180000;
+    if (isWithinCooldown) {
+      dismissSplash();
+      return;
+    }
+
+    let isOnline = true;
+    try {
+      if (window.pywebview?.api?.check_network) {
+        const netRes = await window.pywebview.api.check_network();
+        isOnline = !!(netRes && netRes.online !== false);
+      } else if (typeof navigator.onLine === 'boolean') {
+        isOnline = navigator.onLine;
+      }
+    } catch (netErr) {
+      isOnline = false;
+    }
+
+    if (typeof updateNetworkConnectivityUI === 'function') {
+      updateNetworkConnectivityUI(isOnline);
+    }
+
+    if (!isOnline) {
+      dismissSplash();
+      showToast('Не удалось обновить статус: нет интернета');
+      return;
+    }
+
+    try {
+      const syncPromise = window.pywebview?.api?.sync_history
+        ? window.pywebview.api.sync_history()
+        : Promise.resolve({ success: false });
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('timeout')), 7000)
+      );
+
+      const syncResult = await Promise.race([syncPromise, timeoutPromise]);
+      if (syncResult && syncResult.success === false) {
+        dismissSplash();
+        showToast('Не удалось обновить статус');
+      } else {
+        localStorage.setItem('lightwidget_last_sync_time', String(Date.now()));
+        const updatedState = await window.pywebview.api.get_state();
+        renderState(updatedState);
+        await loadHistory();
+        dismissSplash();
+
+        if (btnRefreshStatus) {
+          isRefreshCooldown = true;
+          btnRefreshStatus.classList.add('is-cooldown');
+          btnRefreshStatus.disabled = true;
+          setTimeout(() => {
+            isRefreshCooldown = false;
+            btnRefreshStatus.classList.remove('is-cooldown');
+            if (isNetworkOnline) {
+              btnRefreshStatus.disabled = false;
+            }
+          }, 5000);
+        }
+      }
+    } catch (syncErr) {
+      dismissSplash();
+      showToast('Не удалось обновить статус');
+    }
   } catch (e) {
     console.error('Init error:', e);
+    dismissSplash();
   }
 }
 
@@ -2334,7 +2433,7 @@ const updateAutoCheckSwitch = document.getElementById('updateAutoCheckSwitch');
 let isUpdating = false;
 
 function formatCleanVersion(rawVer) {
-  if (!rawVer) return '2.3.6';
+  if (!rawVer) return '2.3.6.1';
   const clean = String(rawVer).replace(/^v/i, '').trim();
   const parts = clean.split('.').map(p => parseInt(p, 10) || 0);
   while (parts.length < 3) parts.push(0);
@@ -2358,7 +2457,7 @@ async function checkAppUpdates(showToastOnClean = false, isStartupCheck = false)
     if (updateLastCheckSub) updateLastCheckSub.textContent = 'Проверка в фоновом режиме';
 
     if (res && res.success) {
-      const localVer = formatCleanVersion(res.local?.version || '2.3.6');
+      const localVer = formatCleanVersion(res.local?.version || '2.3.6.1');
       if (updateVersionTag) updateVersionTag.textContent = localVer;
       if (updateInstalledPill) updateInstalledPill.textContent = localVer;
 

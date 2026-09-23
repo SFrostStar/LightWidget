@@ -21,6 +21,36 @@
 </head>
 <body>
   <div class="app-container">
+    <div class="app-splash-overlay" id="appSplashOverlay">
+      <div class="splash-card">
+        <div class="splash-logo-wrap">
+          <div class="brand-icon splash-icon">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18h6"></path>
+              <path d="M10 21h4"></path>
+              <path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"></path>
+              <polygon points="12.5 5.5 10 10 12 10 11.5 13.5 14.5 9 12.5 9 12.5 5.5" fill="currentColor" stroke="none"></polygon>
+            </svg>
+          </div>
+        </div>
+        <div class="splash-title">Light<span class="highlight">Widget</span></div>
+        <div class="splash-status-wrap">
+          <div class="splash-spinner"></div>
+          <span class="splash-status-text" id="splashStatusText">Обновление статуса...</span>
+        </div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        try {
+          var last = parseInt(localStorage.getItem('lightwidget_last_sync_time'), 10);
+          if (last && (Date.now() - last >= 0) && (Date.now() - last < 180000)) {
+            var el = document.getElementById('appSplashOverlay');
+            if (el) el.style.display = 'none';
+          }
+        } catch (e) {}
+      })();
+    </script>
 
     <header class="titlebar" style="--wails-draggable:drag">
       <div class="brand">
@@ -786,7 +816,7 @@
             <div class="macos-hero-info">
               <div class="macos-hero-title-row">
                 <h2 class="macos-app-name">LightWidget</h2>
-                <span class="macos-version-pill" id="updateVersionTag">2.3.6</span>
+                <span class="macos-version-pill" id="updateVersionTag">2.3.6.1</span>
               </div>
               <div class="macos-status-line" id="updateStatusTitle">У вас установлена новейшая версия</div>
               <div class="macos-status-subtext" id="updateStatusDesc">Автоматическая проверка выполнена • Релиз стабилен</div>
@@ -887,7 +917,7 @@
                 </div>
               </div>
               <div class="macos-row-right">
-                <span class="macos-pill-value" id="updateInstalledPill">2.3.6</span>
+                <span class="macos-pill-value" id="updateInstalledPill">2.3.6.1</span>
               </div>
             </div>
 
