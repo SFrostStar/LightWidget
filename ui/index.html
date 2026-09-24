@@ -13,60 +13,31 @@
       try {
         const theme = localStorage.getItem('lightwidget_theme') || 'midnight';
         const accent = localStorage.getItem('lightwidget_accent') || 'blue';
+        const glassMode = localStorage.getItem('lightwidget_glass_mode') || 'dark';
         document.documentElement.setAttribute('data-theme', theme);
         document.documentElement.setAttribute('data-accent', accent);
+        document.documentElement.setAttribute('data-glass-mode', glassMode);
       } catch(e) {}
     })();
   </script>
 </head>
 <body>
   <div class="app-container">
-    <div class="app-splash-overlay" id="appSplashOverlay">
-      <div class="splash-card">
-        <div class="splash-logo-wrap">
-          <div class="brand-icon splash-icon">
-            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 18h6"></path>
-              <path d="M10 21h4"></path>
-              <path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"></path>
-              <polygon points="12.5 5.5 10 10 12 10 11.5 13.5 14.5 9 12.5 9 12.5 5.5" fill="currentColor" stroke="none"></polygon>
-            </svg>
-          </div>
-        </div>
-        <div class="splash-title">Light<span class="highlight">Widget</span></div>
-        <div class="splash-status-wrap">
-          <div class="splash-spinner"></div>
-          <span class="splash-status-text" id="splashStatusText">Обновление статуса...</span>
-        </div>
-      </div>
-    </div>
-    <script>
-      (function () {
-        try {
-          var last = parseInt(localStorage.getItem('lightwidget_last_sync_time'), 10);
-          if (last && (Date.now() - last >= 0) && (Date.now() - last < 180000)) {
-            var el = document.getElementById('appSplashOverlay');
-            if (el) el.style.display = 'none';
-          }
-        } catch (e) {}
-      })();
-    </script>
 
-    <header class="titlebar" style="--wails-draggable:drag">
-      <div class="brand">
-        <div class="brand-icon">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 18h6"></path>
-            <path d="M10 21h4"></path>
-            <path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"></path>
-            <polygon points="12.5 5.5 10 10 12 10 11.5 13.5 14.5 9 12.5 9 12.5 5.5" fill="currentColor" stroke="none"></polygon>
-          </svg>
-        </div>
-        <span class="brand-name">Light<span class="highlight">Widget</span></span>
-        <span class="brand-status-dot on" id="brandStatusDot" title="Статус электросети"></span>
+    <header class="titlebar pywebview-drag-region" style="--wails-draggable:drag">
+      <div class="window-controls">
+        <button class="win-btn close" id="btnClose" title="Закрыть">
+          <svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+        </button>
+        <button class="win-btn minimize" id="btnMinimize" title="Свернуть">
+          <svg viewBox="0 0 12 12"><line x1="2.5" y1="6" x2="9.5" y2="6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></line></svg>
+        </button>
+        <button class="win-btn widget-toggle" id="btnSwitchToWidgetMode" title="Свернуть в виджет на рабочий стол">
+          <svg viewBox="0 0 12 12"><rect x="2" y="2" width="8" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"></rect><line x1="6" y1="2" x2="6" y2="10" stroke="currentColor" stroke-width="1.4"></line></svg>
+        </button>
       </div>
 
-      <nav class="nav-tabs" id="mainNavTabs">
+      <nav class="nav-tabs pywebview-no-drag" id="mainNavTabs" style="-webkit-app-region: no-drag;">
         <button class="nav-tab active" data-tab="monitor" title="Статус">
           <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"></circle>
@@ -105,8 +76,10 @@
           <span class="nav-tab-label">История</span>
         </button>
         <button class="nav-tab nav-tab-updates" data-tab="updates" id="navTabUpdates" title="Обновления">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
           <span class="nav-tab-label">Обновления</span>
           <span class="update-nav-dot" id="updateNavDot" style="display: none;"></span>
@@ -127,16 +100,20 @@
         </button>
       </nav>
 
-      <div class="window-controls">
-        <button class="win-btn widget-toggle" id="btnSwitchToWidgetMode" title="Свернуть в виджет на рабочий стол">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
-        </button>
-        <button class="win-btn minimize" id="btnMinimize" title="Свернуть">
-          <svg viewBox="0 0 24 24" width="12" height="12"><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2"></line></svg>
-        </button>
-        <button class="win-btn close" id="btnClose" title="Закрыть">
-          <svg viewBox="0 0 24 24" width="12" height="12"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2"></line><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2"></line></svg>
-        </button>
+      <div class="brand" id="mainBrand">
+        <div class="brand-status-dot-wrap" id="brandStatusDotWrap">
+          <span class="brand-status-dot on" id="brandStatusDot"></span>
+          <div class="brand-status-tooltip">Статус света</div>
+        </div>
+        <span class="brand-name">Light<span class="highlight">Widget</span></span>
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18h6"></path>
+            <path d="M10 21h4"></path>
+            <path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"></path>
+            <polygon points="12.5 5.5 10 10 12 10 11.5 13.5 14.5 9 12.5 9 12.5 5.5" fill="currentColor" stroke="none"></polygon>
+          </svg>
+        </div>
       </div>
     </header>
 
@@ -563,6 +540,18 @@
                 </div>
               </div>
 
+              <div class="theme-card" data-theme="glass">
+                <div class="theme-preview glass">
+                  <div class="tp-header"></div>
+                  <div class="tp-dot"></div>
+                  <div class="tp-body"></div>
+                </div>
+                <div class="theme-meta">
+                  <span class="theme-title">Liquid Glass</span>
+                  <span class="theme-desc">Жидкое стекло iOS</span>
+                </div>
+              </div>
+
               <div class="theme-card" data-theme="cyber">
                 <div class="theme-preview cyber">
                   <div class="tp-header"></div>
@@ -625,9 +614,23 @@
             </div>
           </div>
 
+          <div class="settings-group is-hidden" id="glassModeSettingsGroup">
+            <label class="settings-label">Стиль стекла (для темы Liquid Glass):</label>
+            <div class="glass-mode-selector" id="glassModeSelector">
+              <button class="glass-mode-btn active" data-mode="dark" type="button">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <span>Тёмное стекло</span>
+              </button>
+              <button class="glass-mode-btn" data-mode="light" type="button">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                <span>Светлое стекло</span>
+              </button>
+            </div>
+          </div>
+
           <div class="settings-group" id="accentSettingsGroup">
             <div class="settings-label-row">
-              <label class="settings-label">Акцентный цвет элементов (для Midnight / OLED):</label>
+              <label class="settings-label">Акцентный цвет (для Midnight / OLED / Liquid Glass):</label>
             </div>
             <div class="accent-palette" id="accentPalette">
               <button type="button" class="accent-swatch active" data-accent="blue" style="--swatch-color: #0a84ff;" title="Apple Blue"></button>
@@ -648,13 +651,13 @@
                 <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
                 <span>Слева</span>
               </button>
-              <button class="nav-pos-btn" data-pos="right" type="button">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="15" y1="3" x2="15" y2="21"></line></svg>
-                <span>Справа</span>
-              </button>
               <button class="nav-pos-btn active" data-pos="top" type="button">
                 <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line></svg>
                 <span>Сверху</span>
+              </button>
+              <button class="nav-pos-btn" data-pos="right" type="button">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+                <span>Справа</span>
               </button>
             </div>
             <div class="toggles-list" style="margin-top: 10px;" id="navHoverWrapper">
@@ -725,6 +728,28 @@
                 </div>
                 <label class="switch">
                   <input type="checkbox" id="settingShowPulse" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Скрывать ватермарку</span>
+                  <span class="toggle-desc">Скрыть название LightWidget и логотип в правом верхнем углу</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="settingHideWatermark">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Скрывать кружок статуса света</span>
+                  <span class="toggle-desc">Скрыть индикатор статуса сети в правом верхнем углу</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="settingHideStatusDot">
                   <span class="slider"></span>
                 </label>
               </div>
@@ -816,7 +841,7 @@
             <div class="macos-hero-info">
               <div class="macos-hero-title-row">
                 <h2 class="macos-app-name">LightWidget</h2>
-                <span class="macos-version-pill" id="updateVersionTag">2.3.6.1</span>
+                <span class="macos-version-pill" id="updateVersionTag">2.3.7</span>
               </div>
               <div class="macos-status-line" id="updateStatusTitle">У вас установлена новейшая версия</div>
               <div class="macos-status-subtext" id="updateStatusDesc">Автоматическая проверка выполнена • Релиз стабилен</div>
@@ -917,7 +942,7 @@
                 </div>
               </div>
               <div class="macos-row-right">
-                <span class="macos-pill-value" id="updateInstalledPill">2.3.6.1</span>
+                <span class="macos-pill-value" id="updateInstalledPill">2.3.7</span>
               </div>
             </div>
 
@@ -983,6 +1008,6 @@
     </button>
   </div>
 
-  <script src="renderer.js"></script>
+  <script src="renderer.js?v=20260924"></script>
 </body>
 </html>

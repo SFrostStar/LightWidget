@@ -1,0 +1,317 @@
+.stats-overview-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  transition: all 0.25s ease;
+}
+
+.stats-overview-card:hover,
+.activity-heatmap-card:hover {
+  border-color: var(--border-subtle);
+  background: var(--bg-card-hover);
+}
+
+.activity-heatmap-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  transition: all 0.25s ease;
+}
+
+.stats-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stats-title-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stats-title-group svg {
+  color: var(--accent-blue);
+}
+
+.stats-uptime-badge,
+.heatmap-summary-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--accent-blue) 14%, transparent);
+  color: var(--accent-blue);
+  border: 1px solid color-mix(in srgb, var(--accent-blue) 28%, transparent);
+  transition: all 0.3s ease;
+}
+
+.stats-uptime-badge.warning,
+.heatmap-summary-badge.warning {
+  background: rgba(255, 69, 58, 0.12);
+  color: #f87171;
+  border-color: rgba(255, 69, 58, 0.25);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.stats-item {
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stats-item-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.stat-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.stat-dot.on {
+  background: var(--accent-blue);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--accent-blue) 60%, transparent);
+}
+
+.stat-dot.off {
+  background: #ff453a;
+  box-shadow: 0 0 5px rgba(255, 69, 58, 0.6);
+}
+
+.stat-dot.warn {
+  background: var(--accent-blue);
+  box-shadow: 0 0 5px color-mix(in srgb, var(--accent-blue) 60%, transparent);
+}
+
+.stats-item-value {
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+
+.stats-item-value.on {
+  color: var(--accent-blue);
+}
+
+.stats-item-value.off {
+  color: #f87171;
+}
+
+.stats-item-sub {
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.stats-ratio-bar {
+  display: flex;
+  height: 4px;
+  width: 100%;
+  border-radius: 2px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.stats-ratio-fill.on {
+  background: var(--accent-blue);
+  transition: width 0.4s ease;
+}
+
+.stats-ratio-fill.off {
+  background: #ff453a;
+  transition: width 0.4s ease;
+}
+
+.github-graph-container {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 2px 0;
+  overflow-x: auto;
+}
+
+.gh-days-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 88px;
+  font-size: 9px;
+  color: var(--text-muted);
+  padding-top: 14px;
+  padding-bottom: 2px;
+  user-select: none;
+}
+
+.gh-matrix-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.gh-months-row {
+  display: grid;
+  grid-template-columns: repeat(18, 10px);
+  gap: 3px;
+  font-size: 9px;
+  color: var(--text-muted);
+  height: 13px;
+  line-height: 13px;
+  user-select: none;
+}
+
+.gh-month-label {
+  white-space: nowrap;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.gh-heatmap-matrix {
+  display: grid;
+  grid-template-rows: repeat(7, 10px);
+  grid-auto-flow: column;
+  grid-auto-columns: 10px;
+  gap: 3px;
+}
+
+.gh-cell {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: transform 0.15s ease, outline 0.15s ease, background 0.15s ease;
+  cursor: pointer;
+}
+
+.gh-cell:hover {
+  transform: scale(1.35);
+  z-index: 10;
+  outline: 1.5px solid rgba(255, 255, 255, 0.7);
+}
+
+.gh-cell.gh-lvl-empty {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.gh-cell.gh-lvl-green {
+  background: #30d158;
+  border-color: rgba(48, 209, 88, 0.5);
+  box-shadow: 0 0 6px rgba(48, 209, 88, 0.35);
+}
+
+.gh-cell.gh-lvl-amber {
+  background: #ff9f0a;
+  border-color: rgba(255, 159, 10, 0.5);
+  box-shadow: 0 0 5px rgba(255, 159, 10, 0.35);
+}
+
+.gh-cell.gh-lvl-red {
+  background: #ff453a;
+  border-color: rgba(255, 69, 58, 0.5);
+  box-shadow: 0 0 5px rgba(255, 69, 58, 0.35);
+}
+
+.heatmap-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  font-size: 9.5px;
+  color: var(--text-muted);
+  padding: 0 2px;
+}
+
+.heatmap-legend-cells {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.heatmap-legend-cells .gh-cell {
+  width: 9px;
+  height: 9px;
+  cursor: default;
+}
+
+.heatmap-legend-cells .gh-cell:hover {
+  transform: none;
+  outline: none;
+}
+
+.account-number-input.copy-flash {
+  border: 1px solid #30d158 !important;
+  color: #30d158 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.time-relative-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent-blue);
+  background: rgba(10, 132, 255, 0.12);
+  padding: 1px 4px;
+  border-radius: 3px;
+  margin-left: 4px;
+}
+
+.minimal-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.minimal-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.last-updated-text {
+  font-size: 11px;
+  color: var(--text-muted);
+}

@@ -130,9 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   waitForPywebview();
 
-  setTimeout(() => {
-    dismissSplash();
-  }, 9000);
 });
 
 let toastTimeout = null;
@@ -172,6 +169,7 @@ function setupTabs() {
 
       navTabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
+      if (appContainer) appContainer.setAttribute('data-active-tab', target);
 
       if (currentPane && currentPane !== nextPane) {
         currentPane.classList.remove('slide-in-right', 'slide-in-left', 'slide-out-right', 'slide-out-left');
@@ -196,7 +194,7 @@ function setupTabs() {
     });
   });
 
-  const navTabsContainer = document.getElementById('navTabs');
+  const navTabsContainer = document.getElementById('mainNavTabs') || document.getElementById('navTabs');
   if (navTabsContainer && appContainer) {
     navTabsContainer.addEventListener('mouseenter', () => {
       appContainer.classList.add('nav-tabs-hovered');
@@ -1087,6 +1085,7 @@ function setupWidgetModeListeners() {
   if (btnSwitchToWidgetMode) {
     btnSwitchToWidgetMode.addEventListener('click', (e) => {
       e.stopPropagation();
+      btnSwitchToWidgetMode.blur();
       enterWidgetMode();
     });
   }
@@ -1119,10 +1118,13 @@ function exitWidgetMode() {
 let appSettings = {
   theme: localStorage.getItem('lightwidget_theme') || 'midnight',
   accent: localStorage.getItem('lightwidget_accent') || 'blue',
+  glassMode: localStorage.getItem('lightwidget_glass_mode') || 'dark',
   showSeconds: localStorage.getItem('lightwidget_show_seconds') !== 'false',
   showPulse: localStorage.getItem('lightwidget_show_pulse') !== 'false',
   showStats: localStorage.getItem('lightwidget_show_stats') !== 'false',
   showHeatmap: localStorage.getItem('lightwidget_show_heatmap') !== 'false',
+  hideWatermark: localStorage.getItem('lightwidget_hide_watermark') === 'true',
+  hideStatusDot: localStorage.getItem('lightwidget_hide_status_dot') === 'true',
   sound: localStorage.getItem('lightwidget_sound') !== 'false',
   banner: localStorage.getItem('lightwidget_banner') !== 'false',
   navPosition: localStorage.getItem('lightwidget_nav_pos') || 'top',
@@ -1139,8 +1141,31 @@ const themeDefaultAccent = {
   emerald: 'green',
   amber: 'amber',
   titanium: 'gold',
-  light: 'white'
+  light: 'white',
+  glass: 'white'
 };
+
+function applyGlassMode(mode, save = true) {
+  if (!mode) return;
+  appSettings.glassMode = mode;
+  document.body.setAttribute('data-glass-mode', mode);
+  document.documentElement.setAttribute('data-glass-mode', mode);
+  document.querySelectorAll('.glass-mode-btn').forEach(btn => {
+    if (btn.getAttribute('data-mode') === mode) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  localStorage.setItem('lightwidget_glass_mode', mode);
+  if (save && window.pywebview?.api?.save_config) {
+    window.pywebview.api.save_config({
+      appearance: {
+        glass_mode: mode
+      }
+    });
+  }
+}
 
 function applyTheme(themeName, save = true) {
   if (!themeName) return;
@@ -1156,16 +1181,27 @@ function applyTheme(themeName, save = true) {
   });
 
   const accentGroup = document.getElementById('accentSettingsGroup');
+  const glassGroup = document.getElementById('glassModeSettingsGroup');
   let effectiveAccent = appSettings.accent;
-  if (accentGroup) {
-    if (themeName === 'midnight' || themeName === 'oled') {
-      accentGroup.classList.remove('is-hidden');
-      effectiveAccent = localStorage.getItem('lightwidget_accent') || 'blue';
-      applyAccent(effectiveAccent, false);
-    } else {
-      accentGroup.classList.add('is-hidden');
-      effectiveAccent = themeDefaultAccent[themeName] || 'blue';
-      applyAccent(effectiveAccent, false);
+
+  if (themeName === 'glass') {
+    if (glassGroup) glassGroup.classList.remove('is-hidden');
+    if (accentGroup) accentGroup.classList.add('is-hidden');
+    applyGlassMode(appSettings.glassMode || 'dark', false);
+    effectiveAccent = 'white';
+    applyAccent('white', false);
+  } else {
+    if (glassGroup) glassGroup.classList.add('is-hidden');
+    if (accentGroup) {
+      if (themeName === 'midnight' || themeName === 'oled') {
+        accentGroup.classList.remove('is-hidden');
+        effectiveAccent = localStorage.getItem('lightwidget_accent') || 'blue';
+        applyAccent(effectiveAccent, false);
+      } else {
+        accentGroup.classList.add('is-hidden');
+        effectiveAccent = themeDefaultAccent[themeName] || 'blue';
+        applyAccent(effectiveAccent, false);
+      }
     }
   }
 
@@ -1174,13 +1210,17 @@ function applyTheme(themeName, save = true) {
     window.pywebview.api.save_config({
       appearance: {
         theme: themeName,
-        accent: effectiveAccent
+        accent: effectiveAccent,
+        glass_mode: appSettings.glassMode
       }
     });
   }
 }
 
 function applyAccent(accentName, save = true) {
+  if (appSettings.theme === 'glass') {
+    accentName = 'white';
+  }
   if (!accentName) return;
   appSettings.accent = accentName;
   document.body.setAttribute('data-accent', accentName);
@@ -1199,7 +1239,8 @@ function applyAccent(accentName, save = true) {
     window.pywebview.api.save_config({
       appearance: {
         theme: appSettings.theme,
-        accent: accentName
+        accent: accentName,
+        glass_mode: appSettings.glassMode
       }
     });
   }
@@ -1208,6 +1249,7 @@ function applyAccent(accentName, save = true) {
 function applySettingsState() {
   applyTheme(appSettings.theme, false);
   applyAccent(appSettings.accent, false);
+  applyGlassMode(appSettings.glassMode || 'dark', false);
 
   const chkSec = document.getElementById('settingShowSeconds');
   const chkPulse = document.getElementById('settingShowPulse');
@@ -1229,6 +1271,16 @@ function applySettingsState() {
   if (chkHeatmap) chkHeatmap.checked = isHeatmap;
   if (chkSound) chkSound.checked = isSound;
   if (chkBanner) chkBanner.checked = isBanner;
+
+  const chkHideWatermark = document.getElementById('settingHideWatermark');
+  const chkHideStatusDot = document.getElementById('settingHideStatusDot');
+  if (chkHideWatermark) chkHideWatermark.checked = (appSettings.hideWatermark === true || appSettings.hideWatermark === 'true');
+  if (chkHideStatusDot) chkHideStatusDot.checked = (appSettings.hideStatusDot === true || appSettings.hideStatusDot === 'true');
+
+  if (appContainer) {
+    appContainer.classList.toggle('hide-watermark', appSettings.hideWatermark === true || appSettings.hideWatermark === 'true');
+    appContainer.classList.toggle('hide-status-dot', appSettings.hideStatusDot === true || appSettings.hideStatusDot === 'true');
+  }
 
   const statsCard = document.getElementById('statsCard');
   const heatmapCard = document.getElementById('activityHeatmapCard');
@@ -1266,6 +1318,21 @@ function applySettingsState() {
     appContainer.classList.toggle('nav-hover', appSettings.navHover);
     appContainer.classList.toggle('tab-hover-info', appSettings.tabHoverInfo !== false);
     appContainer.classList.toggle('tab-labels-always', appSettings.tabHoverInfo === false);
+
+    const brandEl = document.getElementById('mainBrand') || document.querySelector('.brand');
+    const navTabsEl = document.getElementById('mainNavTabs');
+    const titlebarEl = document.querySelector('.titlebar');
+    if (brandEl && navTabsEl && titlebarEl) {
+      if (appSettings.navPosition === 'right') {
+        if (brandEl.parentElement !== navTabsEl) {
+          navTabsEl.prepend(brandEl);
+        }
+      } else {
+        if (brandEl.parentElement !== titlebarEl) {
+          titlebarEl.appendChild(brandEl);
+        }
+      }
+    }
   }
   document.querySelectorAll('.nav-pos-btn').forEach(btn => {
     btn.classList.toggle('active', btn.getAttribute('data-pos') === appSettings.navPosition);
@@ -1282,6 +1349,7 @@ function applySettingsState() {
 
 window.applyTheme = applyTheme;
 window.applyAccent = applyAccent;
+window.applyGlassMode = applyGlassMode;
 window.applySettingsState = applySettingsState;
 
 function setupSettings() {
@@ -1295,8 +1363,17 @@ function setupSettings() {
     });
   });
 
+  document.querySelectorAll('.glass-mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.getAttribute('data-mode');
+      applyGlassMode(mode, true);
+      showToast(mode === 'light' ? 'Режим: Светлое стекло' : 'Режим: Тёмное стекло');
+    });
+  });
+
   document.querySelectorAll('.accent-swatch').forEach(swatch => {
     swatch.addEventListener('click', () => {
+      if (appSettings.theme === 'glass') return;
       const accent = swatch.getAttribute('data-accent');
       applyAccent(accent, true);
       showToast(`Цвет обновлен!`);
@@ -1368,6 +1445,30 @@ function setupSettings() {
       localStorage.setItem('lightwidget_banner', chkBanner.checked);
       if (window.pywebview?.api?.save_config) {
         window.pywebview.api.save_config({ notifications: { banner: chkBanner.checked, macos_banner: chkBanner.checked } });
+      }
+    });
+  }
+
+  const chkHideWatermark = document.getElementById('settingHideWatermark');
+  if (chkHideWatermark) {
+    chkHideWatermark.addEventListener('change', () => {
+      appSettings.hideWatermark = chkHideWatermark.checked;
+      localStorage.setItem('lightwidget_hide_watermark', chkHideWatermark.checked);
+      applySettingsState();
+      if (window.pywebview?.api?.save_config) {
+        window.pywebview.api.save_config({ appearance: { hide_watermark: chkHideWatermark.checked } });
+      }
+    });
+  }
+
+  const chkHideStatusDot = document.getElementById('settingHideStatusDot');
+  if (chkHideStatusDot) {
+    chkHideStatusDot.addEventListener('change', () => {
+      appSettings.hideStatusDot = chkHideStatusDot.checked;
+      localStorage.setItem('lightwidget_hide_status_dot', chkHideStatusDot.checked);
+      applySettingsState();
+      if (window.pywebview?.api?.save_config) {
+        window.pywebview.api.save_config({ appearance: { hide_status_dot: chkHideStatusDot.checked } });
       }
     });
   }
@@ -1881,9 +1982,45 @@ function setupEventListeners() {
     });
   }
 
+  const winControls = document.querySelector('.window-controls');
+  const winBtns = document.querySelectorAll('.win-btn');
+  if (winControls) {
+    const clearHover = () => {
+      winControls.classList.remove('is-hovered');
+      winBtns.forEach(b => b.blur());
+    };
+    winControls.addEventListener('mouseenter', () => {
+      winControls.classList.add('is-hovered');
+    });
+    winControls.addEventListener('mouseleave', clearHover);
+    winBtns.forEach(btn => {
+      btn.addEventListener('mouseup', () => btn.blur());
+      btn.addEventListener('mouseleave', () => btn.blur());
+      btn.addEventListener('focus', () => btn.blur());
+    });
+    document.addEventListener('mousemove', (e) => {
+      if (!winControls.classList.contains('is-hovered')) return;
+      const rect = winControls.getBoundingClientRect();
+      if (
+        e.clientX < rect.left ||
+        e.clientX > rect.right ||
+        e.clientY < rect.top ||
+        e.clientY > rect.bottom
+      ) {
+        clearHover();
+      }
+    });
+    window.addEventListener('blur', clearHover);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) clearHover();
+    });
+  }
+
   if (btnMinimize) {
     btnMinimize.addEventListener('click', (e) => {
       e.stopPropagation();
+      btnMinimize.blur();
+      if (winControls) winControls.classList.remove('is-hovered');
       if (window.pywebview?.api?.minimize) {
         window.pywebview.api.minimize();
       }
@@ -1893,6 +2030,8 @@ function setupEventListeners() {
   if (btnClose) {
     btnClose.addEventListener('click', (e) => {
       e.stopPropagation();
+      btnClose.blur();
+      if (winControls) winControls.classList.remove('is-hovered');
       if (window.pywebview?.api?.close) {
         window.pywebview.api.close();
       }
@@ -2176,17 +2315,6 @@ window.addEventListener('pywebviewready', () => {
   initApp();
 });
 
-function dismissSplash() {
-  const splash = document.getElementById('appSplashOverlay');
-  if (!splash || splash.classList.contains('is-hidden')) return;
-  splash.classList.add('is-hidden');
-  setTimeout(() => {
-    if (splash.parentNode) {
-      splash.style.display = 'none';
-    }
-  }, 400);
-}
-
 function waitForPywebview() {
   if (window.pywebview?.api) {
     initApp();
@@ -2201,7 +2329,6 @@ function waitForPywebview() {
     } else if (attempts > 150) {
       clearInterval(timer);
       console.warn('Pywebview API not found after 15s');
-      dismissSplash();
     }
   }, 100);
 }
@@ -2233,6 +2360,10 @@ async function initApp() {
       if (cfg.appearance.accent) {
         appSettings.accent = cfg.appearance.accent;
         localStorage.setItem('lightwidget_accent', appSettings.accent);
+      }
+      if (cfg.appearance.glass_mode) {
+        appSettings.glassMode = cfg.appearance.glass_mode;
+        localStorage.setItem('lightwidget_glass_mode', appSettings.glassMode);
       }
       if (cfg.appearance.show_seconds !== undefined) {
         appSettings.showSeconds = cfg.appearance.show_seconds;
@@ -2271,6 +2402,17 @@ async function initApp() {
         localStorage.setItem('lightwidget_autocheck_updates', autoCheck ? 'true' : 'false');
         if (updateAutoCheckSwitch) updateAutoCheckSwitch.checked = autoCheck;
       }
+      if (cfg.appearance.hide_watermark !== undefined) {
+        appSettings.hideWatermark = !!cfg.appearance.hide_watermark;
+        localStorage.setItem('lightwidget_hide_watermark', appSettings.hideWatermark);
+      }
+      if (cfg.appearance.hide_status_dot !== undefined) {
+        appSettings.hideStatusDot = !!cfg.appearance.hide_status_dot;
+        localStorage.setItem('lightwidget_hide_status_dot', appSettings.hideStatusDot);
+      }
+    }
+    if (appContainer && !appContainer.getAttribute('data-active-tab')) {
+      appContainer.setAttribute('data-active-tab', 'monitor');
     }
     if (cfg?.notifications) {
       if (cfg.notifications.sound !== undefined) {
@@ -2323,18 +2465,9 @@ async function initApp() {
       }
     }, 2000);
 
-    let lastSyncTime = parseInt(localStorage.getItem('lightwidget_last_sync_time'), 10) || 0;
-    if (state?.updated_at) {
-      const stateTime = new Date(state.updated_at).getTime();
-      if (!isNaN(stateTime) && stateTime > lastSyncTime) {
-        lastSyncTime = stateTime;
-        localStorage.setItem('lightwidget_last_sync_time', String(lastSyncTime));
-      }
-    }
-
+    const lastSyncTime = parseInt(localStorage.getItem('lightwidget_last_sync_time'), 10) || 0;
     const isWithinCooldown = lastSyncTime > 0 && (Date.now() - lastSyncTime) >= 0 && (Date.now() - lastSyncTime) < 180000;
     if (isWithinCooldown) {
-      dismissSplash();
       return;
     }
 
@@ -2355,8 +2488,6 @@ async function initApp() {
     }
 
     if (!isOnline) {
-      dismissSplash();
-      showToast('Не удалось обновить статус: нет интернета');
       return;
     }
 
@@ -2365,19 +2496,15 @@ async function initApp() {
         ? window.pywebview.api.sync_history()
         : Promise.resolve({ success: false });
       const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('timeout')), 7000)
+        setTimeout(() => reject(new Error('timeout')), 20000)
       );
 
       const syncResult = await Promise.race([syncPromise, timeoutPromise]);
-      if (syncResult && syncResult.success === false) {
-        dismissSplash();
-        showToast('Не удалось обновить статус');
-      } else {
+      if (syncResult && syncResult.success !== false) {
         localStorage.setItem('lightwidget_last_sync_time', String(Date.now()));
         const updatedState = await window.pywebview.api.get_state();
         renderState(updatedState);
         await loadHistory();
-        dismissSplash();
 
         if (btnRefreshStatus) {
           isRefreshCooldown = true;
@@ -2393,12 +2520,9 @@ async function initApp() {
         }
       }
     } catch (syncErr) {
-      dismissSplash();
-      showToast('Не удалось обновить статус');
     }
   } catch (e) {
     console.error('Init error:', e);
-    dismissSplash();
   }
 }
 
@@ -2433,7 +2557,7 @@ const updateAutoCheckSwitch = document.getElementById('updateAutoCheckSwitch');
 let isUpdating = false;
 
 function formatCleanVersion(rawVer) {
-  if (!rawVer) return '2.3.6.1';
+  if (!rawVer) return '2.3.7';
   const clean = String(rawVer).replace(/^v/i, '').trim();
   const parts = clean.split('.').map(p => parseInt(p, 10) || 0);
   while (parts.length < 3) parts.push(0);
@@ -2457,7 +2581,7 @@ async function checkAppUpdates(showToastOnClean = false, isStartupCheck = false)
     if (updateLastCheckSub) updateLastCheckSub.textContent = 'Проверка в фоновом режиме';
 
     if (res && res.success) {
-      const localVer = formatCleanVersion(res.local?.version || '2.3.6.1');
+      const localVer = formatCleanVersion(res.local?.version || '2.3.7');
       if (updateVersionTag) updateVersionTag.textContent = localVer;
       if (updateInstalledPill) updateInstalledPill.textContent = localVer;
 

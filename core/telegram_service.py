@@ -313,6 +313,13 @@ class TelegramService :
             return {"success":False ,"error":f"Таймаут запроса: {str (e )}"}
 
     def sync_now (self ):
+        if self .is_running and (not self .client or not self .loop or not self .client .is_connected ()):
+            import time as _time
+            _wait_start =_time .time ()
+            while _time .time ()-_wait_start <7.0 :
+                if self .client and self .loop and self .client .is_connected ():
+                    break
+                _time .sleep (0.25 )
         if not self .client or not self .loop or not self .client .is_connected ():
             return {"success":False ,"error":"Не подключено к Telegram"}
 

@@ -17,6 +17,8 @@ dist/
 *.spec
 *.exe
 
+.freebuff/
+
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -35,3 +37,4 @@ release_assets/
 crash.log
 RememberThisAgent*
 CHANGELOG.md
+bump_version.py

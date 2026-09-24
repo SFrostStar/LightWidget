@@ -473,7 +473,64 @@ def main ():
     )
     api_server .start ()
 
-    is_mac =sys .platform =="darwin"
+    is_mac = sys.platform == "darwin"
+    if is_mac:
+        try:
+            from Cocoa import NSEvent, NSMakePoint
+            from webview.platforms.cocoa import BrowserView
+            _orig_down = BrowserView.WebKitHost.mouseDown_
+            _orig_drag = BrowserView.WebKitHost.mouseDragged_
+
+            def _custom_down(self, event):
+                w = self.window()
+                if w:
+                    frame = w.frame()
+                    loc = event.locationInWindow()
+                    is_titlebar = loc.y >= (frame.size.height - 54)
+                    is_widget = frame.size.height <= 250
+                    if is_titlebar or is_widget:
+                        self._can_drag_window = True
+                        screen_loc = NSEvent.mouseLocation()
+                        self._drag_start_x = screen_loc.x
+                        self._drag_start_y = screen_loc.y
+                        self._drag_offset_x = screen_loc.x - frame.origin.x
+                        self._drag_offset_y = screen_loc.y - frame.origin.y
+                        self._is_dragging_active = False
+                    else:
+                        self._can_drag_window = False
+                        self._is_dragging_active = False
+                else:
+                    self._can_drag_window = False
+                    self._is_dragging_active = False
+                _orig_down(self, event)
+
+            def _custom_drag(self, event):
+                if (NSEvent.pressedMouseButtons() & 1) == 0:
+                    self._can_drag_window = False
+                    self._is_dragging_active = False
+                    return
+                if getattr(self, "_can_drag_window", False):
+                    w = self.window()
+                    if w:
+                        screen_loc = NSEvent.mouseLocation()
+                        if not getattr(self, "_is_dragging_active", False):
+                            dx = abs(screen_loc.x - getattr(self, "_drag_start_x", screen_loc.x))
+                            dy = abs(screen_loc.y - getattr(self, "_drag_start_y", screen_loc.y))
+                            if (dx * dx + dy * dy) < 9:
+                                return
+                            self._is_dragging_active = True
+                        new_origin = NSMakePoint(
+                            screen_loc.x - getattr(self, "_drag_offset_x", 0),
+                            screen_loc.y - getattr(self, "_drag_offset_y", 0)
+                        )
+                        w.setFrameOrigin_(new_origin)
+                        return
+                _orig_drag(self, event)
+
+            BrowserView.WebKitHost.mouseDown_ = _custom_down
+            BrowserView.WebKitHost.mouseDragged_ = _custom_drag
+        except Exception:
+            pass
     if sys .platform =="win32":
         import asyncio
         try :
@@ -514,6 +571,8 @@ def main ():
             tab_hover ="true"if appr .get ("tab_hover_info",True )else "false"
             toast_pos =appr .get ("toast_position","bottom-right")
             autocheck ="true"if appr .get ("autocheck_updates",True )else "false"
+            hide_wm ="true"if appr .get ("hide_watermark",False )else "false"
+            hide_sd ="true"if appr .get ("hide_status_dot",False )else "false"
             sound ="true"if notif .get ("sound",True )else "false"
             banner ="true"if notif .get ("banner",True )else "false"
             sound_name =notif .get ("sound_name","Submarine")
@@ -534,6 +593,8 @@ def main ():
                             localStorage.setItem('lightwidget_tab_hover_info', {tab_hover });
                             localStorage.setItem('lightwidget_toast_pos', '{toast_pos }');
                             localStorage.setItem('lightwidget_autocheck_updates', {autocheck });
+                            localStorage.setItem('lightwidget_hide_watermark', {hide_wm });
+                            localStorage.setItem('lightwidget_hide_status_dot', {hide_sd });
                             localStorage.setItem('lightwidget_sound', {sound });
                             localStorage.setItem('lightwidget_banner', {banner });
                             localStorage.setItem('lightwidget_sound_name', '{sound_name }');
@@ -551,6 +612,8 @@ def main ():
                                 window.appSettings.navHover = {nav_hover };
                                 window.appSettings.tabHoverInfo = {tab_hover };
                                 window.appSettings.toastPosition = '{toast_pos }';
+                                window.appSettings.hideWatermark = {hide_wm };
+                                window.appSettings.hideStatusDot = {hide_sd };
                                 window.appSettings.sound = {sound };
                                 window.appSettings.banner = {banner };
                                 window.appSettings.soundName = '{sound_name }';

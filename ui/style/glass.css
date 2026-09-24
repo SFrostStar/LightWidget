@@ -1,0 +1,878 @@
+[data-theme="glass"] .app-container {
+  background-color: #080a0f !important;
+  background-image:
+    radial-gradient(ellipse 750px 420px at 25% 15%, color-mix(in srgb, var(--accent-blue) 25%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 650px 380px at 78% 20%, color-mix(in srgb, var(--accent-blue) 18%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 700px 340px at 50% 50%, color-mix(in srgb, var(--accent-blue) 14%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 580px 380px at 25% 85%, color-mix(in srgb, var(--accent-blue) 20%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 580px 380px at 80% 85%, color-mix(in srgb, var(--accent-blue) 16%, transparent) 0%, transparent 70%) !important;
+}
+
+[data-theme="glass"][data-power-status="ON"] .app-container,
+[data-theme="glass"] .app-container.power-on {
+  background-color: #06090e !important;
+  background-image:
+    radial-gradient(ellipse 750px 450px at 25% 15%, rgba(16, 185, 129, 0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 680px 400px at 75% 20%, rgba(245, 158, 11, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 360px at 50% 55%, color-mix(in srgb, var(--accent-blue) 14%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 580px 380px at 25% 85%, color-mix(in srgb, var(--accent-blue) 18%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 580px 380px at 80% 85%, color-mix(in srgb, var(--accent-blue) 15%, transparent) 0%, transparent 70%) !important;
+}
+
+[data-theme="glass"][data-power-status="OFF"] .app-container,
+[data-theme="glass"] .app-container.power-off {
+  background-color: #0b0608 !important;
+  background-image:
+    radial-gradient(ellipse 750px 450px at 25% 15%, rgba(239, 68, 68, 0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 680px 400px at 75% 20%, rgba(245, 158, 11, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 360px at 50% 55%, color-mix(in srgb, var(--accent-blue) 14%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 580px 380px at 25% 85%, color-mix(in srgb, var(--accent-blue) 18%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 580px 380px at 80% 85%, color-mix(in srgb, var(--accent-blue) 15%, transparent) 0%, transparent 70%) !important;
+}
+
+[data-theme="glass"][data-power-status="PLANNED"] .app-container,
+[data-theme="glass"] .app-container.power-planned {
+  background-color: #0a0805 !important;
+  background-image:
+    radial-gradient(ellipse 750px 450px at 25% 15%, rgba(245, 158, 11, 0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 680px 400px at 75% 20%, rgba(245, 158, 11, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 360px at 50% 55%, color-mix(in srgb, var(--accent-blue) 14%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 580px 380px at 25% 85%, color-mix(in srgb, var(--accent-blue) 18%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 580px 380px at 80% 85%, color-mix(in srgb, var(--accent-blue) 15%, transparent) 0%, transparent 70%) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .app-container {
+  background-color: #eaf0f7 !important;
+  background-image:
+    radial-gradient(ellipse 650px 380px at 20% 15%, color-mix(in srgb, var(--accent-blue) 16%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 360px at 80% 18%, color-mix(in srgb, var(--accent-blue) 12%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 340px at 50% 50%, color-mix(in srgb, var(--accent-blue) 10%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 580px 380px at 25% 85%, color-mix(in srgb, var(--accent-blue) 14%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 580px 380px at 80% 85%, color-mix(in srgb, var(--accent-blue) 12%, transparent) 0%, transparent 70%) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"][data-power-status="ON"] .app-container,
+[data-theme="glass"][data-glass-mode="light"] .app-container.power-on {
+  background-color: #edf2f0 !important;
+  background-image:
+    radial-gradient(ellipse 750px 450px at 25% 15%, rgba(16, 185, 129, 0.14) 0%, transparent 70%),
+    radial-gradient(ellipse 680px 400px at 75% 20%, rgba(245, 158, 11, 0.11) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 360px at 50% 55%, color-mix(in srgb, var(--accent-blue) 10%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 560px 340px at 20% 85%, color-mix(in srgb, var(--accent-blue) 12%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 560px 340px at 80% 85%, color-mix(in srgb, var(--accent-blue) 10%, transparent) 0%, transparent 70%) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"][data-power-status="OFF"] .app-container,
+[data-theme="glass"][data-glass-mode="light"] .app-container.power-off {
+  background-color: #f4ecee !important;
+  background-image:
+    radial-gradient(ellipse 750px 450px at 25% 15%, rgba(239, 68, 68, 0.14) 0%, transparent 70%),
+    radial-gradient(ellipse 680px 400px at 75% 20%, rgba(245, 158, 11, 0.11) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 360px at 50% 55%, color-mix(in srgb, var(--accent-blue) 10%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 560px 340px at 20% 85%, color-mix(in srgb, var(--accent-blue) 12%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 560px 340px at 80% 85%, color-mix(in srgb, var(--accent-blue) 10%, transparent) 0%, transparent 70%) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"][data-power-status="PLANNED"] .app-container,
+[data-theme="glass"][data-glass-mode="light"] .app-container.power-planned {
+  background-color: #f7f2ea !important;
+  background-image:
+    radial-gradient(ellipse 750px 450px at 25% 15%, rgba(245, 158, 11, 0.14) 0%, transparent 70%),
+    radial-gradient(ellipse 680px 400px at 75% 20%, rgba(245, 158, 11, 0.11) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 360px at 50% 55%, color-mix(in srgb, var(--accent-blue) 10%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 560px 340px at 20% 85%, color-mix(in srgb, var(--accent-blue) 12%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 560px 340px at 80% 85%, color-mix(in srgb, var(--accent-blue) 10%, transparent) 0%, transparent 70%) !important;
+}
+
+[data-theme="glass"] .titlebar,
+[data-theme="glass"][data-power-status] .titlebar {
+  background: transparent !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border-bottom: none !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .titlebar,
+[data-theme="glass"][data-glass-mode="light"][data-power-status] .titlebar {
+  background: transparent !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border-bottom: none !important;
+}
+
+#tab-monitor,
+.minimal-monitor,
+.monitor-header,
+.monitor-cards-row {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+[data-theme="glass"] .timer-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 40%, rgba(255, 255, 255, 0.06) 100%), rgba(12, 16, 26, 0.32) !important;
+  backdrop-filter: blur(30px) saturate(210%) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(210%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.28), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-theme="glass"][data-power-status="ON"] .timer-card,
+[data-theme="glass"] .app-container.power-on .timer-card {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(255, 255, 255, 0.06) 40%, rgba(16, 185, 129, 0.08) 100%), rgba(8, 18, 20, 0.32) !important;
+  border: 1px solid rgba(16, 185, 129, 0.42) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.28), 0 0 16px -2px rgba(16, 185, 129, 0.2), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+[data-theme="glass"][data-power-status="OFF"] .timer-card {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.18) 0%, rgba(255, 255, 255, 0.06) 40%, rgba(239, 68, 68, 0.08) 100%), rgba(24, 10, 14, 0.32) !important;
+  border: 1px solid rgba(239, 68, 68, 0.42) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.28), 0 0 16px -2px rgba(239, 68, 68, 0.2), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+[data-theme="glass"][data-power-status="PLANNED"] .timer-card,
+[data-theme="glass"] .app-container.power-planned .timer-card {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(255, 255, 255, 0.06) 40%, rgba(245, 158, 11, 0.08) 100%), rgba(24, 16, 10, 0.32) !important;
+  border: 1px solid rgba(245, 158, 11, 0.42) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.28), 0 0 16px -2px rgba(245, 158, 11, 0.2), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+[data-theme="glass"] .planned-outage-card {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(255, 255, 255, 0.05) 40%, rgba(245, 158, 11, 0.08) 100%), rgba(20, 16, 10, 0.32) !important;
+  backdrop-filter: blur(32px) saturate(220%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(220%) !important;
+  border: 1px solid rgba(245, 158, 11, 0.42) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.28), 0 0 16px -2px rgba(245, 158, 11, 0.2), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+[data-theme="glass"] .stats-overview-card,
+[data-theme="glass"] .activity-heatmap-card,
+[data-theme="glass"] .github-activity-card,
+[data-theme="glass"] .card-container,
+[data-theme="glass"] .info-list,
+[data-theme="glass"] .setup-card,
+[data-theme="glass"] .logs-card,
+[data-theme="glass"] .macos-update-hero,
+[data-theme="glass"] .macos-settings-group,
+[data-theme="glass"] .macos-release-card,
+[data-theme="glass"] .history-day-card,
+[data-theme="glass"] .stat-card,
+[data-theme="glass"] .mini-stat-card,
+[data-theme="glass"] .activity-card,
+[data-theme="glass"] .toast,
+[data-theme="glass"] .dropdown-menu,
+[data-theme="glass"] .modal-card,
+[data-theme="glass"] .sim-card,
+[data-theme="glass"] .sim-input-box,
+[data-theme="glass"] .iphone-card,
+[data-theme="glass"] .settings-group {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 45%, rgba(255, 255, 255, 0.06) 100%), rgba(12, 16, 26, 0.36) !important;
+  backdrop-filter: blur(34px) saturate(220%) brightness(104%) !important;
+  -webkit-backdrop-filter: blur(34px) saturate(220%) brightness(104%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 0 16px 42px -8px rgba(0, 0, 0, 0.48), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-theme="glass"] #tab-settings .card-container {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 4px !important;
+}
+
+[data-theme="glass"] #tab-settings .section-title {
+  padding: 4px 8px 18px 4px;
+}
+
+[data-theme="glass"] .settings-group {
+  border-radius: var(--radius-lg) !important;
+  padding: 20px !important;
+  margin-bottom: 18px !important;
+}
+
+[data-theme="glass"] .theme-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.13) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 4px 14px rgba(0, 0, 0, 0.22) !important;
+  border-radius: var(--radius-md);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+[data-theme="glass"] .theme-card:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 8px 22px rgba(0, 0, 0, 0.32) !important;
+}
+
+[data-theme="glass"] .theme-card.active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.06) 100%), color-mix(in srgb, var(--accent-blue) 25%, transparent) !important;
+  border-color: var(--accent-blue) !important;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent-blue) 45%, transparent), inset 0 1px 1.5px rgba(255, 255, 255, 0.35) !important;
+}
+
+[data-theme="glass"] .glass-mode-selector,
+[data-theme="glass"] .nav-pos-selector {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+[data-theme="glass"] .glass-mode-btn,
+[data-theme="glass"] .nav-pos-btn {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="glass"] .glass-mode-btn svg,
+[data-theme="glass"] .nav-pos-btn svg {
+  stroke: currentColor !important;
+}
+
+[data-theme="glass"] .glass-mode-btn:hover:not(.active),
+[data-theme="glass"] .nav-pos-btn:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="glass"] .glass-mode-btn:hover:not(.active) svg,
+[data-theme="glass"] .nav-pos-btn:hover:not(.active) svg {
+  stroke: #ffffff !important;
+}
+
+[data-theme="glass"] .glass-mode-btn.active,
+[data-theme="glass"] .nav-pos-btn.active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 100%), color-mix(in srgb, var(--accent-blue) 30%, transparent) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.34) !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), 0 0 16px -2px color-mix(in srgb, var(--accent-blue) 45%, transparent), inset 0 1px 1px 0 rgba(255, 255, 255, 0.4) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="glass"] .glass-mode-btn.active *,
+[data-theme="glass"] .nav-pos-btn.active * {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+[data-theme="glass"] input[type="text"],
+[data-theme="glass"] input[type="password"],
+[data-theme="glass"] input[type="number"],
+[data-theme="glass"] select,
+[data-theme="glass"] textarea,
+[data-theme="glass"] .settings-input,
+[data-theme="glass"] .settings-select {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  color: var(--text-primary) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+[data-theme="glass"] input[type="text"]:focus,
+[data-theme="glass"] input[type="password"]:focus,
+[data-theme="glass"] input[type="number"]:focus,
+[data-theme="glass"] select:focus,
+[data-theme="glass"] textarea:focus,
+[data-theme="glass"] .settings-input:focus,
+[data-theme="glass"] .settings-select:focus {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: var(--accent-blue) !important;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent-blue) 40%, transparent), inset 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="glass"] .slider {
+  background-color: rgba(255, 255, 255, 0.16) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="glass"] input:checked + .slider {
+  background-color: var(--accent-blue) !important;
+  border-color: var(--accent-blue) !important;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent-blue) 50%, transparent) !important;
+}
+
+[data-theme="glass"] .slider:before {
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="glass"] .history-item {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%), rgba(14, 18, 28, 0.32) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.13) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+[data-theme="glass"] .history-item:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.05) 100%), rgba(18, 24, 38, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.24) !important;
+  transform: translateY(-1px);
+}
+
+[data-theme="glass"] .history-empty {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px dashed rgba(255, 255, 255, 0.16) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  color: rgba(255, 255, 255, 0.65) !important;
+  border-radius: var(--radius-sm);
+}
+
+[data-theme="glass"] .sim-status-banner {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.08) 100%), rgba(12, 24, 18, 0.36) !important;
+  border: 1px solid rgba(16, 185, 129, 0.4) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-theme="glass"] .step-item {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14) !important;
+  border-radius: var(--radius-sm);
+}
+
+[data-theme="glass"] .step-num {
+  background: color-mix(in srgb, var(--accent-blue) 30%, rgba(255, 255, 255, 0.1)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.24) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="glass"] .code-preview-wrap {
+  background: rgba(10, 14, 22, 0.42) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border-radius: var(--radius-md);
+}
+
+[data-theme="glass"] .planned-card-header {
+  border-bottom: 1px solid rgba(245, 158, 11, 0.22) !important;
+}
+
+[data-theme="glass"] .stats-item {
+  background: rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.13) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  border-radius: var(--radius-sm);
+}
+
+[data-theme="glass"] .planned-item-row {
+  background: rgba(245, 158, 11, 0.08) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(245, 158, 11, 0.22) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+  border-radius: var(--radius-sm);
+}
+
+[data-theme="glass"] .planned-item-row:hover {
+  background: rgba(245, 158, 11, 0.15) !important;
+  border-color: rgba(245, 158, 11, 0.4) !important;
+}
+
+[data-theme="glass"] .minimal-header-btn,
+[data-theme="glass"] .minimal-toggle-btn {
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+  color: var(--text-primary) !important;
+  border-radius: 6px;
+}
+
+[data-theme="glass"] .minimal-header-btn:hover,
+[data-theme="glass"] .minimal-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+[data-theme="glass"] .last-updated-tag {
+  background: transparent !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+[data-theme="glass"] .account-number-input {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.11) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-radius: 6px;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="glass"] .stats-uptime-badge {
+  background: rgba(16, 185, 129, 0.18) !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+[data-theme="glass"] .heatmap-summary-badge {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1px solid rgba(255, 255, 255, 0.13) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+[data-theme="glass"] .planned-counter-badge {
+  background: rgba(245, 158, 11, 0.2) !important;
+  border: 1px solid rgba(245, 158, 11, 0.38) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+[data-theme="glass"] .slim-progress-track {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+[data-theme="glass"] .stats-ratio-bar {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+
+[data-theme="glass"] .gh-cell.empty {
+  background: rgba(255, 255, 255, 0.07) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .timer-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.35) 45%, rgba(255, 255, 255, 0.5) 100%) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 12px 32px -6px rgba(15, 23, 42, 0.05), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"][data-power-status="ON"] .timer-card,
+[data-theme="glass"][data-glass-mode="light"] .app-container.power-on .timer-card {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(255, 255, 255, 0.5) 45%, rgba(16, 185, 129, 0.06) 100%) !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  box-shadow: 0 12px 32px -6px rgba(15, 23, 42, 0.05), 0 0 24px -4px rgba(16, 185, 129, 0.18), inset 0 1px 1.5px rgba(255, 255, 255, 0.95) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"][data-power-status="OFF"] .timer-card {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.16) 0%, rgba(255, 255, 255, 0.5) 45%, rgba(239, 68, 68, 0.06) 100%) !important;
+  border: 1px solid rgba(239, 68, 68, 0.35) !important;
+  box-shadow: 0 12px 32px -6px rgba(15, 23, 42, 0.05), 0 0 24px -4px rgba(239, 68, 68, 0.18), inset 0 1px 1.5px rgba(255, 255, 255, 0.95) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"][data-power-status="PLANNED"] .timer-card,
+[data-theme="glass"][data-glass-mode="light"] .app-container.power-planned .timer-card {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(255, 255, 255, 0.5) 45%, rgba(245, 158, 11, 0.06) 100%) !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
+  box-shadow: 0 12px 32px -6px rgba(15, 23, 42, 0.05), 0 0 24px -4px rgba(245, 158, 11, 0.18), inset 0 1px 1.5px rgba(255, 255, 255, 0.95) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .planned-outage-card {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(255, 255, 255, 0.65) 45%, rgba(245, 158, 11, 0.06) 100%), rgba(255, 255, 255, 0.62) !important;
+  backdrop-filter: blur(30px) saturate(210%) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(210%) !important;
+  border: 1px solid rgba(245, 158, 11, 0.38) !important;
+  box-shadow: 0 14px 34px -6px rgba(245, 158, 11, 0.2), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .planned-card-header {
+  border-bottom: 1px solid rgba(245, 158, 11, 0.22) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .planned-item-row {
+  background: rgba(245, 158, 11, 0.08) !important;
+  border: 1px solid rgba(245, 158, 11, 0.22) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 6px rgba(245, 158, 11, 0.06) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-radius: var(--radius-sm);
+}
+
+[data-theme="glass"][data-glass-mode="light"] .planned-item-row:hover {
+  background: rgba(245, 158, 11, 0.16) !important;
+  border-color: rgba(245, 158, 11, 0.38) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .stats-overview-card,
+[data-theme="glass"][data-glass-mode="light"] .activity-heatmap-card,
+[data-theme="glass"][data-glass-mode="light"] .github-activity-card,
+[data-theme="glass"][data-glass-mode="light"] .card-container,
+[data-theme="glass"][data-glass-mode="light"] .info-list,
+[data-theme="glass"][data-glass-mode="light"] .setup-card,
+[data-theme="glass"][data-glass-mode="light"] .logs-card,
+[data-theme="glass"][data-glass-mode="light"] .macos-update-hero,
+[data-theme="glass"][data-glass-mode="light"] .macos-settings-group,
+[data-theme="glass"][data-glass-mode="light"] .macos-release-card,
+[data-theme="glass"][data-glass-mode="light"] .history-day-card,
+[data-theme="glass"][data-glass-mode="light"] .stat-card,
+[data-theme="glass"][data-glass-mode="light"] .mini-stat-card,
+[data-theme="glass"][data-glass-mode="light"] .activity-card,
+[data-theme="glass"][data-glass-mode="light"] .toast,
+[data-theme="glass"][data-glass-mode="light"] .dropdown-menu,
+[data-theme="glass"][data-glass-mode="light"] .modal-card,
+[data-theme="glass"][data-glass-mode="light"] .sim-card,
+[data-theme="glass"][data-glass-mode="light"] .sim-input-box,
+[data-theme="glass"][data-glass-mode="light"] .iphone-card,
+[data-theme="glass"][data-glass-mode="light"] .settings-group {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.35) 45%, rgba(255, 255, 255, 0.5) 100%) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 12px 32px -6px rgba(15, 23, 42, 0.05), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] #tab-settings .card-container {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 4px !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .settings-group {
+  border-radius: var(--radius-lg) !important;
+  padding: 20px !important;
+  margin-bottom: 18px !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .theme-card {
+  background: rgba(255, 255, 255, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.75) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .theme-card:hover {
+  background: rgba(255, 255, 255, 0.75) !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .theme-card.active {
+  background: rgba(255, 255, 255, 0.88) !important;
+  border-color: var(--accent-blue) !important;
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent-blue) 35%, transparent), inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .glass-mode-selector,
+[data-theme="glass"][data-glass-mode="light"] .nav-pos-selector {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .glass-mode-btn,
+[data-theme="glass"][data-glass-mode="light"] .nav-pos-btn {
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+  color: #4b5563 !important;
+  font-weight: 500 !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .glass-mode-btn svg,
+[data-theme="glass"][data-glass-mode="light"] .nav-pos-btn svg {
+  color: #4b5563 !important;
+  stroke: #4b5563 !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .glass-mode-btn:hover:not(.active),
+[data-theme="glass"][data-glass-mode="light"] .nav-pos-btn:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.45) !important;
+  border: 1px solid rgba(0, 0, 0, 0.16) !important;
+  color: #0f172a !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .glass-mode-btn:hover:not(.active) svg,
+[data-theme="glass"][data-glass-mode="light"] .nav-pos-btn:hover:not(.active) svg {
+  color: #0f172a !important;
+  stroke: #0f172a !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .glass-mode-btn.active,
+[data-theme="glass"][data-glass-mode="light"] .nav-pos-btn.active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.38) 100%), color-mix(in srgb, var(--accent-blue) 16%, transparent) !important;
+  backdrop-filter: blur(24px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
+  color: #0f172a !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06), 0 0 12px color-mix(in srgb, var(--accent-blue) 22%, transparent), inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .glass-mode-btn.active *,
+[data-theme="glass"][data-glass-mode="light"] .nav-pos-btn.active * {
+  color: #0f172a !important;
+  stroke: #0f172a !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .history-item {
+  background: rgba(255, 255, 255, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.85) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 4px 14px rgba(0, 0, 0, 0.03) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .history-empty {
+  background: rgba(255, 255, 255, 0.35) !important;
+  border: 1px dashed rgba(0, 0, 0, 0.15) !important;
+  color: #64748b !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .step-item {
+  background: rgba(255, 255, 255, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .code-preview-wrap {
+  background: rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .stats-item {
+  background: rgba(255, 255, 255, 0.45) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 6px rgba(15, 23, 42, 0.03) !important;
+  color: #111827 !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .stats-item-label {
+  color: #4b5563 !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .stats-item-value {
+  color: #111827 !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .stats-item-value.on {
+  color: #047857 !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .stats-item-sub {
+  color: #64748b !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .stats-title-group {
+  color: #374151 !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .stats-uptime-badge {
+  background: rgba(16, 185, 129, 0.18) !important;
+  border: 1px solid rgba(16, 185, 129, 0.4) !important;
+  color: #047857 !important;
+  font-weight: 700 !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .heatmap-summary-badge {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #dc2626 !important;
+  font-weight: 700 !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .planned-card-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .planned-title {
+  color: #111827 !important;
+  font-weight: 700;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .planned-table-head {
+  color: #64748b !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .planned-item-row span {
+  color: #111827 !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .gh-cell.empty,
+[data-theme="glass"][data-glass-mode="light"] .gh-cell.gh-lvl-empty {
+  background: rgba(0, 0, 0, 0.06) !important;
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .info-key {
+  color: #4b5563 !important;
+  font-weight: 600;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .info-val {
+  color: #111827 !important;
+  font-weight: 600;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .info-val.address-masked {
+  color: #64748b !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .minimal-header-btn,
+[data-theme="glass"][data-glass-mode="light"] .minimal-toggle-btn {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1), 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+  color: #111827 !important;
+  font-weight: 600;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .minimal-header-btn:hover,
+[data-theme="glass"][data-glass-mode="light"] .minimal-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(0, 0, 0, 0.18) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .account-number-input {
+  background: rgba(255, 255, 255, 0.55) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  color: #111827 !important;
+  font-weight: 600;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .last-updated-tag {
+  background: transparent !important;
+  border: none !important;
+  color: #4b5563 !important;
+  font-weight: 500;
+}
+
+[data-theme="glass"][data-glass-mode="light"] #systemClock {
+  color: #4b5563 !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .monitor-heading {
+  color: #374151 !important;
+  font-weight: 700;
+}
+
+[data-theme="glass"] .titlebar .nav-tabs {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+[data-theme="glass"]:not([data-glass-mode="light"]) .titlebar .nav-tabs .nav-tab {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="glass"]:not([data-glass-mode="light"]) .titlebar .nav-tabs .nav-tab:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="glass"]:not([data-glass-mode="light"]) .titlebar .nav-tabs .nav-tab.active {
+  background: rgba(255, 255, 255, 0.14) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  cursor: default !important;
+}
+
+[data-theme="glass"]:not([data-glass-mode="light"]) .titlebar .nav-tabs .nav-tab.active svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+[data-theme="glass"] .app-container.nav-pos-left .titlebar .nav-tabs,
+[data-theme="glass"] .app-container.nav-pos-right .titlebar .nav-tabs,
+[data-theme="glass"] .app-container.tab-labels-always.nav-pos-left .titlebar .nav-tabs,
+[data-theme="glass"] .app-container.tab-labels-always.nav-pos-right .titlebar .nav-tabs {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-right: none !important;
+  border-left: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+[data-theme="glass"]:not([data-glass-mode="light"]) .titlebar .nav-tabs .nav-tab.active,
+[data-theme="glass"]:not([data-glass-mode="light"]) .app-container.nav-pos-left .titlebar .nav-tabs .nav-tab.active,
+[data-theme="glass"]:not([data-glass-mode="light"]) .app-container.nav-pos-right .titlebar .nav-tabs .nav-tab.active,
+[data-theme="glass"]:not([data-glass-mode="light"]) .app-container.tab-labels-always.nav-pos-left .titlebar .nav-tabs .nav-tab.active,
+[data-theme="glass"]:not([data-glass-mode="light"]) .app-container.tab-labels-always.nav-pos-right .titlebar .nav-tabs .nav-tab.active {
+  background: rgba(255, 255, 255, 0.14) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  cursor: default !important;
+}
+
+[data-theme="glass"]:not([data-glass-mode="light"]) .titlebar .nav-tabs .nav-tab.active *,
+[data-theme="glass"]:not([data-glass-mode="light"]) .app-container.nav-pos-left .titlebar .nav-tabs .nav-tab.active *,
+[data-theme="glass"]:not([data-glass-mode="light"]) .app-container.nav-pos-right .titlebar .nav-tabs .nav-tab.active *,
+[data-theme="glass"]:not([data-glass-mode="light"]) .app-container.tab-labels-always.nav-pos-left .titlebar .nav-tabs .nav-tab.active *,
+[data-theme="glass"]:not([data-glass-mode="light"]) .app-container.tab-labels-always.nav-pos-right .titlebar .nav-tabs .nav-tab.active * {
+  color: #ffffff !important;
+}
+
+[data-theme="glass"]:not([data-glass-mode="light"]) .app-container.nav-pos-left .titlebar .nav-tabs .nav-tab:hover:not(.active),
+[data-theme="glass"]:not([data-glass-mode="light"]) .app-container.nav-pos-right .titlebar .nav-tabs .nav-tab:hover:not(.active),
+[data-theme="glass"]:not([data-glass-mode="light"]) .app-container.tab-labels-always.nav-pos-left .titlebar .nav-tabs .nav-tab:hover:not(.active),
+[data-theme="glass"]:not([data-glass-mode="light"]) .app-container.tab-labels-always.nav-pos-right .titlebar .nav-tabs .nav-tab:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .titlebar .nav-tabs .nav-tab,
+[data-theme="glass"][data-glass-mode="light"] .app-container.nav-pos-left .titlebar .nav-tabs .nav-tab,
+[data-theme="glass"][data-glass-mode="light"] .app-container.nav-pos-right .titlebar .nav-tabs .nav-tab,
+[data-theme="glass"][data-glass-mode="light"] .app-container.tab-labels-always.nav-pos-left .titlebar .nav-tabs .nav-tab,
+[data-theme="glass"][data-glass-mode="light"] .app-container.tab-labels-always.nav-pos-right .titlebar .nav-tabs .nav-tab {
+  color: #4b5563 !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .titlebar .nav-tabs .nav-tab *,
+[data-theme="glass"][data-glass-mode="light"] .app-container.nav-pos-left .titlebar .nav-tabs .nav-tab *,
+[data-theme="glass"][data-glass-mode="light"] .app-container.nav-pos-right .titlebar .nav-tabs .nav-tab *,
+[data-theme="glass"][data-glass-mode="light"] .app-container.tab-labels-always.nav-pos-left .titlebar .nav-tabs .nav-tab *,
+[data-theme="glass"][data-glass-mode="light"] .app-container.tab-labels-always.nav-pos-right .titlebar .nav-tabs .nav-tab * {
+  color: #4b5563 !important;
+}

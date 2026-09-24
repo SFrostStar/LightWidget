@@ -1,0 +1,459 @@
+:root[data-theme="midnight"], html[data-theme="midnight"], body[data-theme="midnight"] {
+  --bg-base: #141518;
+  --bg-sidebar: #191a1e;
+  --bg-card: #1f2025;
+  --bg-card-hover: #26272e;
+  --bg-input: #17181c;
+  --border-color: #2b2d35;
+  --border-subtle: #24262d;
+  --text-primary: #f2f2f7;
+  --text-secondary: #98989f;
+  --text-muted: #636366;
+}
+
+:root[data-theme="oled"], html[data-theme="oled"], body[data-theme="oled"] {
+  --bg-base: #000000;
+  --bg-sidebar: #000000;
+  --bg-card: #0a0a0d;
+  --bg-card-hover: #121217;
+  --bg-input: #050508;
+  --border-color: #1a1a24;
+  --border-subtle: #101017;
+  --text-primary: #f2f2f7;
+  --text-secondary: #98989f;
+  --text-muted: #636366;
+}
+
+:root[data-theme="light"], html[data-theme="light"], body[data-theme="light"] {
+  --bg-base: #ffffff;
+  --bg-sidebar: #ffffff;
+  --bg-card: #f2f3f7;
+  --bg-card-hover: #e9ebf2;
+  --bg-input: #ffffff;
+  --border-color: #e1e4ea;
+  --border-subtle: #eaecef;
+  --text-primary: #1d1d1f;
+  --text-secondary: #636366;
+  --text-muted: #8e8e93;
+}
+
+:root[data-theme="cyber"], html[data-theme="cyber"], body[data-theme="cyber"] {
+  --bg-base: #0c0a18;
+  --bg-sidebar: #120e24;
+  --bg-card: #181332;
+  --bg-card-hover: #231b46;
+  --bg-input: #0e0a1e;
+  --border-color: #382866;
+  --border-subtle: #221844;
+  --text-primary: #f5f3ff;
+  --text-secondary: #a79fc0;
+  --text-muted: #736991;
+}
+
+:root[data-theme="sapphire"], html[data-theme="sapphire"], body[data-theme="sapphire"] {
+  --bg-base: #07111e;
+  --bg-sidebar: #0b192c;
+  --bg-card: #10233d;
+  --bg-card-hover: #183357;
+  --bg-input: #0a1728;
+  --border-color: #1f426e;
+  --border-subtle: #142a47;
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b9bb4;
+  --text-muted: #5e728e;
+}
+
+:root[data-theme="emerald"], html[data-theme="emerald"], body[data-theme="emerald"] {
+  --bg-base: #06130e;
+  --bg-sidebar: #0a1d15;
+  --bg-card: #0f2b20;
+  --bg-card-hover: #173d2e;
+  --bg-input: #081711;
+  --border-color: #1d523c;
+  --border-subtle: #123325;
+  --text-primary: #f2fdf7;
+  --text-secondary: #8da397;
+  --text-muted: #5e7568;
+}
+
+:root[data-theme="amber"], html[data-theme="amber"], body[data-theme="amber"] {
+  --bg-base: #141008;
+  --bg-sidebar: #1c170d;
+  --bg-card: #282012;
+  --bg-card-hover: #362c19;
+  --bg-input: #1a140b;
+  --border-color: #4a3a1f;
+  --border-subtle: #302614;
+  --text-primary: #fffbeb;
+  --text-secondary: #f59e0b;
+  --text-muted: #b45309;
+}
+
+:root[data-theme="titanium"], html[data-theme="titanium"], body[data-theme="titanium"] {
+  --bg-base: #141210;
+  --bg-sidebar: #1c1916;
+  --bg-card: #26221e;
+  --bg-card-hover: #332d28;
+  --bg-input: #191613;
+  --border-color: #403831;
+  --border-subtle: #29241f;
+  --text-primary: #f7f5f2;
+  --text-secondary: #a39c94;
+  --text-muted: #736d66;
+}
+
+:root[data-theme="glass"], html[data-theme="glass"], body[data-theme="glass"] {
+  --bg-base: #0b0c10;
+  --bg-sidebar: rgba(18, 20, 28, 0.55);
+  --bg-card: rgba(22, 25, 36, 0.45);
+  --bg-card-hover: rgba(30, 34, 48, 0.55);
+  --bg-input: rgba(255, 255, 255, 0.05);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --text-primary: #ffffff;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+}
+
+:root[data-theme="glass"][data-glass-mode="light"], html[data-theme="glass"][data-glass-mode="light"], body[data-theme="glass"][data-glass-mode="light"] {
+  --bg-base: #eef2f7;
+  --bg-sidebar: rgba(255, 255, 255, 0.72);
+  --bg-card: rgba(255, 255, 255, 0.65);
+  --bg-card-hover: rgba(255, 255, 255, 0.85);
+  --bg-input: rgba(255, 255, 255, 0.75);
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-subtle: rgba(0, 0, 0, 0.04);
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+}
+
+:root[data-accent="blue"], html[data-accent="blue"], body[data-accent="blue"] {
+  --accent-blue: #0a84ff;
+  --border-focus: #0a84ff;
+}
+
+:root[data-accent="purple"], html[data-accent="purple"], body[data-accent="purple"] {
+  --accent-blue: #bf5af2;
+  --border-focus: #bf5af2;
+}
+
+:root[data-accent="green"], html[data-accent="green"], body[data-accent="green"] {
+  --accent-blue: #30d158;
+  --border-focus: #30d158;
+}
+
+:root[data-accent="amber"], html[data-accent="amber"], body[data-accent="amber"] {
+  --accent-blue: #ff9f0a;
+  --border-focus: #ff9f0a;
+}
+
+:root[data-accent="teal"], html[data-accent="teal"], body[data-accent="teal"] {
+  --accent-blue: #2dd4bf;
+  --border-focus: #2dd4bf;
+}
+
+:root[data-accent="cyan"], html[data-accent="cyan"], body[data-accent="cyan"] {
+  --accent-blue: #64d2ff;
+  --border-focus: #64d2ff;
+}
+
+:root[data-accent="gold"], html[data-accent="gold"], body[data-accent="gold"] {
+  --accent-blue: #ffd60a;
+  --border-focus: #ffd60a;
+}
+
+:root[data-accent="white"], html[data-accent="white"], body[data-accent="white"] {
+  --accent-blue: #ffffff;
+  --border-focus: #ffffff;
+}
+
+#glassModeSettingsGroup {
+  max-height: 200px;
+  opacity: 1;
+  transform: translateY(0);
+  margin-bottom: 24px;
+  padding: 4px 2px;
+  transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, transform 0.3s ease, margin-bottom 0.35s ease;
+}
+
+#glassModeSettingsGroup.is-hidden {
+  max-height: 0;
+  opacity: 0;
+  margin-bottom: 0;
+  padding: 0 2px;
+  transform: translateY(-8px);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.glass-mode-selector,
+.nav-pos-selector {
+  display: flex;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  gap: 8px !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.glass-mode-btn,
+.nav-pos-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 14px;
+  min-height: 36px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-mode-btn svg,
+.nav-pos-btn svg {
+  flex-shrink: 0;
+  stroke: currentColor;
+  transition: stroke 0.2s ease, color 0.2s ease;
+}
+
+.glass-mode-btn:hover:not(.active),
+.nav-pos-btn:hover:not(.active) {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16);
+}
+
+.glass-mode-btn.active,
+.nav-pos-btn.active {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+[data-glass-mode="light"] .glass-mode-selector,
+[data-glass-mode="light"] .nav-pos-selector {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+[data-glass-mode="light"] .glass-mode-btn,
+[data-glass-mode="light"] .nav-pos-btn {
+  color: #64748b;
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+[data-glass-mode="light"] .glass-mode-btn svg,
+[data-glass-mode="light"] .nav-pos-btn svg {
+  color: #64748b;
+  stroke: #64748b;
+}
+
+[data-glass-mode="light"] .glass-mode-btn:hover:not(.active),
+[data-glass-mode="light"] .nav-pos-btn:hover:not(.active) {
+  color: #0f172a;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+[data-glass-mode="light"] .glass-mode-btn:hover:not(.active) svg,
+[data-glass-mode="light"] .nav-pos-btn:hover:not(.active) svg {
+  color: #0f172a;
+  stroke: #0f172a;
+}
+
+[data-glass-mode="light"] .glass-mode-btn.active,
+[data-glass-mode="light"] .nav-pos-btn.active {
+  background: #ffffff;
+  color: #0f172a;
+  font-weight: 600;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-glass-mode="light"] .glass-mode-btn.active svg,
+[data-glass-mode="light"] .glass-mode-btn.active span,
+[data-glass-mode="light"] .nav-pos-btn.active svg,
+[data-glass-mode="light"] .nav-pos-btn.active span {
+  color: #0f172a;
+  stroke: #0f172a;
+}
+
+#accentSettingsGroup {
+  max-height: 200px;
+  opacity: 1;
+  transform: translateY(0);
+  margin-bottom: 24px;
+  padding: 4px 2px;
+  transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, transform 0.3s ease, margin-bottom 0.35s ease;
+}
+
+#accentSettingsGroup.is-hidden {
+  max-height: 0;
+  opacity: 0;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+  transform: translateY(-8px);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+:root[data-theme="light"], html[data-theme="light"], body[data-theme="light"] {
+  --bg-base: #ffffff;
+  --bg-sidebar: #ffffff;
+  --bg-card: #f2f3f7;
+  --bg-card-hover: #e9ebf2;
+  --bg-input: #ffffff;
+  --border-color: #e1e4ea;
+  --border-subtle: #eaecef;
+  --border-focus: #111827;
+  --accent-blue: #111827;
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+}
+
+.settings-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.settings-label-row .settings-label {
+  margin-bottom: 0;
+}
+
+[data-theme="light"] .app-container {
+  background-color: #ffffff;
+  border-color: #e1e4ea;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .app-container.power-on,
+[data-theme="light"][data-power-status="ON"] .app-container {
+  background-color: #ffffff;
+  background-image: radial-gradient(circle at 50% 0%, rgba(22, 163, 74, 0.08) 0%, rgba(22, 163, 74, 0.02) 45%, #ffffff 90%);
+}
+
+[data-theme="light"] .app-container.power-off,
+[data-theme="light"][data-power-status="OFF"] .app-container {
+  background-color: #ffffff;
+  background-image: radial-gradient(circle at 50% 0%, rgba(255, 69, 58, 0.12) 0%, rgba(255, 69, 58, 0.03) 45%, #ffffff 90%);
+}
+
+[data-theme="light"] .app-container.power-planned,
+[data-theme="light"][data-power-status="PLANNED"] .app-container {
+  background-color: #ffffff;
+  background-image: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.12) 0%, rgba(245, 158, 11, 0.03) 45%, #ffffff 90%);
+}
+
+[data-theme="light"] .titlebar {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"][data-power-status="ON"] .titlebar {
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.12) 0%, rgba(255, 255, 255, 0.76) 100%);
+  border-bottom-color: rgba(16, 185, 129, 0.18);
+}
+
+[data-theme="light"][data-power-status="OFF"] .titlebar {
+  background: linear-gradient(180deg, rgba(239, 68, 68, 0.1) 0%, rgba(255, 255, 255, 0.76) 100%);
+  border-bottom-color: rgba(239, 68, 68, 0.18);
+}
+
+[data-theme="light"][data-power-status="PLANNED"] .titlebar {
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.12) 0%, rgba(255, 255, 255, 0.76) 100%);
+  border-bottom-color: rgba(245, 158, 11, 0.18);
+}
+
+[data-theme="oled"] .app-container,
+[data-theme="oled"].power-on .app-container,
+[data-theme="oled"].power-off .app-container,
+[data-theme="oled"].power-planned .app-container,
+[data-theme="oled"][data-power-status="ON"] .app-container,
+[data-theme="oled"][data-power-status="OFF"] .app-container,
+[data-theme="oled"][data-power-status="PLANNED"] .app-container {
+  background-color: #000000 !important;
+  background-image: none !important;
+  border-color: #1a1a24 !important;
+}
+
+[data-theme="oled"] .titlebar {
+  background: #000000 !important;
+  border-bottom: 1px solid #1a1a24 !important;
+}
+
+[data-theme="oled"] .timer-card,
+[data-theme="oled"] .stats-overview-card,
+[data-theme="oled"] .activity-heatmap-card,
+[data-theme="oled"] .github-activity-card,
+[data-theme="oled"] .card-container,
+[data-theme="oled"] .info-list,
+[data-theme="oled"] .setup-card,
+[data-theme="oled"] .logs-card,
+[data-theme="oled"] .macos-update-hero,
+[data-theme="oled"] .macos-settings-group,
+[data-theme="oled"] .macos-release-card {
+  background: #08080b !important;
+  border: 1px solid #1a1a24 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8) !important;
+}
+
+[data-theme="oled"][data-power-status="ON"] .timer-card,
+[data-theme="oled"] .app-container.power-on .timer-card {
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 26, 16, 0.6) 100%), #070908 !important;
+  border: 1px solid rgba(16, 185, 129, 0.45) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 24px -4px rgba(16, 185, 129, 0.22) !important;
+}
+
+[data-theme="oled"][data-power-status="OFF"] .timer-card,
+[data-theme="oled"] .app-container.power-off .timer-card {
+  background: linear-gradient(180deg, rgba(239, 68, 68, 0.12) 0%, rgba(32, 8, 8, 0.6) 100%), #090707 !important;
+  border: 1px solid rgba(239, 68, 68, 0.45) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 24px -4px rgba(239, 68, 68, 0.22) !important;
+}
+
+[data-theme="oled"][data-power-status="PLANNED"] .timer-card,
+[data-theme="oled"] .app-container.power-planned .timer-card {
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.12) 0%, rgba(32, 20, 6, 0.6) 100%), #090807 !important;
+  border: 1px solid rgba(245, 158, 11, 0.45) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 24px -4px rgba(245, 158, 11, 0.22) !important;
+}
+
+[data-theme="oled"] .planned-outage-card {
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.12) 0%, rgba(32, 20, 6, 0.5) 100%), #090807 !important;
+  border: 1px solid rgba(245, 158, 11, 0.45) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 24px -4px rgba(245, 158, 11, 0.2) !important;
+}
+
+[data-theme="oled"] .planned-card-header {
+  border-bottom: 1px solid rgba(245, 158, 11, 0.2) !important;
+}
+
+[data-theme="oled"] .planned-item-row {
+  background: rgba(245, 158, 11, 0.08) !important;
+  border: 1px solid rgba(245, 158, 11, 0.2) !important;
+}

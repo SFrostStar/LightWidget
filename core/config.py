@@ -24,6 +24,7 @@ DEFAULT_CONFIG ={
 "appearance":{
 "theme":"midnight",
 "accent":"blue",
+"glass_mode":"dark",
 "show_seconds":True ,
 "show_pulse":True ,
 "show_stats":True ,
@@ -32,7 +33,9 @@ DEFAULT_CONFIG ={
 "nav_hover":False ,
 "tab_hover_info":True ,
 "toast_position":"bottom-right",
-"autocheck_updates":True
+"autocheck_updates":True,
+"hide_watermark":False,
+"hide_status_dot":False
 },
 "notifications":{
 "sound":True ,
