@@ -2557,7 +2557,7 @@ const updateAutoCheckSwitch = document.getElementById('updateAutoCheckSwitch');
 let isUpdating = false;
 
 function formatCleanVersion(rawVer) {
-  if (!rawVer) return '2.3.7';
+  if (!rawVer) return '2.3.7.1';
   const clean = String(rawVer).replace(/^v/i, '').trim();
   const parts = clean.split('.').map(p => parseInt(p, 10) || 0);
   while (parts.length < 3) parts.push(0);
@@ -2581,7 +2581,7 @@ async function checkAppUpdates(showToastOnClean = false, isStartupCheck = false)
     if (updateLastCheckSub) updateLastCheckSub.textContent = 'Проверка в фоновом режиме';
 
     if (res && res.success) {
-      const localVer = formatCleanVersion(res.local?.version || '2.3.7');
+      const localVer = formatCleanVersion(res.local?.version || '2.3.7.1');
       if (updateVersionTag) updateVersionTag.textContent = localVer;
       if (updateInstalledPill) updateInstalledPill.textContent = localVer;
 

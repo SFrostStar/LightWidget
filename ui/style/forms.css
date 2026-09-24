@@ -784,3 +784,32 @@ body.widget-mode {
   border-radius: 999px;
   transition: width 0.3s ease;
 }
+
+.settings-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 0 12px;
+  user-select: none;
+}
+
+.settings-footer-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: var(--text-muted);
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.settings-footer-text:hover {
+  opacity: 0.95;
+}
+
+.settings-footer-text .settings-team-name {
+  font-weight: 600;
+  color: var(--text-secondary);
+}

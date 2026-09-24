@@ -486,7 +486,7 @@ def main ():
                 if w:
                     frame = w.frame()
                     loc = event.locationInWindow()
-                    is_titlebar = loc.y >= (frame.size.height - 54)
+                    is_titlebar = loc.y >= (frame.size.height - 50)
                     is_widget = frame.size.height <= 250
                     if is_titlebar or is_widget:
                         self._can_drag_window = True
@@ -547,7 +547,7 @@ def main ():
     min_size =(165 ,165 ),
     resizable =True ,
     frameless =True ,
-    easy_drag =is_mac ,
+    easy_drag =False ,
     transparent =is_mac ,
     background_color ="#141518"
     )
