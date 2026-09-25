@@ -574,6 +574,11 @@
   margin-top: 4px;
 }
 
+.app-container.power-on .slim-progress-box,
+[data-power-status="ON"] .slim-progress-box {
+  display: none !important;
+}
+
 .slim-progress-track {
   width: 100%;
   height: 3px;

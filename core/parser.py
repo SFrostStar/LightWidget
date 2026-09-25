@@ -63,14 +63,20 @@ def is_menu_service_message (text :str )->bool :
     t =text .strip ().lower ()
     menu_patterns =[
     r"^/?start$",
-    r"оберіть\s+(потрібний\s+розділ|тип\s+об'єкта|особовий\s+рахунок)",
+    r"оберіть\s+потрібний\s+розділ",
     r"натиснувши\s+кнопку\s+нижче",
-    r"вітаємо\s+у\s+чат-боті",
     r"^💡\s*можливі\s+відключення",
     r"^можливі\s+відключення",
-    r"^☰\s*меню",
+    r"^послуги",
+    r"^передати\s+покази",
+    r"^що\s+як\s+і\s+чому",
     r"^повідомити\s+про\s+відсутність\s+світла",
+    r"^☰\s*меню",
     r"^головне\s+меню",
+    r"на\s+жаль,\s+сталася\s+помилка",
+    r"сталася\s+помилка",
+    r"спробуйте\s+пізніше",
+    r"тимчасово\s+недоступн",
     ]
     for pat in menu_patterns :
         if re .search (pat ,t ):
@@ -84,9 +90,12 @@ def parse_single_block (text_clean :str )->dict :
     if is_menu_service_message (text_clean ):
         return None
 
+    if re .search (r'(сталася\s+помилка|спробуйте\s+пізніше|тимчасово\s+недоступн)',text_clean ,re .IGNORECASE ):
+        return None
+
     is_no_outage =bool (re .search (r"(не\s+зафіксовано\s+відключень|відключень\s+не\s+зафіксовано|немає\s+відключень|відключення\s+відсутні|наразі\s+не\s+зафіксовано|подати\s+заявку\s+на\s+відсутність\s+світла|повідомити\s+про\s+відсутність\s+світла)",text_clean ,re .IGNORECASE ))
     is_restored =bool (re .search (r"(відновлено|включено|живлення подано|електропостачання.*?відновлено|скасовано)",text_clean ,re .IGNORECASE ))
-    has_fixed_outage =bool (re .search (r"(зафіксовано\s+відключення|зафіксовано\s+аварійне|аварійне\s+відключення|знеструмлено)",text_clean ,re .IGNORECASE ))or "❗️"in text_clean 
+    has_fixed_outage =bool (re .search (r"(зафіксовано\s+відключення|зафіксовано\s+аварійне|аварійне\s+відключення|знеструмлено)",text_clean ,re .IGNORECASE ))
     is_planned =False 
     if not has_fixed_outage and not is_no_outage and not is_restored :
         if re .search (r"(?:💡\s*)?(?:заплановані\s+ремонтні\s+роботи|заплановано\s+відключення|планові\s+ремонтні\s+роботи)",text_clean ,re .IGNORECASE ):
@@ -100,7 +109,7 @@ def parse_single_block (text_clean :str )->dict :
     elif is_outage or has_fixed_outage :
         status ="OFF"
     else :
-        status ="OFF"if ("❗️"in text_clean or "⚠️"in text_clean )else "ON"
+        status ="ON"
 
     address ="Не указан"
     addr_match =re .search (r"(?:Електропостачання\s+)?за адресою\s+(.+?)(?:\s+в\s+даний\s+момент|\s+зафіксовано|\s+змінено|\s+відновлено|\s+відсутня|\s+заплановані|\s+плануються|\s+будуть|\r?\n|$)",text_clean ,re .IGNORECASE )
@@ -248,8 +257,22 @@ def parse_message (text :str )->dict :
     if not parsed_blocks :
         return None
 
-    outage_blocks =[b for b in parsed_blocks if b .get ("is_outage")]
-    candidate_blocks =outage_blocks if outage_blocks else parsed_blocks
+    now_ts_curr =int (datetime .now (KYIV_TZ ).timestamp ())
+
+    has_explicit_no_outage =any (
+        (b .get ("reason")and "не зафіксовано"in b ["reason"].lower ())or (b .get ("status")=="ON"and not b .get ("is_planned"))
+        for b in parsed_blocks 
+    )
+
+    active_outage_blocks =[
+        b for b in parsed_blocks 
+        if b .get ("is_outage")and (not b .get ("end_timestamp")or b ["end_timestamp"]>now_ts_curr )
+    ]
+
+    if has_explicit_no_outage :
+        candidate_blocks =[b for b in parsed_blocks if not b .get ("is_outage")]or parsed_blocks 
+    else :
+        candidate_blocks =active_outage_blocks if active_outage_blocks else parsed_blocks
 
     def sort_key (b ):
         return (b .get ("end_timestamp")or 0 ,b .get ("total_seconds")or 0 )

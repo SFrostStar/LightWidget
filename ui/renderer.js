@@ -512,7 +512,7 @@ function updateCountdown() {
     updatePlannedOutagesDisplay(true);
   }
 
-  if (!currentState || currentState.status !== 'OFF' || !currentState.end_timestamp) {
+  if (!currentState || currentState.status !== 'OFF') {
     if (currentState && currentState.light_on_since) {
       lightOnSince = currentState.light_on_since;
     } else if (lightOnSince === null) {
@@ -521,11 +521,8 @@ function updateCountdown() {
       localStorage.setItem('lightwidget_light_on_since', lightOnSince);
     }
     showLightOnStatus();
-    if (elProgressBarFill) {
-      elProgressBarFill.className = 'slim-progress-fill';
-      elProgressBarFill.style.width = '100%';
-    }
-    if (elProgressPercentText) elProgressPercentText.textContent = '100%';
+    const slimBox = document.querySelector('.slim-progress-box');
+    if (slimBox) slimBox.style.display = 'none';
 
     if (elLivePill) elLivePill.className = 'live-pill';
     if (elLivePillText) elLivePillText.textContent = 'СВЕТ ЕСТЬ';
@@ -547,6 +544,22 @@ function updateCountdown() {
     if (elRowEnd) elRowEnd.style.display = 'none';
     return;
   }
+
+  if (!currentState.end_timestamp) {
+    if (elTimerDigits) {
+      elTimerDigits.innerHTML = '<span class="status-heading-off">Свет отключен</span>';
+    }
+    if (elTimerLabel) {
+      elTimerLabel.textContent = currentState.reason || 'Время включения уточняется';
+      elTimerLabel.className = 'timer-subtitle status-sub-off';
+    }
+    const slimBox = document.querySelector('.slim-progress-box');
+    if (slimBox) slimBox.style.display = 'none';
+    return;
+  }
+
+  const slimBox = document.querySelector('.slim-progress-box');
+  if (slimBox) slimBox.style.display = 'flex';
 
   const endTs = currentState.end_timestamp;
   const startTs = currentState.start_timestamp || (endTs - 3600);
@@ -2557,7 +2570,7 @@ const updateAutoCheckSwitch = document.getElementById('updateAutoCheckSwitch');
 let isUpdating = false;
 
 function formatCleanVersion(rawVer) {
-  if (!rawVer) return '2.3.7.1';
+  if (!rawVer) return '2.3.7.2';
   const clean = String(rawVer).replace(/^v/i, '').trim();
   const parts = clean.split('.').map(p => parseInt(p, 10) || 0);
   while (parts.length < 3) parts.push(0);
@@ -2581,7 +2594,7 @@ async function checkAppUpdates(showToastOnClean = false, isStartupCheck = false)
     if (updateLastCheckSub) updateLastCheckSub.textContent = 'Проверка в фоновом режиме';
 
     if (res && res.success) {
-      const localVer = formatCleanVersion(res.local?.version || '2.3.7.1');
+      const localVer = formatCleanVersion(res.local?.version || '2.3.7.2');
       if (updateVersionTag) updateVersionTag.textContent = localVer;
       if (updateInstalledPill) updateInstalledPill.textContent = localVer;
 
