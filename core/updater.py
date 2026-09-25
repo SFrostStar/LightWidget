@@ -54,23 +54,24 @@ class UpdateManager :
         return f"{v_tuple [0 ]}.{v_tuple [1 ]}.{v_tuple [2 ]}"
 
     def get_local_version (self )->dict :
-        v_paths =[
+        ver_str ="1.0.0"
+        msg_str ="LightWidget"
+        date_str =""
+
+        candidate_paths =[
         os .path .join (self .base_dir ,"version.json"),
         os .path .join (getattr (sys ,'_MEIPASS',self .base_dir ),"version.json"),
-        os .path .dirname (self .base_dir )if not os .path .exists (os .path .join (self .base_dir ,"version.json"))else self .base_dir
+        os .path .join (os .path .dirname (sys .executable ),"version.json")if getattr (sys ,'frozen',False )else None
         ]
-        ver_str ="2.3.7.2"
-        msg_str ="LightWidget Release 2.3.7.2"
-        date_str ="2026-09-25"
 
-        for vp in [os .path .join (self .base_dir ,"version.json"),os .path .join (getattr (sys ,'_MEIPASS',self .base_dir ),"version.json")]:
-            if os .path .exists (vp ):
+        for vp in candidate_paths :
+            if vp and os .path .exists (vp ):
                 try :
                     with open (vp ,"r",encoding ="utf-8")as f :
                         vdata =json .load (f )
-                        ver_str =str (vdata .get ("version","2.3.7.2"))
-                        msg_str =vdata .get ("message","LightWidget Release 2.3.7.2")
-                        date_str =vdata .get ("date","2026-09-25")
+                        ver_str =str (vdata .get ("version",ver_str ))
+                        msg_str =vdata .get ("message",msg_str )
+                        date_str =vdata .get ("date",date_str )
                         break
                 except Exception :
                     pass

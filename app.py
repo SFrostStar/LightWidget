@@ -238,6 +238,13 @@ class ApiBridge :
             print (f"[Bridge] delete_history_record error: {e }")
             return False
 
+    def get_app_version (self ):
+        try :
+            return self .update_mgr .get_local_version ()
+        except Exception as e :
+            print (f"[Bridge] get_app_version error: {e }")
+            return {"version":"1.0.0"}
+
     def check_for_updates (self ):
         try :
             return self .update_mgr .check_updates ()
@@ -562,6 +569,7 @@ def main ():
             notif =config_mgr .get ("notifications",{})
             theme =appr .get ("theme","midnight")
             accent =appr .get ("accent","blue")
+            glass_mode =appr .get ("glass_mode","dark")
             show_sec ="true"if appr .get ("show_seconds",True )else "false"
             show_pls ="true"if appr .get ("show_pulse",True )else "false"
             show_stats ="true"if appr .get ("show_stats",True )else "false"
@@ -576,14 +584,21 @@ def main ():
             sound ="true"if notif .get ("sound",True )else "false"
             banner ="true"if notif .get ("banner",True )else "false"
             sound_name =notif .get ("sound_name","Submarine")
+            cur_ver =bridge .update_mgr .get_local_version ().get ("version","1.0.0")
 
             if window :
                 escaped_acc =acc .replace ("'","\\'")
                 window .evaluate_js (f"""
                     (function() {{
                         try {{
+                            var v = '{cur_ver }';
+                            var el1 = document.getElementById('updateVersionTag');
+                            if (el1) el1.textContent = v;
+                            var el2 = document.getElementById('updateInstalledPill');
+                            if (el2) el2.textContent = v;
                             localStorage.setItem('lightwidget_theme', '{theme }');
                             localStorage.setItem('lightwidget_accent', '{accent }');
+                            localStorage.setItem('lightwidget_glass_mode', '{glass_mode }');
                             localStorage.setItem('lightwidget_show_seconds', {show_sec });
                             localStorage.setItem('lightwidget_show_pulse', {show_pls });
                             localStorage.setItem('lightwidget_show_stats', {show_stats });
@@ -601,9 +616,11 @@ def main ():
 
                             if (window.applyTheme) window.applyTheme('{theme }', false);
                             if (window.applyAccent) window.applyAccent('{accent }', false);
+                            if (window.applyGlassMode) window.applyGlassMode('{glass_mode }', false);
                             if (window.appSettings) {{
                                 window.appSettings.theme = '{theme }';
                                 window.appSettings.accent = '{accent }';
+                                window.appSettings.glassMode = '{glass_mode }';
                                 window.appSettings.showSeconds = {show_sec };
                                 window.appSettings.showPulse = {show_pls };
                                 window.appSettings.showStats = {show_stats };

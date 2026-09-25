@@ -127,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   setupWidgetModeListeners();
   startSystemClock();
+  loadInstalledAppVersion();
 
   waitForPywebview();
 
@@ -2352,6 +2353,7 @@ async function initApp() {
   isAppInitialized = true;
 
   try {
+    loadInstalledAppVersion();
     const state = await window.pywebview.api.get_state();
     renderState(state);
     await loadHistory();
@@ -2570,11 +2572,34 @@ const updateAutoCheckSwitch = document.getElementById('updateAutoCheckSwitch');
 let isUpdating = false;
 
 function formatCleanVersion(rawVer) {
-  if (!rawVer) return '2.3.7.2';
+  if (!rawVer) return '';
   const clean = String(rawVer).replace(/^v/i, '').trim();
   const parts = clean.split('.').map(p => parseInt(p, 10) || 0);
   while (parts.length < 3) parts.push(0);
   return parts.join('.');
+}
+
+async function loadInstalledAppVersion() {
+  try {
+    let ver = '';
+    if (window.pywebview?.api?.get_app_version) {
+      const info = await window.pywebview.api.get_app_version();
+      ver = formatCleanVersion(info?.version);
+    }
+    if (!ver) {
+      try {
+        const resp = await fetch('../version.json');
+        if (resp.ok) {
+          const vdata = await resp.json();
+          ver = formatCleanVersion(vdata?.version);
+        }
+      } catch (e) { }
+    }
+    if (ver) {
+      if (updateVersionTag) updateVersionTag.textContent = ver;
+      if (updateInstalledPill) updateInstalledPill.textContent = ver;
+    }
+  } catch (e) { }
 }
 
 async function checkAppUpdates(showToastOnClean = false, isStartupCheck = false) {
@@ -2594,9 +2619,9 @@ async function checkAppUpdates(showToastOnClean = false, isStartupCheck = false)
     if (updateLastCheckSub) updateLastCheckSub.textContent = 'Проверка в фоновом режиме';
 
     if (res && res.success) {
-      const localVer = formatCleanVersion(res.local?.version || '2.3.7.2');
-      if (updateVersionTag) updateVersionTag.textContent = localVer;
-      if (updateInstalledPill) updateInstalledPill.textContent = localVer;
+      const localVer = formatCleanVersion(res.local?.version);
+      if (updateVersionTag && localVer) updateVersionTag.textContent = localVer;
+      if (updateInstalledPill && localVer) updateInstalledPill.textContent = localVer;
 
       if (res.has_update && res.remote) {
         const remoteVer = formatCleanVersion(res.remote?.version || res.remote?.tag);
