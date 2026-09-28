@@ -399,19 +399,26 @@
 
 [data-theme="glass"] .minimal-header-btn,
 [data-theme="glass"] .minimal-toggle-btn {
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: rgba(255, 255, 255, 0.075) !important;
   backdrop-filter: blur(14px) !important;
   -webkit-backdrop-filter: blur(14px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.17) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.11), 0 2px 5px rgba(0, 0, 0, 0.12) !important;
   color: var(--text-primary) !important;
-  border-radius: 6px;
+  border-radius: 9px;
 }
 
 [data-theme="glass"] .minimal-header-btn:hover,
 [data-theme="glass"] .minimal-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.15) !important;
+  background: rgba(255, 255, 255, 0.13) !important;
   border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+[data-theme="glass"] .minimal-header-btn.is-cooldown {
+  background: rgba(255, 255, 255, 0.035) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.48) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025) !important;
 }
 
 [data-theme="glass"] .last-updated-tag {
@@ -744,17 +751,29 @@
 
 [data-theme="glass"][data-glass-mode="light"] .minimal-header-btn,
 [data-theme="glass"][data-glass-mode="light"] .minimal-toggle-btn {
-  background: rgba(255, 255, 255, 0.72) !important;
-  border: 1px solid rgba(0, 0, 0, 0.1) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1), 0 2px 6px rgba(15, 23, 42, 0.04) !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+  border: 1px solid rgba(15, 23, 42, 0.14) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 5px rgba(15, 23, 42, 0.07) !important;
   color: #111827 !important;
   font-weight: 600;
+  border-radius: 9px;
 }
 
 [data-theme="glass"][data-glass-mode="light"] .minimal-header-btn:hover,
 [data-theme="glass"][data-glass-mode="light"] .minimal-toggle-btn:hover {
   background: rgba(255, 255, 255, 0.9) !important;
   border-color: rgba(0, 0, 0, 0.18) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .minimal-header-btn:hover {
+  color: #111827 !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .minimal-header-btn.is-cooldown {
+  background: rgba(226, 232, 240, 0.7) !important;
+  border-color: rgba(100, 116, 139, 0.16) !important;
+  color: #64748b !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
 }
 
 [data-theme="glass"][data-glass-mode="light"] .account-number-input {

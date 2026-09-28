@@ -1754,6 +1754,30 @@ function setupEventListeners() {
   setInterval(() => checkConnectionNow(), 5000);
   checkConnectionNow();
 
+function triggerRefreshCooldown(btn) {
+  if (!btn) return;
+  isRefreshCooldown = true;
+  btn.classList.add('is-cooldown');
+  btn.disabled = true;
+  let remaining = 5;
+  const span = btn.querySelector('span');
+  if (span) span.textContent = `Обновить (${remaining}с)`;
+  const cdInterval = setInterval(() => {
+    remaining -= 1;
+    if (remaining > 0) {
+      if (span) span.textContent = `Обновить (${remaining}с)`;
+    } else {
+      clearInterval(cdInterval);
+      isRefreshCooldown = false;
+      btn.classList.remove('is-cooldown');
+      if (span) span.textContent = 'Обновить';
+      if (isNetworkOnline) {
+        btn.disabled = false;
+      }
+    }
+  }, 1000);
+}
+
   if (btnRefreshStatus) {
     btnRefreshStatus.addEventListener('click', async () => {
       if (!isNetworkOnline) {
@@ -1765,6 +1789,8 @@ function setupEventListeners() {
         return;
       }
       btnRefreshStatus.classList.add('is-refreshing');
+      const animStart = Date.now();
+      let refreshToastMessage = 'Синхронизировано';
 
       try {
         if (window.pywebview?.api) {
@@ -1776,27 +1802,22 @@ function setupEventListeners() {
           renderState(state);
           await loadHistory();
           if (res && res.success === false) {
-            showToast('Не удалось обновить статус');
+            refreshToastMessage = 'Не удалось обновить статус';
           } else {
             localStorage.setItem('lightwidget_last_sync_time', String(Date.now()));
-            showToast('Синхронизировано');
           }
         }
       } catch (err) {
         console.error('Sync error:', err);
-        showToast('Не удалось обновить статус');
+        refreshToastMessage = 'Не удалось обновить статус';
       } finally {
+        const animElapsed = Date.now() - animStart;
+        if (animElapsed < 1500) {
+          await new Promise(resolve => setTimeout(resolve, 1500 - animElapsed));
+        }
+        showToast(refreshToastMessage);
         btnRefreshStatus.classList.remove('is-refreshing');
-        isRefreshCooldown = true;
-        btnRefreshStatus.classList.add('is-cooldown');
-        btnRefreshStatus.disabled = true;
-        setTimeout(() => {
-          isRefreshCooldown = false;
-          btnRefreshStatus.classList.remove('is-cooldown');
-          if (isNetworkOnline) {
-            btnRefreshStatus.disabled = false;
-          }
-        }, 5000);
+        triggerRefreshCooldown(btnRefreshStatus);
       }
     });
   }
@@ -2298,7 +2319,6 @@ async function loadIPhoneData() {
 }
 
 window.onStateUpdatedFromPython = function (state) {
-  if (btnRefreshStatus) btnRefreshStatus.classList.remove('is-refreshing');
   localStorage.setItem('lightwidget_last_sync_time', String(Date.now()));
   renderState(state);
   loadHistory();
@@ -2522,16 +2542,7 @@ async function initApp() {
         await loadHistory();
 
         if (btnRefreshStatus) {
-          isRefreshCooldown = true;
-          btnRefreshStatus.classList.add('is-cooldown');
-          btnRefreshStatus.disabled = true;
-          setTimeout(() => {
-            isRefreshCooldown = false;
-            btnRefreshStatus.classList.remove('is-cooldown');
-            if (isNetworkOnline) {
-              btnRefreshStatus.disabled = false;
-            }
-          }, 5000);
+          triggerRefreshCooldown(btnRefreshStatus);
         }
       }
     } catch (syncErr) {
