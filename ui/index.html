@@ -156,6 +156,29 @@
               </div>
               <div class="timer-subtitle" id="timerLabel">до ориентировочного включения</div>
 
+              <div class="planned-active-chip-wrap" id="plannedActiveBanner" style="display: none;">
+                <button class="planned-active-chip" type="button" aria-label="Плановые ремонтные работы">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                  </svg>
+                  <span class="pab-pulse-dot"></span>
+                </button>
+                <div class="planned-active-popover" id="pabPopover" role="tooltip">
+                  <div class="pab-pop-title">Возможно отключение из-за плановых работ</div>
+                  <div class="pab-pop-rows">
+                    <div class="pab-pop-row">
+                      <span class="pab-pop-label">Причина:</span>
+                      <span class="pab-pop-val" id="pabReasonText">Заплановані ремонтні роботи</span>
+                    </div>
+                    <div class="pab-pop-row">
+                      <span class="pab-pop-label">Окончание:</span>
+                      <span class="pab-pop-val" id="pabTimeRange">08:00 – 19:00</span>
+                      <span class="pab-pop-cd" id="pabCountdownTime">00:00:00</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div class="slim-progress-box">
                 <div class="slim-progress-track">
                   <div class="slim-progress-fill" id="progressBarFill" style="width: 0%"></div>
@@ -326,7 +349,7 @@
         <div class="card-container">
           <div class="section-title">
             <h2><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -2px; margin-right: 6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>Введите сообщение для парса</h2>
-            <p>текст от телеграмм бота</p>
+            <p>Текст от Telegram бота</p>
           </div>
 
           <div class="input-group">

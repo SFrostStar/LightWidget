@@ -631,6 +631,7 @@
   border-radius: var(--radius-md);
   box-sizing: border-box;
   position: relative;
+  z-index: 25;
   transition: all 0.3s ease;
 }
 
@@ -835,4 +836,305 @@
   .monitor-bottom-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.planned-active-chip-wrap {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
+  margin-bottom: 6px;
+  z-index: 50;
+}
+
+.planned-active-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.32);
+  color: #f59e0b;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  outline: none;
+  -webkit-app-region: no-drag;
+}
+
+.planned-active-chip svg {
+  display: block;
+}
+
+.planned-active-chip:hover,
+.planned-active-chip-wrap:hover .planned-active-chip,
+.planned-active-chip-wrap:focus-within .planned-active-chip {
+  transform: scale(1.08);
+  background: rgba(245, 158, 11, 0.22);
+  border-color: rgba(245, 158, 11, 0.55);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: #fbbf24;
+}
+
+.planned-active-chip:active {
+  transform: scale(0.95);
+}
+
+.pab-pulse-dot {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.9);
+  animation: pabDotPulse 1.8s infinite ease-in-out;
+}
+
+.planned-active-popover {
+  position: absolute;
+  top: calc(100% + 9px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  width: max-content;
+  max-width: 320px;
+  padding: 10px 14px;
+  background: #000000;
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 1px 1px rgba(255, 255, 255, 0.08), 0 0 20px rgba(245, 158, 11, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.22s ease;
+  z-index: 10000;
+  box-sizing: border-box;
+}
+
+.planned-active-popover::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 8px;
+  height: 8px;
+  background: #000000;
+  border-left: 1px solid rgba(245, 158, 11, 0.45);
+  border-top: 1px solid rgba(245, 158, 11, 0.45);
+}
+
+.planned-active-chip-wrap:hover .planned-active-popover,
+.planned-active-chip-wrap:focus-within .planned-active-popover {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.pab-pop-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #fbbf24;
+  letter-spacing: -0.15px;
+  margin-bottom: 7px;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.pab-pop-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pab-pop-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 11px;
+  text-align: left;
+}
+
+.pab-pop-label {
+  color: #9ca3af;
+  font-weight: 500;
+  min-width: 66px;
+  flex-shrink: 0;
+}
+
+.pab-pop-val {
+  color: #f3f4f6;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pab-pop-cd {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: #f59e0b;
+  margin-left: auto;
+  padding-left: 8px;
+  flex-shrink: 0;
+}
+
+@keyframes pabDotPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.85);
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.6;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 1);
+  }
+}
+
+[data-theme="light"] .planned-active-chip,
+[data-theme="glass"][data-glass-mode="light"] .planned-active-chip,
+[data-glass-mode="light"] .planned-active-chip {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(217, 119, 6, 0.35);
+  color: #b45309;
+}
+
+[data-theme="light"] .planned-active-chip:hover,
+[data-theme="glass"][data-glass-mode="light"] .planned-active-chip:hover,
+[data-glass-mode="light"] .planned-active-chip:hover {
+  background: rgba(245, 158, 11, 0.25);
+  border-color: rgba(217, 119, 6, 0.55);
+  color: #92400e;
+}
+
+[data-theme="light"] .planned-active-popover,
+[data-theme="glass"][data-glass-mode="light"] .planned-active-popover,
+[data-glass-mode="light"] .planned-active-popover {
+  background: #ffffff;
+  border-color: rgba(217, 119, 6, 0.35);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16), 0 0 1px 1px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .planned-active-popover::before,
+[data-theme="glass"][data-glass-mode="light"] .planned-active-popover::before,
+[data-glass-mode="light"] .planned-active-popover::before {
+  background: #ffffff;
+  border-left: 1px solid rgba(217, 119, 6, 0.35);
+  border-top: 1px solid rgba(217, 119, 6, 0.35);
+}
+
+[data-theme="light"] .pab-pop-title,
+[data-theme="glass"][data-glass-mode="light"] .pab-pop-title,
+[data-glass-mode="light"] .pab-pop-title {
+  color: #b45309;
+}
+
+[data-theme="light"] .pab-pop-label,
+[data-theme="glass"][data-glass-mode="light"] .pab-pop-label,
+[data-glass-mode="light"] .pab-pop-label {
+  color: #6b7280;
+}
+
+[data-theme="light"] .pab-pop-val,
+[data-theme="glass"][data-glass-mode="light"] .pab-pop-val,
+[data-glass-mode="light"] .pab-pop-val {
+  color: #111827;
+}
+
+[data-theme="light"] .pab-pop-cd,
+[data-theme="glass"][data-glass-mode="light"] .pab-pop-cd,
+[data-glass-mode="light"] .pab-pop-cd {
+  color: #b45309;
+}
+
+[data-theme="light"] .pab-pulse-dot,
+[data-theme="glass"][data-glass-mode="light"] .pab-pulse-dot,
+[data-glass-mode="light"] .pab-pulse-dot {
+  background: #d97706;
+  box-shadow: 0 0 6px rgba(217, 119, 6, 0.8);
+}
+
+[data-theme="oled"] .planned-active-popover {
+  background: #000000;
+  border-color: rgba(245, 158, 11, 0.45);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 1), 0 0 1px 1px rgba(255, 255, 255, 0.12), 0 0 20px rgba(245, 158, 11, 0.2);
+}
+
+[data-theme="oled"] .planned-active-popover::before {
+  background: #000000;
+  border-color: rgba(245, 158, 11, 0.45);
+}
+
+[data-theme="cyber"] .planned-active-popover {
+  background: #000000;
+  border-color: rgba(245, 158, 11, 0.55);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 24px rgba(245, 158, 11, 0.25), 0 0 1px 1px rgba(139, 92, 246, 0.3);
+}
+
+[data-theme="cyber"] .planned-active-popover::before {
+  background: #000000;
+  border-color: rgba(245, 158, 11, 0.55);
+}
+
+[data-theme="sapphire"] .planned-active-popover {
+  background: #000000;
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 22px rgba(245, 158, 11, 0.2), 0 0 1px 1px rgba(31, 66, 110, 0.4);
+}
+
+[data-theme="sapphire"] .planned-active-popover::before {
+  background: #000000;
+  border-color: rgba(245, 158, 11, 0.5);
+}
+
+[data-theme="emerald"] .planned-active-popover {
+  background: #000000;
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 22px rgba(245, 158, 11, 0.2), 0 0 1px 1px rgba(29, 82, 60, 0.4);
+}
+
+[data-theme="emerald"] .planned-active-popover::before {
+  background: #000000;
+  border-color: rgba(245, 158, 11, 0.5);
+}
+
+[data-theme="amber"] .planned-active-popover {
+  background: #000000;
+  border-color: rgba(245, 158, 11, 0.6);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 26px rgba(245, 158, 11, 0.28);
+}
+
+[data-theme="amber"] .planned-active-popover::before {
+  background: #000000;
+  border-color: rgba(245, 158, 11, 0.6);
+}
+
+[data-theme="titanium"] .planned-active-popover {
+  background: #000000;
+  border-color: rgba(245, 158, 11, 0.45);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 20px rgba(245, 158, 11, 0.18);
+}
+
+[data-theme="titanium"] .planned-active-popover::before {
+  background: #000000;
+  border-color: rgba(245, 158, 11, 0.45);
+}
+
+[data-theme="glass"]:not([data-glass-mode="light"]) .planned-active-popover {
+  background: #000000;
+  border-color: rgba(245, 158, 11, 0.48);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 22px rgba(245, 158, 11, 0.22);
+}
+
+[data-theme="glass"]:not([data-glass-mode="light"]) .planned-active-popover::before {
+  background: #000000;
+  border-color: rgba(245, 158, 11, 0.48);
 }

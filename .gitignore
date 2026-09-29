@@ -37,4 +37,3 @@ release_assets/
 crash.log
 RememberThisAgent*
 CHANGELOG.md
-bump_version.py

@@ -52,6 +52,25 @@ const btnApplySimMessage = document.getElementById('btnApplySimMessage');
 const btnClearSimInput = document.getElementById('btnClearSimInput');
 const simStatusBanner = document.getElementById('simStatusBanner');
 const simStatusText = document.getElementById('simStatusText');
+let simBannerTimeout = null;
+
+function hideSimStatusBanner(animated = false) {
+  if (!simStatusBanner) return;
+  if (simBannerTimeout) {
+    clearTimeout(simBannerTimeout);
+    simBannerTimeout = null;
+  }
+  if (animated) {
+    simStatusBanner.classList.add('is-hiding');
+    setTimeout(() => {
+      simStatusBanner.style.display = 'none';
+      simStatusBanner.classList.remove('is-hiding');
+    }, 320);
+  } else {
+    simStatusBanner.style.display = 'none';
+    simStatusBanner.classList.remove('is-hiding');
+  }
+}
 
 const localApiEndpoint = document.getElementById('localApiEndpoint');
 const btnCopyEndpoint = document.getElementById('btnCopyEndpoint');
@@ -95,6 +114,10 @@ const plannedContextMenu = document.getElementById('plannedContextMenu');
 const btnDeletePlannedItem = document.getElementById('btnDeletePlannedItem');
 const plannedThCountdown = document.getElementById('plannedThCountdown');
 const widgetPlannedLabel = document.getElementById('widgetPlannedLabel');
+const elPlannedActiveBanner = document.getElementById('plannedActiveBanner');
+const elPabReasonText = document.getElementById('pabReasonText');
+const elPabTimeRange = document.getElementById('pabTimeRange');
+const elPabCountdownTime = document.getElementById('pabCountdownTime');
 let plannedContextMenuTarget = null;
 const triggeredPlannedStartRefreshes = new Set();
 let isRefreshCooldown = false;
@@ -245,6 +268,48 @@ function showLightOnStatus(extraNote) {
     elTimerLabel.className = 'timer-subtitle status-sub-on';
     elTimerLabel.style.color = '';
   }
+
+  if (elPlannedActiveBanner) {
+    const nowTs = Math.floor(Date.now() / 1000);
+    const plannedList = getPlannedOutagesList(currentState);
+    const activePlanned = plannedList.find(it => it.start_timestamp && nowTs >= it.start_timestamp && (!it.end_timestamp || nowTs < it.end_timestamp));
+    if (activePlanned && currentState && currentState.status !== 'OFF') {
+      elPlannedActiveBanner.style.display = 'inline-flex';
+      let sTime = '';
+      let eTime = '';
+      if (activePlanned.start_time_str) {
+        sTime = activePlanned.start_time_str.includes(' ') ? activePlanned.start_time_str.split(' ')[1] : activePlanned.start_time_str;
+      } else if (activePlanned.start_timestamp) {
+        const d = new Date(activePlanned.start_timestamp * 1000);
+        sTime = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+      }
+      if (activePlanned.end_time_str) {
+        eTime = activePlanned.end_time_str.includes(' ') ? activePlanned.end_time_str.split(' ')[1] : activePlanned.end_time_str;
+      } else if (activePlanned.end_timestamp) {
+        const d = new Date(activePlanned.end_timestamp * 1000);
+        eTime = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+      }
+      if (elPabTimeRange) {
+        elPabTimeRange.textContent = sTime && eTime ? `с ${sTime} до ${eTime}` : (eTime ? `до ${eTime}` : 'в процессе');
+      }
+      if (elPabReasonText) {
+        elPabReasonText.textContent = activePlanned.reason || currentState.reason || 'Заплановані ремонтні роботи';
+      }
+      if (elPabCountdownTime && activePlanned.end_timestamp) {
+        const diff = Math.max(0, activePlanned.end_timestamp - nowTs);
+        const pad = n => String(n).padStart(2, '0');
+        const h = Math.floor(diff / 3600);
+        const m = Math.floor((diff % 3600) / 60);
+        const s = diff % 60;
+        elPabCountdownTime.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+      }
+      if (widgetEndTime) {
+        widgetEndTime.textContent = eTime ? `работы до ${eTime}` : 'плановые работы';
+      }
+    } else {
+      elPlannedActiveBanner.style.display = 'none';
+    }
+  }
 }
 
 function getPlannedOutagesList(state) {
@@ -391,7 +456,8 @@ function updatePlannedOutagesDisplay(forceRebuild = false) {
   const nearest = plannedList[0];
   if (nearest && nearest.start_timestamp && elWidgetPlannedCd) {
     if (nowTs >= nearest.start_timestamp && (!nearest.end_timestamp || nowTs < nearest.end_timestamp)) {
-      if (widgetPlannedLabel) widgetPlannedLabel.textContent = 'До конца: ';
+      if (elWidgetPlannedAlert) elWidgetPlannedAlert.classList.add('is-active-now');
+      if (widgetPlannedLabel) widgetPlannedLabel.textContent = 'Идут работы: ';
       if (nearest.end_timestamp) {
         const diffEnd = Math.max(0, nearest.end_timestamp - nowTs);
         const pad = n => String(n).padStart(2, '0');
@@ -404,6 +470,7 @@ function updatePlannedOutagesDisplay(forceRebuild = false) {
         elWidgetPlannedCd.textContent = 'Идет сейчас';
       }
     } else {
+      if (elWidgetPlannedAlert) elWidgetPlannedAlert.classList.remove('is-active-now');
       if (widgetPlannedLabel) widgetPlannedLabel.textContent = 'До откл: ';
       const diff = Math.max(0, nearest.start_timestamp - nowTs);
       const pad = n => String(n).padStart(2, '0');
@@ -1622,7 +1689,7 @@ function setupSettings() {
   if (btnClearSimInput) {
     btnClearSimInput.addEventListener('click', () => {
       if (simMessageInput) simMessageInput.value = '';
-      if (simStatusBanner) simStatusBanner.style.display = 'none';
+      hideSimStatusBanner(false);
     });
   }
 }
@@ -1850,7 +1917,7 @@ function triggerRefreshCooldown(btn) {
       const text = simMessageInput.value.trim();
       if (!text) {
         showToast('Введите текст сообщения');
-        if (simStatusBanner) simStatusBanner.style.display = 'none';
+        hideSimStatusBanner(false);
         return;
       }
       if (window.pywebview?.api) {
@@ -1858,6 +1925,7 @@ function triggerRefreshCooldown(btn) {
         if (res) {
           renderState(res);
           if (simStatusBanner) {
+            hideSimStatusBanner(false);
             simStatusBanner.style.display = 'inline-flex';
             if (simStatusText) {
               if (res.status === 'OFF') {
@@ -1869,6 +1937,9 @@ function triggerRefreshCooldown(btn) {
                 simStatusText.textContent = 'Применено! Статус: Свет есть';
               }
             }
+            simBannerTimeout = setTimeout(() => {
+              hideSimStatusBanner(true);
+            }, 15000);
           }
           showToast('Применено!');
         }
@@ -1878,7 +1949,7 @@ function triggerRefreshCooldown(btn) {
 
   if (simMessageInput) {
     simMessageInput.addEventListener('input', () => {
-      if (simStatusBanner) simStatusBanner.style.display = 'none';
+      hideSimStatusBanner(false);
     });
   }
 

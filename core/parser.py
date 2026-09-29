@@ -168,8 +168,8 @@ def parse_single_block (text_clean :str )->dict :
             total_seconds =max (0 ,int ((end_dt -start_dt ).total_seconds ()))if end_dt else None 
             remaining_seconds =max (0 ,start_ts -now_ts )
         elif start_ts and end_ts and start_ts <=now_ts <end_ts :
-            status ="OFF"
-            is_outage =True
+            status ="ON"
+            is_outage =False 
             total_seconds =max (0 ,int ((end_dt -start_dt ).total_seconds ()))
             elapsed_seconds =max (0 ,now_ts -start_ts )
             remaining_seconds =max (0 ,end_ts -now_ts )
@@ -216,6 +216,7 @@ def parse_single_block (text_clean :str )->dict :
     "status":status ,
     "is_outage":is_outage ,
     "is_planned":is_planned ,
+    "planned_active":bool (is_planned and start_ts and end_ts and start_ts <=now_ts <end_ts ),
     "address":address ,
     "reason":reason ,
     "start_time_str":start_dt .strftime ("%d.%m.%Y %H:%M")if start_dt else None ,
@@ -324,8 +325,10 @@ def parse_message (text :str )->dict :
         best_block ["end_timestamp"]=next_po .get ("end_timestamp")
         best_block ["start_time_str"]=next_po .get ("start_time_str")
         best_block ["end_time_str"]=next_po .get ("end_time_str")
+        best_block ["planned_active"]=bool (next_po .get ("start_timestamp")and next_po .get ("end_timestamp")and next_po ["start_timestamp"]<=now_ts_curr <next_po ["end_timestamp"])
     else :
         best_block ["is_planned"]=False 
+        best_block ["planned_active"]=False 
         if best_block .get ("end_timestamp")and best_block ["end_timestamp"]<=now_ts_curr :
             best_block ["status"]="ON"
             best_block ["is_outage"]=False 

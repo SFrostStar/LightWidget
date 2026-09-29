@@ -188,6 +188,13 @@ textarea {
   font-size: 12.5px;
   font-weight: 600;
   animation: simStatusFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.sim-status-banner.is-hiding {
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
 }
 
 @keyframes simStatusFadeIn {
@@ -201,10 +208,22 @@ textarea {
   }
 }
 
-[data-theme="light"] .sim-status-banner {
-  background: rgba(16, 185, 129, 0.1);
-  border-color: rgba(16, 185, 129, 0.3);
-  color: #059669;
+[data-theme="light"] .sim-status-banner,
+[data-theme="glass"][data-glass-mode="light"] .sim-status-banner,
+[data-glass-mode="light"] .sim-status-banner {
+  background: rgba(16, 185, 129, 0.14) !important;
+  border: 1px solid rgba(16, 185, 129, 0.32) !important;
+  color: #047857 !important;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+[data-theme="light"] .sim-status-banner svg,
+[data-theme="glass"][data-glass-mode="light"] .sim-status-banner svg,
+[data-glass-mode="light"] .sim-status-banner svg {
+  color: #059669 !important;
+  stroke: #059669 !important;
 }
 
 .server-status-card {
@@ -750,12 +769,24 @@ body.widget-mode {
   align-items: center;
   gap: 5px;
   margin-top: 4px;
-  padding: 2px 7px;
+  padding: 2.5px 8px;
   background: rgba(245, 158, 11, 0.16);
   border: 1px solid rgba(245, 158, 11, 0.35);
   border-radius: var(--radius-full);
   font-size: 10px;
   color: #f59e0b;
+  transition: all 0.25s ease;
+}
+
+.widget-planned-alert.is-active-now {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.26) 0%, rgba(217, 119, 6, 0.16) 100%);
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+}
+
+.widget-planned-alert.is-active-now .widget-planned-dot {
+  animation: plannedDotPulse 1.8s infinite ease-in-out;
 }
 
 .widget-planned-dot {
