@@ -2,6 +2,7 @@ import sys
 import os
 import json
 import time
+import threading
 from datetime import datetime
 from .crypto import encrypt_value ,decrypt_value ,DATA_DIR
 
@@ -14,6 +15,7 @@ DEFAULT_STATE ={
 "is_outage":False ,
 "is_planned":False ,
 "planned_outages":[],
+"blocked_planned_outages":[],
 "address":"Не указан",
 "reason":"Електромережі працюють у штатному режимі",
 "start_time_str":None ,
@@ -26,11 +28,12 @@ DEFAULT_STATE ={
 "progress_percent":0.0 ,
 "light_on_since":None ,
 "raw_text":"",
-"updated_at":datetime .now ().isoformat ()
+"updated_at":None
 }
 
 class StorageManager :
     def __init__ (self ):
+        self ._state_lock =threading .RLock ()
         os .makedirs (DATA_DIR ,exist_ok =True )
         self .state =DEFAULT_STATE .copy ()
         self .state =self .load_state ()
@@ -86,11 +89,23 @@ class StorageManager :
         except Exception :
             return DEFAULT_STATE .copy ()
 
+    def _is_planned_blocked (self ,item ,blocked ):
+        return any (entry .get ("start_timestamp")==item .get ("start_timestamp")and (entry .get ("end_timestamp")is None or entry .get ("end_timestamp")==item .get ("end_timestamp"))for entry in blocked )
+
     def save_state (self ,state ):
+        with self ._state_lock :
+            return self ._save_state (state )
+
+    def _save_state (self ,state ,replace_blocked =False ):
         if isinstance (state ,dict ):
+            state =state .copy ()
             now_ts =int (time .time ())
             curr_is_active_outage =False 
             prev_state =getattr (self ,"state",None )
+            blocked =[]if replace_blocked else list ((prev_state or {}).get ("blocked_planned_outages",[]))
+            for entry in state .get ("blocked_planned_outages",[]):
+                if entry not in blocked :
+                    blocked .append (entry )
             if isinstance (prev_state ,dict )and prev_state .get ("status")=="OFF":
                 e_ts =prev_state .get ("end_timestamp")
                 if not e_ts or e_ts >now_ts :
@@ -109,7 +124,7 @@ class StorageManager :
                         key =(po .get ("start_timestamp"),po .get ("end_timestamp"))
                         if not any ((x .get ("start_timestamp"),x .get ("end_timestamp"))==key for x in combined_planned ):
                             combined_planned .append (po )
-                valid_planned =[po for po in combined_planned if (po .get ("end_timestamp")or (po .get ("start_timestamp",0 )+3600 ))>now_ts ]
+                valid_planned =[po for po in combined_planned if (po .get ("end_timestamp")or (po .get ("start_timestamp",0 )+3600 ))>now_ts and not self ._is_planned_blocked (po ,blocked )]
                 valid_planned .sort (key =lambda x :x .get ("start_timestamp")or 0 )
                 if not isinstance (prev_state ,dict ):
                     prev_state =state .copy ()
@@ -145,7 +160,7 @@ class StorageManager :
                 for po in source_planned :
                     if isinstance (po ,dict ):
                         e_ts =po .get ("end_timestamp")or (po .get ("start_timestamp",0 )+3600 )
-                        if e_ts >now_ts :
+                        if e_ts >now_ts and not self ._is_planned_blocked (po ,blocked ):
                             key =(po .get ("start_timestamp"),po .get ("end_timestamp"))
                             if key not in seen_planned :
                                 seen_planned .add (key )
@@ -162,45 +177,51 @@ class StorageManager :
                 elif not valid_planned and state .get ("is_planned"):
                     state ["is_planned"]=False 
 
-            self .state =state 
+            state ["blocked_planned_outages"]=blocked
+            if not state .get ("planned_outages")and state .get ("status")!="OFF"and (incoming_is_future_planned_only or state .get ("is_planned")or state .get ("status")=="PLANNED"):
+                state ["is_planned"]=False
+                state ["planned_active"]=False
+                state ["status"]="ON"
+                state ["is_outage"]=False
+                state ["reason"]="Электросеть работает в штатном режиме."
+                for key in ("start_timestamp","end_timestamp","start_time_str","end_time_str","total_seconds","remaining_seconds","elapsed_seconds"):
+                    state [key ]=None
+            self .state =state
             try :
                 encrypted_state =self ._encrypt_record (self .state )
                 with open (STATE_FILE ,"w",encoding ="utf-8")as f :
                     json .dump (encrypted_state ,f ,ensure_ascii =False ,indent =2 )
             except Exception as e :
                 print (f"[Storage] Error saving state: {e }")
+        return self .state
 
     def get_state (self ):
         return self .state 
 
     def delete_planned_outage (self ,start_timestamp :int ,end_timestamp :int =None ):
-        state =self .load_state ()
-        if isinstance (state ,dict ):
-            planned =state .get ("planned_outages",[])or []
-            filtered =[]
-            for p in planned :
-                if isinstance (p ,dict ):
-                    s_match =p .get ("start_timestamp")==start_timestamp 
-                    e_match =(end_timestamp is None or p .get ("end_timestamp")==end_timestamp )
-                    if not (s_match and e_match ):
-                        filtered .append (p )
-            state ["planned_outages"]=filtered 
-            if not filtered :
-                state ["is_planned"]=False 
-                if state .get ("start_timestamp")==start_timestamp :
-                    state ["start_timestamp"]=None 
-                    state ["end_timestamp"]=None 
-                    state ["start_time_str"]=None 
-                    state ["end_time_str"]=None 
-            else :
-                next_po =filtered [0 ]
-                state ["is_planned"]=True 
-                state ["start_timestamp"]=next_po .get ("start_timestamp")
-                state ["end_timestamp"]=next_po .get ("end_timestamp")
-                state ["start_time_str"]=next_po .get ("start_time_str")
-                state ["end_time_str"]=next_po .get ("end_time_str")
-            self .save_state (state )
-        return self .state 
+        with self ._state_lock :
+            state =self .state .copy ()
+            blocked =list (state .get ("blocked_planned_outages",[]))
+            entry ={"start_timestamp":int (start_timestamp ),"end_timestamp":int (end_timestamp )if end_timestamp is not None else None }
+            if entry not in blocked :
+                blocked .append (entry )
+            state ["blocked_planned_outages"]=blocked
+            return self .save_state (state )
+
+    def restore_planned_outage (self ,outage :dict ):
+        if not isinstance (outage ,dict )or not outage .get ("start_timestamp"):
+            raise ValueError ("Invalid planned outage")
+        item ={key :outage .get (key )for key in ("start_timestamp","end_timestamp","start_time_str","end_time_str","reason")}
+        item ["start_timestamp"]=int (item ["start_timestamp"])
+        if item ["end_timestamp"]is not None :
+            item ["end_timestamp"]=int (item ["end_timestamp"])
+            if item ["end_timestamp"]<=item ["start_timestamp"]:
+                raise ValueError ("Invalid planned outage interval")
+        with self ._state_lock :
+            state =self .state .copy ()
+            state ["blocked_planned_outages"]=[entry for entry in state .get ("blocked_planned_outages",[])if not (entry .get ("start_timestamp")==item ["start_timestamp"]and (entry .get ("end_timestamp")is None or entry .get ("end_timestamp")==item ["end_timestamp"]))]
+            state ["planned_outages"]=list (state .get ("planned_outages",[]))+[item ]
+            return self ._save_state (state ,replace_blocked =True )
 
     def load_daily_stats (self ):
         if not os .path .exists (DAILY_FILE ):
@@ -238,6 +259,8 @@ class StorageManager :
     def add_history (self ,record ):
         if not isinstance (record ,dict ):
             return 
+        record =record .copy ()
+        record .pop ("blocked_planned_outages",None )
         curr_status =record .get ("status","ON")
         now_ts =int (time .time ())
         if curr_status =="ON"and record .get ("is_planned"):
@@ -248,7 +271,7 @@ class StorageManager :
         history =self .get_history (limit =500 )
         now_iso =datetime .now ().isoformat ()
         if "timestamp"not in record :
-            record ["timestamp"]=now_iso 
+            record ["timestamp"]=record .get ("updated_at")or now_iso
 
         if history :
             prev_status =history [0 ].get ("status","ON")

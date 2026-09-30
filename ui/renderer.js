@@ -119,6 +119,8 @@ const elPabReasonText = document.getElementById('pabReasonText');
 const elPabTimeRange = document.getElementById('pabTimeRange');
 const elPabCountdownTime = document.getElementById('pabCountdownTime');
 let plannedContextMenuTarget = null;
+const plannedDeletionUndoStack = [];
+let plannedDeletionBusy = false;
 const triggeredPlannedStartRefreshes = new Set();
 let isRefreshCooldown = false;
 let isNetworkOnline = (typeof navigator.onLine === 'boolean') ? navigator.onLine : true;
@@ -147,6 +149,7 @@ function updateNetworkConnectivityUI(online) {
 document.addEventListener('DOMContentLoaded', () => {
   setupTabs();
   setupSettings();
+  setupInterfaceEnhancements();
   setupEventListeners();
   setupWidgetModeListeners();
   startSystemClock();
@@ -237,9 +240,9 @@ function startSystemClock() {
     const m = String(now.getMinutes()).padStart(2, '0');
     if (appSettings.showSeconds) {
       const s = String(now.getSeconds()).padStart(2, '0');
-      elSystemClock.textContent = `${h}:${m}:${s}`;
+      setTimerText(elSystemClock, `${h}:${m}:${s}`);
     } else {
-      elSystemClock.textContent = `${h}:${m}`;
+      setTimerText(elSystemClock, `${h}:${m}`);
     }
   };
   update();
@@ -263,7 +266,7 @@ function showLightOnStatus(extraNote) {
       elTimerLabel.textContent = extraNote;
     } else {
       const sinceText = lightOnSince ? formatLightOnDuration(Date.now() - lightOnSince) : null;
-      elTimerLabel.textContent = sinceText ? `Со светом уже: ${sinceText}` : 'Электросеть работает в штатном режиме';
+      setTimerText(elTimerLabel, sinceText ? `Со светом уже: ${sinceText}` : 'Электросеть работает в штатном режиме');
     }
     elTimerLabel.className = 'timer-subtitle status-sub-on';
     elTimerLabel.style.color = '';
@@ -301,7 +304,7 @@ function showLightOnStatus(extraNote) {
         const h = Math.floor(diff / 3600);
         const m = Math.floor((diff % 3600) / 60);
         const s = diff % 60;
-        elPabCountdownTime.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+        setTimerText(elPabCountdownTime, `${pad(h)}:${pad(m)}:${pad(s)}`);
       }
       if (widgetEndTime) {
         widgetEndTime.textContent = eTime ? `работы до ${eTime}` : 'плановые работы';
@@ -465,9 +468,9 @@ function updatePlannedOutagesDisplay(forceRebuild = false) {
         const h = Math.floor((diffEnd % 86400) / 3600);
         const m = Math.floor((diffEnd % 3600) / 60);
         const s = diffEnd % 60;
-        elWidgetPlannedCd.textContent = d > 0 ? `${d}д ${h}ч ${m}м` : `${pad(h)}:${pad(m)}:${pad(s)}`;
+        setTimerText(elWidgetPlannedCd, d > 0 ? `${d}д ${h}ч ${m}м` : `${pad(h)}:${pad(m)}:${pad(s)}`);
       } else {
-        elWidgetPlannedCd.textContent = 'Идет сейчас';
+        setTimerText(elWidgetPlannedCd, 'Идет сейчас');
       }
     } else {
       if (elWidgetPlannedAlert) elWidgetPlannedAlert.classList.remove('is-active-now');
@@ -478,7 +481,7 @@ function updatePlannedOutagesDisplay(forceRebuild = false) {
       const h = Math.floor((diff % 86400) / 3600);
       const m = Math.floor((diff % 3600) / 60);
       const s = diff % 60;
-      elWidgetPlannedCd.textContent = d > 0 ? `${d}д ${h}ч ${m}м` : `${pad(h)}:${pad(m)}:${pad(s)}`;
+      setTimerText(elWidgetPlannedCd, d > 0 ? `${d}д ${h}ч ${m}м` : `${pad(h)}:${pad(m)}:${pad(s)}`);
     }
   }
 
@@ -505,6 +508,7 @@ function updatePlannedOutagesDisplay(forceRebuild = false) {
           <span class="col-countdown" id="plannedCdRow_${idx}">${formatPlannedCountdownColumn(item, nowTs)}</span>
         `;
         elPlannedList.appendChild(row);
+        setTimerMarkup(row.querySelector('.col-countdown'), formatPlannedCountdownColumn(item, nowTs));
       });
     }
     lastRenderedPlannedCount = plannedList.length;
@@ -512,7 +516,7 @@ function updatePlannedOutagesDisplay(forceRebuild = false) {
     plannedList.forEach((item, idx) => {
       const cdEl = document.getElementById(`plannedCdRow_${idx}`);
       if (cdEl) {
-        cdEl.innerHTML = formatPlannedCountdownColumn(item, nowTs);
+        setTimerMarkup(cdEl, formatPlannedCountdownColumn(item, nowTs));
       }
       const row = document.getElementById(`plannedRow_${idx}`);
       if (row) {
@@ -711,7 +715,7 @@ function updateCountdown() {
   }
 
   if (elTimerDigits) {
-    elTimerDigits.innerHTML = parts.join('');
+    setTimerMarkup(elTimerDigits, parts.join(''));
   }
   if (elTimerLabel) {
     elTimerLabel.textContent = 'до ориентировочного включения';
@@ -720,7 +724,7 @@ function updateCountdown() {
   }
 
   if (elBrandStatusDot) elBrandStatusDot.className = 'brand-status-dot off';
-  if (widgetCountdown) widgetCountdown.textContent = textParts.join(' ');
+  if (widgetCountdown) setTimerText(widgetCountdown, textParts.join(' '));
 
   const total = Math.max(1, endTs - startTs);
   const elapsed = Math.max(0, Math.min(total, nowTs - startTs));
@@ -868,9 +872,17 @@ function renderState(state) {
     if (elDetailEnd) elDetailEnd.innerHTML = formatWithRelativeDay(state.end_time_str || 'Уточняется');
   }
 
-  if (state.updated_at) {
-    const d = new Date(state.updated_at);
-    elLastUpdatedText.textContent = `Обновлено: ${d.toLocaleTimeString()}`;
+  if (elLastUpdatedText) {
+    const updated = state.updated_at ? new Date(state.updated_at) : null;
+    if (updated && Number.isFinite(updated.getTime())) {
+      const today = updated.toDateString() === new Date().toDateString();
+      const date = today ? '' : `${updated.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' })}, `;
+      elLastUpdatedText.textContent = `Обновлено: ${date}${updated.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`;
+      elLastUpdatedText.title = updated.toLocaleString('ru-RU');
+    } else {
+      elLastUpdatedText.textContent = 'Ещё не обновлялось';
+      elLastUpdatedText.removeAttribute('title');
+    }
   }
 
   if (countdownInterval) clearInterval(countdownInterval);
@@ -1068,12 +1080,13 @@ function renderHeatmap(historyData, extraDailyStats) {
     while (curDate <= endDate) {
       const k = `${curDate.getFullYear()}-${String(curDate.getMonth() + 1).padStart(2, '0')}-${String(curDate.getDate()).padStart(2, '0')}`;
       if (!historyMap[k]) {
-        historyMap[k] = { count: 0, offSec: 0, recorded: true, status: 'ON' };
+        historyMap[k] = { count: 0, offSec: 0, recorded: true, status: 'ON', inferred: true };
       }
       curDate.setDate(curDate.getDate() + 1);
     }
   }
 
+  heatmapDayData = historyMap;
   cachedDailyStats = Object.assign({}, historyMap);
   try { localStorage.setItem('lightwidget_daily_stats', JSON.stringify(cachedDailyStats)); } catch (e) { }
 
@@ -1105,7 +1118,7 @@ function renderHeatmap(historyData, extraDailyStats) {
       const dateKey = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, '0')}-${String(targetDate.getDate()).padStart(2, '0')}`;
       const dateFormatted = `${targetDate.getDate()} ${ruMonths[targetDate.getMonth()]}`;
 
-      const cell = document.createElement('div');
+      const cell = document.createElement(isFuture ? 'div' : 'button');
       cell.className = 'gh-cell';
 
       if (isFuture) {
@@ -1145,12 +1158,19 @@ function renderHeatmap(historyData, extraDailyStats) {
 
         cell.classList.add(lvl);
         cell.setAttribute('title', tip);
+        cell.type = 'button';
+        cell.dataset.date = dateKey;
+        cell.tabIndex = isToday ? 0 : -1;
+        cell.setAttribute('aria-label', `${targetDate.toLocaleDateString('ru-RU')}: ${tip.split(': ').slice(1).join(': ')}. Показать детали дня`);
+        cell.classList.toggle('is-selected', selectedHeatmapDay === dateKey);
+        cell.addEventListener('click', () => openHeatmapDay(dateKey, cell));
       }
 
       grid.appendChild(cell);
     }
   }
 
+  if (selectedHeatmapDay) renderHeatmapDayDetails(selectedHeatmapDay);
   if (badge) {
     if (totalDaysWithOutages === 0) {
       badge.textContent = '100% стабильно';
@@ -1201,6 +1221,7 @@ let appSettings = {
   accent: localStorage.getItem('lightwidget_accent') || 'blue',
   glassMode: localStorage.getItem('lightwidget_glass_mode') || 'dark',
   showSeconds: localStorage.getItem('lightwidget_show_seconds') !== 'false',
+  smoothTimers: localStorage.getItem('lightwidget_smooth_timers') !== 'false',
   showPulse: localStorage.getItem('lightwidget_show_pulse') !== 'false',
   showStats: localStorage.getItem('lightwidget_show_stats') !== 'false',
   showHeatmap: localStorage.getItem('lightwidget_show_heatmap') !== 'false',
@@ -1328,6 +1349,9 @@ function applyAccent(accentName, save = true) {
 }
 
 function applySettingsState() {
+  const chkSmooth = document.getElementById('settingSmoothTimers');
+  if (chkSmooth) chkSmooth.checked = appSettings.smoothTimers !== false;
+  setTimerMotionEnabled(appSettings.smoothTimers !== false);
   applyTheme(appSettings.theme, false);
   applyAccent(appSettings.accent, false);
   applyGlassMode(appSettings.glassMode || 'dark', false);
@@ -1435,6 +1459,13 @@ window.applySettingsState = applySettingsState;
 
 function setupSettings() {
   applySettingsState();
+  const chkSmooth = document.getElementById('settingSmoothTimers');
+  if (chkSmooth) chkSmooth.addEventListener('change', () => {
+    appSettings.smoothTimers = chkSmooth.checked;
+    localStorage.setItem('lightwidget_smooth_timers', String(chkSmooth.checked));
+    setTimerMotionEnabled(chkSmooth.checked);
+    if (window.pywebview?.api?.save_config) window.pywebview.api.save_config({ appearance: { smooth_timers: chkSmooth.checked } });
+  });
 
   document.querySelectorAll('.theme-card').forEach(card => {
     card.addEventListener('click', () => {
@@ -1632,6 +1663,7 @@ function setupSettings() {
       appSettings.theme = 'midnight';
       appSettings.accent = 'blue';
       appSettings.showSeconds = true;
+      appSettings.smoothTimers = true;
       appSettings.showPulse = true;
       appSettings.showStats = true;
       appSettings.showHeatmap = true;
@@ -1645,6 +1677,7 @@ function setupSettings() {
       localStorage.removeItem('lightwidget_theme');
       localStorage.removeItem('lightwidget_accent');
       localStorage.removeItem('lightwidget_show_seconds');
+      localStorage.removeItem('lightwidget_smooth_timers');
       localStorage.removeItem('lightwidget_show_pulse');
       localStorage.removeItem('lightwidget_show_stats');
       localStorage.removeItem('lightwidget_show_heatmap');
@@ -1664,6 +1697,7 @@ function setupSettings() {
             theme: 'midnight',
             accent: 'blue',
             show_seconds: true,
+            smooth_timers: true,
             show_pulse: true,
             show_stats: true,
             show_heatmap: true,
@@ -1698,6 +1732,30 @@ function autoSizeAccountInput() {
   if (!elInputAccountNumber) return;
   const len = Math.max(8, (elInputAccountNumber.value || '').length);
   elInputAccountNumber.style.width = `${len + 2}ch`;
+}
+
+function triggerRefreshCooldown(btn) {
+  if (!btn) return;
+  isRefreshCooldown = true;
+  btn.classList.add('is-cooldown');
+  btn.disabled = true;
+  let remaining = 5;
+  const span = btn.querySelector('span');
+  if (span) setTimerText(span, `Обновить (${remaining}с)`);
+  const cdInterval = setInterval(() => {
+    remaining -= 1;
+    if (remaining > 0) {
+      if (span) setTimerText(span, `Обновить (${remaining}с)`);
+    } else {
+      clearInterval(cdInterval);
+      isRefreshCooldown = false;
+      btn.classList.remove('is-cooldown');
+      if (span) setTimerText(span, 'Обновить');
+      if (isNetworkOnline) {
+        btn.disabled = false;
+      }
+    }
+  }, 1000);
 }
 
 function setupEventListeners() {
@@ -1821,29 +1879,6 @@ function setupEventListeners() {
   setInterval(() => checkConnectionNow(), 5000);
   checkConnectionNow();
 
-function triggerRefreshCooldown(btn) {
-  if (!btn) return;
-  isRefreshCooldown = true;
-  btn.classList.add('is-cooldown');
-  btn.disabled = true;
-  let remaining = 5;
-  const span = btn.querySelector('span');
-  if (span) span.textContent = `Обновить (${remaining}с)`;
-  const cdInterval = setInterval(() => {
-    remaining -= 1;
-    if (remaining > 0) {
-      if (span) span.textContent = `Обновить (${remaining}с)`;
-    } else {
-      clearInterval(cdInterval);
-      isRefreshCooldown = false;
-      btn.classList.remove('is-cooldown');
-      if (span) span.textContent = 'Обновить';
-      if (isNetworkOnline) {
-        btn.disabled = false;
-      }
-    }
-  }, 1000);
-}
 
   if (btnRefreshStatus) {
     btnRefreshStatus.addEventListener('click', async () => {
@@ -2179,45 +2214,25 @@ function triggerRefreshCooldown(btn) {
     btnDeletePlannedItem.addEventListener('click', async () => {
       const target = plannedContextMenuTarget;
       hidePlannedContextMenu();
-      if (!target) return;
-
+      if (!target || plannedDeletionBusy) return;
+      if (!window.pywebview?.api?.delete_planned_outage) {
+        showToast('Не удалось удалить: нет связи с приложением');
+        return;
+      }
+      plannedDeletionBusy = true;
       try {
-        if (window.pywebview?.api?.delete_planned_outage) {
-          const updatedState = await window.pywebview.api.delete_planned_outage(target.start_timestamp, target.end_timestamp || null);
-          if (updatedState && typeof updatedState === 'object') {
-            renderState(updatedState);
-            updatePlannedOutagesDisplay(true);
-            showToast('Плановое отключение удалено');
-            return;
-          }
-        }
+        const updatedState = await window.pywebview.api.delete_planned_outage(target.start_timestamp, target.end_timestamp || null);
+        const stillPresent = getPlannedOutagesList(updatedState).some(item => item.start_timestamp === target.start_timestamp && (!target.end_timestamp || item.end_timestamp === target.end_timestamp));
+        if (!updatedState || !Array.isArray(updatedState.planned_outages) || stillPresent) throw new Error('Planned outage was not removed');
+        plannedDeletionUndoStack.push({ ...target });
+        renderState(updatedState);
+        updatePlannedOutagesDisplay(true);
+        showToast('Плановая работа удалена · Ctrl+Z — отменить');
       } catch (err) {
         console.error('Delete planned outage error:', err);
-      }
-
-      if (currentState && Array.isArray(currentState.planned_outages)) {
-        currentState.planned_outages = currentState.planned_outages.filter(it => {
-          const sMatch = it.start_timestamp === target.start_timestamp;
-          const eMatch = target.end_timestamp === undefined || target.end_timestamp === null || it.end_timestamp === target.end_timestamp;
-          return !(sMatch && eMatch);
-        });
-        if (currentState.planned_outages.length > 0) {
-          const nextPo = currentState.planned_outages[0];
-          currentState.is_planned = true;
-          currentState.start_timestamp = nextPo.start_timestamp;
-          currentState.end_timestamp = nextPo.end_timestamp;
-          currentState.start_time_str = nextPo.start_time_str;
-          currentState.end_time_str = nextPo.end_time_str;
-        } else {
-          currentState.is_planned = false;
-          currentState.start_timestamp = null;
-          currentState.end_timestamp = null;
-          currentState.start_time_str = null;
-          currentState.end_time_str = null;
-        }
-        renderState(currentState);
-        updatePlannedOutagesDisplay(true);
-        showToast('Плановое отключение удалено');
+        showToast('Не удалось удалить плановую работу');
+      } finally {
+        plannedDeletionBusy = false;
       }
     });
   }
@@ -2230,9 +2245,35 @@ function triggerRefreshCooldown(btn) {
     }
   });
 
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      hidePlannedContextMenu();
+  window.addEventListener('keydown', async (e) => {
+    if (e.key === 'Escape') hidePlannedContextMenu();
+    if (e.defaultPrevented || e.key.toLowerCase() !== 'z' || !(e.ctrlKey || e.metaKey) || e.shiftKey || e.altKey) return;
+    const focused = document.activeElement;
+    if (focused?.closest('input, textarea') || focused?.isContentEditable) return;
+    if (!plannedDeletionUndoStack.length) return;
+    e.preventDefault();
+    if (plannedDeletionBusy) return;
+    if (!window.pywebview?.api?.restore_planned_outage) {
+      showToast('Не удалось отменить: перезапустите приложение');
+      return;
+    }
+    plannedDeletionBusy = true;
+    const target = plannedDeletionUndoStack[plannedDeletionUndoStack.length - 1];
+    try {
+      const state = await window.pywebview.api.restore_planned_outage(target);
+      const stillBlocked = state?.blocked_planned_outages?.some(item => item.start_timestamp === target.start_timestamp && (item.end_timestamp == null || item.end_timestamp === target.end_timestamp));
+      const shouldBeVisible = !target.end_timestamp || target.end_timestamp > Date.now() / 1000;
+      const restored = getPlannedOutagesList(state).some(item => item.start_timestamp === target.start_timestamp && item.end_timestamp === target.end_timestamp);
+      if (!state || !Array.isArray(state.planned_outages) || stillBlocked || (shouldBeVisible && !restored)) throw new Error('Planned outage was not restored');
+      plannedDeletionUndoStack.pop();
+      renderState(state);
+      updatePlannedOutagesDisplay(true);
+      showToast(target.end_timestamp && target.end_timestamp <= Date.now() / 1000 ? 'Блокировка снята: эта работа уже завершилась' : 'Удаление отменено');
+    } catch (err) {
+      console.error('Undo planned outage deletion error:', err);
+      showToast('Не удалось отменить удаление');
+    } finally {
+      plannedDeletionBusy = false;
     }
   });
 
@@ -2459,6 +2500,10 @@ async function initApp() {
     }
 
     if (cfg?.appearance) {
+      if (cfg.appearance.smooth_timers !== undefined) {
+        appSettings.smoothTimers = !!cfg.appearance.smooth_timers;
+        localStorage.setItem('lightwidget_smooth_timers', String(appSettings.smoothTimers));
+      }
       if (cfg.appearance.theme) {
         appSettings.theme = cfg.appearance.theme;
         localStorage.setItem('lightwidget_theme', appSettings.theme);

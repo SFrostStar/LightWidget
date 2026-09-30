@@ -67,7 +67,7 @@ class StatusRequestHandler (BaseHTTPRequestHandler ):
                     parsed =parse_message (msg_text )
 
                 if parsed :
-                    StatusRequestHandler .storage .save_state (parsed )
+                    parsed =StatusRequestHandler .storage .save_state (parsed )
                     StatusRequestHandler .storage .add_history (parsed )
                     if StatusRequestHandler .on_message_callback :
                         StatusRequestHandler .on_message_callback (parsed )

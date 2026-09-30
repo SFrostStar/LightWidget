@@ -17,7 +17,7 @@ AuthKeyInvalidError ,
 SecurityError
 )
 from core .parser import parse_message ,is_menu_service_message
-from core .notifier import send_macos_notification
+from core .notifier import send_status_notification
 from core .crypto import DATA_DIR
 
 if sys .platform =="win32":
@@ -43,6 +43,13 @@ class TelegramService :
         self .phone_code_hash =None
         self .phone =None
         self .auth_event =None
+        self ._msg_buffer =[]
+        self ._buffer_task =None
+        self ._notification_task =None
+        self ._sync_task =None
+        self ._last_message_received_at =0.0
+        self ._last_notification_kind =None
+        self ._last_notification_at =0.0
 
     def _set_status (self ,status :str ,message :str =""):
         self .connection_status =status
@@ -151,34 +158,64 @@ class TelegramService :
         self ._msg_buffer =[]
         self ._buffer_task =None 
 
-        async def _flush_buffer ():
-            try :
-                await asyncio .sleep (0.6 )
-                if self ._msg_buffer :
-                    texts =list (self ._msg_buffer )
-                    self ._msg_buffer .clear ()
-                    combined ="\n\n--------------------------------------\n\n".join (texts )
-                    self ._process_message (combined )
-            except asyncio .CancelledError :
-                pass 
-            except Exception as e :
-                print (f"[TelegramService] Flush buffer error: {e }")
-
         @self .client .on (events .NewMessage (chats =bot_username ))
         async def handler (event ):
             msg_text =event .raw_text 
             if not msg_text or is_menu_service_message (msg_text ):
                 return 
             print (f"[TelegramService] Received message from @{bot_username }:\n{msg_text [:100 ]}...")
-            self ._msg_buffer .append (msg_text )
+            self ._last_message_received_at =time .monotonic ()
+            if self ._notification_task and not self ._notification_task .done ():
+                self ._notification_task .cancel ()
+            self ._msg_buffer .append ((msg_text ,event .message .date ))
             if self ._buffer_task and not self ._buffer_task .done ():
                 self ._buffer_task .cancel ()
-            self ._buffer_task =asyncio .create_task (_flush_buffer ())
+            self ._buffer_task =asyncio .create_task (self ._flush_message_buffer ())
 
         await self ._fetch_recent_history (bot_username )
 
         while self .is_running :
             await asyncio .sleep (1 )
+
+    def _apply_message_buffer (self ):
+        if not self ._msg_buffer :
+            return None
+        buffered =list (self ._msg_buffer )
+        self ._msg_buffer .clear ()
+        combined ="\n\n--------------------------------------\n\n".join (item [0 ]for item in buffered )
+        return self ._process_message (combined ,message_date =buffered [-1 ][1 ])
+
+    async def _flush_message_buffer (self ):
+        try :
+            await asyncio .sleep (0.6 )
+            self ._apply_message_buffer ()
+        except asyncio .CancelledError :
+            pass
+        except Exception as e :
+            print (f"[TelegramService] Flush buffer error: {e }")
+
+    def _notify_current_status (self ,force =False ):
+        state =self .storage_manager .get_state ()or {}
+        now =time .time ()
+        has_planned =any ((item .get ("end_timestamp")or 0 )>now for item in state .get ("planned_outages",[]))or (state .get ("is_planned")and (state .get ("end_timestamp")or 0 )>now )
+        kind ="OFF"if state .get ("status")=="OFF"else ("PLANNED"if has_planned else "ON")
+        if not force and kind ==self ._last_notification_kind and time .monotonic ()-self ._last_notification_at <10 :
+            return
+        if send_status_notification (state ,self .config_manager .get ("notifications",{})):
+            self ._last_notification_kind =kind
+            self ._last_notification_at =time .monotonic ()
+
+    def _queue_status_notification (self ):
+        if self ._notification_task and not self ._notification_task .done ():
+            self ._notification_task .cancel ()
+        async def _send ():
+            try :
+                await asyncio .sleep (1.5 )
+                if not self ._sync_task or self ._sync_task .done ():
+                    self ._notify_current_status ()
+            except asyncio .CancelledError :
+                pass
+        self ._notification_task =asyncio .create_task (_send ())
 
     async def _fetch_recent_history (self ,bot_username ):
         try :
@@ -190,22 +227,22 @@ class TelegramService :
                     break 
                 t =msg .text or ""
                 if t and not is_menu_service_message (t ):
-                    bot_texts .append (t )
+                    bot_texts .append ((t ,msg .date ))
 
             if bot_texts :
                 bot_texts .reverse ()
-                combined ="\n\n--------------------------------------\n\n".join (bot_texts )
-                self ._process_message (combined ,is_history =True )
+                combined ="\n\n--------------------------------------\n\n".join (item [0 ]for item in bot_texts )
+                self ._process_message (combined ,is_history =True ,message_date =bot_texts [-1 ][1 ])
             elif messages :
                 for msg in messages :
                     if msg .text and not getattr (msg ,"out",False )and not is_menu_service_message (msg .text ):
-                        parsed =self ._process_message (msg .text ,is_history =True )
+                        parsed =self ._process_message (msg .text ,is_history =True ,message_date =msg .date )
                         if parsed :
                             break 
         except Exception as e :
             print (f"[TelegramService] History fetch warning: {e }")
 
-    def _process_message (self ,text :str ,is_history :bool =False ):
+    def _process_message (self ,text :str ,is_history :bool =False ,message_date =None ):
         cfg =self .config_manager .get ("telegram",{})
         filter_address =cfg .get ("filter_address","").strip ().lower ()
 
@@ -224,52 +261,18 @@ class TelegramService :
                 return None
 
         prev_state =self .storage_manager .get_state ()
-        prev_status =prev_state .get ("status","ON")
+        if message_date is not None :
+            parsed ["updated_at"]=message_date .astimezone ().isoformat ()
+        elif is_history and parsed .get ("raw_text")==prev_state .get ("raw_text"):
+            parsed ["updated_at"]=prev_state .get ("updated_at")
+        if parsed .get ("updated_at"):
+            parsed ["timestamp"]=parsed ["updated_at"]
 
-        self .storage_manager .save_state (parsed )
+        parsed =self .storage_manager .save_state (parsed )
         self .storage_manager .add_history (parsed )
 
-        if not is_history :
-            notif =self .config_manager .get ("notifications",{})
-            enable_banner =notif .get ("banner",True )and notif .get ("macos_banner",True )
-            enable_sound =notif .get ("sound",True )and notif .get ("macos_sound",True )
-
-            if enable_banner :
-                custom_sound =notif .get ("sound_name")
-                if parsed .get ("is_planned")and parsed .get ("start_timestamp"):
-                    now_ts_notif =int (time .time ())
-                    if parsed ["start_timestamp"]>now_ts_notif :
-                        snd =(custom_sound or "Ping")if enable_sound else ""
-                        send_macos_notification (
-                        "⏳ Запланированы ремонтные работы!",
-                        f"С {parsed ['start_time_str']or '?'} до {parsed ['end_time_str']or '?'}",
-                        parsed .get ("reason","Ремонтные работы"),
-                        sound =snd 
-                        )
-                    elif parsed .get ("end_timestamp")and parsed ["end_timestamp"]>now_ts_notif :
-                        snd =(custom_sound or "Ping")if enable_sound else ""
-                        send_macos_notification (
-                        "🛠️ Идут плановые работы!",
-                        f"Свет есть, но возможно отключение (до {parsed ['end_time_str']or '?'})",
-                        parsed .get ("reason","Ремонтные работы"),
-                        sound =snd 
-                        )
-                elif parsed ["status"]=="OFF":
-                    snd =(custom_sound or "Basso")if enable_sound else ""
-                    send_macos_notification (
-                    "⚡ Внимание: Отключение света!",
-                    f"Ориентировочно до {parsed ['end_time_str']or 'неизвестно'}",
-                    parsed .get ("reason","Отключение электроэнергии"),
-                    sound =snd
-                    )
-                else :
-                    snd =(custom_sound or "Glass")if enable_sound else ""
-                    send_macos_notification (
-                    "💡 Свет есть!",
-                    "Электросеть работает в штатном режиме.",
-                    "",
-                    sound =snd
-                    )
+        if not is_history and (not self ._sync_task or self ._sync_task .done ()):
+            self ._queue_status_notification ()
 
         if self .on_state_updated :
             self .on_state_updated (parsed )
@@ -334,6 +337,8 @@ class TelegramService :
             return {"success":False ,"error":"Не подключено к Telegram"}
 
         async def _sync ():
+            if self ._notification_task and not self ._notification_task .done ():
+                self ._notification_task .cancel ()
             try :
                 bot_username =self .config_manager .get ("telegram",{}).get ("bot_username","dtek_odeski_elektromerezhi_bot")
                 entity =await self .client .get_entity (bot_username )
@@ -368,7 +373,17 @@ class TelegramService :
                     await self .client .send_message (entity ,"💡Можливі відключення")
 
                 await asyncio .sleep (1.5 )
+                settle_deadline =time .monotonic ()+8.0
+                while time .monotonic ()<settle_deadline and time .monotonic ()-self ._last_message_received_at <1.5 :
+                    await asyncio .sleep (0.2 )
+                if self ._buffer_task and not self ._buffer_task .done ():
+                    self ._buffer_task .cancel ()
+                self ._apply_message_buffer ()
                 await self ._fetch_recent_history (bot_username )
+                if self ._buffer_task and not self ._buffer_task .done ():
+                    self ._buffer_task .cancel ()
+                self ._apply_message_buffer ()
+                self ._notify_current_status (force =True )
 
                 if self .on_state_updated :
                     self .on_state_updated (self .storage_manager .get_state ())
@@ -377,7 +392,12 @@ class TelegramService :
                 print (f"[TelegramService] Sync error: {e }")
                 return {"success":False ,"error":str (e )}
 
-        future =asyncio .run_coroutine_threadsafe (_sync (),self .loop )
+        async def _sync_request ():
+            if not self ._sync_task or self ._sync_task .done ():
+                self ._sync_task =asyncio .create_task (_sync ())
+            return await asyncio .shield (self ._sync_task )
+
+        future =asyncio .run_coroutine_threadsafe (_sync_request (),self .loop )
         try :
             return future .result (timeout =25.0 )
         except Exception as e :
@@ -385,6 +405,10 @@ class TelegramService :
 
     def stop (self ):
         self .is_running =False
+        if self .loop and self .loop .is_running ():
+            for task in (self ._notification_task ,self ._buffer_task ,self ._sync_task ):
+                if task and not task .done ():
+                    self .loop .call_soon_threadsafe (task .cancel )
         if self .auth_event :
             self .auth_event .set ()
         if self .client and self .loop and self .loop .is_running ():

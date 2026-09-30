@@ -1,0 +1,111 @@
+.rolling-digit {
+  display: inline-grid;
+  position: relative;
+  width: .62em;
+  line-height: inherit;
+  vertical-align: baseline;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.rolling-current { display: block; grid-area: 1 / 1; }
+.rolling-old { position: absolute; inset: 0; pointer-events: none; }
+#heatmapGrid button.gh-cell {
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  position: relative;
+}
+#heatmapGrid button.gh-cell:focus-visible,
+#heatmapGrid button.gh-cell.is-selected {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
+  transform: none;
+  z-index: 10;
+}
+.heatmap-click-hint {
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.heatmap-day-dialog {
+  color: var(--text-primary);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  width: min(480px, calc(100vw - 40px));
+  max-height: calc(100vh - 64px);
+  margin: auto;
+  padding: 24px;
+  overflow-y: auto;
+  box-shadow: 0 24px 90px rgba(0, 0, 0, .35);
+  -webkit-app-region: no-drag;
+  user-select: text;
+}
+.heatmap-day-dialog[open] { animation: dayDialogEnter 240ms cubic-bezier(.16, 1, .3, 1) both; }
+.heatmap-day-dialog::backdrop { background: rgba(0, 0, 0, .48); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+.day-dialog-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.day-dialog-eyebrow { color: var(--text-secondary); font-size: 11px; display: block; margin-bottom: 6px; }
+.day-dialog-heading h2 { font-size: 22px; font-weight: 600; letter-spacing: -.6px; line-height: 1.3; }
+.day-dialog-close { display: grid; place-items: center; width: 30px; height: 30px; flex-shrink: 0; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-input); color: var(--text-secondary); cursor: pointer; }
+.day-dialog-close:hover { color: var(--text-primary); background: var(--bg-card-hover); }
+.day-dialog-close:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 3px; }
+.day-dialog-subtitle { margin-top: 8px; font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+.day-statistics { display: grid; grid-template-columns: 1fr 1fr .8fr; gap: 12px; margin: 24px 0; }
+.day-stat { padding: 14px 12px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 10px; display: flex; flex-direction: column; gap: 8px; }
+.day-stat > span { font-size: 11px; color: var(--text-secondary); }
+.day-stat > strong { font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.day-stat.off > strong { color: var(--status-off); }
+.day-events-heading { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+.day-event { display: flex; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border-color); }
+.day-event:last-child { border-bottom: 0; }
+.day-event-time { flex: 0 0 42px; font: 11px/1.5 var(--font-mono); color: var(--text-secondary); padding-top: 2px; }
+.day-event > div { display: flex; flex-direction: column; gap: 5px; }
+.day-event strong { font-size: 12px; font-weight: 600; }
+.day-event-on { color: var(--status-on); }.day-event-off { color: var(--status-off); }
+.day-event div > span, .day-events-empty { font-size: 12px; color: var(--text-secondary); line-height: 1.6; overflow-wrap: anywhere; }
+.day-events-empty { padding-top: 14px; }
+.settings-layout { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 20px; align-items: start; }
+.settings-sections { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 5px; padding: 10px 0; -webkit-app-region: no-drag; }
+.settings-sections-caption { padding: 0 12px 12px; color: var(--text-muted); font-size: 10px; }
+.settings-section-link { min-height: 34px; padding: 8px 12px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--text-secondary); text-align: left; font-family: inherit; font-size: 11px; cursor: pointer; transition: color 180ms ease, background 180ms ease; }
+.settings-section-link:hover { color: var(--text-primary); background: var(--bg-card-hover); }
+.settings-section-link.active { color: var(--text-primary); background: var(--bg-card); border-color: var(--border-color); }
+.settings-section-link:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 2px; }
+.settings-section { scroll-margin-top: 16px; }
+#tab-settings .settings-content { min-width: 0; }
+#tab-settings .theme-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@keyframes dayDialogEnter { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+@media (max-width: 860px) {
+  .settings-layout { grid-template-columns: 110px minmax(0, 1fr); gap: 12px; }
+  .settings-section-link { font-size: 10px; padding-inline: 9px; }
+  #tab-settings .theme-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .heatmap-click-hint { display: none; }
+}
+@media (max-width: 620px) {
+  .settings-layout { display: block; }
+  .settings-sections { position: static; flex-direction: row; flex-wrap: wrap; padding-bottom: 16px; }
+  .settings-sections-caption { display: none; }
+  .day-statistics { gap: 6px; }
+  .day-stat { padding: 12px 8px; }
+  .day-stat > strong { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .heatmap-day-dialog[open] { animation: none; }
+  .settings-section-link { transition: none; }
+}
+
+#activityHeatmapCard .stats-card-header { gap: 12px; }
+#activityHeatmapCard .stats-title-group { min-width: 0; }
+#activityHeatmapCard .stats-title-group svg { flex-shrink: 0; }
+#activityHeatmapCard .heatmap-summary-badge { white-space: nowrap; flex-shrink: 0; }
+#activityHeatmapCard .heatmap-footer .heatmap-click-hint { margin-right: auto; white-space: nowrap; }
+.planned-table-head, .planned-item-row { grid-template-columns: 16px minmax(84px, 1.2fr) minmax(82px, 1fr) minmax(112px, 1fr); }
+.planned-item-row .col-date { display: flex; flex-wrap: wrap; gap: 3px 4px; white-space: nowrap; overflow: visible; text-overflow: clip; }
+.planned-item-row .col-date .rel-tag { margin-left: 0; white-space: nowrap; }
+@media (min-width: 681px) and (max-width: 800px) {
+  .monitor-cards-row { grid-template-columns: 1fr; }
+}

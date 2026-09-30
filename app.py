@@ -10,7 +10,7 @@ from core .storage import StorageManager
 from core .parser import parse_message
 from core .api_server import APIServer ,get_local_ip
 from core .telegram_service import TelegramService
-from core .notifier import send_macos_notification
+from core .notifier import send_macos_notification ,send_status_notification
 from core .updater import UpdateManager
 
 def get_resource_path (relative_path ):
@@ -131,43 +131,25 @@ class ApiBridge :
             print (f"[Bridge] delete_planned_outage error: {e }")
             return self .get_state ()
 
+    def restore_planned_outage (self ,outage :dict ):
+        try :
+            res =self .storage_mgr .restore_planned_outage (outage )
+            if isinstance (res ,dict ):
+                res =res .copy ()
+                res ["account_number"]=self .config_mgr .get ("account_number","")
+            return res or {}
+        except Exception as e :
+            print (f"[Bridge] restore_planned_outage error: {e }")
+            return None
+
     def parse_and_apply (self ,text ):
         try :
             parsed =parse_message (text )
             if parsed :
-                self .storage_mgr .save_state (parsed )
+                parsed =self .storage_mgr .save_state (parsed )
                 self .storage_mgr .add_history (parsed )
 
-                notif =self .config_mgr .get ("notifications",{})
-                enable_banner =notif .get ("banner",True )and notif .get ("macos_banner",True )
-                enable_sound =notif .get ("sound",True )and notif .get ("macos_sound",True )
-
-                if enable_banner :
-                    custom_sound =notif .get ("sound_name")
-                    if parsed .get ("is_planned")and parsed .get ("start_timestamp")and parsed ["start_timestamp"]>int (time .time ()):
-                        snd =(custom_sound or "Ping")if enable_sound else ""
-                        send_macos_notification (
-                        "⏳ Запланированы ремонтные работы!",
-                        f"С {parsed ['start_time_str']or '?'} до {parsed ['end_time_str']or '?'}",
-                        parsed .get ("reason","Ремонтные работы"),
-                        sound =snd
-                        )
-                    elif parsed ["status"]=="OFF":
-                        snd =(custom_sound or "Basso")if enable_sound else ""
-                        send_macos_notification (
-                        "⚡ Внимание: Отключение света!",
-                        f"Ориентировочно до {parsed ['end_time_str']or 'неизвестно'}",
-                        parsed .get ("reason","Отключение электроэнергии"),
-                        sound =snd
-                        )
-                    else :
-                        snd =(custom_sound or "Glass")if enable_sound else ""
-                        send_macos_notification (
-                        "💡 Свет есть!",
-                        "Электросеть работает в штатном режиме.",
-                        "",
-                        sound =snd
-                        )
+                send_status_notification (self .storage_mgr .get_state (),self .config_mgr .get ("notifications",{}))
 
                 self .broadcast_state (parsed )
                 return parsed
@@ -571,6 +553,7 @@ def main ():
             accent =appr .get ("accent","blue")
             glass_mode =appr .get ("glass_mode","dark")
             show_sec ="true"if appr .get ("show_seconds",True )else "false"
+            smooth_timers ="true"if appr .get ("smooth_timers",True )else "false"
             show_pls ="true"if appr .get ("show_pulse",True )else "false"
             show_stats ="true"if appr .get ("show_stats",True )else "false"
             show_hmap ="true"if appr .get ("show_heatmap",True )else "false"
@@ -600,6 +583,7 @@ def main ():
                             localStorage.setItem('lightwidget_accent', '{accent }');
                             localStorage.setItem('lightwidget_glass_mode', '{glass_mode }');
                             localStorage.setItem('lightwidget_show_seconds', {show_sec });
+                            localStorage.setItem('lightwidget_smooth_timers', {smooth_timers });
                             localStorage.setItem('lightwidget_show_pulse', {show_pls });
                             localStorage.setItem('lightwidget_show_stats', {show_stats });
                             localStorage.setItem('lightwidget_show_heatmap', {show_hmap });
@@ -622,6 +606,7 @@ def main ():
                                 window.appSettings.accent = '{accent }';
                                 window.appSettings.glassMode = '{glass_mode }';
                                 window.appSettings.showSeconds = {show_sec };
+                                window.appSettings.smoothTimers = {smooth_timers };
                                 window.appSettings.showPulse = {show_pls };
                                 window.appSettings.showStats = {show_stats };
                                 window.appSettings.showHeatmap = {show_hmap };

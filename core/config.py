@@ -26,6 +26,7 @@ DEFAULT_CONFIG ={
 "accent":"blue",
 "glass_mode":"dark",
 "show_seconds":True ,
+"smooth_timers":True ,
 "show_pulse":True ,
 "show_stats":True ,
 "show_heatmap":True ,

@@ -330,6 +330,7 @@
               </div>
 
               <div class="heatmap-footer">
+                <span class="heatmap-click-hint">Нажмите на день</span>
                 <span class="heatmap-legend-label">Отключение</span>
                 <div class="heatmap-legend-cells">
                   <span class="gh-cell gh-lvl-red" title="Длительное отключение (>4ч)"></span>
@@ -521,12 +522,21 @@
       </section>
 
       <section class="tab-pane" id="tab-settings">
-        <div class="card-container">
+        <div class="settings-layout">
+          <nav class="settings-sections" aria-label="Разделы настроек">
+            <span class="settings-sections-caption">Настройки</span>
+            <button class="settings-section-link active" data-section="settingsAppearance" aria-current="location">Оформление</button>
+            <button class="settings-section-link" data-section="settingsNavigation">Навигация</button>
+            <button class="settings-section-link" data-section="settingsDisplay">Отображение</button>
+            <button class="settings-section-link" data-section="settingsNotifications">Уведомления</button>
+          </nav>
+          <div class="card-container settings-content">
           <div class="section-title">
             <h2><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 6px;"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>Настройки и персонализация</h2>
             <p>Настройте внешний вид, цветовые темы, звуки и параметры отображения приложения.</p>
           </div>
 
+          <section class="settings-section" id="settingsAppearance" aria-label="Оформление">
           <div class="settings-group">
             <label class="settings-label">Тема оформления интерфейса:</label>
             <div class="theme-grid">
@@ -670,6 +680,8 @@
             </div>
           </div>
 
+          </section>
+          <section class="settings-section" id="settingsNavigation" aria-label="Навигация">
           <div class="settings-group">
             <label class="settings-label">Расположение панели категорий:</label>
             <div class="nav-pos-selector" id="navPosSelector">
@@ -711,8 +723,10 @@
             </div>
           </div>
 
+          </section>
+          <section class="settings-section" id="settingsDisplay" aria-label="Отображение">
           <div class="settings-group">
-            <label class="settings-label">Параметры отображения и уведомлений:</label>
+            <label class="settings-label">Отображение:</label>
             <div class="toggles-list">
               <div class="toggle-item">
                 <div class="toggle-info">
@@ -721,6 +735,17 @@
                 </div>
                 <label class="switch">
                   <input type="checkbox" id="settingShowSeconds" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <span class="toggle-title">Плавный текст у таймеров</span>
+                  <span class="toggle-desc">Цифры мягко сменяются с движением и размытием</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="settingSmoothTimers" aria-label="Плавный текст у таймеров" checked>
                   <span class="slider"></span>
                 </label>
               </div>
@@ -780,6 +805,13 @@
                 </label>
               </div>
 
+            </div>
+          </div>
+          </section>
+          <section class="settings-section" id="settingsNotifications" aria-label="Уведомления">
+          <div class="settings-group">
+            <label class="settings-label">Уведомления:</label>
+            <div class="toggles-list">
               <div class="toggle-item">
                 <div class="toggle-info">
                   <span class="toggle-title">Звуковые эффекты</span>
@@ -844,6 +876,7 @@
             </div>
           </div>
 
+          </section>
           <div class="button-row" style="margin-top: 20px;">
             <button class="secondary-btn" id="btnResetSettings" type="button">Сбросить по умолчанию</button>
           </div>
@@ -852,6 +885,7 @@
             <span class="settings-footer-text">By <span class="settings-team-name">Skylight Team</span></span>
           </div>
 
+        </div>
         </div>
       </section>
 
@@ -1038,6 +1072,21 @@
     </button>
   </div>
 
-  <script src="renderer.js?v=20260924"></script>
+  <dialog class="heatmap-day-dialog" id="heatmapDayDialog" aria-labelledby="heatmapDayTitle" aria-describedby="heatmapDaySubtitle">
+    <div class="day-dialog-heading">
+      <div><span class="day-dialog-eyebrow">Активность сети</span><h2 id="heatmapDayTitle"></h2></div>
+      <button class="day-dialog-close" id="btnCloseHeatmapDay" type="button" aria-label="Закрыть детали дня" autofocus><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 6 12 12M18 6 6 18"></path></svg></button>
+    </div>
+    <p class="day-dialog-subtitle" id="heatmapDaySubtitle"></p>
+    <div class="day-statistics">
+      <div class="day-stat"><span>Со светом</span><strong id="heatmapDayOn"></strong></div>
+      <div class="day-stat off"><span>Без света</span><strong id="heatmapDayOff"></strong></div>
+      <div class="day-stat"><span>Отключений</span><strong id="heatmapDayCount"></strong></div>
+    </div>
+    <h3 class="day-events-heading">События дня</h3>
+    <div class="day-events" id="heatmapDayEvents"></div>
+  </dialog>
+  <script src="enhancements.js"></script>
+  <script src="renderer.js"></script>
 </body>
 </html>

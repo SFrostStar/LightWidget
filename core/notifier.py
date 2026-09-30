@@ -1,6 +1,7 @@
 import sys
 import subprocess
 import os
+import time
 
 _BASE_DIR =os .path .dirname (os .path .dirname (os .path .abspath (__file__ )))
 
@@ -88,3 +89,31 @@ def send_notification (title :str ,subtitle :str ,message :str ,sound :str ="Sub
 
 send_macos_notification =send_notification
 
+
+def send_status_notification (state ,settings ):
+    if not settings .get ("banner",True )or not settings .get ("macos_banner",True ):
+        return None
+    now =time .time ()
+    planned =[item for item in state .get ("planned_outages",[])if (item .get ("end_timestamp")or 0 )>now ]
+    if not planned and state .get ("is_planned")and (state .get ("end_timestamp")or 0 )>now :
+        planned =[state ]
+    if state .get ("status")=="OFF":
+        title ="Отключение света"
+        subtitle =f"Ориентировочно до {state .get ('end_time_str')or 'уточнения времени'}"
+        message =(state .get ("reason")or "Отключение электроэнергии").split (" • ")[0 ][:180 ]
+        default_sound ="Basso"
+    elif planned :
+        planned .sort (key =lambda item :item .get ("start_timestamp")or 0 )
+        nearest =planned [0 ]
+        title ="Плановые работы"
+        subtitle =f"С {nearest .get ('start_time_str')or '?'} до {nearest .get ('end_time_str')or '?'}"
+        message =f"Запланировано работ: {len (planned )}."if len (planned )>1 else "Запланированы ремонтные работы."
+        default_sound ="Ping"
+    else :
+        title ="Свет есть"
+        subtitle ="Электросеть работает в штатном режиме."
+        message =""
+        default_sound ="Glass"
+    sound =(settings .get ("sound_name")or default_sound )if settings .get ("sound",True )and settings .get ("macos_sound",True )else ""
+    send_macos_notification (title ,subtitle ,message ,sound =sound )
+    return title
