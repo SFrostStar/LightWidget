@@ -16,6 +16,12 @@
   grid-row: 1;
   width: 100%;
   height: 100%;
+}
+
+.tab-pane.slide-in-right,
+.tab-pane.slide-in-left,
+.tab-pane.slide-out-right,
+.tab-pane.slide-out-left {
   will-change: opacity, transform;
 }
 
@@ -34,14 +40,14 @@
 }
 
 .tab-pane.slide-out-left {
-  display: block !important;
+  display: block;
   animation: tabFadeSlideOutLeft 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
   z-index: 1;
   pointer-events: none;
 }
 
 .tab-pane.slide-out-right {
-  display: block !important;
+  display: block;
   animation: tabFadeSlideOutRight 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
   z-index: 1;
   pointer-events: none;

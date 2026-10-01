@@ -175,6 +175,7 @@ function showToast(msg) {
 }
 
 let currentTabIndex = 0;
+let tabTransitionTimer = null;
 
 function setupTabs() {
   const tabsArray = Array.from(navTabs);
@@ -192,7 +193,15 @@ function setupTabs() {
       const direction = newIndex > currentTabIndex ? 'right' : 'left';
       currentTabIndex = newIndex;
 
-      const currentPane = document.querySelector('.tab-pane.active');
+      if (tabTransitionTimer !== null) {
+        clearTimeout(tabTransitionTimer);
+        tabTransitionTimer = null;
+      }
+      const currentPane = document.getElementById(`tab-${appContainer?.getAttribute('data-active-tab')}`) || document.querySelector('.tab-pane.active');
+      tabPanes.forEach(p => {
+        p.classList.remove('slide-in-right', 'slide-in-left', 'slide-out-right', 'slide-out-left');
+        if (p !== currentPane) p.classList.remove('active');
+      });
 
       navTabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
@@ -200,16 +209,18 @@ function setupTabs() {
 
       if (currentPane && currentPane !== nextPane) {
         currentPane.classList.remove('slide-in-right', 'slide-in-left', 'slide-out-right', 'slide-out-left');
+        currentPane.classList.remove('active');
         currentPane.classList.add(direction === 'right' ? 'slide-out-left' : 'slide-out-right');
 
         nextPane.classList.remove('slide-in-right', 'slide-in-left', 'slide-out-right', 'slide-out-left');
         nextPane.classList.add('active', direction === 'right' ? 'slide-in-right' : 'slide-in-left');
 
-        setTimeout(() => {
-          if (currentPane !== nextPane) {
-            currentPane.classList.remove('active', 'slide-out-left', 'slide-out-right');
-          }
-          nextPane.classList.remove('slide-in-right', 'slide-in-left');
+        tabTransitionTimer = setTimeout(() => {
+          tabPanes.forEach(p => {
+            p.classList.remove('slide-in-right', 'slide-in-left', 'slide-out-right', 'slide-out-left');
+            if (p !== nextPane) p.classList.remove('active');
+          });
+          tabTransitionTimer = null;
         }, 250);
       } else {
         tabPanes.forEach(p => p.classList.remove('active', 'slide-in-right', 'slide-in-left', 'slide-out-right', 'slide-out-left'));

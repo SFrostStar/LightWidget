@@ -218,7 +218,66 @@ function openHeatmapDay(dateKey, trigger) {
   document.querySelectorAll('#heatmapGrid .gh-cell').forEach(cell => { cell.classList.toggle('is-selected', cell.dataset.date === dateKey); if (cell.tagName === 'BUTTON') cell.tabIndex = cell.dataset.date === dateKey ? 0 : -1; });
 }
 
+function setupWindowCorners() {
+  let drag = null;
+  let pending = null;
+  let busy = false;
+  let frame = null;
+  const sendResize = async () => {
+    frame = null;
+    if (busy || !pending) return;
+    const request = pending;
+    pending = null;
+    busy = true;
+    try {
+      const result = await window.pywebview.api.resize_window(request.width, request.height, request.corner);
+      if (!result?.success) {
+        pending = null;
+        showToast('Не удалось изменить размер окна');
+      }
+    } catch (error) {
+      pending = null;
+      showToast('Не удалось изменить размер окна');
+    } finally {
+      busy = false;
+      if (pending && frame === null) frame = requestAnimationFrame(sendResize);
+    }
+  };
+  const updateSize = event => {
+    if (!drag || event.pointerId !== drag.pointerId) return;
+    const dx = (event.screenX - drag.x) * (drag.corner.includes('w') ? -1 : 1);
+    const dy = (event.screenY - drag.y) * (drag.corner.includes('n') ? -1 : 1);
+    const scale = Math.max(880 / drag.width, 560 / drag.height, Math.min(7680 / drag.width, 4320 / drag.height, 1 + (dx * drag.width + dy * drag.height) / (drag.width ** 2 + drag.height ** 2)));
+    pending = { width: Math.round(drag.width * scale), height: Math.round(drag.height * scale), corner: drag.corner };
+    if (!busy && frame === null) frame = requestAnimationFrame(sendResize);
+  };
+  ['nw', 'ne', 'sw', 'se'].forEach(corner => {
+    const handle = document.createElement('div');
+    handle.className = 'window-resize-corner';
+    handle.dataset.corner = corner;
+    handle.setAttribute('aria-hidden', 'true');
+    document.body.append(handle);
+    handle.addEventListener('pointerdown', event => {
+      if (event.button !== 0 || drag || document.body.classList.contains('widget-mode') || !window.pywebview?.api?.resize_window) return;
+      event.preventDefault();
+      event.stopPropagation();
+      drag = { corner, pointerId: event.pointerId, x: event.screenX, y: event.screenY, width: window.innerWidth, height: window.innerHeight };
+      handle.setPointerCapture(event.pointerId);
+    });
+    handle.addEventListener('pointermove', updateSize);
+    handle.addEventListener('pointerup', event => {
+      if (!drag || event.pointerId !== drag.pointerId) return;
+      updateSize(event);
+      drag = null;
+      if (handle.hasPointerCapture(event.pointerId)) handle.releasePointerCapture(event.pointerId);
+    });
+    handle.addEventListener('pointercancel', () => { drag = null; });
+    handle.addEventListener('lostpointercapture', () => { drag = null; });
+  });
+}
+
 function setupInterfaceEnhancements() {
+  setupWindowCorners();
   const dialog = document.getElementById('heatmapDayDialog');
   document.getElementById('btnCloseHeatmapDay').addEventListener('click', () => dialog.close());
   dialog.addEventListener('click', event => {

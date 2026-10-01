@@ -109,3 +109,27 @@
 @media (min-width: 681px) and (max-width: 800px) {
   .monitor-cards-row { grid-template-columns: 1fr; }
 }
+.window-resize-corner {
+  position: fixed;
+  width: 16px;
+  height: 16px;
+  z-index: 10000;
+  touch-action: none;
+  -webkit-app-region: no-drag;
+}
+.window-resize-corner[data-corner="nw"] { top: 0; left: 0; cursor: nwse-resize; }
+.window-resize-corner[data-corner="ne"] { top: 0; right: 0; cursor: nesw-resize; }
+.window-resize-corner[data-corner="sw"] { bottom: 0; left: 0; cursor: nesw-resize; }
+.window-resize-corner[data-corner="se"] { bottom: 0; right: 0; cursor: nwse-resize; }
+.widget-mode .window-resize-corner { display: none; }
+html[data-platform="windows"],
+html[data-platform="windows"] * {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html[data-platform="windows"]::-webkit-scrollbar,
+html[data-platform="windows"] *::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}

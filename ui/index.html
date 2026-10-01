@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="style.css">
   <script>
     (function() {
+      document.documentElement.dataset.platform = /win/i.test(navigator.userAgentData?.platform || navigator.platform) ? 'windows' : 'other';
       try {
         const theme = localStorage.getItem('lightwidget_theme') || 'midnight';
         const accent = localStorage.getItem('lightwidget_accent') || 'blue';

@@ -69,14 +69,16 @@ def _apply_macos_window_mode (enabled :bool ,native_window =None ):
 
 class ApiBridge :
     def __init__ (self ,config_mgr :ConfigManager ,storage_mgr :StorageManager ,tg_service :TelegramService ,window =None ):
-        self .config_mgr =config_mgr
-        self .storage_mgr =storage_mgr
-        self .tg_service =tg_service
-        self .window =window
-        self .update_mgr =UpdateManager ()
+        self ._config_mgr =config_mgr
+        self ._storage_mgr =storage_mgr
+        self ._tg_service =tg_service
+        self ._window =window
+        self ._update_mgr =UpdateManager ()
+        self ._widget_mode =False
+        self ._normal_size =(960 ,620 )
 
     def set_window (self ,window ):
-        self .window =window 
+        self ._window =window
         self ._start_network_monitor ()
 
     def check_network (self ):
@@ -101,9 +103,9 @@ class ApiBridge :
                     is_online =res .get ("online",True )
                     if is_online !=last_state :
                         last_state =is_online 
-                        if self .window :
+                        if self ._window :
                             val_str ="true"if is_online else "false"
-                            self .window .evaluate_js (f"if (window.onNetworkStatusChanged) window.onNetworkStatusChanged({val_str });")
+                            self ._window .evaluate_js (f"if (window.onNetworkStatusChanged) window.onNetworkStatusChanged({val_str });")
                 except Exception :
                     pass 
                 time .sleep (4 )
@@ -111,10 +113,10 @@ class ApiBridge :
 
     def get_state (self ):
         try :
-            st =self .storage_mgr .get_state ()
+            st =self ._storage_mgr .get_state ()
             if isinstance (st ,dict ):
                 st =st .copy ()
-                st ["account_number"]=self .config_mgr .get ("account_number","")
+                st ["account_number"]=self ._config_mgr .get ("account_number","")
             return st or {}
         except Exception as e :
             print (f"[Bridge] get_state error: {e }")
@@ -122,10 +124,10 @@ class ApiBridge :
 
     def delete_planned_outage (self ,start_timestamp :int ,end_timestamp :int =None ):
         try :
-            res =self .storage_mgr .delete_planned_outage (int (start_timestamp ),int (end_timestamp )if end_timestamp is not None else None )
+            res =self ._storage_mgr .delete_planned_outage (int (start_timestamp ),int (end_timestamp )if end_timestamp is not None else None )
             if isinstance (res ,dict ):
                 res =res .copy ()
-                res ["account_number"]=self .config_mgr .get ("account_number","")
+                res ["account_number"]=self ._config_mgr .get ("account_number","")
             return res or {}
         except Exception as e :
             print (f"[Bridge] delete_planned_outage error: {e }")
@@ -133,10 +135,10 @@ class ApiBridge :
 
     def restore_planned_outage (self ,outage :dict ):
         try :
-            res =self .storage_mgr .restore_planned_outage (outage )
+            res =self ._storage_mgr .restore_planned_outage (outage )
             if isinstance (res ,dict ):
                 res =res .copy ()
-                res ["account_number"]=self .config_mgr .get ("account_number","")
+                res ["account_number"]=self ._config_mgr .get ("account_number","")
             return res or {}
         except Exception as e :
             print (f"[Bridge] restore_planned_outage error: {e }")
@@ -146,10 +148,10 @@ class ApiBridge :
         try :
             parsed =parse_message (text )
             if parsed :
-                parsed =self .storage_mgr .save_state (parsed )
-                self .storage_mgr .add_history (parsed )
+                parsed =self ._storage_mgr .save_state (parsed )
+                self ._storage_mgr .add_history (parsed )
 
-                send_status_notification (self .storage_mgr .get_state (),self .config_mgr .get ("notifications",{}))
+                send_status_notification (self ._storage_mgr .get_state (),self ._config_mgr .get ("notifications",{}))
 
                 self .broadcast_state (parsed )
                 return parsed
@@ -160,7 +162,7 @@ class ApiBridge :
 
     def get_config (self ):
         try :
-            return self .config_mgr .config or {}
+            return self ._config_mgr .config or {}
         except Exception as e :
             print (f"[Bridge] get_config error: {e }")
             return {}
@@ -168,7 +170,7 @@ class ApiBridge :
     def save_config (self ,cfg ):
         try :
             if isinstance (cfg ,dict ):
-                self .config_mgr .update (cfg )
+                self ._config_mgr .update (cfg )
             return True
         except Exception as e :
             print (f"[Bridge] save_config error: {e }")
@@ -176,7 +178,7 @@ class ApiBridge :
 
     def get_account_number (self ):
         try :
-            return str (self .config_mgr .get ("account_number",""))
+            return str (self ._config_mgr .get ("account_number",""))
         except Exception as e :
             print (f"[Bridge] get_account_number error: {e }")
             return ""
@@ -184,7 +186,7 @@ class ApiBridge :
     def save_account_number (self ,val ):
         try :
             val_str =str (val or "").strip ()
-            self .config_mgr .set ("account_number",val_str )
+            self ._config_mgr .set ("account_number",val_str )
             return True
         except Exception as e :
             print (f"[Bridge] save_account_number error: {e }")
@@ -192,7 +194,7 @@ class ApiBridge :
 
     def get_history (self ):
         try :
-            res =self .storage_mgr .get_history (limit =500 )
+            res =self ._storage_mgr .get_history (limit =500 )
             return res if isinstance (res ,list )else []
         except Exception as e :
             print (f"[Bridge] get_history error: {e }")
@@ -200,7 +202,7 @@ class ApiBridge :
 
     def get_daily_stats (self ):
         try :
-            res =self .storage_mgr .load_daily_stats ()
+            res =self ._storage_mgr .load_daily_stats ()
             return res if isinstance (res ,dict )else {}
         except Exception as e :
             print (f"[Bridge] get_daily_stats error: {e }")
@@ -208,42 +210,42 @@ class ApiBridge :
 
     def clear_history (self ):
         try :
-            return self .storage_mgr .clear_history ()
+            return self ._storage_mgr .clear_history ()
         except Exception as e :
             print (f"[Bridge] clear_history error: {e }")
             return False
 
     def delete_history_record (self ,timestamp ):
         try :
-            return self .storage_mgr .delete_history_record (timestamp )
+            return self ._storage_mgr .delete_history_record (timestamp )
         except Exception as e :
             print (f"[Bridge] delete_history_record error: {e }")
             return False
 
     def get_app_version (self ):
         try :
-            return self .update_mgr .get_local_version ()
+            return self ._update_mgr .get_local_version ()
         except Exception as e :
             print (f"[Bridge] get_app_version error: {e }")
             return {"version":"1.0.0"}
 
     def check_for_updates (self ):
         try :
-            return self .update_mgr .check_updates ()
+            return self ._update_mgr .check_updates ()
         except Exception as e :
             print (f"[Bridge] check_for_updates error: {e }")
             return {"has_update":False ,"error":str (e )}
 
     def perform_update (self ):
         try :
-            return self .update_mgr .pull_update ()
+            return self ._update_mgr .pull_update ()
         except Exception as e :
             print (f"[Bridge] perform_update error: {e }")
             return {"success":False ,"error":str (e )}
 
     def restart_app (self ):
         try :
-            self .update_mgr .restart_application ()
+            self ._update_mgr .restart_application ()
             return True
         except Exception as e :
             print (f"[Bridge] restart_app error: {e }")
@@ -275,7 +277,7 @@ class ApiBridge :
     def get_iphone_info (self ):
         try :
             local_ip =get_local_ip ()
-            port =self .config_mgr .get ("server",{}).get ("port",8088 )
+            port =self ._config_mgr .get ("server",{}).get ("port",8088 )
             endpoint =f"http://{local_ip }:{port }/api/status"
 
             script_content =""
@@ -300,8 +302,8 @@ class ApiBridge :
 
     def connect_telegram (self ):
         try :
-            if self .tg_service :
-                self .tg_service .start ()
+            if self ._tg_service :
+                self ._tg_service .start ()
             return {"status":"started"}
         except Exception as e :
             print (f"[Bridge] connect_telegram error: {e }")
@@ -309,8 +311,8 @@ class ApiBridge :
 
     def disconnect_telegram (self ):
         try :
-            if self .tg_service :
-                self .tg_service .stop ()
+            if self ._tg_service :
+                self ._tg_service .stop ()
             return {"status":"stopped"}
         except Exception as e :
             print (f"[Bridge] disconnect_telegram error: {e }")
@@ -318,8 +320,8 @@ class ApiBridge :
 
     def submit_tg_code (self ,code ):
         try :
-            if self .tg_service :
-                return self .tg_service .submit_code (code )
+            if self ._tg_service :
+                return self ._tg_service .submit_code (code )
             return {"success":False ,"error":"Сервис не доступен"}
         except Exception as e :
             print (f"[Bridge] submit_tg_code error: {e }")
@@ -327,8 +329,8 @@ class ApiBridge :
 
     def submit_tg_password (self ,password ):
         try :
-            if self .tg_service :
-                return self .tg_service .submit_password (password )
+            if self ._tg_service :
+                return self ._tg_service .submit_password (password )
             return {"success":False ,"error":"Сервис не доступен"}
         except Exception as e :
             print (f"[Bridge] submit_tg_password error: {e }")
@@ -337,58 +339,84 @@ class ApiBridge :
     def sync_history (self ):
         try :
             res =None 
-            if self .tg_service :
-                res =self .tg_service .sync_now ()
-            state =self .storage_mgr .get_state () or {}
+            if self ._tg_service :
+                res =self ._tg_service .sync_now ()
+            state =self ._storage_mgr .get_state () or {}
             if isinstance (res ,dict )and not res .get ("success",True ):
                 return {"success":False ,"error":res .get ("error","Ошибка синхронизации"),"state":state }
             return {"success":True ,"state":state }
         except Exception as e :
             print (f"[Bridge] sync_history error: {e }")
-            return {"success":False ,"error":str (e ),"state":self .storage_mgr .get_state ()or {}}
+            return {"success":False ,"error":str (e ),"state":self ._storage_mgr .get_state ()or {}}
 
     def set_widget_mode (self ,enabled :bool ):
-        if not self .window :
+        if not self ._window :
             return {"success":False }
 
         try :
-            _apply_macos_window_mode (enabled ,getattr (self .window ,"native",None ))
+            _apply_macos_window_mode (enabled ,getattr (self ._window ,"native",None ))
 
+            self ._widget_mode =bool (enabled )
             if enabled :
-                self .window .resize (165 ,165 )
+                self ._resize (165 ,165 )
             else :
-                self .window .resize (960 ,620 )
+                self ._resize (*self ._normal_size )
             return {"success":True ,"mode":"widget"if enabled else "normal"}
         except Exception as ex :
             print (f"[ApiBridge] Error setting widget mode: {ex }")
             return {"success":True }
 
+    def _resize (self ,width ,height ,fixed =None ):
+        from webview .window import FixPoint
+        if fixed is None :
+            fixed =FixPoint .NORTH |FixPoint .WEST
+        if sys .platform =="win32":
+            from System import Action
+            self ._window .native .Invoke (Action (lambda :self ._window .resize (width ,height ,fixed )))
+        else :
+            self ._window .resize (width ,height ,fixed )
+
+    def resize_window (self ,width :int ,height :int ,corner :str ):
+        if not self ._window or self ._widget_mode or corner not in ("nw","ne","sw","se"):
+            return {"success":False }
+        try :
+            from webview .window import FixPoint
+            width =max (880 ,min (int (width ),7680 ))
+            height =max (560 ,min (int (height ),4320 ))
+            fixed =(FixPoint .EAST if "w"in corner else FixPoint .WEST )| (FixPoint .SOUTH if "n"in corner else FixPoint .NORTH )
+            self ._resize (width ,height ,fixed )
+            self ._normal_size =(width ,height )
+            return {"success":True }
+        except Exception as e :
+            print (f"[Bridge] resize_window error: {e }")
+            return {"success":False }
+
     def minimize (self ):
         try :
-            if self .window :
-                self .window .minimize ()
+            if self ._window :
+                self ._window .minimize ()
         except Exception as e :
             print (f"[Bridge] minimize error: {e }")
 
     def close (self ):
         try :
-            if self .tg_service :
-                self .tg_service .stop ()
+            if self ._tg_service :
+                self ._tg_service .stop ()
         except Exception :
             pass
         try :
-            if self .window :
-                self .window .destroy ()
+            if self ._window :
+                self ._window .destroy ()
         except Exception :
             pass
         os ._exit (0 )
 
     def broadcast_state (self ,state ):
         def _evaluate ():
-            if self .window :
+            if self ._window :
                 try :
                     state_json =json .dumps (state ,ensure_ascii =False )
-                    self .window .evaluate_js (f"if (window.onStateUpdatedFromPython) window.onStateUpdatedFromPython({state_json });")
+                    self ._window .evaluate_js (f"if (window.onStateUpdatedFromPython) window.onStateUpdatedFromPython({state_json });")
                 except Exception as e :
                     print (f"[Bridge] Error evaluating JS broadcast: {e }")
         threading .Thread (target =_evaluate ,daemon =True ).start ()
@@ -422,10 +450,10 @@ class ApiBridge :
 
     def broadcast_tg_status (self ,status ,message ):
         def _evaluate ():
-            if self .window :
+            if self ._window :
                 try :
                     msg_json =json .dumps (message ,ensure_ascii =False )
-                    self .window .evaluate_js (f"if (window.onTelegramStatusChange) window.onTelegramStatusChange('{status }', {msg_json });")
+                    self ._window .evaluate_js (f"if (window.onTelegramStatusChange) window.onTelegramStatusChange('{status }', {msg_json });")
                 except Exception as e :
                     print (f"[Bridge] Error evaluating TG status JS: {e }")
         threading .Thread (target =_evaluate ,daemon =True ).start ()
@@ -448,7 +476,7 @@ def main ():
     on_state_updated =on_state_updated ,
     on_status_change =on_tg_status
     )
-    bridge .tg_service =tg_service
+    bridge ._tg_service =tg_service
 
     if config_mgr .get ("telegram",{}).get ("api_id")and config_mgr .get ("telegram",{}).get ("api_hash"):
         tg_service .start ()
@@ -477,7 +505,8 @@ def main ():
                     loc = event.locationInWindow()
                     is_titlebar = loc.y >= (frame.size.height - 50)
                     is_widget = frame.size.height <= 250
-                    if is_titlebar or is_widget:
+                    is_corner = (loc.x <= 16 or loc.x >= frame.size.width - 16) and (loc.y <= 16 or loc.y >= frame.size.height - 16)
+                    if (is_titlebar or is_widget) and not (is_corner and not is_widget):
                         self._can_drag_window = True
                         screen_loc = NSEvent.mouseLocation()
                         self._drag_start_x = screen_loc.x
@@ -534,7 +563,7 @@ def main ():
     width =960 ,
     height =620 ,
     min_size =(165 ,165 ),
-    resizable =True ,
+    resizable =False ,
     frameless =True ,
     easy_drag =False ,
     transparent =is_mac ,
@@ -567,7 +596,7 @@ def main ():
             sound ="true"if notif .get ("sound",True )else "false"
             banner ="true"if notif .get ("banner",True )else "false"
             sound_name =notif .get ("sound_name","Submarine")
-            cur_ver =bridge .update_mgr .get_local_version ().get ("version","1.0.0")
+            cur_ver =bridge ._update_mgr .get_local_version ().get ("version","1.0.0")
 
             if window :
                 escaped_acc =acc .replace ("'","\\'")
