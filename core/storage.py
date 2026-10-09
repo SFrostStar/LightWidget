@@ -96,107 +96,99 @@ class StorageManager :
         with self ._state_lock :
             return self ._save_state (state )
 
-    def _save_state (self ,state ,replace_blocked =False ):
-        if isinstance (state ,dict ):
-            state =state .copy ()
-            now_ts =int (time .time ())
-            curr_is_active_outage =False 
-            prev_state =getattr (self ,"state",None )
-            blocked =[]if replace_blocked else list ((prev_state or {}).get ("blocked_planned_outages",[]))
-            for entry in state .get ("blocked_planned_outages",[]):
-                if entry not in blocked :
-                    blocked .append (entry )
-            if isinstance (prev_state ,dict )and prev_state .get ("status")=="OFF":
-                e_ts =prev_state .get ("end_timestamp")
-                if not e_ts or e_ts >now_ts :
-                    curr_is_active_outage =True 
-
-            incoming_is_future_planned_only =False 
-            if state .get ("is_planned")and not state .get ("is_outage")and state .get ("status")!="OFF":
-                incoming_is_future_planned_only =True 
-
-            if curr_is_active_outage and incoming_is_future_planned_only :
-                existing_planned =(prev_state .get ("planned_outages",[])if isinstance (prev_state ,dict )else [])or []
-                new_planned =state .get ("planned_outages",[])or []
-                combined_planned =list (existing_planned )
-                for po in new_planned :
-                    if isinstance (po ,dict ):
-                        key =(po .get ("start_timestamp"),po .get ("end_timestamp"))
-                        if not any ((x .get ("start_timestamp"),x .get ("end_timestamp"))==key for x in combined_planned ):
-                            combined_planned .append (po )
-                valid_planned =[po for po in combined_planned if (po .get ("end_timestamp")or (po .get ("start_timestamp",0 )+3600 ))>now_ts and not self ._is_planned_blocked (po ,blocked )]
-                valid_planned .sort (key =lambda x :x .get ("start_timestamp")or 0 )
-                if not isinstance (prev_state ,dict ):
-                    prev_state =state .copy ()
-                prev_state ["planned_outages"]=valid_planned 
-                state =prev_state 
-            else :
-                if state .get ("status")=="ON":
-                    if not state .get ("light_on_since"):
-                        if isinstance (prev_state ,dict )and prev_state .get ("status")=="ON"and prev_state .get ("light_on_since"):
-                            state ["light_on_since"]=prev_state ["light_on_since"]
-                        else :
-                            state ["light_on_since"]=int (time .time ()*1000 )
-                else :
-                    state ["light_on_since"]=None 
-
-                existing_planned =[]
-                if isinstance (prev_state ,dict ):
-                    existing_planned =prev_state .get ("planned_outages",[])or []
-                new_planned =state .get ("planned_outages")
-                if new_planned :
-                    combined_planned =list (new_planned )
-                    for po in existing_planned :
-                        if isinstance (po ,dict ):
-                            key =(po .get ("start_timestamp"),po .get ("end_timestamp"))
-                            if not any ((x .get ("start_timestamp"),x .get ("end_timestamp"))==key for x in combined_planned ):
-                                combined_planned .append (po )
-                    source_planned =combined_planned 
-                else :
-                    source_planned =existing_planned 
-
-                valid_planned =[]
-                seen_planned =set ()
-                for po in source_planned :
-                    if isinstance (po ,dict ):
-                        e_ts =po .get ("end_timestamp")or (po .get ("start_timestamp",0 )+3600 )
-                        if e_ts >now_ts and not self ._is_planned_blocked (po ,blocked ):
-                            key =(po .get ("start_timestamp"),po .get ("end_timestamp"))
-                            if key not in seen_planned :
-                                seen_planned .add (key )
-                                valid_planned .append (po )
-                valid_planned .sort (key =lambda x :x .get ("start_timestamp")or 0 )
-                state ["planned_outages"]=valid_planned 
-                if valid_planned and state .get ("status")!="OFF":
-                    next_po =valid_planned [0 ]
-                    state ["is_planned"]=True 
-                    state ["start_timestamp"]=next_po .get ("start_timestamp")
-                    state ["end_timestamp"]=next_po .get ("end_timestamp")
-                    state ["start_time_str"]=next_po .get ("start_time_str")
-                    state ["end_time_str"]=next_po .get ("end_time_str")
-                elif not valid_planned and state .get ("is_planned"):
-                    state ["is_planned"]=False 
-
-            state ["blocked_planned_outages"]=blocked
-            if not state .get ("planned_outages")and state .get ("status")!="OFF"and (incoming_is_future_planned_only or state .get ("is_planned")or state .get ("status")=="PLANNED"):
-                state ["is_planned"]=False
-                state ["planned_active"]=False
-                state ["status"]="ON"
-                state ["is_outage"]=False
-                state ["reason"]="Электросеть работает в штатном режиме."
-                for key in ("start_timestamp","end_timestamp","start_time_str","end_time_str","total_seconds","remaining_seconds","elapsed_seconds"):
-                    state [key ]=None
-            self .state =state
-            try :
-                encrypted_state =self ._encrypt_record (self .state )
-                with open (STATE_FILE ,"w",encoding ="utf-8")as f :
-                    json .dump (encrypted_state ,f ,ensure_ascii =False ,indent =2 )
-            except Exception as e :
-                print (f"[Storage] Error saving state: {e }")
-        return self .state
+    def _save_state(self, state, replace_blocked=False):
+        if not isinstance(state, dict):
+            return self.state
+        state = state.copy()
+        now_ts = int(time.time())
+        previous = getattr(self, "state", None) or {}
+        power_update = state.pop("_power_update", True)
+        outage_update = state.pop("_outage_update", False)
+        planned_changes = state.pop("_planned_changes", [])
+        incoming_plans = state.get("planned_outages", []) or []
+        blocked = [] if replace_blocked else list(previous.get("blocked_planned_outages", []))
+        for entry in state.get("blocked_planned_outages", []):
+            if entry not in blocked:
+                blocked.append(entry)
+        if not power_update and previous:
+            incoming = state
+            state = previous.copy()
+            for key in ("raw_text", "updated_at", "timestamp", "address"):
+                if incoming.get(key) and incoming[key] != "Не указан":
+                    state[key] = incoming[key]
+        elif outage_update and previous.get("status") == "OFF":
+            if not state.get("start_timestamp"):
+                state["start_timestamp"] = previous.get("start_timestamp")
+                state["start_time_str"] = previous.get("start_time_str")
+                state["reason"] = previous.get("reason") or state.get("reason")
+            start = state.get("start_timestamp")
+            end = state.get("end_timestamp")
+            if start and end and end <= start:
+                state["end_timestamp"] = previous.get("end_timestamp")
+                state["end_time_str"] = previous.get("end_time_str")
+                end = state["end_timestamp"]
+            if start and end:
+                state["total_seconds"] = max(0, end - start)
+                state["elapsed_seconds"] = max(0, now_ts - start)
+                state["remaining_seconds"] = max(0, end - now_ts)
+                state["progress_percent"] = min(100.0, state["elapsed_seconds"] / state["total_seconds"] * 100) if state["total_seconds"] else 0.0
+        plans = {}
+        for item in previous.get("planned_outages", []) or []:
+            if isinstance(item, dict) and item.get("start_timestamp"):
+                plans[item["start_timestamp"]] = item
+        for item in incoming_plans:
+            if isinstance(item, dict) and item.get("start_timestamp"):
+                plans[item["start_timestamp"]] = item
+        for change in planned_changes:
+            if change.get("action") == "cancel":
+                start = change.get("start_timestamp")
+                if start is None:
+                    plans.clear()
+                else:
+                    plans.pop(start, None)
+            elif change.get("action") == "upsert":
+                item = change.get("item", {})
+                if item.get("start_timestamp"):
+                    plans[item["start_timestamp"]] = item
+        valid_planned = [item for item in plans.values() if item.get("end_timestamp") and item["end_timestamp"] > now_ts and item["end_timestamp"] > item["start_timestamp"] and not self._is_planned_blocked(item, blocked)]
+        valid_planned.sort(key=lambda item: item["start_timestamp"])
+        if state.get("status") == "OFF" and state.get("end_timestamp") and state["end_timestamp"] <= now_ts:
+            state["status"] = "ON"
+            state["light_on_since"] = state["end_timestamp"] * 1000
+        state["planned_outages"] = valid_planned
+        state["blocked_planned_outages"] = blocked
+        state["is_outage"] = state.get("status") == "OFF"
+        state["is_planned"] = bool(valid_planned and not state["is_outage"])
+        state["planned_active"] = False
+        if state["is_planned"]:
+            nearest = valid_planned[0]
+            for key in ("start_timestamp", "end_timestamp", "start_time_str", "end_time_str"):
+                state[key] = nearest.get(key)
+            state["planned_active"] = nearest["start_timestamp"] <= now_ts < nearest["end_timestamp"]
+        elif not state["is_outage"]:
+            for key in ("start_timestamp", "end_timestamp", "start_time_str", "end_time_str", "total_seconds", "remaining_seconds", "elapsed_seconds"):
+                state[key] = None
+            state["progress_percent"] = 0.0
+            state["reason"] = "Электросеть работает в штатном режиме."
+        if state["is_outage"]:
+            state["light_on_since"] = None
+        elif not state.get("light_on_since"):
+            state["light_on_since"] = previous.get("light_on_since") if previous.get("status") == "ON" else None
+            state["light_on_since"] = state["light_on_since"] or int(time.time() * 1000)
+        self.state = state
+        try:
+            encrypted_state = self._encrypt_record(self.state)
+            with open(STATE_FILE, "w", encoding="utf-8") as file:
+                json.dump(encrypted_state, file, ensure_ascii=False, indent=2)
+        except Exception as error:
+            print(f"[Storage] Error saving state: {error}")
+        return self.state
 
     def get_state (self ):
-        return self .state 
+        with self ._state_lock :
+            if self .state .get ("status")=="OFF"and self .state .get ("end_timestamp")and self .state ["end_timestamp"]<=time .time ():
+                return self .save_state (self .state )
+            return self .state
 
     def delete_planned_outage (self ,start_timestamp :int ,end_timestamp :int =None ):
         with self ._state_lock :

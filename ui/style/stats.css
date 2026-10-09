@@ -17,6 +17,8 @@
 }
 
 .activity-heatmap-card {
+  --heatmap-short-bg: #287341;
+  --heatmap-short-border: #3e9659;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
@@ -232,6 +234,12 @@
   background: #30d158;
   border-color: rgba(48, 209, 88, 0.5);
   box-shadow: 0 0 6px rgba(48, 209, 88, 0.35);
+}
+
+.activity-heatmap-card .gh-cell.gh-lvl-short {
+  background: var(--heatmap-short-bg);
+  border-color: var(--heatmap-short-border);
+  box-shadow: none;
 }
 
 .gh-cell.gh-lvl-amber {

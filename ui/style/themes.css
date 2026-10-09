@@ -627,6 +627,12 @@
   border-color: #d1d5db;
 }
 
+[data-theme="light"] .activity-heatmap-card,
+[data-theme="glass"][data-glass-mode="light"] .activity-heatmap-card {
+  --heatmap-short-bg: #166534;
+  --heatmap-short-border: #14532d;
+}
+
 [data-theme="light"] .gh-cell.gh-lvl-empty {
   background: #e5e7eb !important;
   border-color: #d1d5db !important;

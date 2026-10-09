@@ -570,7 +570,9 @@ function updateCountdown() {
     const prevCount = currentState.planned_outages.length;
     currentState.planned_outages = currentState.planned_outages.filter(it => !it.end_timestamp || it.end_timestamp > nowTs);
     if (currentState.planned_outages.length !== prevCount) {
-      if (currentState.planned_outages.length > 0) {
+      if (currentState.status === 'OFF') {
+        currentState.is_planned = false;
+      } else if (currentState.planned_outages.length > 0) {
         const nextPo = currentState.planned_outages[0];
         currentState.is_planned = true;
         currentState.start_timestamp = nextPo.start_timestamp;
@@ -636,6 +638,8 @@ function updateCountdown() {
       elTimerLabel.textContent = currentState.reason || 'Время включения уточняется';
       elTimerLabel.className = 'timer-subtitle status-sub-off';
     }
+    if (widgetCountdown) widgetCountdown.innerHTML = '<span class="widget-heading-off">Свет отключен</span>';
+    if (widgetEndTime) widgetEndTime.textContent = 'Срок уточняется';
     const slimBox = document.querySelector('.slim-progress-box');
     if (slimBox) slimBox.style.display = 'none';
     return;
@@ -1140,30 +1144,22 @@ function renderHeatmap(historyData, extraDailyStats) {
         let lvl = 'gh-lvl-empty';
         let tip = `${dateFormatted}: Нет зафиксированных данных`;
 
-        if (isToday) {
-          if (hist && hist.offSec > 0) {
+        const nextDay = new Date(targetDate);
+        nextDay.setDate(nextDay.getDate() + 1);
+        const summary = getDayOutageSummary(targetDate.getTime(), nextDay.getTime(), hist);
+        if (isToday || summary.recorded) {
+          const offSec = Math.max(0, summary.offSeconds);
+          const dayLabel = `${dateFormatted}${isToday ? ' (Сегодня)' : ''}`;
+          if (offSec > 0 || summary.count > 0) {
             totalDaysWithOutages++;
-            const offHours = Math.round((hist.offSec / 3600) * 10) / 10;
-            lvl = hist.offSec > 4 * 3600 ? 'gh-lvl-red' : 'gh-lvl-amber';
-            tip = `${dateFormatted} (Сегодня): Отключение ~${offHours}ч`;
+            lvl = offSec > 4 * 3600 ? 'gh-lvl-red' : (offSec >= 3600 ? 'gh-lvl-amber' : 'gh-lvl-short');
+            const duration = offSec < 60 ? 'меньше минуты' : formatDayDuration(offSec);
+            tip = offSec > 0
+              ? `${dayLabel}: Без света ${summary.approximate ? '~' : ''}${duration}`
+              : `${dayLabel}: Отключение зафиксировано • Длительность уточняется`;
           } else {
             lvl = 'gh-lvl-green';
-            tip = `${dateFormatted} (Сегодня): Свет есть • Сеть активна`;
-          }
-        } else if (hist && hist.recorded) {
-          const offSec = hist.offSec || 0;
-          const offHours = Math.round((offSec / 3600) * 10) / 10;
-          if (offSec > 4 * 3600) {
-            totalDaysWithOutages++;
-            lvl = 'gh-lvl-red';
-            tip = `${dateFormatted}: Без света ${offHours}ч (Длительное отключение)`;
-          } else if (offSec > 0) {
-            totalDaysWithOutages++;
-            lvl = 'gh-lvl-amber';
-            tip = `${dateFormatted}: Без света ${offHours}ч (Плановые работы)`;
-          } else {
-            lvl = 'gh-lvl-green';
-            tip = `${dateFormatted}: Свет был весь день (100%)`;
+            tip = `${dayLabel}: ${isToday ? 'Сегодня без отключений' : 'Свет был весь день (100%)'}`;
           }
         }
 
@@ -1911,11 +1907,12 @@ function setupEventListeners() {
           if (window.pywebview.api.sync_history) {
             res = await window.pywebview.api.sync_history();
           }
-          const state = await window.pywebview.api.get_state();
-          renderState(state);
-          await loadHistory();
+          if (res?.state) renderState(res.state);
+          loadHistory().catch(err => console.error('History refresh error:', err));
           if (res && res.success === false) {
-            refreshToastMessage = 'Не удалось обновить статус';
+            refreshToastMessage = res.error_code === 'BOT_NO_RESPONSE'
+              ? 'Не удалось синхронизировать время · Причина: Бот не отвечает'
+              : 'Не удалось обновить статус';
           } else {
             localStorage.setItem('lightwidget_last_sync_time', String(Date.now()));
           }

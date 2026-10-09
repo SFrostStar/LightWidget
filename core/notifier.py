@@ -90,6 +90,15 @@ def send_notification (title :str ,subtitle :str ,message :str ,sound :str ="Sub
 send_macos_notification =send_notification
 
 
+def send_sync_failure_notification (settings ):
+    if not settings .get ("banner",True )or not settings .get ("macos_banner",True ):
+        return None
+    title ="Не удалось синхронизировать время"
+    sound =(settings .get ("sound_name")or "Basso")if settings .get ("sound",True )and settings .get ("macos_sound",True )else ""
+    send_macos_notification (title ,"Причина: Бот не отвечает","",sound =sound )
+    return title
+
+
 def send_status_notification (state ,settings ):
     if not settings .get ("banner",True )or not settings .get ("macos_banner",True ):
         return None
@@ -97,7 +106,7 @@ def send_status_notification (state ,settings ):
     planned =[item for item in state .get ("planned_outages",[])if (item .get ("end_timestamp")or 0 )>now ]
     if not planned and state .get ("is_planned")and (state .get ("end_timestamp")or 0 )>now :
         planned =[state ]
-    if state .get ("status")=="OFF":
+    if state .get ("status")=="OFF"and (not state .get ("end_timestamp")or state ["end_timestamp"]>now ):
         title ="Отключение света"
         subtitle =f"Ориентировочно до {state .get ('end_time_str')or 'уточнения времени'}"
         message =(state .get ("reason")or "Отключение электроэнергии").split (" • ")[0 ][:180 ]

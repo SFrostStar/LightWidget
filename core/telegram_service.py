@@ -17,7 +17,7 @@ AuthKeyInvalidError ,
 SecurityError
 )
 from core .parser import parse_message ,is_menu_service_message
-from core .notifier import send_status_notification
+from core .notifier import send_status_notification ,send_sync_failure_notification
 from core .crypto import DATA_DIR
 
 if sys .platform =="win32":
@@ -47,7 +47,11 @@ class TelegramService :
         self ._buffer_task =None
         self ._notification_task =None
         self ._sync_task =None
+        self ._sync_request_id =None
+        self ._sync_message_ids =set ()
+        self ._sync_deadline =0.0
         self ._last_message_received_at =0.0
+        self ._last_status_received_at =0.0
         self ._last_notification_kind =None
         self ._last_notification_at =0.0
 
@@ -158,11 +162,20 @@ class TelegramService :
         self ._msg_buffer =[]
         self ._buffer_task =None 
 
-        @self .client .on (events .NewMessage (chats =bot_username ))
+        @self .client .on (events .NewMessage (chats =bot_username ,incoming =True ))
         async def handler (event ):
+            request_id =self ._sync_request_id
+            if request_id is None or event .message .id <=request_id :
+                return
             msg_text =event .raw_text 
             if not msg_text or is_menu_service_message (msg_text ):
-                return 
+                return
+            messages =await self .client .get_messages (bot_username ,limit =32 )
+            if not self ._is_sync_response (messages ,request_id ):
+                return
+            reply_to =getattr (event .message ,"reply_to_msg_id",None )
+            if reply_to and reply_to not in self ._sync_message_ids :
+                return
             print (f"[TelegramService] Received message from @{bot_username }:\n{msg_text [:100 ]}...")
             self ._last_message_received_at =time .monotonic ()
             if self ._notification_task and not self ._notification_task .done ():
@@ -172,18 +185,25 @@ class TelegramService :
                 self ._buffer_task .cancel ()
             self ._buffer_task =asyncio .create_task (self ._flush_message_buffer ())
 
-        await self ._fetch_recent_history (bot_username )
-
         while self .is_running :
             await asyncio .sleep (1 )
+
+    def _is_sync_response (self ,messages ,request_id ):
+        if self ._sync_request_id !=request_id or time .monotonic ()>=self ._sync_deadline :
+            return False
+        outgoing =next ((msg for msg in messages if getattr (msg ,"out",False )),None )
+        return bool (outgoing and outgoing .id in self ._sync_message_ids )
 
     def _apply_message_buffer (self ):
         if not self ._msg_buffer :
             return None
-        buffered =list (self ._msg_buffer )
+        buffered =sorted (self ._msg_buffer ,key =lambda item :item [1 ])
         self ._msg_buffer .clear ()
         combined ="\n\n--------------------------------------\n\n".join (item [0 ]for item in buffered )
-        return self ._process_message (combined ,message_date =buffered [-1 ][1 ])
+        parsed =self ._process_message (combined ,message_date =buffered [-1 ][1 ])
+        if parsed :
+            self ._last_status_received_at =self ._last_message_received_at
+        return parsed
 
     async def _flush_message_buffer (self ):
         try :
@@ -217,30 +237,31 @@ class TelegramService :
                 pass
         self ._notification_task =asyncio .create_task (_send ())
 
-    async def _fetch_recent_history (self ,bot_username ):
-        try :
-            entity =await self .client .get_entity (bot_username )
-            messages =await self .client .get_messages (entity ,limit =6 )
-            bot_texts =[]
-            for msg in messages :
-                if getattr (msg ,"out",False ):
-                    break 
-                t =msg .text or ""
-                if t and not is_menu_service_message (t ):
-                    bot_texts .append ((t ,msg .date ))
+    async def _fetch_recent_history (self ,bot_username ,min_message_id ):
+        entity =await self .client .get_entity (bot_username )
+        messages =await self .client .get_messages (entity ,limit =32 )
+        if not self ._is_sync_response (messages ,min_message_id ):
+            return None
+        bot_texts =[]
+        for msg in messages :
+            if msg .id <=min_message_id :
+                break
+            if getattr (msg ,"out",False ):
+                if msg .id not in self ._sync_message_ids :
+                    return None
+                break
+            reply_to =getattr (msg ,"reply_to_msg_id",None )
+            if reply_to and reply_to not in self ._sync_message_ids :
+                continue
+            t =msg .text or ""
+            if t and not is_menu_service_message (t ):
+                bot_texts .append ((t ,msg .date ))
 
-            if bot_texts :
-                bot_texts .reverse ()
-                combined ="\n\n--------------------------------------\n\n".join (item [0 ]for item in bot_texts )
-                self ._process_message (combined ,is_history =True ,message_date =bot_texts [-1 ][1 ])
-            elif messages :
-                for msg in messages :
-                    if msg .text and not getattr (msg ,"out",False )and not is_menu_service_message (msg .text ):
-                        parsed =self ._process_message (msg .text ,is_history =True ,message_date =msg .date )
-                        if parsed :
-                            break 
-        except Exception as e :
-            print (f"[TelegramService] History fetch warning: {e }")
+        if bot_texts :
+            bot_texts .reverse ()
+            combined ="\n\n--------------------------------------\n\n".join (item [0 ]for item in bot_texts )
+            return self ._process_message (combined ,is_history =True ,message_date =bot_texts [-1 ][1 ])
+        return None
 
     def _process_message (self ,text :str ,is_history :bool =False ,message_date =None ):
         cfg =self .config_manager .get ("telegram",{})
@@ -326,6 +347,8 @@ class TelegramService :
             return {"success":False ,"error":f"Таймаут запроса: {str (e )}"}
 
     def sync_now (self ):
+        sync_started_at =time .monotonic ()
+        sync_deadline =sync_started_at +15.0
         if self .is_running and (not self .client or not self .loop or not self .client .is_connected ()):
             import time as _time
             _wait_start =_time .time ()
@@ -336,15 +359,20 @@ class TelegramService :
         if not self .client or not self .loop or not self .client .is_connected ():
             return {"success":False ,"error":"Не подключено к Telegram"}
 
-        async def _sync ():
+        async def _sync_once ():
             if self ._notification_task and not self ._notification_task .done ():
                 self ._notification_task .cancel ()
-            try :
+            response_received =False
+
+            async def _collect_response ():
+                nonlocal response_received
                 bot_username =self .config_manager .get ("telegram",{}).get ("bot_username","dtek_odeski_elektromerezhi_bot")
                 entity =await self .client .get_entity (bot_username )
 
                 print (f"[TelegramService] Sending '/start' to @{bot_username }...")
-                await self .client .send_message (entity ,"/start")
+                request =await self .client .send_message (entity ,"/start")
+                self ._sync_request_id =request .id
+                self ._sync_message_ids .add (request .id )
 
                 await asyncio .sleep (1.2 )
 
@@ -358,7 +386,9 @@ class TelegramService :
                                 if "можливі відключення"in btn_text or "відключен"in btn_text :
                                     try :
                                         print (f"[TelegramService] Clicking button: '{btn .text }'...")
-                                        await btn .click ()
+                                        button_request =await btn .click ()
+                                        if getattr (button_request ,"out",False )and isinstance (getattr (button_request ,"id",None ),int ):
+                                            self ._sync_message_ids .add (button_request .id )
                                         clicked =True
                                         break
                                     except Exception as be :
@@ -370,16 +400,41 @@ class TelegramService :
 
                 if not clicked :
                     print (f"[TelegramService] Sending '💡Можливі відключення' text...")
-                    await self .client .send_message (entity ,"💡Можливі відключення")
+                    button_request =await self .client .send_message (entity ,"💡Можливі відключення")
+                    self ._sync_message_ids .add (button_request .id )
 
-                await asyncio .sleep (1.5 )
+                while True :
+                    parsed =await self ._fetch_recent_history (bot_username ,min_message_id =request .id )
+                    if parsed :
+                        response_received =True
+                        break
+                    await asyncio .sleep (2.0 )
+
+                response_received_at =time .monotonic ()
                 settle_deadline =time .monotonic ()+8.0
-                while time .monotonic ()<settle_deadline and time .monotonic ()-self ._last_message_received_at <1.5 :
+                while time .monotonic ()<settle_deadline and time .monotonic ()-max (response_received_at ,self ._last_message_received_at )<1.5 :
                     await asyncio .sleep (0.2 )
                 if self ._buffer_task and not self ._buffer_task .done ():
                     self ._buffer_task .cancel ()
                 self ._apply_message_buffer ()
-                await self ._fetch_recent_history (bot_username )
+                await self ._fetch_recent_history (bot_username ,min_message_id =request .id )
+
+            try :
+                await asyncio .wait_for (_collect_response (),timeout =max (0.0 ,sync_deadline -time .monotonic ()))
+            except asyncio .TimeoutError :
+                if sync_started_at <self ._last_message_received_at <=sync_deadline :
+                    if self ._buffer_task and not self ._buffer_task .done ():
+                        self ._buffer_task .cancel ()
+                    self ._apply_message_buffer ()
+                response_received =response_received or sync_started_at <self ._last_status_received_at <=sync_deadline
+                if not response_received :
+                    send_sync_failure_notification (self .config_manager .get ("notifications",{}))
+                    return {"success":False ,"error":"Бот не отвечает","error_code":"BOT_NO_RESPONSE"}
+            except Exception as e :
+                print (f"[TelegramService] Sync error: {e }")
+                return {"success":False ,"error":str (e )}
+
+            try :
                 if self ._buffer_task and not self ._buffer_task .done ():
                     self ._buffer_task .cancel ()
                 self ._apply_message_buffer ()
@@ -392,6 +447,22 @@ class TelegramService :
                 print (f"[TelegramService] Sync error: {e }")
                 return {"success":False ,"error":str (e )}
 
+        async def _sync ():
+            self ._sync_deadline =sync_deadline
+            self ._sync_request_id =None
+            self ._sync_message_ids .clear ()
+            self ._msg_buffer .clear ()
+            if self ._buffer_task and not self ._buffer_task .done ():
+                self ._buffer_task .cancel ()
+            try :
+                return await _sync_once ()
+            finally :
+                self ._sync_request_id =None
+                self ._sync_message_ids .clear ()
+                self ._msg_buffer .clear ()
+                if self ._buffer_task and not self ._buffer_task .done ():
+                    self ._buffer_task .cancel ()
+
         async def _sync_request ():
             if not self ._sync_task or self ._sync_task .done ():
                 self ._sync_task =asyncio .create_task (_sync ())
@@ -399,7 +470,7 @@ class TelegramService :
 
         future =asyncio .run_coroutine_threadsafe (_sync_request (),self .loop )
         try :
-            return future .result (timeout =25.0 )
+            return future .result (timeout =16.0 )
         except Exception as e :
             return {"success":False ,"error":f"Таймаут синхронизации: {str (e )}"}
 

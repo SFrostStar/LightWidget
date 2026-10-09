@@ -343,7 +343,7 @@ class ApiBridge :
                 res =self ._tg_service .sync_now ()
             state =self ._storage_mgr .get_state () or {}
             if isinstance (res ,dict )and not res .get ("success",True ):
-                return {"success":False ,"error":res .get ("error","Ошибка синхронизации"),"state":state }
+                return {"success":False ,"error":res .get ("error","Ошибка синхронизации"),"error_code":res .get ("error_code"),"state":state }
             return {"success":True ,"state":state }
         except Exception as e :
             print (f"[Bridge] sync_history error: {e }")

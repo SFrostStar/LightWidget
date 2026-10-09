@@ -47,7 +47,7 @@ async function createWidget(info) {
   let diff = getRemainingSeconds(info);
   let diffToStart = getSecondsToStart(info);
   let isPlanned = info && (info.status === "PLANNED" || info.is_planned) && diffToStart > 0;
-  let isOutage = info && (info.status === "OFF" || info.is_outage === true) && diff > 0;
+  let isOutage = info && (info.status === "OFF" || info.is_outage === true) && (diff > 0 || (!info.end_timestamp && !info.end_time_str));
 
   w.refreshAfterDate = new Date(Date.now() + 60 * 1000);
 
@@ -82,9 +82,9 @@ async function createWidget(info) {
   w.addSpacer(12);
 
   if (isOutage) {
-    let cdTimeString = formatWidgetCountdown(diff);
+    let cdTimeString = diff > 0 ? formatWidgetCountdown(diff) : "Срок уточняется";
 
-    let cdLabel = w.addText("ДО ВКЛЮЧЕНИЯ:");
+    let cdLabel = w.addText(diff > 0 ? "ДО ВКЛЮЧЕНИЯ:" : "СВЕТ ОТКЛЮЧЁН:");
     cdLabel.font = Font.semiboldSystemFont(11);
     cdLabel.textColor = new Color("#9ca3af");
 
@@ -171,6 +171,8 @@ function getRemainingSeconds(info) {
   let now = new Date();
   let nowTs = Math.floor(now.getTime() / 1000);
 
+  if (info.end_timestamp) return Math.max(0, info.end_timestamp - nowTs);
+
   if (info.end_time_str) {
     let match = info.end_time_str.match(/(\d{1,2})[\.\/](\d{1,2})[\.\/](\d{2,4})\s+(\d{1,2}):(\d{2})/);
     if (match) {
@@ -194,10 +196,6 @@ function getRemainingSeconds(info) {
       }
       return Math.max(0, Math.floor(targetDate.getTime() / 1000) - nowTs);
     }
-  }
-
-  if (info.end_timestamp) {
-    return Math.max(0, info.end_timestamp - nowTs);
   }
 
   return 0;
