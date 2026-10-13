@@ -2,14 +2,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-data/config.json
-data/state.json
-data/history.json
-data/daily_stats.json
-data/.secret.key
-data/*.session
-data/*.session-journal
-data/*.key
+/data/*
+!/data/config.example.json
+
+/ui/wallpapers/images/
+/ui/wallpapers/previews/
 
 LightWidget.app/
 build/

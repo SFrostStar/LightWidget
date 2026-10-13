@@ -25,6 +25,11 @@ DEFAULT_CONFIG ={
 "theme":"midnight",
 "accent":"blue",
 "glass_mode":"dark",
+"panel_transparency":0,
+"wallpaper_enabled":False,
+"wallpaper":"",
+"wallpaper_recent":[],
+"wallpaper_dim":20,
 "show_seconds":True ,
 "smooth_timers":True ,
 "show_pulse":True ,
@@ -81,6 +86,20 @@ class ConfigManager :
                 tg ["api_hash"]=encrypt_value (str (tg ["api_hash"]))
         return out
 
+    def _normalize_appearance(self, config):
+        appearance = config.get("appearance")
+        if not isinstance(appearance, dict):
+            return
+        was_transparent = appearance.get("theme") == "transparent"
+        legacy = appearance.pop("transparency", 0)
+        appearance.pop("button_transparency", None)
+        if appearance.get("panel_transparency") is None:
+            appearance["panel_transparency"] = legacy if was_transparent else 0
+        if was_transparent:
+            appearance["theme"] = "glass"
+        if appearance.get("theme", "midnight") != "glass" and appearance.get("wallpaper_enabled") is not True:
+            appearance["panel_transparency"] = 0
+
     def load (self ):
         if not os .path .exists (self .filepath ):
             self .save (DEFAULT_CONFIG )
@@ -89,6 +108,7 @@ class ConfigManager :
             with open (self .filepath ,"r",encoding ="utf-8")as f :
                 data =json .load (f )
                 data =self ._decrypt_cfg (data )
+                self._normalize_appearance(data)
                 cfg =copy .deepcopy (DEFAULT_CONFIG )
                 for k ,v in data .items ():
                     if isinstance (v ,dict )and k in cfg :
@@ -102,6 +122,7 @@ class ConfigManager :
     def save (self ,data =None ):
         if data is not None :
             self .config =data
+        self._normalize_appearance(self.config)
         os .makedirs (os .path .dirname (self .filepath ),exist_ok =True )
         encrypted_data =self ._encrypt_cfg (self .config )
         with open (self .filepath ,"w",encoding ="utf-8")as f :

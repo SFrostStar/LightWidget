@@ -26,7 +26,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install telethon pywebview pyobjc pyinstaller
+          pip install -r requirements.txt pywebview pyobjc pyinstaller
 
       - name: Build macOS App & DMG
         run: |
@@ -54,7 +54,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install telethon pywebview pythonnet pyinstaller
+          pip install -r requirements.txt pywebview pythonnet pyinstaller
 
       - name: Build Single-File Executable (.exe)
         run: |
@@ -122,4 +122,3 @@ jobs:
           body_path: release_body.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

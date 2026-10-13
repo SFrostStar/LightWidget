@@ -103,29 +103,56 @@
 }
 
 :root[data-theme="glass"], html[data-theme="glass"], body[data-theme="glass"] {
-  --bg-base: #0b0c10;
-  --bg-sidebar: rgba(18, 20, 28, 0.55);
-  --bg-card: rgba(22, 25, 36, 0.45);
-  --bg-card-hover: rgba(30, 34, 48, 0.55);
-  --bg-input: rgba(255, 255, 255, 0.05);
-  --border-color: rgba(255, 255, 255, 0.08);
+  --bg-base: rgba(20, 22, 25, 0.78);
+  --bg-sidebar: transparent;
+  --bg-card: rgba(46, 48, 52, 0.32);
+  --bg-card-hover: rgba(65, 68, 73, 0.46);
+  --bg-input: rgba(255, 255, 255, 0.045);
+  --border-color: rgba(240, 242, 246, 0.2);
   --border-subtle: rgba(255, 255, 255, 0.04);
-  --text-primary: #ffffff;
-  --text-secondary: #9ca3af;
-  --text-muted: #6b7280;
+  --text-primary: #f5f5f7;
+  --text-secondary: #b3b4bc;
+  --text-muted: #9798a1;
+  --glass-wallpaper: radial-gradient(ellipse at 4% 14%, rgba(225, 228, 234, 0.12), transparent 56%), radial-gradient(ellipse at 95% 92%, rgba(192, 196, 202, 0.08), transparent 58%);
+  --glass-ambient: radial-gradient(ellipse at 12% 38%, rgba(225, 228, 234, 0.15), transparent 42%), radial-gradient(ellipse at 86% 68%, rgba(198, 201, 207, 0.12), transparent 44%);
+  --glass-highlight: rgba(255, 255, 255, 0.28);
+  --glass-shadow: rgba(0, 0, 0, 0.38);
+  --glass-secondary: rgba(255, 255, 255, 0.055);
+  --glass-control: rgba(242, 242, 246, 0.12);
+  --glass-sheen: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.025) 38%, transparent 65%, rgba(240, 242, 246, 0.08));
+  --glass-tint: 205, 210, 218;
+  --glass-tint-alpha: 0;
+  --glass-glow-alpha: 0;
+  --glass-border-alpha: 0.23;
+  --glass-on-text: #65edaa;
+  --glass-planned-text: #ffd477;
 }
 
 :root[data-theme="glass"][data-glass-mode="light"], html[data-theme="glass"][data-glass-mode="light"], body[data-theme="glass"][data-glass-mode="light"] {
-  --bg-base: #eef2f7;
-  --bg-sidebar: rgba(255, 255, 255, 0.72);
-  --bg-card: rgba(255, 255, 255, 0.65);
-  --bg-card-hover: rgba(255, 255, 255, 0.85);
-  --bg-input: rgba(255, 255, 255, 0.75);
-  --border-color: rgba(0, 0, 0, 0.08);
+  --bg-base: rgba(232, 241, 248, 0.76);
+  --bg-sidebar: transparent;
+  --bg-card: rgba(255, 255, 255, 0.34);
+  --bg-card-hover: rgba(255, 255, 255, 0.56);
+  --bg-input: rgba(0, 0, 0, 0.025);
+  --border-color: rgba(255, 255, 255, 0.55);
   --border-subtle: rgba(0, 0, 0, 0.04);
-  --text-primary: #111827;
-  --text-secondary: #4b5563;
-  --text-muted: #6b7280;
+  --text-primary: #1d1d1f;
+  --text-secondary: #606168;
+  --text-muted: #72737b;
+  --status-on: #24804f;
+  --status-off: #cf352e;
+  --status-warn: #a65c08;
+  --glass-wallpaper: radial-gradient(ellipse at 4% 14%, rgba(105, 174, 205, 0.13), transparent 56%), radial-gradient(ellipse at 95% 92%, rgba(174, 158, 220, 0.14), transparent 58%);
+  --glass-ambient: radial-gradient(ellipse at 12% 38%, rgba(99, 187, 221, 0.2), transparent 42%), radial-gradient(ellipse at 86% 68%, rgba(153, 133, 220, 0.15), transparent 44%);
+  --glass-highlight: rgba(255, 255, 255, 0.92);
+  --glass-shadow: rgba(34, 59, 83, 0.15);
+  --glass-secondary: rgba(255, 255, 255, 0.23);
+  --glass-control: rgba(255, 255, 255, 0.46);
+  --glass-sheen: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.05) 38%, transparent 65%, rgba(255, 255, 255, 0.36));
+  --glass-tint: 98, 125, 154;
+  --glass-border-alpha: 0.2;
+  --glass-on-text: #167044;
+  --glass-planned-text: #895008;
 }
 
 :root[data-accent="blue"], html[data-accent="blue"], body[data-accent="blue"] {

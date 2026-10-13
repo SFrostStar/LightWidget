@@ -1,0 +1,2623 @@
+[
+  {
+    "id": "46bf03275b33385b21e12e4b",
+    "name": "Big Sur Aerial",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/46bf03275b33385b21e12e4b.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/e6674785e7325590a4498f54a6554f90c69c7b45.zip",
+    "kind": "zip",
+    "bytes": 13266726,
+    "asset_id": "Big Sur Aerial",
+    "sha1": "10aee153e55fda94f30b8ac851148b478236873f"
+  },
+  {
+    "id": "6ba0382fd624702a0f49a73a",
+    "name": "Big Sur Coastline",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/6ba0382fd624702a0f49a73a.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/bec472e7c6e54ee0765abffa76c624290b9ef2c2.zip",
+    "kind": "zip",
+    "bytes": 21894559,
+    "asset_id": "Big Sur Coastline",
+    "sha1": "ec62d12287ef5c6975df7211a183131cb4ddc49b"
+  },
+  {
+    "id": "4e588d158da292d83013ac93",
+    "name": "Big Sur Graphic",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/4e588d158da292d83013ac93.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/2d33861f84f21757db8d5cc656ae09b1143a2c73.zip",
+    "kind": "zip",
+    "bytes": 31785016,
+    "asset_id": "Big Sur Graphic",
+    "sha1": "8170efe31bd7732c36a9220b67e1f60a8ea31779"
+  },
+  {
+    "id": "2790377d08597c7afb3e16a1",
+    "name": "Big Sur Horizon",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/2790377d08597c7afb3e16a1.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/523018afdcacd0fc99fa9364013ed6218aea745e.zip",
+    "kind": "zip",
+    "bytes": 14934578,
+    "asset_id": "Big Sur Horizon",
+    "sha1": "4f1d20df0e33a9b1e18aaad68e089557e21e3ac5"
+  },
+  {
+    "id": "6b03be59252563498feedeb0",
+    "name": "Big Sur Mountains",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/6b03be59252563498feedeb0.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/7a1f6e346a253992b2df0358398caafb6d75fe4a.zip",
+    "kind": "zip",
+    "bytes": 13553232,
+    "asset_id": "Big Sur Mountains",
+    "sha1": "63fda852933a5481bee4940fd4a6754ba596d26c"
+  },
+  {
+    "id": "8f26ce3d073ea389e146134c",
+    "name": "Big Sur Night Grasses",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/8f26ce3d073ea389e146134c.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/2a4e3657b33078a98b8ed335adfedb5b600bafae.zip",
+    "kind": "zip",
+    "bytes": 17050014,
+    "asset_id": "Big Sur Night Grasses",
+    "sha1": "7d30339dec7526dfb63b8816c108c76e55295a0c"
+  },
+  {
+    "id": "22633da699ec67b0bb4f29b9",
+    "name": "Big Sur Night Succulents",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/22633da699ec67b0bb4f29b9.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/7eb0f47dc8ea3304979f42765c14af2a35f9590b.zip",
+    "kind": "zip",
+    "bytes": 9793976,
+    "asset_id": "Big Sur Night Succulents",
+    "sha1": "88f5c6621cfbf27be9d4b771d0e5d53b57e247ef"
+  },
+  {
+    "id": "39efca246e3125fb888ae314",
+    "name": "Big Sur Road",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/39efca246e3125fb888ae314.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/643aa03a1828fb2170170ef999b18900bd6b26f6.zip",
+    "kind": "zip",
+    "bytes": 14887893,
+    "asset_id": "Big Sur Road",
+    "sha1": "d2b9679e31e62b5bfb77e551ef04680a9713287c"
+  },
+  {
+    "id": "0b2fb62759049ff675ee664a",
+    "name": "Big Sur Shore Rocks",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/0b2fb62759049ff675ee664a.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/66fad172df2e61ff98e9a70d403fb50ca3af1d4e.zip",
+    "kind": "zip",
+    "bytes": 8210968,
+    "asset_id": "Big Sur Shore Rocks",
+    "sha1": "827b2165ceec07f0305bf23deaa86fbf43e73cb7"
+  },
+  {
+    "id": "92fbf83c97a75078a3fde6bc",
+    "name": "Big Sur Waters Edge",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/92fbf83c97a75078a3fde6bc.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/1ad4d39118248bd2a623370876767bd4ed3eeeee.zip",
+    "kind": "zip",
+    "bytes": 20292979,
+    "asset_id": "Big Sur Waters Edge",
+    "sha1": "b00db23f9ec6bb325b64d60af5e7c04ed17be2f6"
+  },
+  {
+    "id": "a3b4276d89b412ad7cd747ed",
+    "name": "Big Sur",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/a3b4276d89b412ad7cd747ed.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/e9ff802c97332d002b37836419590a2b1ff3bcc9.zip",
+    "kind": "zip",
+    "bytes": 138805013,
+    "asset_id": "Big Sur",
+    "sha1": "20fe0959ea64ef62b1d524c7d5df716615012e04"
+  },
+  {
+    "id": "21ba889cb84530ff37f55210",
+    "name": "Catalina Clouds",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/21ba889cb84530ff37f55210.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/866514bba2be10285b3c5bb2dfef3c40a6946829.zip",
+    "kind": "zip",
+    "bytes": 12840678,
+    "asset_id": "Catalina Clouds",
+    "sha1": "71726cd0c7b5d8ab52ddf635e508906773fc624c"
+  },
+  {
+    "id": "3e9ee7b0154f43f36be72401",
+    "name": "Catalina Coast",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/3e9ee7b0154f43f36be72401.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/c6c9ca41d1881e844e85e85a5147613b807b06d0.zip",
+    "kind": "zip",
+    "bytes": 14402967,
+    "asset_id": "Catalina Coast",
+    "sha1": "dc8a387bf014c52ed957cff124836f8f04a51281"
+  },
+  {
+    "id": "3fcb3e3b68eafe3fa80e09ae",
+    "name": "Catalina Evening",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/3fcb3e3b68eafe3fa80e09ae.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/65338fda7d341b30bcdbd0b3bcdb411c033e6c11.zip",
+    "kind": "zip",
+    "bytes": 15793019,
+    "asset_id": "Catalina Evening",
+    "sha1": "be00192d89514940f260fc40a3ba628ebd194d5d"
+  },
+  {
+    "id": "f6d753d7ae0e2c9bf02a9e4a",
+    "name": "Catalina Rock",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/f6d753d7ae0e2c9bf02a9e4a.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/6b1ccf74a04b6992e044af258a5b4662485a8994.zip",
+    "kind": "zip",
+    "bytes": 18596980,
+    "asset_id": "Catalina Rock",
+    "sha1": "e9021cf1088933f06c36a14017cd4479c087d342"
+  },
+  {
+    "id": "ec49a34e4d7cb3e2205ed11e",
+    "name": "Catalina Shoreline",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/ec49a34e4d7cb3e2205ed11e.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/a8af0c8d16da2a3b7e7324ad0798d758d0c5f5e4.zip",
+    "kind": "zip",
+    "bytes": 20245373,
+    "asset_id": "Catalina Shoreline",
+    "sha1": "af3a4a44c8c3c640c950846b3a41951d632e0b12"
+  },
+  {
+    "id": "f3a6bdea53c1a28fc30bc6f4",
+    "name": "Catalina Silhouette",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/f3a6bdea53c1a28fc30bc6f4.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/db05089e5e432fda7e4e339c4c7e2d36a804bf0d.zip",
+    "kind": "zip",
+    "bytes": 12798160,
+    "asset_id": "Catalina Silhouette",
+    "sha1": "4aa8b4fa5efb5b4a1c7cfaa91871bf83217881a4"
+  },
+  {
+    "id": "6cd309699fd9c54e3e5f8470",
+    "name": "Catalina Sunset",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/6cd309699fd9c54e3e5f8470.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/b991ac5063c6da73ac1bada9fc94f7e934bd6c03.zip",
+    "kind": "zip",
+    "bytes": 8978737,
+    "asset_id": "Catalina Sunset",
+    "sha1": "ff38cd4ffcd1d72c92104d9316b662173a4d9976"
+  },
+  {
+    "id": "0b440adc4b7e07912c0cab5f",
+    "name": "Catalina",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/0b440adc4b7e07912c0cab5f.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/59afad4cd59fa0713aff335c9337625a1f66f4ef.zip",
+    "kind": "zip",
+    "bytes": 124505642,
+    "asset_id": "Catalina",
+    "sha1": "5c47621c6abfeff841b73bb12571154509172bab"
+  },
+  {
+    "id": "3539c7534a3d105207a1c97e",
+    "name": "Chroma Blue",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/3539c7534a3d105207a1c97e.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/c10062037442790cb997ab928d7333522a254a6e.zip",
+    "kind": "zip",
+    "bytes": 41222580,
+    "asset_id": "Chroma Blue",
+    "sha1": "ff4bc8319912a8958c2786d3ee767f9af5b8c5e5"
+  },
+  {
+    "id": "59c43064f55a452fdecc93c5",
+    "name": "Chroma Red",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/59c43064f55a452fdecc93c5.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/da5d0b60cde5324bd9c227b1884bb5f53c946bcd.zip",
+    "kind": "zip",
+    "bytes": 41338164,
+    "asset_id": "Chroma Red",
+    "sha1": "ac8785de925dbd515958ac374d5790d800b1a3ac"
+  },
+  {
+    "id": "f782f80cbeb9d7ebbb60e433",
+    "name": "Dome",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/f782f80cbeb9d7ebbb60e433.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/700df67acddd65e58b6e3721423d0b068a069bd2.zip",
+    "kind": "zip",
+    "bytes": 40200118,
+    "asset_id": "Dome",
+    "sha1": "d4cc37f7a33cb199abf7749c99d1caaa71156b36"
+  },
+  {
+    "id": "99bd33e5812adf7dd3bfc6f7",
+    "name": "Grid Green",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/99bd33e5812adf7dd3bfc6f7.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/095efa5298db0ebd6b7e412a7c85584485a48f5d.zip",
+    "kind": "zip",
+    "bytes": 17225914,
+    "asset_id": "Grid Green",
+    "sha1": "96519d9ea0eec3fe0f8d2abc4c59e571acdb54e4"
+  },
+  {
+    "id": "ca0aee6cc9c83f30be6ce066",
+    "name": "Grid Magenta",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/ca0aee6cc9c83f30be6ce066.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/9b98e19d6f089acf511b530882fa3753e879514c.zip",
+    "kind": "zip",
+    "bytes": 17957829,
+    "asset_id": "Grid Magenta",
+    "sha1": "d718f56c2d1f8da5925c06a19a5532ed4d3170b3"
+  },
+  {
+    "id": "c2aa2d917a5381396a65884e",
+    "name": "Hello Metallic Blue",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/c2aa2d917a5381396a65884e.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/99b5ae52256c44965a1265411ce184d6a1f2cf2a.zip",
+    "kind": "zip",
+    "bytes": 18816578,
+    "asset_id": "Hello Metallic Blue",
+    "sha1": "4029f876006719958b073e95f523225dc5ad32bd"
+  },
+  {
+    "id": "91836a6a01e9227beeae9f5c",
+    "name": "Hello Metallic Green",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/91836a6a01e9227beeae9f5c.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/b702030fee930d9dab07f83c10f9f30a9a5d4bb1.zip",
+    "kind": "zip",
+    "bytes": 18490946,
+    "asset_id": "Hello Metallic Green",
+    "sha1": "641920c6d1ed0afd0d16a21b5e17fa7e18cbbd25"
+  },
+  {
+    "id": "9b6289aa9659ae11374dcc11",
+    "name": "Hello Metallic Orange",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/9b6289aa9659ae11374dcc11.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/62f0ced59f28f8e65d41754786008d627c443257.zip",
+    "kind": "zip",
+    "bytes": 18410319,
+    "asset_id": "Hello Metallic Orange",
+    "sha1": "b82bda47f127450b20ca3debc34a000dc97f435e"
+  },
+  {
+    "id": "f36082ca867e14d348119846",
+    "name": "Hello Metallic Pink",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/f36082ca867e14d348119846.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/c0a150b6685ed05aa91c2ceb8d1b37fbd342ba70.zip",
+    "kind": "zip",
+    "bytes": 18533344,
+    "asset_id": "Hello Metallic Pink",
+    "sha1": "ccf65e7b3c7b3289d25ad2bcb4adbf7f095e5d5f"
+  },
+  {
+    "id": "42c590a1abd215fd6c2e7bae",
+    "name": "Hello Metallic Purple",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/42c590a1abd215fd6c2e7bae.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/6e4c91a8cfa767aca5ba477906fa517735867980.zip",
+    "kind": "zip",
+    "bytes": 18340604,
+    "asset_id": "Hello Metallic Purple",
+    "sha1": "837ee9ae78756e5f65a50e5a05cd2821b07a1f86"
+  },
+  {
+    "id": "e754a3cc709f77be9178bf56",
+    "name": "Hello Metallic Silver",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/e754a3cc709f77be9178bf56.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/e4a826e3959d9384a72276e3a15176721a5b41c3.zip",
+    "kind": "zip",
+    "bytes": 18962992,
+    "asset_id": "Hello Metallic Silver",
+    "sha1": "0f2fb2e549bfaa836d4315026dd74ffbe75fae94"
+  },
+  {
+    "id": "ada67df158fa197e9b50614e",
+    "name": "Hello Metallic Yellow",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/ada67df158fa197e9b50614e.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/144035e268dafaa04813eb94b278d7615bcdf63a.zip",
+    "kind": "zip",
+    "bytes": 18336209,
+    "asset_id": "Hello Metallic Yellow",
+    "sha1": "687f0f935a3ab88508f163984860a7faf1b6fbf7"
+  },
+  {
+    "id": "a70146e72c9036835cedcf6e",
+    "name": "Iridescence",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/a70146e72c9036835cedcf6e.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/46e6686aa6843d0644e4c30e615a2711fefdbf18.zip",
+    "kind": "zip",
+    "bytes": 17440294,
+    "asset_id": "Iridescence",
+    "sha1": "7639b1ec04ca56984fa8c695fd4be770dea5e2c0"
+  },
+  {
+    "id": "b88062190106bd7d8e389fc4",
+    "name": "Light Stream Blue",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/b88062190106bd7d8e389fc4.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/60e9e8ca2c917f52897508b8c28bd5e8975a42f0.zip",
+    "kind": "zip",
+    "bytes": 5250245,
+    "asset_id": "Light Stream Blue",
+    "sha1": "95a3df549c182965e21f4fe32b0b939cdc4b8bfb"
+  },
+  {
+    "id": "04d4473d7c5c91c2b275a56c",
+    "name": "Light Stream Green",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/04d4473d7c5c91c2b275a56c.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/d3d47f26926d43ff23ac36ea6ded7204d0e1984a.zip",
+    "kind": "zip",
+    "bytes": 1913649,
+    "asset_id": "Light Stream Green",
+    "sha1": "38f316300a28dec2f7eef2f6342d82b9fd5a6d62"
+  },
+  {
+    "id": "d9e56fd775cd456ebd709b0a",
+    "name": "Light Stream Pink",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/d9e56fd775cd456ebd709b0a.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/770b074cd6480fdcc2d012b8283ef38db71ac611.zip",
+    "kind": "zip",
+    "bytes": 5912501,
+    "asset_id": "Light Stream Pink",
+    "sha1": "ad79681921d8d1daa633e6b815fba0ff86a63916"
+  },
+  {
+    "id": "330fe4e96c3c8cf83d02dab6",
+    "name": "Light Stream Red",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/330fe4e96c3c8cf83d02dab6.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/ee0fb28865726fdda48d21a58d57a5a1993c143a.zip",
+    "kind": "zip",
+    "bytes": 4885001,
+    "asset_id": "Light Stream Red",
+    "sha1": "a6dd9af7898e45cc9afa3e74c34f03ed4c4796b0"
+  },
+  {
+    "id": "6729f115f2d1d9aff6a5fa96",
+    "name": "Mac Blue",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/6729f115f2d1d9aff6a5fa96.jpg",
+    "local": "/System/Library/Desktop Pictures/Mac Blue.heic",
+    "builtin": "images/6729f115f2d1d9aff6a5fa96.jpg"
+  },
+  {
+    "id": "9c2c8d61fa9f981d6ba6c14e",
+    "name": "Mac Pink",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/9c2c8d61fa9f981d6ba6c14e.jpg",
+    "local": "/System/Library/Desktop Pictures/Mac Pink.heic",
+    "builtin": "images/9c2c8d61fa9f981d6ba6c14e.jpg"
+  },
+  {
+    "id": "85617cc744b40f63c085a697",
+    "name": "Mac Purple",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/85617cc744b40f63c085a697.jpg",
+    "local": "/System/Library/Desktop Pictures/Mac Purple.heic",
+    "builtin": "images/85617cc744b40f63c085a697.jpg"
+  },
+  {
+    "id": "7b531c7f104780e2bc5da2fe",
+    "name": "Mac Yellow",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/7b531c7f104780e2bc5da2fe.jpg",
+    "local": "/System/Library/Desktop Pictures/Mac Yellow.heic",
+    "builtin": "images/7b531c7f104780e2bc5da2fe.jpg"
+  },
+  {
+    "id": "7ea9dcd743e02dc1ba282387",
+    "name": "Monterey Graphic",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/7ea9dcd743e02dc1ba282387.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/d4c77cf4009c1bdab346ae382e6ba4dda4771044.zip",
+    "kind": "zip",
+    "bytes": 98039872,
+    "asset_id": "Monterey Graphic",
+    "sha1": "00a9a2d7c35fe680e5c39a9342006b246cc98e91"
+  },
+  {
+    "id": "5da786054a788b96ec76dcf3",
+    "name": "Motion Blue",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/5da786054a788b96ec76dcf3.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/c980841e99225d1fd043cce976b8a98d7364473f.zip",
+    "kind": "zip",
+    "bytes": 30800748,
+    "asset_id": "Motion Blue",
+    "sha1": "c5981350f0c251909b87bada32735e9abe989ab4"
+  },
+  {
+    "id": "2d0101f47f43533342394b4d",
+    "name": "Motion Green",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/2d0101f47f43533342394b4d.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/2a2e2a41296261e08c333d869436e7a29c762291.zip",
+    "kind": "zip",
+    "bytes": 30232656,
+    "asset_id": "Motion Green",
+    "sha1": "633753b487ba9999da966bff28858c2bc2234d78"
+  },
+  {
+    "id": "fc555a91b37cdd1b13bc123c",
+    "name": "Motion Purple",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/fc555a91b37cdd1b13bc123c.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/a1fc8d2763199f7666431ee9535e32a725e5d7fd.zip",
+    "kind": "zip",
+    "bytes": 31303335,
+    "asset_id": "Motion Purple",
+    "sha1": "a234316dbf6e12f0e187e5a3fc4dca7930cbcee9"
+  },
+  {
+    "id": "c500172b7e67edea53e92908",
+    "name": "Motion Yellow",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/c500172b7e67edea53e92908.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/7e62dd4fcacffe819b2b9da76d25dab6228a06be.zip",
+    "kind": "zip",
+    "bytes": 30166074,
+    "asset_id": "Motion Yellow",
+    "sha1": "8ce364f042572e68565aedb8c927adefd433492c"
+  },
+  {
+    "id": "8450592249077308dce94e9e",
+    "name": "Peak",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/8450592249077308dce94e9e.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/4d89b93aeffee77ead39815db6644b1b596b3d42.zip",
+    "kind": "zip",
+    "bytes": 25319684,
+    "asset_id": "Peak",
+    "sha1": "6865a91e177ee057b154077a2d97e6f730e72578"
+  },
+  {
+    "id": "069c03494cb63c6f018a061c",
+    "name": "Pro Black",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/069c03494cb63c6f018a061c.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/af387372ce7f6bcf1af7bea584e6655bcf3b6116.zip",
+    "kind": "zip",
+    "bytes": 13152403,
+    "asset_id": "Pro Black",
+    "sha1": "44707fed28b85119653eb90cec0e5abf9fd145e5"
+  },
+  {
+    "id": "eda850c94cd5557f002d9426",
+    "name": "Radial Blue",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/eda850c94cd5557f002d9426.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/c76b3a1d64ec1ed2893389953c9f5b369b7020d0.zip",
+    "kind": "zip",
+    "bytes": 20919093,
+    "asset_id": "Radial Blue",
+    "sha1": "4e57b195b906fae579209766d595d86c6702c28f"
+  },
+  {
+    "id": "10bd9689e830273096da4bbe",
+    "name": "Radial Green",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/10bd9689e830273096da4bbe.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/e996bbb1e7c7aa19cb1822af28b163977a1dac72.zip",
+    "kind": "zip",
+    "bytes": 20691877,
+    "asset_id": "Radial Green",
+    "sha1": "4c302ab3c647ac7fc9d8b387e6d7421af4c67435"
+  },
+  {
+    "id": "8a6f7d6d0543b3002c33fd10",
+    "name": "Radial Purple",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/8a6f7d6d0543b3002c33fd10.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/c4a6e6bbb4c49c8c9b4be2a0bddc54debcf54311.zip",
+    "kind": "zip",
+    "bytes": 20831031,
+    "asset_id": "Radial Purple",
+    "sha1": "fd4bc205a02b5c72b29e9b344f5e203d99c4aee1"
+  },
+  {
+    "id": "4ec16c520b11d7d3b6e8e776",
+    "name": "Radial Sky Blue",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/4ec16c520b11d7d3b6e8e776.jpg",
+    "local": "/System/Library/Desktop Pictures/Radial Sky Blue.heic",
+    "builtin": "images/4ec16c520b11d7d3b6e8e776.jpg"
+  },
+  {
+    "id": "e2a5fbd96b86036b84212ba8",
+    "name": "Radial Yellow",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/e2a5fbd96b86036b84212ba8.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/5d9af619c752c0363961aaf546dc35fff2480ef1.zip",
+    "kind": "zip",
+    "bytes": 20944670,
+    "asset_id": "Radial Yellow",
+    "sha1": "fe3d14075f5f21a005b348d36ff3702b55e82229"
+  },
+  {
+    "id": "b0a1151cffa35370b3581672",
+    "name": "Solar Gradients",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/b0a1151cffa35370b3581672.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/7cb979f0eb47600cc8e4e508c805edf70c7bb49f.zip",
+    "kind": "zip",
+    "bytes": 80834724,
+    "asset_id": "Solar Gradients",
+    "sha1": "c44b1b3841d951eec290e0a1660b422c2c5f98ee"
+  },
+  {
+    "id": "4cccbce6511b860b68cb4e18",
+    "name": "Sonoma",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/4cccbce6511b860b68cb4e18.jpg",
+    "local": "/System/Library/Desktop Pictures/Sonoma.heic",
+    "builtin": "images/4cccbce6511b860b68cb4e18.jpg"
+  },
+  {
+    "id": "f93ae0b2cf3ad1f84a7f85df",
+    "name": "Studio Color",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/f93ae0b2cf3ad1f84a7f85df.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/0830ece064a9b3ac731d75e63ba0bacccd9c199e.zip",
+    "kind": "zip",
+    "bytes": 10188474,
+    "asset_id": "Studio Color",
+    "sha1": "0607baaf77629c30d229819ff25c4e217915cfeb"
+  },
+  {
+    "id": "814bce3f194968e23d4c8d90",
+    "name": "The Beach",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/814bce3f194968e23d4c8d90.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/c854fc48a85b79733a549908eb9959b80f08ba59.zip",
+    "kind": "zip",
+    "bytes": 65395097,
+    "asset_id": "The Beach",
+    "sha1": "846a107c3502a5afa06cd9580a302e120ddfcf84"
+  },
+  {
+    "id": "7ca06591470a59bbba3118ff",
+    "name": "The Cliffs",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/7ca06591470a59bbba3118ff.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/4ec43fc83806b6c451a59211da2824ffd353ccc9.zip",
+    "kind": "zip",
+    "bytes": 78362522,
+    "asset_id": "The Cliffs",
+    "sha1": "00ad44bd2b6b38c781f2acf737f03ac729f5cc7f"
+  },
+  {
+    "id": "60d207ff4404b5369c05e52f",
+    "name": "The Desert",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/60d207ff4404b5369c05e52f.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/ae505af39585154da2b94a135c385a2b686a8016.zip",
+    "kind": "zip",
+    "bytes": 74281410,
+    "asset_id": "The Desert",
+    "sha1": "f6d3c0fbc99dcd9a053fe4829e5821dd9f462362"
+  },
+  {
+    "id": "65bbd3f19809e91c921cb5a5",
+    "name": "The Lake",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/65bbd3f19809e91c921cb5a5.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/80f7969da23eae78caac64a3c7748c68c7ddf5df.zip",
+    "kind": "zip",
+    "bytes": 81428433,
+    "asset_id": "The Lake",
+    "sha1": "674d9dad21b7b6d72d44c9a5cd84f2a3f8b37ac6"
+  },
+  {
+    "id": "6d0894ab46dee7a1ee1ee229",
+    "name": "Tree",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/6d0894ab46dee7a1ee1ee229.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/2fc0a3524fa9752a3179f8de08e37389be1fb767.zip",
+    "kind": "zip",
+    "bytes": 29987051,
+    "asset_id": "Tree",
+    "sha1": "b777321ff7b86b4dd00868561022879092a95a99"
+  },
+  {
+    "id": "03da3267ab4488afb18cc642",
+    "name": "Valley",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/03da3267ab4488afb18cc642.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/c46a95be4c411a59841ade83a26a1971ed9ffc97.zip",
+    "kind": "zip",
+    "bytes": 33064644,
+    "asset_id": "Valley",
+    "sha1": "c1fc62ef3877d3b958497fd9d8a3dfa265f66acb"
+  },
+  {
+    "id": "499c621dea9fcb50431b8629",
+    "name": "Ventura Graphic",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/499c621dea9fcb50431b8629.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/f6c545d6b10bb0210fff16d65aa64c27e7ad834c.zip",
+    "kind": "zip",
+    "bytes": 32020301,
+    "asset_id": "Ventura Graphic",
+    "sha1": "2be4b1cfe2d066e0408b7d54b415843a542ea266"
+  },
+  {
+    "id": "1911c5522c77c7e1aa7706e1",
+    "name": "hello Blue",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/1911c5522c77c7e1aa7706e1.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/1f75d474c7a88814613bc585a6bcd757106af8e1.zip",
+    "kind": "zip",
+    "bytes": 9503084,
+    "asset_id": "hello Blue",
+    "sha1": "2b520045edb70fed25c9045d3cf03b1f42349d7b"
+  },
+  {
+    "id": "27b3adcc21b1c58c3c785e45",
+    "name": "hello Green",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/27b3adcc21b1c58c3c785e45.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/e85b2f5fc4580f61f39b94165ad61efb4207bb56.zip",
+    "kind": "zip",
+    "bytes": 13448284,
+    "asset_id": "hello Green",
+    "sha1": "2ebabce92cc242844142f6c751ac8900f513941a"
+  },
+  {
+    "id": "a370da7c6a5f3b14d29ad876",
+    "name": "hello Grey",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/a370da7c6a5f3b14d29ad876.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/a34ef9bad7df959105cd068e2ecb29bc05110fdf.zip",
+    "kind": "zip",
+    "bytes": 9730481,
+    "asset_id": "hello Grey",
+    "sha1": "f7bc452709cb88297446a7c2e9f6809d06eef150"
+  },
+  {
+    "id": "a8bb1ff90b2dd5b5bead80c0",
+    "name": "hello Orange",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/a8bb1ff90b2dd5b5bead80c0.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/97345aeb6f761e9a2a1eb13200d76b81254a6a25.zip",
+    "kind": "zip",
+    "bytes": 8284291,
+    "asset_id": "hello Orange",
+    "sha1": "74e205c02292045d0b26c9d7bd8766547192257a"
+  },
+  {
+    "id": "eda4b0dd5292d7a632f1eb1c",
+    "name": "hello Purple",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/eda4b0dd5292d7a632f1eb1c.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/b6ad8dc52b9aa87aeee43f5cba04a59f0f4f7b8d.zip",
+    "kind": "zip",
+    "bytes": 8778259,
+    "asset_id": "hello Purple",
+    "sha1": "04d6e6d85c2aa7cc55750f7b47f7074d67fa721f"
+  },
+  {
+    "id": "d41020dab620afecfb773dff",
+    "name": "hello Red",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/d41020dab620afecfb773dff.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/a8da7fa047e9db7f9ec8d92e0258edad84746f82.zip",
+    "kind": "zip",
+    "bytes": 8498050,
+    "asset_id": "hello Red",
+    "sha1": "e88e586537c0210a17a0f897ba98fbed5671b526"
+  },
+  {
+    "id": "f2ce9110accdb60c07c96534",
+    "name": "hello Yellow",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/f2ce9110accdb60c07c96534.jpg",
+    "url": "https://updates.cdn-apple.com/2025/mobileassets/072-29818/74AF556A-DC02-429B-894B-23AB61E2A5F9/com_apple_MobileAsset_DesktopPicture/856383b1ab7eb1b08c917d58711ff27f0aafd724.zip",
+    "kind": "zip",
+    "bytes": 6976105,
+    "asset_id": "hello Yellow",
+    "sha1": "fe475a61b9c9a6d3993797413f319ee584d49f6e"
+  },
+  {
+    "id": "16a3dbff4184884199797b21",
+    "name": "iMac Blue",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/16a3dbff4184884199797b21.jpg",
+    "local": "/System/Library/Desktop Pictures/iMac Blue.heic",
+    "builtin": "images/16a3dbff4184884199797b21.jpg"
+  },
+  {
+    "id": "8ad5f94533786ad728531bf5",
+    "name": "iMac Green",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/8ad5f94533786ad728531bf5.jpg",
+    "local": "/System/Library/Desktop Pictures/iMac Green.heic",
+    "builtin": "images/8ad5f94533786ad728531bf5.jpg"
+  },
+  {
+    "id": "9092d2735d6463791bcb7ca9",
+    "name": "iMac Orange",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/9092d2735d6463791bcb7ca9.jpg",
+    "local": "/System/Library/Desktop Pictures/iMac Orange.heic",
+    "builtin": "images/9092d2735d6463791bcb7ca9.jpg"
+  },
+  {
+    "id": "6e15c72c2870ecbd5377629a",
+    "name": "iMac Pink",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/6e15c72c2870ecbd5377629a.jpg",
+    "local": "/System/Library/Desktop Pictures/iMac Pink.heic",
+    "builtin": "images/6e15c72c2870ecbd5377629a.jpg"
+  },
+  {
+    "id": "2f2b02a04681cf215d1c3660",
+    "name": "iMac Purple",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/2f2b02a04681cf215d1c3660.jpg",
+    "local": "/System/Library/Desktop Pictures/iMac Purple.heic",
+    "builtin": "images/2f2b02a04681cf215d1c3660.jpg"
+  },
+  {
+    "id": "569b755a86e573e8764ee483",
+    "name": "iMac Silver",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/569b755a86e573e8764ee483.jpg",
+    "local": "/System/Library/Desktop Pictures/iMac Silver.heic",
+    "builtin": "images/569b755a86e573e8764ee483.jpg"
+  },
+  {
+    "id": "0a03b4c76eff38171905c2aa",
+    "name": "iMac Yellow",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/0a03b4c76eff38171905c2aa.jpg",
+    "local": "/System/Library/Desktop Pictures/iMac Yellow.heic",
+    "builtin": "images/0a03b4c76eff38171905c2aa.jpg"
+  },
+  {
+    "id": "a26da046a28bd4073fca4999",
+    "name": "Tahoe Light",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/a26da046a28bd4073fca4999.jpg",
+    "local": "/System/Library/ExtensionKit/Extensions/NeptuneOneWallpaper.appex/Contents/Resources/TahoeLight.heic",
+    "builtin": "images/a26da046a28bd4073fca4999.jpg"
+  },
+  {
+    "id": "3d695d302efdec6e12feb794",
+    "name": "Tahoe Dark",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/3d695d302efdec6e12feb794.jpg",
+    "local": "/System/Library/ExtensionKit/Extensions/NeptuneOneWallpaper.appex/Contents/Resources/TahoeDark.heic",
+    "builtin": "images/3d695d302efdec6e12feb794.jpg"
+  },
+  {
+    "id": "de65705754b54bbadaf5f5d3",
+    "name": "Sequoia Light",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/de65705754b54bbadaf5f5d3.jpg",
+    "local": "/System/Library/ExtensionKit/Extensions/WallpaperSequoiaExtension.appex/Contents/Resources/thumbnail light.heic",
+    "builtin": "images/de65705754b54bbadaf5f5d3.jpg"
+  },
+  {
+    "id": "6189097187046816a067f330",
+    "name": "Sequoia Dark",
+    "category": "Обои macOS",
+    "preview": "wallpapers/previews/6189097187046816a067f330.jpg",
+    "local": "/System/Library/ExtensionKit/Extensions/WallpaperSequoiaExtension.appex/Contents/Resources/thumbnail dark.heic",
+    "builtin": "images/6189097187046816a067f330.jpg"
+  },
+  {
+    "id": "bf145186d6aba574a9276ef6",
+    "name": "Black",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/bf145186d6aba574a9276ef6.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Black.png",
+    "builtin": "images/bf145186d6aba574a9276ef6.jpg"
+  },
+  {
+    "id": "a7c79eb7cc673d722a3754d6",
+    "name": "Blue Violet",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/a7c79eb7cc673d722a3754d6.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Blue Violet.png",
+    "builtin": "images/a7c79eb7cc673d722a3754d6.jpg"
+  },
+  {
+    "id": "168d777805273dddca881d44",
+    "name": "Cyan",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/168d777805273dddca881d44.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Cyan.png",
+    "builtin": "images/168d777805273dddca881d44.jpg"
+  },
+  {
+    "id": "be95d1c9f9d04cc74e677bfe",
+    "name": "Dusty Rose",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/be95d1c9f9d04cc74e677bfe.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Dusty Rose.png",
+    "builtin": "images/be95d1c9f9d04cc74e677bfe.jpg"
+  },
+  {
+    "id": "873ed4a377510ac99e8c56b7",
+    "name": "Electric Blue",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/873ed4a377510ac99e8c56b7.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Electric Blue.png",
+    "builtin": "images/873ed4a377510ac99e8c56b7.jpg"
+  },
+  {
+    "id": "24548e1de9e3f86d95bbdb44",
+    "name": "Gold 2",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/24548e1de9e3f86d95bbdb44.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Gold 2.png",
+    "builtin": "images/24548e1de9e3f86d95bbdb44.jpg"
+  },
+  {
+    "id": "ab9efa835cd5de0b551f8969",
+    "name": "Gold",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/ab9efa835cd5de0b551f8969.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Gold.png",
+    "builtin": "images/ab9efa835cd5de0b551f8969.jpg"
+  },
+  {
+    "id": "067ca20c2c71428ff82bb9d6",
+    "name": "Ocher",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/067ca20c2c71428ff82bb9d6.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Ocher.png",
+    "builtin": "images/067ca20c2c71428ff82bb9d6.jpg"
+  },
+  {
+    "id": "b77e4f68e4939f747ca8f234",
+    "name": "Plum",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/b77e4f68e4939f747ca8f234.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Plum.png",
+    "builtin": "images/b77e4f68e4939f747ca8f234.jpg"
+  },
+  {
+    "id": "f2227a037dc2dd90c2d2d320",
+    "name": "Red Orange",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/f2227a037dc2dd90c2d2d320.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Red Orange.png",
+    "builtin": "images/f2227a037dc2dd90c2d2d320.jpg"
+  },
+  {
+    "id": "b806480cbefe6adc84245a1d",
+    "name": "Rose Gold",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/b806480cbefe6adc84245a1d.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Rose Gold.png",
+    "builtin": "images/b806480cbefe6adc84245a1d.jpg"
+  },
+  {
+    "id": "c0d818c105e7cd9fe94a208a",
+    "name": "Silver",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/c0d818c105e7cd9fe94a208a.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Silver.png",
+    "builtin": "images/c0d818c105e7cd9fe94a208a.jpg"
+  },
+  {
+    "id": "57ada0d152b912dd38802586",
+    "name": "Soft Pink",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/57ada0d152b912dd38802586.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Soft Pink.png",
+    "builtin": "images/57ada0d152b912dd38802586.jpg"
+  },
+  {
+    "id": "9ffbd3b66061051c44f766b4",
+    "name": "Space Gray Pro",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/9ffbd3b66061051c44f766b4.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Space Gray Pro.png",
+    "builtin": "images/9ffbd3b66061051c44f766b4.jpg"
+  },
+  {
+    "id": "6c73cf215114e26dc94b8af6",
+    "name": "Space Gray",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/6c73cf215114e26dc94b8af6.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Space Gray.png",
+    "builtin": "images/6c73cf215114e26dc94b8af6.jpg"
+  },
+  {
+    "id": "00cfe5288d3b7309f7970237",
+    "name": "Stone",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/00cfe5288d3b7309f7970237.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Stone.png",
+    "builtin": "images/00cfe5288d3b7309f7970237.jpg"
+  },
+  {
+    "id": "1cf92b95dadf5392e395b45f",
+    "name": "Teal",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/1cf92b95dadf5392e395b45f.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Teal.png",
+    "builtin": "images/1cf92b95dadf5392e395b45f.jpg"
+  },
+  {
+    "id": "4f66f1978437d3558a479284",
+    "name": "Turquoise Green",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/4f66f1978437d3558a479284.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Turquoise Green.png",
+    "builtin": "images/4f66f1978437d3558a479284.jpg"
+  },
+  {
+    "id": "53055eab9186a4d096591f25",
+    "name": "Yellow",
+    "category": "Цвета",
+    "preview": "wallpapers/previews/53055eab9186a4d096591f25.jpg",
+    "local": "/System/Library/Desktop Pictures/Solid Colors/Yellow.png",
+    "builtin": "images/53055eab9186a4d096591f25.jpg"
+  },
+  {
+    "id": "b1ccb0ca522030478103f9ac",
+    "name": "Светлые · Светлые",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/b1ccb0ca522030478103f9ac.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Canyon_v9_WallpaperGallery_LM.png",
+    "kind": "image",
+    "aerial_id": "4DFE24ED-71CC-42D4-9FE8-3B8959B6CC19",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/GG_LM_H_v063_240fps-TSA.mov"
+  },
+  {
+    "id": "40ad3c4d72d2762ae6e780e6",
+    "name": "Светлые · Светлые · Вертикальные",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/40ad3c4d72d2762ae6e780e6.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Canyon_v9_WallpaperGallery_LM.png",
+    "kind": "image",
+    "aerial_id": "11AB4259-C435-4F92-A108-D6B9CC6D2295",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/GG_LM_V_v016_40fps-TSA.mov"
+  },
+  {
+    "id": "0b6dc96d88e12bb6bf0aedb1",
+    "name": "Темные · Тёмные",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/0b6dc96d88e12bb6bf0aedb1.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Canyon_v9_WallpaperGallery_DM.png",
+    "kind": "image",
+    "aerial_id": "C6AECFD2-A365-4504-9E2C-F86343F9421F",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/GG_DM_H_v062_240fps-TSA.mov"
+  },
+  {
+    "id": "e93d292c11cb37d7ebfd518d",
+    "name": "Темные · Тёмные · Вертикальные",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/e93d292c11cb37d7ebfd518d.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Canyon_v9_WallpaperGallery_DM.png",
+    "kind": "image",
+    "aerial_id": "731140AB-82EF-47B5-B62C-285BA7E112FD",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/GG_DM_V_v016_240fps-TSA.mov"
+  },
+  {
+    "id": "831da691e722dde3fc632e55",
+    "name": "Золотые Ворота на закате",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/831da691e722dde3fc632e55.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/GG_A_SUNSET_Golden_Gate_Sunset_v3.png",
+    "kind": "image",
+    "aerial_id": "4207734D-74FE-4F92-B5E1-6EC8DEE24A15",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/GG_A_SUNSET_MarshallsBeach_c28_v7_24comp_HFR_16Mbps.mov"
+  },
+  {
+    "id": "10803f14c7ee6e166a45ef6c",
+    "name": "Золотые Ворота днем",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/10803f14c7ee6e166a45ef6c.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/GG_A_DAY_Golden_Gate_Day_v2.png",
+    "kind": "image",
+    "aerial_id": "6511D2B5-E185-4886-9505-B4004E920D27",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/GG_A_DAY_Bluffs_C35_V25_24comp_HFR_16Mbps.mov"
+  },
+  {
+    "id": "aec701bafa77a19185b46884",
+    "name": "Золотые Ворота вечером",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/aec701bafa77a19185b46884.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/GG_A_EVENING_Golden_Gate_Evening_v2.png",
+    "kind": "image",
+    "aerial_id": "3FD9FD5C-6DC5-4362-9932-4087C942F1C5",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/GG_A_EVENING_TorpedoWharf_C35_v22_24comp_HFR_16Mbps.mov"
+  },
+  {
+    "id": "349edc522f6c00c1cc83d4d7",
+    "name": "Золотые Ворота ночью",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/349edc522f6c00c1cc83d4d7.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/GG_A_NIGHT_Golden_Gate_Night_v2.png",
+    "kind": "image",
+    "aerial_id": "86E89C23-C39B-44C8-A985-E56EEA6456FE",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/GG_A_NIGHT_BatterySpencer_c9_v8_Final01_24comp_HFR_12Mbps.mov"
+  },
+  {
+    "id": "9e786c64151d1c86dfd2fe27",
+    "name": "Тахо днем",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/9e786c64151d1c86dfd2fe27.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/TA_L_002_thumbnail.png",
+    "kind": "image",
+    "aerial_id": "4C108785-A7BA-422E-9C79-B0129F1D5550",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/LIGHT02_20250613_V2_sdr_4k_rate12000_240p_t2160_grover74_tsa_MTE-Modified.mov"
+  },
+  {
+    "id": "d38ab74ac4fa77fc81148c80",
+    "name": "Тахо утром",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/d38ab74ac4fa77fc81148c80.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/TA_L_001_thumbnail.png",
+    "kind": "image",
+    "aerial_id": "B2FC91ED-6891-4DEB-85A1-268B2B4160B6",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/LIGHT01_20250623_V3_sdr_4k_rate12000_240p_t2160_grover74_tsa_nclc111.mov"
+  },
+  {
+    "id": "b440fbb16d7b4787559c16ce",
+    "name": "Тахо вечером",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/b440fbb16d7b4787559c16ce.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/TA_D_001_thumbnail.png",
+    "kind": "image",
+    "aerial_id": "52ACB9B8-75FC-4516-BC60-4550CFF3B661",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/DARK01_20250703_v10_sdr_4k_rate12000_240p_t2160_grover74_tsa_nclc111.mov"
+  },
+  {
+    "id": "4ba04d06d0ccf750e1e8c0d7",
+    "name": "Тахо ночью",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/4ba04d06d0ccf750e1e8c0d7.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/TA_D_002_thumbnail.png",
+    "kind": "image",
+    "aerial_id": "CF6347E2-4F81-4410-8892-4830991B6C5A",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/DARK02_20250719_V1_FRC_240fps_sdr_4k_rate12000_240p_t2160_grover74_tsa_nclc111.mov"
+  },
+  {
+    "id": "39b011a289c377940843379e",
+    "name": "Секвойя на рассвете",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/39b011a289c377940843379e.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/A007_C0001.png",
+    "kind": "image",
+    "aerial_id": "6D6834A4-2F0F-479A-B053-7D4DC5CB8EB7",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/A007C0001_Final_v2_HEVC.mov"
+  },
+  {
+    "id": "da9e9804cc2b683197bc5279",
+    "name": "Секвойя утром",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/da9e9804cc2b683197bc5279.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/A010_C0005.png",
+    "kind": "image",
+    "aerial_id": "F88CDF4A-9681-4D1F-88FE-34F1A3C6A62B",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/A010C0005_Final_v2_HEVC.mov"
+  },
+  {
+    "id": "bc8c89bb9ab4013470faa0a7",
+    "name": "Секвойя ночью",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/bc8c89bb9ab4013470faa0a7.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/A018_C0002.png",
+    "kind": "image",
+    "aerial_id": "97C3047F-ED39-472C-9778-CABF25D8682D",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/A018C0002_Final_v2_HEVC.mov"
+  },
+  {
+    "id": "39ad8c5a50dc8990680777b5",
+    "name": "Горизонт в Сономе",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/39ad8c5a50dc8990680777b5.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscape_Sonoma_01@2x_W010_C003_V52.png",
+    "kind": "image",
+    "aerial_id": "FE876489-CBD5-479B-A8F0-1B67F0741CEA",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/W010_C003_V52_FRC_sdr_4k_qp25_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "c773318ba62fe2cc4d520750",
+    "name": "Вечер над Сономой",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/c773318ba62fe2cc4d520750.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/S013_C001_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "94DAB450-A650-4DFC-99B2-A0F0D8AD6649",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/S013_C001_F01_FRC240fps_sdr_4k_qp20_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "916e7e087e97718c81967dc6",
+    "name": "Облака над Сономой",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/916e7e087e97718c81967dc6.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/S011_C003_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "097CA871-A1C2-40F7-97F0-EFAABF555BBC",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/S011_C003_F01_FRC240fps_sdr_4k_qp18_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "5cc2b60076199e50540315d7",
+    "name": "Вид сверху на Соному",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/5cc2b60076199e50540315d7.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/S009_C018_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "C3C48B18-E4AE-4A62-877D-0B0D74CDC9E0",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/S009_C018_F01_FRC240fps_sdr_4k_qp18_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "7348fd8f66d16e616d5cab2d",
+    "name": "Река в Сономе",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/7348fd8f66d16e616d5cab2d.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/S005_C013_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "12718607-0FE6-4B8C-B571-A320CDD67897",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/S005_C013_F01_FRC240fps_sdr_4k_qp18_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "109d8eddf4a2d5c6cca9d849",
+    "name": "Пляжи Гоа",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/109d8eddf4a2d5c6cca9d849.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/ann0060.png",
+    "kind": "image",
+    "aerial_id": "B13D40FC-C033-436D-A197-185900EC3552",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/SDR_ann0060_flamecomp_v0003.00815886_FRC_sdr_4k_rate12000_240p_t2160_grover74_tsa.mov"
+  },
+  {
+    "id": "96dc9d56a68a7305cef42a0e",
+    "name": "Побережье Гоа",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/96dc9d56a68a7305cef42a0e.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/ann0080.png",
+    "kind": "image",
+    "aerial_id": "8A51AAE4-6ED6-432B-A222-4081D1F29D24",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/SDR_ann0080_flamecomp_v0004.00853686_sdr_4k_rate14000_240p_t2160_grover74_tsa.mov"
+  },
+  {
+    "id": "90638c3d83d78aff4a32c1c0",
+    "name": "Пересекая Гималаи",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/90638c3d83d78aff4a32c1c0.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/ann0020.png",
+    "kind": "image",
+    "aerial_id": "73120738-3D8D-47E7-B6E9-8AAC4D352577",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/SDR_ann0020_flamecomp_v0003.00776567_FRC_sdr_4k_rate12000_240p_t2160_grover74_tsa.mov"
+  },
+  {
+    "id": "6a4eac37e0ab4b474b74978a",
+    "name": "День в Гималаях",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/6a4eac37e0ab4b474b74978a.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/ann0090.png",
+    "kind": "image",
+    "aerial_id": "0FA98CA1-0005-4C98-8DCF-8BE7A6B159CE",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/SDR_ann0090_flamecomp_v0007.00872132_sdr_4k_rate12000_240p_t2160_grover74_tsa.mov"
+  },
+  {
+    "id": "be133dfe89da2d3f93755bae",
+    "name": "Ганг",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/be133dfe89da2d3f93755bae.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/ann0110.png",
+    "kind": "image",
+    "aerial_id": "B6461ECC-44F5-4BC9-877F-484A605D0D10",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/SDR_ann0110_flamecomp_v0002.00896432_trim_FRC_sdr_4k_rate14000_240p_t2160_grover74_tsa.mov"
+  },
+  {
+    "id": "16c7f0cf7f78e5303cb415c4",
+    "name": "Вид сверху на Гансали",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/16c7f0cf7f78e5303cb415c4.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/ann0010.png",
+    "kind": "image",
+    "aerial_id": "5929F26F-992D-4729-AFCC-BCDF23D15C32",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/SDR_ann0010_flamecomp_v0007.00735687_edit_FRC_sdr_4k_rate12000_240p_t2160_grover74_tsa.mov"
+  },
+  {
+    "id": "f75a6ba2ad4c7a89616bfdab",
+    "name": "Горные пики Гималаев",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/f75a6ba2ad4c7a89616bfdab.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/ann0120.png",
+    "kind": "image",
+    "aerial_id": "A63179A7-BC32-4307-89F0-112694889A03",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/SDR_ann0120_flamecomp_v0011.00400416_FRC_sdr_4k_rate12000_240p_t2160_grover74_tsa.mov"
+  },
+  {
+    "id": "6dce5178db9ca46f91bca46c",
+    "name": "Вид сверху на чайные плантации",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/6dce5178db9ca46f91bca46c.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/ann0040.png",
+    "kind": "image",
+    "aerial_id": "9C77AC8C-B23D-4ED9-ABD5-73D3CAD38317",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/SDR_ann0040_flamecomp_v0006.00789786_sdr_4k_rate16000_240p_t2160_grover74_tsa.mov"
+  },
+  {
+    "id": "14eb683254ec090de9b0b87e",
+    "name": "Среди чайных плантаций",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/14eb683254ec090de9b0b87e.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/ann0100.png",
+    "kind": "image",
+    "aerial_id": "4E9FE515-65B1-4677-B1A0-CAB75BDA1480",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/SDR_ann0100_flamecomp_v0002.00880232_FRC_sdr_4k_rate12000_240p_t2160_grover74_tsa.mov"
+  },
+  {
+    "id": "57effc3eaface769e16e2751",
+    "name": "Путешествие по водохранилищу",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/57effc3eaface769e16e2751.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/ann0070.png",
+    "kind": "image",
+    "aerial_id": "20633C28-FF90-4C54-B828-BB7F1669F7B4",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/SDR_ann0070_flamecomp_v0008.00289423_sdr_4k_rate12000_240p_t2160_grover74_tsa.mov"
+  },
+  {
+    "id": "9d9262872dfb0e2f57b4ec5c",
+    "name": "Туман над чайными плантациями",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/9d9262872dfb0e2f57b4ec5c.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/ann0130.png",
+    "kind": "image",
+    "aerial_id": "A92E4A3F-9BFC-4772-B3A7-025B54AB1D3D",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/SDR_ann0130_flamecomp_v0002.00193199_FRC_sdr_4k_rate12000_240p_t2160_grover74_tsa.mov"
+  },
+  {
+    "id": "852c69bc810d5bc8231a47b9",
+    "name": "Хребет Темблор в Калифорнии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/852c69bc810d5bc8231a47b9.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/W014_C018_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "F390FE3B-FA61-483D-BADC-2447F89951BA",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/W014_C018_F01_FRC_sdr_4k_qp29_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "d6db719949173333c7cd5533",
+    "name": "Равнина Карризо в Калифорнии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/d6db719949173333c7cd5533.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/W015_C010_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "4A3590EC-FF30-41E7-85FE-210FF6112917",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/W015_C010_F01_clipF0F4200_sdr_4k_qp31_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "e0f4e67de34b268ae654d698",
+    "name": "Цветущие луга в Калифорнии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/e0f4e67de34b268ae654d698.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/W015_C006_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "473C2FDC-0B75-497A-B1FE-AA1863C9C885",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/W015_C006_F01_FRC_sdr_4k_qp28_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "86d73608fc5720b330d01536",
+    "name": "Вид сверху на секвойи",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/86d73608fc5720b330d01536.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/R010_C003_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "AA5E82B9-289A-480C-A14B-242989107275",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/R010_C003_F02_sdr_4k_qp26_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "fda7031f9b9827a07bbff3f2",
+    "name": "Река Редвудс",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/fda7031f9b9827a07bbff3f2.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/R013_C039_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "97447D85-960C-4B2A-A101-048284D95853",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/R013_C039_F01_FRC_sdr_4k_qp27_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "e907fdb2bbb69aa17db91fb8",
+    "name": "Закат в Орегоне",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/e907fdb2bbb69aa17db91fb8.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/R006_C013_S05@2x.png",
+    "kind": "image",
+    "aerial_id": "8A57476A-E177-4AAD-B317-643F681584E1",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/R006_C013_S05_FRC_sdr_4k_qp24_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "0ced33e592a0cb6fd8d10661",
+    "name": "Побережье штата Орегон",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/0ced33e592a0cb6fd8d10661.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/R004_C012_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "15A8BC97-45AC-45DC-9AF9-313808C578BC",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/R004_C012_F01_FRC_sdr_4k_qp32_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "22bc3f35868d8eba13aba4f8",
+    "name": "Вечер в штате Юта",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/22bc3f35868d8eba13aba4f8.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/M012_C065_S04@2x.png",
+    "kind": "image",
+    "aerial_id": "AB7FC3C3-8853-45CD-AB6E-89F0985C2922",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/M012_C065_S04_FRC240fps_sdr_4k_qp22_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "754582e5d39b3774cd7935d4",
+    "name": "Каньон Коул-Майн в Аризоне",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/754582e5d39b3774cd7935d4.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/M013_C012_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "47BC0599-72E7-43C4-8BE1-CBCE2432E2A5",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/M013_C012_F01_FRC240fps_sdr_4k_qp25_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "ad5921deecc4ee322b26121e",
+    "name": "Водохранилище Пауэлл, Юта",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/ad5921deecc4ee322b26121e.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/M010_C009_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "D759828B-4BAB-456B-AD75-225BA238F925",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/M010_C009_F01_FRC_sdr_4k_qp22_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "bd7d81ed39c0b0c7671e5ead",
+    "name": "Каньон Катедрал в Юте",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/bd7d81ed39c0b0c7671e5ead.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/M010_C005_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "7530C83C-8F7B-42C6-BB71-5FA2ED070BEC",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/M010_C005_F01_clipF6556F13846_sdr_4k_qp23_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "01c09f2b2cc4fdf2c5032696",
+    "name": "Песчаные отмели — река Олимпия, Юта",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/01c09f2b2cc4fdf2c5032696.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/M005_C017_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "A168628E-11EE-4456-AD66-E7E3E47D1B21",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/M005_C017_F01_FRC_sdr_4k_qp22_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "d6d7f1281e4a16b189438f67",
+    "name": "Долина монументов в штате Юта",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/d6d7f1281e4a16b189438f67.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/M007_C007_F01@2x.png",
+    "kind": "image",
+    "aerial_id": "100858D2-FE01-4B70-8E2D-3FCF20AFE6B5",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/M007_C007_F02_sdr_4k_qp20_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "14a0541c2faa4cff5497b252",
+    "name": "Скала Фактори Бьютт в штате Юта",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/14a0541c2faa4cff5497b252.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/M012_C023_S04@2x.png",
+    "kind": "image",
+    "aerial_id": "1A17ED86-9E0D-4DF2-8CF3-5AB5DB67A348",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/M012_C023_S04_FRC_sdr_4k_qp22_240p_t2160_grover401_tsa.mov"
+  },
+  {
+    "id": "4bca0979e8be5e04204e4d84",
+    "name": "Большой каньон: долина реки",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/4bca0979e8be5e04204e4d84.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_GrandCanyon_01@2x.png",
+    "kind": "image",
+    "aerial_id": "8002C4C8-C611-4894-A068-3D3A3C03472A",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/G010_C026_UHD_SDR_v02_240fps_5e903ed6-1acf-495d-a0b5-8a9dd94df96bq26_sRGB_tsa.mov"
+  },
+  {
+    "id": "bd0e816489bed57d539e407d",
+    "name": "Большой каньон вечером",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/bd0e816489bed57d539e407d.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_GrandCanyon_04@2x.png",
+    "kind": "image",
+    "aerial_id": "E334A6D2-7145-47C8-9B00-C20DED08B2D5",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/G007_C004_UHD_SDR_FRC240fps_sdr_4k_qp24_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "5794efb6d69b1da5853003ee",
+    "name": "Закат над Большим каньоном",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/5794efb6d69b1da5853003ee.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_GrandCanyon_05@2x.png",
+    "kind": "image",
+    "aerial_id": "F9F918CD-E15F-4F01-A326-84A44650C5C9",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/G009_C003_UHD_SDR_FRC240fps_sdr_4k_qp20_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "7af396e0a40663aa06cd02f0",
+    "name": "Большой каньон: осадочные слои",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/7af396e0a40663aa06cd02f0.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_GrandCanyon_02@2x.png",
+    "kind": "image",
+    "aerial_id": "AE0115AE-C53B-4DB9-B12F-CA4B7B630CC9",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/G009_C014_UHD_SDR_FRC240fps_sdr_4k_qp20_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "3462e3b30af8a42a8f3cb1bd",
+    "name": "Большой каньон: вид сверху",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/3462e3b30af8a42a8f3cb1bd.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_GrandCanyon_03@2x.png",
+    "kind": "image",
+    "aerial_id": "DD266E1F-5DF2-4CDB-A2EB-26CE35664657",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/G008_C015_UHD_SDR_240fps_65f07d0e-f0bf-4e5d-8e09-71ff632c7b92q26_sRGB_tsa.mov"
+  },
+  {
+    "id": "b90d6e9980e7ca2f2a7da2e1",
+    "name": "Песчаные дюны в оазисе Лива",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/b90d6e9980e7ca2f2a7da2e1.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_LW_L001_C006_PSNK_DENOISE_v02_SDR_PS_FINAL_20180709_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "001C94AE-2BA4-4E77-A202-F7DE60E8B1C8",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_LW_L001_C006_PSNK_DENOISE_v02_SDR_PS_FINAL_20180709_FRC_sdr_4k_qp20_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "5322c65c93718743ad2187b6",
+    "name": "Горизонт в оазисе Лива",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/5322c65c93718743ad2187b6.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_LW_L001_C003__PSNK_DENOISE_v04_SDR_PS_FINAL_20180803_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "AFA22C08-A486-4CE8-9A13-E355B6C38559",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_LW_L001_C003__PSNK_DENOISE_v04_SDR_PS_FINAL_20180803_FRC_sdr_4k_qp22_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "73c4b54fc2b1254f03fd47a0",
+    "name": "Замок в Шотландии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/73c4b54fc2b1254f03fd47a0.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Scotland_02@2x.png",
+    "kind": "image",
+    "aerial_id": "E161929C-0819-4BC2-8359-550C081C7D54",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/S006_C007_UHD_SDR_FRC240fps_sdr_4k_qp20_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "21c2db78f68ee7b008dec90a",
+    "name": "Побережье Шотландии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/21c2db78f68ee7b008dec90a.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Scotland_03@2x.png",
+    "kind": "image",
+    "aerial_id": "0C747C29-4BF8-43F6-A5CC-2E012E555341",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/S003_C020_UHD_SDR_FRC240fps_sdr_4k_qp25_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "a67343bdf76215f917eee9fa",
+    "name": "Озеро в Шотландии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/a67343bdf76215f917eee9fa.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Scotland_01@2x.png",
+    "kind": "image",
+    "aerial_id": "3954A7C4-51EC-4ABC-ABA3-6757AC91C7CF",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/S005_C015_UHD_SDR_FRC_sdr_4k_grover401qp32_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "57b71d06f8403a608feb0c63",
+    "name": "Ледник в Исландии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/57b71d06f8403a608feb0c63.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Iceland_03@2x.png",
+    "kind": "image",
+    "aerial_id": "DDE50C77-B7CB-4488-9EB1-D1B13BF21FFE",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/I003_C008__0623CJ_UHD_SDR_240fps_ace2a32f-f189-4206-ba4c-e395fb1b4ea4q23_sRGB_tsa.mov"
+  },
+  {
+    "id": "d5ed2010e5675d5aedd12100",
+    "name": "Снежные вершины в Исландии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/d5ed2010e5675d5aedd12100.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Iceland_07@2x.png",
+    "kind": "image",
+    "aerial_id": "2F17FCCE-6CCA-4AFA-A08A-C50BF9812DA5",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/I005_C008_CROP_UHD_SDR_FRC240fps_sdr_4k_qp21_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "4e2e242ebcf91dda789a16de",
+    "name": "Вид сверху на фьорд в Исландии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/4e2e242ebcf91dda789a16de.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Iceland_02@2x.png",
+    "kind": "image",
+    "aerial_id": "8ACF5D77-B22C-416F-B12A-72FB35E2834F",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/I004_C014_UHD_SDR_FRC240fps_sdr_4k_qp20_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "6725a8ebc9ec0329576bcbb1",
+    "name": "Фьорд в Исландии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/6725a8ebc9ec0329576bcbb1.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Iceland_05@2x.png",
+    "kind": "image",
+    "aerial_id": "E54D5AFE-F362-4D48-A20D-F2C21D2B5330",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/I003_C011_0623P8_UHD_SDR_FRC240fps_sdr_4k_qp22_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "23a900399d18df806a5633c4",
+    "name": "Побережье Исландии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/23a900399d18df806a5633c4.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Iceland_01@2x.png",
+    "kind": "image",
+    "aerial_id": "8590D0C5-E344-4FAC-A39A-FD7BC652AEDA",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/I003_C004_UHD_SDR_FRC240fps_sdr_4k_qp22_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "aac4d76de33f5de884d2ae24",
+    "name": "Озеро в Исландии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/aac4d76de33f5de884d2ae24.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Iceland_04@2x.png",
+    "kind": "image",
+    "aerial_id": "D7950C0A-27B9-4034-AB5B-EDB89D41341A",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/I003_C005_UHD_SDR_240fps_10d589e5-2709-4c6d-8ae0-a3e0e1e1cb37q18_sRGB_tsa.mov"
+  },
+  {
+    "id": "4bb1b7e17f3a17c8863a1f7c",
+    "name": "Русло реки в Исландии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/4bb1b7e17f3a17c8863a1f7c.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Iceland_06@2x.png",
+    "kind": "image",
+    "aerial_id": "F9518D54-04A7-4793-8666-CFC114D73CE5",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/I003_C015_UHD_SDR_FRC240fps_sdr_4k_qp22_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "dad5712b46d10d1d11c5e4cf",
+    "name": "Горы в Патагонии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/dad5712b46d10d1d11c5e4cf.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Patagonia_02@2x.png",
+    "kind": "image",
+    "aerial_id": "5C987900-AD53-469C-8210-CABBCCDDFCAE",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/P001_C005_UHD_SDR_240fps_89dfd1a5-485c-4572-8e9e-757bd06bcfa3q20_sRGB_tsa.mov"
+  },
+  {
+    "id": "93bdfeacd1fe52e493534dd4",
+    "name": "Озеро в Патагонии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/93bdfeacd1fe52e493534dd4.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Patagonia_03@2x.png",
+    "kind": "image",
+    "aerial_id": "B004358B-5A27-42E5-B49E-93FC100B2371",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/P005_C002_UHD_SDR_FRC240fps_sdr_4k_qp21_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "7c9c9d04a21efe29c8b721cb",
+    "name": "Горный хребет в Патагонии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/7c9c9d04a21efe29c8b721cb.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Patagonia_04@2x.png",
+    "kind": "image",
+    "aerial_id": "E5D58CC2-3C52-4206-9DA2-427DC88B5896",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/P007_C027_UHD_SDR_FRC240fps_sdr_4k_qp20_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "93ab79fd4ffb1dd897c99b10",
+    "name": "Река в Патагонии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/93ab79fd4ffb1dd897c99b10.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Patagonia_01@2x.png",
+    "kind": "image",
+    "aerial_id": "25A6CFB2-3570-4448-B114-244A4E454B7A",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/P006_C002_UHD_SDR_240fps_e99d74b1-ff85-422a-b553-5563571594a1q17_sRGB_tsa.mov"
+  },
+  {
+    "id": "26167d3c25e68eef79cd5411",
+    "name": "Гавайи: облака — светлая",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/26167d3c25e68eef79cd5411.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Hawaii_02@2x.png",
+    "kind": "image",
+    "aerial_id": "258A6797-CC13-4C3A-AB35-4F25CA3BF474",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_H004_C009_PS_v01_SDR_PS_20180925_FRC240fps_sdr_4k_qp19_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "676f76bd85b4f4a8d1cb2e0b",
+    "name": "Гавайское побережье",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/676f76bd85b4f4a8d1cb2e0b.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Hawaii_01@2x.png",
+    "kind": "image",
+    "aerial_id": "12E0343D-2CD9-48EA-AB57-4D680FB6D0C7",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/comp_H007_C003_PS_v01_SDR_PS_20180925_240fps_ad61d98e-fb4b-41c7-b981-9ff4b8a2ef27q25_sRGB_tsa.mov"
+  },
+  {
+    "id": "b3950367e8dce1ce30b2583b",
+    "name": "Океан на Гавайях",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/b3950367e8dce1ce30b2583b.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_H012_C009_PS_v01_SDR_PS_20180925_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "3D729CFC-9000-48D3-A052-C5BD5B7A6842",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_H012_C009_PS_v01_SDR_PS_20180925_FRC_sdr_4k_qp24_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "684430d8729e56a66837cf58",
+    "name": "Долина на Гавайях",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/684430d8729e56a66837cf58.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_H005_C012_PS_v01_SDR_PS_20180925_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "499995FA-E51A-4ACE-8DFD-BDF8AFF6C943",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_H005_C012_PS_v01_SDR_PS_20180925_FRC_sdr_4k_qp26_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "66ec7149befff9bb9a850267",
+    "name": "Гавайи: облака — темная",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/66ec7149befff9bb9a850267.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_H004_C007_PS_v02_SDR_PS_20180925_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "82BD33C9-B6D2-47E7-9C42-AA3B7758921A",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_H004_C007_PS_v02_SDR_PS_20180925_FRC_sdr_4k_qp19_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "74404408a652a9327daec611",
+    "name": "Китайский силуэт",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/74404408a652a9327daec611.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_China_01@2x.png",
+    "kind": "image",
+    "aerial_id": "044AD56C-A107-41B2-90CC-E60CCACFBCF5",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_C003_C003_PS_v01_SDR_PS_20180925_FRC240fps_sdr_4k_qp17_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "1aa633daa2377dfd7cddda99",
+    "name": "Великая Китайская стена",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/1aa633daa2377dfd7cddda99.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_China_02@2x.png",
+    "kind": "image",
+    "aerial_id": "22162A9B-DB90-4517-867C-C676BC3E8E95",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_C004_C003_PS_v01_SDR_PS_20180925_240fps_8a74d51b-9b6c-4cde-8286-1108585c6aabq17_tsa_sRGB.mov"
+  },
+  {
+    "id": "16cd9d6e8505a111b4e5853c",
+    "name": "Заливное поле в Китае",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/16cd9d6e8505a111b4e5853c.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_China_03@2x.png",
+    "kind": "image",
+    "aerial_id": "9CCB8297-E9F5-4699-AE1F-890CFBD5E29C",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_CH_C002_C005_PSNK_v05_SDR_PS_FINAL_20180709_FRC240fps_sdr_4k_qp26_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "1a16c305e01171a601e61165",
+    "name": "Горы в Китае",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/1a16c305e01171a601e61165.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_CH_C007_C011_PSNK_v02_SDR_PS_FINAL_20180709_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "B876B645-3955-420E-99DF-60139E451CF3",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_CH_C007_C011_PSNK_v02_SDR_PS_FINAL_20180709_FRC_sdr_4k_qp25_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "a775bac6a634c6c195c5b751",
+    "name": "Горные утесы в Китае",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/a775bac6a634c6c195c5b751.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_CH_C007_C004_PSNK_v02_SDR_PS_FINAL_20180709_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "D5E76230-81A3-4F65-A1BA-51B8CADED625",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_CH_C007_C004_PSNK_v02_SDR_PS_FINAL_20180709_FRC_sdr_4k_qp26_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "31124de1836b7523fe29fb7a",
+    "name": "Великая Китайская стена днем",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/31124de1836b7523fe29fb7a.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_C001_C005_PS_v01_SDR_PS_20180925_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "F0236EC5-EE72-4058-A6CE-1F7D2E8253BF",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_C001_C005_PS_v01_SDR_PS_20180925_FRC_sdr_4k_qp21_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "ac27617fef53c787a04a8e3f",
+    "name": "Облака над Йосемити",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/ac27617fef53c787a04a8e3f.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Yosemite_05@2x.png",
+    "kind": "image",
+    "aerial_id": "E487C6EF-B3FB-427B-A2BE-8CBA60F902F0",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/Y005_C003_UHD_SDR_FRC240fps_sdr_4k_qp18_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "e3a9520457c6c7f8250b9d12",
+    "name": "Силуэт Йосемити",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/e3a9520457c6c7f8250b9d12.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Yosemite_07@2x.png",
+    "kind": "image",
+    "aerial_id": "E5799A24-1949-4E66-A17B-B5EB05F28C5D",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/Y004_C015_UHD_SDR_240fps_1b32206c-d1ff-4c0b-88ee-f15346c59daaq19_sRGB_tsa.mov"
+  },
+  {
+    "id": "ad912eb58da388e28eb5b130",
+    "name": "Вид сверху на Йосемити",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/ad912eb58da388e28eb5b130.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Yosemite_04@2x.png",
+    "kind": "image",
+    "aerial_id": "DAD82DCE-F3AE-4AEC-8A79-1694D412FC0A",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/Y009_C015_UHD_SDR_FRC240fps_sdr_4k_qp23_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "594cf17c6eeb59b0ef7a9c72",
+    "name": "Горизонт в Йосемити",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/594cf17c6eeb59b0ef7a9c72.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Yosemite_06@2x.png",
+    "kind": "image",
+    "aerial_id": "E540DEE6-4C40-42C8-9CCC-D4CB0FAD7D7B",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/Y002_C013_UHD_SDR_FRC240fps_sdr_4k_qp22_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "910dca7b7ba09eb430013394",
+    "name": "Снежные вершины в Йосемити",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/910dca7b7ba09eb430013394.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Yosemite_03@2x.png",
+    "kind": "image",
+    "aerial_id": "8D04D70F-738B-441D-8D43-AF46B2BF8062",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/Y011_C008_FIN_UHD_SDR_240fps_f3150c20-ef0d-4a53-9535-ce4a3e65ed79q22_sRGB_tsa.mov"
+  },
+  {
+    "id": "4e73b07f7801b550f04a9881",
+    "name": "Горы в Йосемити",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/4e73b07f7801b550f04a9881.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Yosemite_02@2x.png",
+    "kind": "image",
+    "aerial_id": "81CA5ACD-E682-4D8B-A948-0F147EB6ED4F",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/Y003_C009_UHD_SDR_FRC240fps_sdr_4k_qp23_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "07ed5d53cfdbc610fc94c74a",
+    "name": "Yosemite Valley",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/07ed5d53cfdbc610fc94c74a.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Yosemite_01@2x.png",
+    "kind": "image",
+    "aerial_id": "4109D42A-D717-46A7-A9A2-FE53A82B25C0",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/Y011_C001_UHD_SDR_FRC240fps_sdr_4k_qp22_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "d8fd6879d820278d8591bb33",
+    "name": "Вечер над Гренландией",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/d8fd6879d820278d8591bb33.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Greenland_03@2x.png",
+    "kind": "image",
+    "aerial_id": "EE01F02D-1413-436C-AB05-410F224A5B7B",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_GL_G010_C006_PSNK_NOSUN_v12_SDR_PS_FINAL_20180709_FRC240fps_sdr_4k_qp20_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "1c2398c92facba55861acb7d",
+    "name": "Побережье Гренландии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/1c2398c92facba55861acb7d.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Greenland_01@2x.png",
+    "kind": "image",
+    "aerial_id": "2F52E34C-39D4-4AB1-9025-8F7141FAA720",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_GL_G002_C002_PSNK_v03_SDR_PS_20180925_FRC240fps_sdr_4k_qp23_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "0a6180aa27996780584d77f1",
+    "name": "Ледник в Гренландии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/0a6180aa27996780584d77f1.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Landscapes_Greenland_02@2x.png",
+    "kind": "image",
+    "aerial_id": "B8F204CE-6024-49AB-85F9-7CA2F6DCD226",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/comp_GL_G004_C010_PSNK_v04_SDR_PS_FINAL_20180709_240fps_54d7bb68-1b1d-4c05-9cd7-7eefd4de1b28q19_sRGB_tsa.mov"
+  },
+  {
+    "id": "363699e17aa5ca5b311087c9",
+    "name": "Ночной Нью‑Йорк",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/363699e17aa5ca5b311087c9.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Cities_NewYork_02@2x.png",
+    "kind": "image",
+    "aerial_id": "44166C39-8566-4ECA-BD16-43159429B52F",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_N013_C004_PS_v01_SDR_PS_20180925_FRC240fps_sdr_4k_qp22_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "8aed253decf4d2938017b145",
+    "name": "Центр Нью-Йорка",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/8aed253decf4d2938017b145.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Cities_NewYork_03@2x.png",
+    "kind": "image",
+    "aerial_id": "840FE8E4-D952-4680-B1A7-AC5BACA2C1F8",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_N003_C006_PS_v01_SDR_PS_20180925_240fps_d5d9b36c-937b-45b5-b57c-d532c300fc07q20_sRGB_tsa.mov"
+  },
+  {
+    "id": "f824841450a05f257cb04a18",
+    "name": "Вид сверху на Нью-Йорк",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/f824841450a05f257cb04a18.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Cities_NewYork_01@2x.png",
+    "kind": "image",
+    "aerial_id": "3BA0CFC7-E460-4B59-A817-B97F9EBB9B89",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_N008_C009_PS_v01_SDR_PS_20180925_240fps_2f1e8a37-c8e6-4107-92bf-c9a94b585bedq21_tsa_sRGB.mov"
+  },
+  {
+    "id": "ba08247a5a5f3da27761ac7b",
+    "name": "Вид на Нью-Йорк",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/ba08247a5a5f3da27761ac7b.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_N008_C003_PS_v01_SDR_PS_20180925_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "640DFB00-FBB9-45DA-9444-9F663859F4BC",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_N008_C003_PS_v01_SDR_PS_20180925_FRC_sdr_4k_qp18_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "5cc14c05db33d8cd7d39f0d6",
+    "name": "Сан‑Франциско: вечер",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/5cc14c05db33d8cd7d39f0d6.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Cities_SanFrancisco_01@2x.png",
+    "kind": "image",
+    "aerial_id": "29BDF297-EB43-403A-8719-A78DA11A2948",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A007_C017_01156B_v02_SDR_PS_20180925_240fps_364b651c-090a-4d73-9656-f6cab8ffbd45q20_tsa_sRGB.mov"
+  },
+  {
+    "id": "086adc70f7e94744f149c47f",
+    "name": "Сан‑Франциско: мост «Золотые Ворота»",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/086adc70f7e94744f149c47f.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Cities_SanFrancisco_03@2x.png",
+    "kind": "image",
+    "aerial_id": "72B4390D-DF1D-4D51-B179-229BBAEFFF2C",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A013_C012_0122D6_CC_v01_SDR_PS_FINAL_20180709_FRC_sdr_4k_qp21_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "263173c316ffea263c5c5051",
+    "name": "Сан‑Франциско: паромный вокзал",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/263173c316ffea263c5c5051.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Cities_SanFrancisco_02@2x.png",
+    "kind": "image",
+    "aerial_id": "4AD99907-9E76-408D-A7FC-8429FF014201",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_1223LV_FLARE_v21_SDR_PS_FINAL_20180709_sdr_4k_qp15_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "a04bea1a69bfd6576e02a593",
+    "name": "Сан‑Франциско: ночь",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/a04bea1a69bfd6576e02a593.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_A015_C018_0128ZS_v03_SDR_PS_FINAL_20180709__SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "3E94AE98-EAF2-4B09-96E3-452F46BC114E",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A015_C018_0128ZS_v03_SDR_PS_FINAL_20180709__FRC_sdr_4k_qp24_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "1eb707db85930a40606505f2",
+    "name": "Вид на Сан-Франциско",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/1eb707db85930a40606505f2.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_A012_C014_1223PT_v53_SDR_PS_FINAL_20180709_F0F8700_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "85CE77BF-3413-4A7B-9B0F-732E96229A73",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A012_C014_1223PT_v53_SDR_PS_FINAL_20180709_FRC_sdr_4k_qp21_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "bfe7401057146dd1bd82e821",
+    "name": "Залив Сан-Франциско",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/bfe7401057146dd1bd82e821.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_A006_C003_1219EE_CC_v01_SDR_PS_FINAL_20180709_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "DE851E6D-C2BE-4D9F-AB54-0F9CE994DC51",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A006_C003_1219EE_CC_v01_SDR_PS_FINAL_20180709_sdr_4k_qp23_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "a47af02359ebc5573295a327",
+    "name": "Сан‑Франциско: туман",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/a47af02359ebc5573295a327.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_A008_C007_011550_CC_v01_SDR_PS_FINAL_20180709_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "EE533FBD-90AE-419A-AD13-D7A60E2015D6",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A008_C007_011550_CC_v01_SDR_PS_FINAL_20180709_FRC_sdr_4k_qp22_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "ed68a7b19f32d1cc446f0a3d",
+    "name": "Дорожная развязка в Лос-Анджелесе",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/ed68a7b19f32d1cc446f0a3d.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Cities_LosAngeles_01@2x.png",
+    "kind": "image",
+    "aerial_id": "35693AEA-F8C4-4A80-B77D-C94B20A68956",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_LA_A005_C009_PSNK_ALT_v09_SDR_PS_201809134_240fps_bacf2a31-3a9a-4fe2-ba3b-cce4aa6855d4q21_sRGB_tsa.mov"
+  },
+  {
+    "id": "bf9635a4a4ff2deec715bdf5",
+    "name": "Пляж в Лос-Анджелесе",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/bf9635a4a4ff2deec715bdf5.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Cities_LosAngeles_02@2x.png",
+    "kind": "image",
+    "aerial_id": "92E48DE9-13A1-4172-B560-29B4668A87EE",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_LA_A008_C004_ALTB_ED_FROM_FLAME_RETIME_v46_SDR_PS_20180917_fcp_sharpen2p5_FRC240fps_sdr_4k_qp23_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "71b2ccc34751beaeac6aac22",
+    "name": "Аэропорт Лос-Анджелеса",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/71b2ccc34751beaeac6aac22.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Cities_LosAngeles_03@2x.png",
+    "kind": "image",
+    "aerial_id": "CE279831-1CA7-4A83-A97B-FF1E20234396",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_LA_A006_C008_PSNK_ALL_LOGOS_v10_SDR_PS_FINAL_20180801_240fps_a9350064-5869-41c2-9422-05f93a075390q23_sRGB_tsa.mov"
+  },
+  {
+    "id": "53690bdef542793c4425c1be",
+    "name": "Лос-Анджелес: закат",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/53690bdef542793c4425c1be.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_LA_A009_C009_PSNK_v02_SDR_PS_FINAL_20180709_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "89B1643B-06DD-4DEC-B1B0-774493B0F7B7",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_LA_A009_C009_PSNK_v02_SDR_PS_FINAL_20180709_FRC_sdr_4k_qp14_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "c927daa93bc1afbc4db2c761",
+    "name": "Лос‑Анджелес: холмы",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/c927daa93bc1afbc4db2c761.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_LA_A006_C004_v01_SDR_FINAL_PS_20180730_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "EC67726A-8212-4C5E-83CF-8412932740D2",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_LA_A006_C004_v01_SDR_FINAL_PS_20180730_FRC_sdr_4k_qp18_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "87cc1a63b50c1fb0d7bd089d",
+    "name": "Лос-Анджелес: ночь",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/87cc1a63b50c1fb0d7bd089d.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_LA_A011_C003_DGRN_LNFIX_STAB_v57_SDR_PS_20181002_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "F5804DD6-5963-40DA-9FA0-39C0C6E6DEF9",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_LA_A011_C003_DGRN_LNFIX_STAB_v57_SDR_PS_20181002_FRC_sdr_4k_qp24_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "d779e2f162f262dc804fdfb9",
+    "name": "Гавань в Гонконге",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/d779e2f162f262dc804fdfb9.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Cities_HongKong_01@2x.png",
+    "kind": "image",
+    "aerial_id": "FE8E1F9D-59BA-4207-B626-28E34D810D0A",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_HK_H004_C008_PSNK_v19_SDR_PS_20180914_fcp_sharpen1p7_FRC240fps_sdr_4k_qp26_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "378a92a62dfe4ab6b9460b06",
+    "name": "Вид на Гонконг",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/378a92a62dfe4ab6b9460b06.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/HK_H004_C013_4K_SDR_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "024891DE-B7F6-4187-BFE0-E6D237702EF0",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_HK_H004_C013_v05_FRC_sdr_4k_qp26_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "2f2b8d7e9d3aebca9b376977",
+    "name": "Горизонт в Гонконге",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/2f2b8d7e9d3aebca9b376977.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_HK_H004_C010_PSNK_v08_SDR_PS_20181009_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "C8559883-6F3E-4AF2-8960-903710CD47B7",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_HK_H004_C010_PSNK_v08_SDR_PS_20181009_FRC_sdr_4k_qp18_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "3c668c352aee926bf78ea576",
+    "name": "Ночь над Гонконгом",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/3c668c352aee926bf78ea576.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_HK_B005_C011_PSNK_v16_SDR_PS_20180914_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "E99FA658-A59A-4A2D-9F3B-58E7BDC71A9A",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_HK_B005_C011_PSNK_v16_SDR_PS_20180914_FRC_sdr_4k_grover401qp27_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "785816ec96218e864f61db12",
+    "name": "Вечер над Лондоном",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/785816ec96218e864f61db12.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Cities_London_01@2x.png",
+    "kind": "image",
+    "aerial_id": "F604AF56-EA77-4960-AEF7-82533CC1A8B3",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/comp_L012_c002_PS_v01_SDR_PS_20180925_240fps_cfbcb818-c9b3-42bd-9e77-9c940f73f01aq19_sRGB_tsa.mov"
+  },
+  {
+    "id": "3e518dceface56266bc23a57",
+    "name": "Вид на Лондон",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/3e518dceface56266bc23a57.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_L010_C006_PS_v01_SDR_PS_20180925_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "58754319-8709-4AB0-8674-B34F04E7FFE2",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_L010_C006_PS_v01_SDR_PS_20180925_sdr_4k_qp19_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "ef6e061010e5b0139d4c90d0",
+    "name": "Река Темза в Лондоне",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/ef6e061010e5b0139d4c90d0.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_L004_C011_PS_v01_SDR_PS_20180925_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "7F4C26C2-67C2-4C3A-8F07-8A7BF6148C97",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_L004_C011_PS_v01_SDR_PS_20180925_FRC_sdr_4k_qp21_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "e0be6609cb192327a1f31f23",
+    "name": "Вид сверху на Лондон",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/e0be6609cb192327a1f31f23.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_L007_C007_PS_v01_SDR_PS_20180925_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "A5AAFF5D-8887-42BB-8AFD-867EF557ED85",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_L007_C007_PS_v01_SDR_PS_20180925_FRC_sdr_4k_qp25_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "5d6c15921ad30eaeedb18d68",
+    "name": "Вид на Дубай",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/5d6c15921ad30eaeedb18d68.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Cities_Dubai_01@2x.png",
+    "kind": "image",
+    "aerial_id": "00BA71CD-2C54-415A-A68A-8358E677D750",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_DB_D002_C003_PSNK_v04_SDR_PS_20180914_240fps_74088e40-f8e4-4876-920c-af0e62aa1a60q19_sRGB_tsa.mov"
+  },
+  {
+    "id": "d2eeea4afb7f17dbbb3d0713",
+    "name": "Ночь над Дубаем",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/d2eeea4afb7f17dbbb3d0713.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Cities_Dubai_02@2x.png",
+    "kind": "image",
+    "aerial_id": "9680B8EB-CE2A-4395-AF41-402801F4D6A6",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_DB_D011_C010_PSNK_DENOISE_v20_SDR_PS_20181009_240fps_07b415f6-c541-4cff-b7ab-b0087b315aecq24_tsa_sRGB.mov"
+  },
+  {
+    "id": "8d2b1f0ef63ea8e5bf1f2814",
+    "name": "Морской пролив в Дубае",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/8d2b1f0ef63ea8e5bf1f2814.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_DB_D001_C005_COMP_PSNK_v12_SDR_PS_20180912_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "3FFA2A97-7D28-49EA-AA39-5BC9051B2745",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_DB_D001_C005_COMP_PSNK_v12_SDR_PS_20180912_FRC_sdr_4k_qp26_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "cf463829ee250b359f712c49",
+    "name": "Вид сверху на Дубай",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/cf463829ee250b359f712c49.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_DB_D008_C010_PSNK_v21_SDR_PS_20180914_F0F16157_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "876D51F4-3D78-4221-8AD2-F9E78C0FD9B9",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_DB_D008_C010_PSNK_v21_SDR_PS_20180914_sdr_4k_qp26_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "f330d6145283aa2d3321a80f",
+    "name": "Гавань в Дубае",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/f330d6145283aa2d3321a80f.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_DB_D001_C001_PSNK_v06_SDR_PS_20180824_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "E991AC0C-F272-44D8-88F3-05F44EDFE3AE",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_DB_D001_C001_PSNK_v06_SDR_PS_20180824_sdr_4k_qp27_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "42adc75ba02408e6bba96ac1",
+    "name": "Медузы Палау — темная",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/42adc75ba02408e6bba96ac1.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Underwater_PalauJellies_01@2x.png",
+    "kind": "image",
+    "aerial_id": "BA4ECA11-592F-4727-9221-D2A32A16EB28",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/PA_A001_C007_SDR_20190717_240fps_7c3c9b51-37bd-415e-aee7-c18a096667e4q20_sRGB_tsa.mov"
+  },
+  {
+    "id": "2284cd4ab9f39c174854a5e2",
+    "name": "Медузы Палау — светлая",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/2284cd4ab9f39c174854a5e2.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Underwater_PalauJellies_02@2x.png",
+    "kind": "image",
+    "aerial_id": "EC3DC957-D4C2-4732-AACE-7D0C0F390EC8",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/PA_A010_C007_SDR_20190717_240fps_e955ffdd-21c5-456a-a44b-0429aa869c61q24_sRGB_tsa.mov"
+  },
+  {
+    "id": "a2a29bdeb5b9d7a6850272d8",
+    "name": "Медузы Палау — синяя",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/a2a29bdeb5b9d7a6850272d8.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/PA_A002_C009_SDR_20190730_ALT01_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "E580E5A5-0888-4BE8-A4CA-F74A18A643C3",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/PA_A002_C009_SDR_20190730_ALT01_FRC_sdr_4k_qp20_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "27ec3dde580e1b38e8c8b3d1",
+    "name": "Побережье Таити",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/27ec3dde580e1b38e8c8b3d1.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Underwater_TahitiWaves_02@2x.png",
+    "kind": "image",
+    "aerial_id": "8C31B06F-91A4-4F7C-93ED-56146D7F48B9",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/TH_804_A001_8_SDR_20191031_240fps_e79c4f82-9068-40c2-afc6-0d6ad48aa70eq19_sRGB_tsa.mov"
+  },
+  {
+    "id": "0bca7d3ee89be87b74ef52b7",
+    "name": "Туман над волнами на Таити",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/0bca7d3ee89be87b74ef52b7.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Underwater_TahitiWaves_01@2x.png",
+    "kind": "image",
+    "aerial_id": "149E7795-DBDA-4F5D-B39A-14712F841118",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/TH_803_A001_8_SDR_20191031_240fps_b602776f-63ed-45cf-89d0-b0dfa4660cf7q31_sRGB_tsa.mov"
+  },
+  {
+    "id": "2882c417ee39783cae367e89",
+    "name": "Темноперые серые акулы",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/2882c417ee39783cae367e89.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/FK_U009_C004_SDR_20191220_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "3716DD4B-01C0-4F5B-8DD6-DB771EC472FB",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/FK_U009_C004_SDR_20191220_FRC_sdr_4k_qp18_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "32eddbaeb7840c6f0f2b79c2",
+    "name": "Кораллы Палау — цветная",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/32eddbaeb7840c6f0f2b79c2.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Underwater_PalauCoral_01@2x.png",
+    "kind": "image",
+    "aerial_id": "F07CC61B-30FC-4614-BDAD-3240B61F6793",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/PA_A004_C003_SDR_20190719_240fps_ee722c45-c37e-467e-ad34-d86898486facq29_sRGB_tsa.mov"
+  },
+  {
+    "id": "b050ecf924f3de2c85d168b2",
+    "name": "Стая дельфинов в Коста-Рике",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/b050ecf924f3de2c85d168b2.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Underwater_CostaRicaDolphins_01@2x.png",
+    "kind": "image",
+    "aerial_id": "CE9B5D5B-B6E7-47C5-8C04-59BF182E98FB",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/CR_A009_C007_SDR_20191113_FRC240fps_dpmdq17_tsa.mov"
+  },
+  {
+    "id": "8fa8393a5efb6230dd005642",
+    "name": "Морские звезды",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/8fa8393a5efb6230dd005642.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/BO_A012_C031_SDR_20190726_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "581A4F1A-2B6D-468C-A1BE-6F473F06D10B",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/BO_A012_C031_SDR_20190726_FRC_sdr_4k_qp26_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "e3fb79cb181eb2802923acf4",
+    "name": "Шишколобые рыбы-попугаи",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/e3fb79cb181eb2802923acf4.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/BO_A014_C008_SDR_20190719_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "687D03A2-18A5-4181-8E85-38F3A13409B9",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/BO_A014_C008_SDR_20190719_FRC_sdr_4k_grover341qp32_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "1bf6d5c24183ee6492de01fc",
+    "name": "Водоросли у берегов Калифорнии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/1bf6d5c24183ee6492de01fc.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Underwater_CaliforniaKelpForest_01@2x.png",
+    "kind": "image",
+    "aerial_id": "EB3F48E7-D30F-4079-858F-1A61331D5026",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/CA_A016_C002_SDR_20191114_240fps_21aa64e8-2a10-48c8-bc1a-96e9fa872ef5q25_sRGB_tsa.mov"
+  },
+  {
+    "id": "957cb26f4c6f7bc19ea1b778",
+    "name": "Косяк барракуд",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/957cb26f4c6f7bc19ea1b778.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Underwater_Barracuda_01@2x.png",
+    "kind": "image",
+    "aerial_id": "2B30E324-E4FF-4CC1-BA45-A958C2D2B2EC",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/BO_A018_C029_SDR_20190812_240fps_7e014e89-e09c-4842-ae69-94c585f77aceq21_sRGB_tsa.mov"
+  },
+  {
+    "id": "12f8c4a5ae92e8289866f9bf",
+    "name": "Медузы Аляски — светлая",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/12f8c4a5ae92e8289866f9bf.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Underwater_AlaskanJellies_02@2x.png",
+    "kind": "image",
+    "aerial_id": "C7AD3D0A-7EDF-412C-A237-B3C9D27381A1",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/AK_A003_C014_SDR_20191113_240fps_e63a81f1-412d-4a76-bb6e-370980b4bd80q26_sRGB_tsa.mov"
+  },
+  {
+    "id": "4976c46c18ecfba9e587087f",
+    "name": "Медузы Аляски — темная",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/4976c46c18ecfba9e587087f.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Underwater_AlaskanJellies_01@2x.png",
+    "kind": "image",
+    "aerial_id": "C6DC4E54-1130-44F8-AF6F-A551D8E8A181",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/AK_A004_C012_SDR_20191217_240fps_dbcfb14a-bb2b-4cf1-b171-acf85ce92960q20_sRGB_tsa.mov"
+  },
+  {
+    "id": "ac192597c87002b0e95a93ad",
+    "name": "Стая тюленей",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/ac192597c87002b0e95a93ad.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Underwater_Seals_01@2x.png",
+    "kind": "image",
+    "aerial_id": "83C65C90-270C-4490-9C69-F51FE03D7F06",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/SE_A016_C009_SDR_20190717_FRC240fps_sdr_4k_grover402qp26_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "bf5dbd5142f2a5a636dfaac0",
+    "name": "Горбатый кит",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/bf5dbd5142f2a5a636dfaac0.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Underwater_HumpbackWhale_01@2x.png",
+    "kind": "image",
+    "aerial_id": "DD47D8E1-CB66-4C12-BFEA-2ADB0D8D1E2E",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/WH_D004_L014_SDR_20191031_240fps_39bd3ba0-b3c3-4d46-8daa-ec23be081676q24_sRGB_tsa.mov"
+  },
+  {
+    "id": "989d88e813b30dbc7a39bec0",
+    "name": "Косяк ставриды",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/989d88e813b30dbc7a39bec0.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Underwater_Jacks_01@2x.png",
+    "kind": "image",
+    "aerial_id": "537A4DAB-83B0-4B66-BCD1-05E5DBB4A268",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/BO_A014_C023_SDR_20190717_240fps_fc33a391-4b78-41be-b2f4-8e66ff4568c6q29_sRGB_tsa.mov"
+  },
+  {
+    "id": "01dcb0e847e1a25dc0b15921",
+    "name": "Водоросли — темная",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/01dcb0e847e1a25dc0b15921.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/KP_A010_C002_SDR_20190717_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "6143116D-03BB-485E-864E-A8CF58ACF6F1",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/KP_A010_C002_SDR_20190717_FRC_sdr_4k_qp16_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "c54c0a7cb00e794e7e75f03d",
+    "name": "Скаты-бычерылы",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/c54c0a7cb00e794e7e75f03d.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/MEX_A006_C008_SDR_20190923_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "58C75C62-3290-47B8-849C-56A583173570",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/MEX_A006_C008_SDR_20190923_FRC_sdr_4k_qp25_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "35cb282b513c46f09f4e79bf",
+    "name": "Стая дельфинов в Калифорнии",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/35cb282b513c46f09f4e79bf.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Underwater_CaliforniaDolphins_01@2x.png",
+    "kind": "image",
+    "aerial_id": "27A37B0F-738D-4644-A7A4-E33E7A6C1175",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/DL_B002_C011_SDR_20191122_240fps_521bacfa-65b2-4938-92b1-4d069187ddfcq24_sRGB_tsa.mov"
+  },
+  {
+    "id": "74bcdbd327686b1c600b8653",
+    "name": "Кораллы Красного моря: вид сверху",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/74bcdbd327686b1c600b8653.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/RS_A008_C010_SDR_20191218_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "82175C1F-153C-4EC8-AE37-2860EA828004",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/RS_A008_C010_SDR_20191218_FRC_sdr_4k_qp30_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "4dee5df9e1164fac9c2ffaa5",
+    "name": "Новая Зеландия",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/4dee5df9e1164fac9c2ffaa5.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_NewZealand_01@2x.png",
+    "kind": "image",
+    "aerial_id": "78911B7E-3C69-47AD-B635-9C2486F6301D",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A105_C003_0212CT_FLARE_v10_SDR_PS_FINAL_20180711_240fps_42a87da5-4106-4b01-9b72-5f08d7174865q19_sRGB_tsa.mov"
+  },
+  {
+    "id": "e746785e75e409288744fd27",
+    "name": "Сахара",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/e746785e75e409288744fd27.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_Sahara_Italy_01@2x.png",
+    "kind": "image",
+    "aerial_id": "E556BBC5-D0A0-4DB1-AC77-BC76E4A526F4",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A009_C001_010181A_v09_SDR_PS_FINAL_20180725_240fps_507c8aaf-3dcb-4a4f-ac58-4baa7f7b9254q20_tsa_sRGB.mov"
+  },
+  {
+    "id": "cda3a3a54e713629d34feb62",
+    "name": "Север Америки, полярное сияние",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/cda3a3a54e713629d34feb62.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_NorthAmericaAurora_01@2x.png",
+    "kind": "image",
+    "aerial_id": "737E9E24-49BE-4104-9B72-F352DE1AD2BF",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_GMT314_139M_170NC_NORTH_AMERICA_AURORA__COMP_v22_SDR_20181206_v12CC_FRC240fps_sdr_4k_qp18_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "08c95b8b874ec04d30ff93ad",
+    "name": "Ночь над Китаем",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/08c95b8b874ec04d30ff93ad.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_GMT329_113NC_396B_1105_CHINA_v04_SDR_FINAL_20180706_F900F2700_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "6324F6EB-E0F1-468F-AC2E-A983EBDDD53B",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_GMT329_113NC_396B_1105_CHINA_v04_SDR_FINAL_20180706_FRC_sdr_4k_grover402qp24_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "63d853832ba8b7b6fd1168da",
+    "name": "Южная Калифорния",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/63d853832ba8b7b6fd1168da.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_SouthernCalifornia_Baja_01@2x.png",
+    "kind": "image",
+    "aerial_id": "7719B48A-2005-4011-9280-2F64EEC6FD91",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A114_C001_0305OT_v10_SDR_FINAL_22062018_240fps_c137cb87-3eb8-45c7-a347-6377d9432eefq22_sRGB_tsa.mov"
+  },
+  {
+    "id": "5a8a1ec2122354036fc1bab1",
+    "name": "Западная Африка",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/5a8a1ec2122354036fc1bab1.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_WestAfrica_Alps_01@2x.png",
+    "kind": "image",
+    "aerial_id": "63C042F0-90EF-4A95-B7CC-CC9A64BF8421",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A001_C004_1207W5_v23_SDR_FINAL_20180706_FRC240fps_sdr_4k_qp19_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "0da5cb9a30a4ee6475043497",
+    "name": "Полярное сияние над Антарктидой",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/0da5cb9a30a4ee6475043497.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_Antarctica_01@2x.png",
+    "kind": "image",
+    "aerial_id": "03EC0F5E-CCA8-4E0A-9FEC-5BD1CE151182",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_GMT110_112NC_364D_1054_AURORA_ANTARTICA__COMP_FINAL_v34_PS_SDR_20181107_240fps_747b215c-eab2-417b-affe-ba6407f14d81q17_sRGB_tsa.mov"
+  },
+  {
+    "id": "ef603a6bb296426a33830a1c",
+    "name": "Северная Африка",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/ef603a6bb296426a33830a1c.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_Africa_MiddleEast_01@2x.png",
+    "kind": "image",
+    "aerial_id": "2F72BC1E-3D76-456C-81EB-842EBA488C27",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A103_C002_0205DG_v12_SDR_FINAL_20180706_240fps_20f90202-ebab-4cfa-b422-6480e42d14f3q15_sRGB_tsa.mov"
+  },
+  {
+    "id": "55b941bc85040e77b6773629",
+    "name": "Калифорния",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/55b941bc85040e77b6773629.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_GMT306_139NC_139J_3066_CALI_TO_VEGAS_v08_SDR_PS_20180824_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "12318CCB-3F78-43B7-A854-EFDCCE5312CD",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_GMT306_139NC_139J_3066_CALI_TO_VEGAS_v08_SDR_PS_20180824_FRC_sdr_4k_qp24_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "4a1fe3c7a8ff6cbd42c7f93d",
+    "name": "Северная Атлантика",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/4a1fe3c7a8ff6cbd42c7f93d.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_AtlanticOcean_Spain_France_01@2x.png",
+    "kind": "image",
+    "aerial_id": "64D11DAB-3B57-4F14-AD2F-E59A9282FA44",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A001_C001_120530_v04_SDR_FINAL_20180706_240fps_d64ae958-3d0d-4e8c-8ae8-5d33f843c2a3q17_sRGB_tsa.mov"
+  },
+  {
+    "id": "cf5d04f016db2f0c7b1f3710",
+    "name": "Восточная Азия",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/cf5d04f016db2f0c7b1f3710.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_Korea_Japan_01@2x.png",
+    "kind": "image",
+    "aerial_id": "009BA758-7060-4479-8EE8-FB9B40C8FB97",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_GMT026_363A_103NC_E1027_KOREA_JAPAN_NIGHT_v18_SDR_PS_20180907_240fps_0d0095d4-5875-4d43-a1a8-7dc915b11b9dq24_sRGB_tsa.mov"
+  },
+  {
+    "id": "39698ce1b98a3389ea5ba87a",
+    "name": "Карибские острова",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/39698ce1b98a3389ea5ba87a.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_Caribbean_02@2x.png",
+    "kind": "image",
+    "aerial_id": "D5CFB2FF-5F8C-4637-816B-3E42FC1229B8",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/comp_A108_C001_v09_SDR_FINAL_22062018_240fps_cb12b871-5161-41a3-91e2-73b8a82f5425q21_sRGB_tsa.mov"
+  },
+  {
+    "id": "9c0bda314d462646402fc2ca",
+    "name": "Карибское море",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/9c0bda314d462646402fc2ca.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_Caribbean_01@2x.png",
+    "kind": "image",
+    "aerial_id": "1088217C-1410-4CF7-BDE9-8F573A4DBCD9",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A105_C002_v06_SDR_FINAL_25062018_FRC240fps_sdr_4k_qp24_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "c5b4ae2eba1d536ad6aacc66",
+    "name": "Дельта Нила",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/c5b4ae2eba1d536ad6aacc66.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_NileDelta_01@2x.png",
+    "kind": "image",
+    "aerial_id": "3C4678E4-4D3D-4A40-8817-77752AEA62EB",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/ec/eb/c8/ecebc8d2-5486-c2b2-52ae-6f0ab2d6b65f/comp_A050_C004_1027V8_v16_SDR_FINAL_20180706_240fps_42f29097-fda3-4ff3-be89-dbfb8bf5b3e9q23_sRGB_tsa.mov"
+  },
+  {
+    "id": "1190a2742c91ab44f482b857",
+    "name": "Ночь над Европой",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/1190a2742c91ab44f482b857.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_Ireland_Asia_01@2x.png",
+    "kind": "image",
+    "aerial_id": "7C643A39-C0B2-4BA0-8BC2-2EAA47CC580E",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_GMT329_117NC_401C_1037_IRELAND_TO_ASIA_v48_SDR_PS_FINAL_20180725_FRC240fps_sdr_4k_qp21_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "e8d379d2fc08f2fa0dc6149b",
+    "name": "Австралия",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/e8d379d2fc08f2fa0dc6149b.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_GMT060_117NC_363D_1034_AUSTRALIA_v35_SDR_PS_FINAL_20180731_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "81337355-E156-4242-AAF4-711768D30A54",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_GMT060_117NC_363D_1034_AUSTRALIA_v35_SDR_PS_FINAL_20180731_FRC_sdr_4k_qp20_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "777e38c4bcfe05d080046b7e",
+    "name": "ЮАР",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/777e38c4bcfe05d080046b7e.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/comp_A351_C001_v06_SDR_PS_20180725_SDR_4K_HEVC@2x.png",
+    "kind": "image",
+    "aerial_id": "87060EC2-D006-4102-98CC-3005C68BB343",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A351_C001_v06_SDR_PS_20180725_sdr_4k_qp19_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "02ea302aba75f70413fd7ea2",
+    "name": "Африка",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/02ea302aba75f70413fd7ea2.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_AfricaNight_01@2x.png",
+    "kind": "image",
+    "aerial_id": "A837FA8C-C643-4705-AE92-074EFDD067F7",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_GMT312_162NC_139M_1041_AFRICA_NIGHT_v14_SDR_FINAL_20180706_FRC240fps_sdr_4k_qp23_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "48f4c26a348e8010c09fd675",
+    "name": "Карибы",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/48f4c26a348e8010c09fd675.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_CaribbeanDay_01@2x.png",
+    "kind": "image",
+    "aerial_id": "4F881F8B-A7D9-4FDB-A917-17BF6AC5A589",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_GMT308_139K_142NC_CARIBBEAN_DAY_v09_SDR_FINAL_22062018_240fps_dcf5f5e1-b86b-4f19-9a28-7ed9ac23cb51q19_sRGB_tsa.mov"
+  },
+  {
+    "id": "80d49bbe7daec58a6cbaa70d",
+    "name": "Нью-Йорк",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/80d49bbe7daec58a6cbaa70d.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_NewYork_01@2x.png",
+    "kind": "image",
+    "aerial_id": "B1B5DDC5-73C8-4920-8133-BACCE38A08DE",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_GMT307_136NC_134K_8277_NY_NIGHT_01_v25_SDR_PS_20180907_FRC240fps_sdr_4k_qp20_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "9ddb7dc236839a4e870ce1a0",
+    "name": "Ночь над Южной Европой",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/9ddb7dc236839a4e870ce1a0.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_Italy_Asia_01@2x.png",
+    "kind": "image",
+    "aerial_id": "E5DB138A-F04E-4619-B896-DE5CB538C534",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_GMT329_113NC_396B_1105_ITALY_v03_SDR_FINAL_20180706_FRC240fps_sdr_4k_qp21_240p_t2160_tsa.mov"
+  },
+  {
+    "id": "9e8ac5e7a4f77337cf3f4fc1",
+    "name": "Ближний Восток",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/9e8ac5e7a4f77337cf3f4fc1.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/Space_Iran_Afghanistan_01@2x.png",
+    "kind": "image",
+    "aerial_id": "F439B0A7-D18C-4B14-9681-6520E6A74FE9",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/comp_A083_C002_1130KZ_v04_SDR_PS_FINAL_20180725_240fps_8572bbed-c0af-4af1-b604-d272a4253d3aq13_sRGB_tsa.mov"
+  },
+  {
+    "id": "30a259139e946834e46e3922",
+    "name": "Лиловый Mac",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/30a259139e946834e46e3922.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/MacOS_WP_Silver_356x356_P3_Thumbnail.png",
+    "kind": "image",
+    "aerial_id": "D8C8FC8B-9D11-4803-944F-DF284B35FE58",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/Silver_Comp_2x_Crop_v0041_4xFRC_sdr_4k_rate10000_240p_t3524_grover74_tsa.mov"
+  },
+  {
+    "id": "4d1f5e2736cc3817d8c55892",
+    "name": "Синий Mac",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/4d1f5e2736cc3817d8c55892.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/MacOS_WP_Blue_356x356_P3_Thumbnail.png",
+    "kind": "image",
+    "aerial_id": "94383DC9-59D3-43EC-9E8E-A783DA633E06",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/Blue_Comp_2x_Crop_v0041_4xFRC_sdr_4k_rate10000_240p_t3524_grover74_tsa.mov"
+  },
+  {
+    "id": "38507cf676e61bcfc619c0df",
+    "name": "Розовый Mac",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/38507cf676e61bcfc619c0df.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/MacOS_WP_Pink_356x356_P3_Thumbnail.png",
+    "kind": "image",
+    "aerial_id": "C42AADA1-9110-472A-BF86-B1EF306DA846",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/Pink_Comp_2x_Crop_v0041_4xFRC_sdr_4k_rate10000_240p_t3524_grover74_tsa.mov"
+  },
+  {
+    "id": "2bbdb79fd02b44e0233e88b6",
+    "name": "Желтый Mac",
+    "category": "Пейзажи",
+    "preview": "wallpapers/previews/2bbdb79fd02b44e0233e88b6.jpg",
+    "url": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/51/ff/08/51ff0824-8da5-78f0-e218-9e61264965bb/MacOS_WP_Yellow_356x356_P3_Thumbnail.png",
+    "kind": "image",
+    "aerial_id": "DD7690D7-1B94-4FAA-910C-993C182B6874",
+    "video_url": "https://sylvan.apple.com/itunes-assets/Aerials116/v4/cb/5b/50/cb5b5035-6701-619f-9065-3d7d0e5fbef4/Yellow_Comp_2x_Crop_v0041_4xFRC_sdr_4k_rate10000_240p_t3524_grover74_tsa.mov"
+  }
+]

@@ -12,6 +12,7 @@ from core .api_server import APIServer ,get_local_ip
 from core .telegram_service import TelegramService
 from core .notifier import send_macos_notification ,send_status_notification
 from core .updater import UpdateManager
+from core.wallpapers import WallpaperManager
 
 def get_resource_path (relative_path ):
     if getattr (sys ,'frozen',False )and hasattr (sys ,'_MEIPASS'):
@@ -76,6 +77,13 @@ class ApiBridge :
         self ._update_mgr =UpdateManager ()
         self ._widget_mode =False
         self ._normal_size =(960 ,620 )
+        self._wallpapers = WallpaperManager(UI_DIR)
+
+    def get_wallpapers(self):
+        return self._wallpapers.catalog()
+
+    def get_wallpaper_image(self, identifier):
+        return self._wallpapers.image(identifier)
 
     def set_window (self ,window ):
         self ._window =window
@@ -573,6 +581,11 @@ def main ():
     window .events .closed +=lambda :os ._exit (0 )
 
     def on_window_loaded ():
+        try:
+            saved_state = json.dumps(bridge.get_state(), ensure_ascii=False)
+            window.evaluate_js(f"window.__lightwidgetInitialState = {saved_state}; if (window.restorePersistedState) window.restorePersistedState(window.__lightwidgetInitialState);")
+        except Exception as error:
+            print(f"[Bridge] Error restoring saved status: {error}")
         _apply_macos_window_mode (False ,getattr (window ,"native",None ))
         try :
             acc =config_mgr .get ("account_number","")
@@ -581,6 +594,7 @@ def main ():
             theme =appr .get ("theme","midnight")
             accent =appr .get ("accent","blue")
             glass_mode =appr .get ("glass_mode","dark")
+            panel_transparency = json.dumps(appr.get("panel_transparency", 0))
             show_sec ="true"if appr .get ("show_seconds",True )else "false"
             smooth_timers ="true"if appr .get ("smooth_timers",True )else "false"
             show_pls ="true"if appr .get ("show_pulse",True )else "false"
@@ -611,6 +625,7 @@ def main ():
                             localStorage.setItem('lightwidget_theme', '{theme }');
                             localStorage.setItem('lightwidget_accent', '{accent }');
                             localStorage.setItem('lightwidget_glass_mode', '{glass_mode }');
+                            localStorage.setItem('lightwidget_panel_transparency', String({panel_transparency}));
                             localStorage.setItem('lightwidget_show_seconds', {show_sec });
                             localStorage.setItem('lightwidget_smooth_timers', {smooth_timers });
                             localStorage.setItem('lightwidget_show_pulse', {show_pls });
@@ -630,6 +645,7 @@ def main ():
                             if (window.applyTheme) window.applyTheme('{theme }', false);
                             if (window.applyAccent) window.applyAccent('{accent }', false);
                             if (window.applyGlassMode) window.applyGlassMode('{glass_mode }', false);
+                            if (window.applyPanelTransparency) window.applyPanelTransparency({panel_transparency}, false);
                             if (window.appSettings) {{
                                 window.appSettings.theme = '{theme }';
                                 window.appSettings.accent = '{accent }';

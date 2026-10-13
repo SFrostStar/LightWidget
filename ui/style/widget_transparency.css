@@ -1,0 +1,99 @@
+html:is(.widgets-translucent, .has-wallpaper) body[data-theme]:not([data-theme="glass"]) .app-container :is(.timer-card, .planned-outage-card, .stats-overview-card, .activity-heatmap-card, .github-activity-card, .info-list, .card-container, .settings-group, .setup-card, .logs-card, .macos-progress-card, .history-day-card, .history-item, .sim-card, .iphone-card, .macos-update-hero, .macos-settings-group, .macos-release-card),
+html:is(.widgets-translucent, .has-wallpaper) body[data-theme]:not([data-theme="glass"]) .desktop-widget-card {
+  background: color-mix(in srgb, color-mix(in srgb, var(--bg-card) var(--wallpaper-surface-percent, 100%), transparent) var(--widget-surface-percent, 100%), transparent) !important;
+}
+
+html.widgets-translucent body[data-theme="glass"] .app-container :is(.timer-card, .planned-outage-card, .stats-overview-card, .activity-heatmap-card, .github-activity-card, .info-list, .card-container, .settings-group, .setup-card, .logs-card, .macos-progress-card, .history-day-card, .history-item, .sim-card, .iphone-card, .macos-update-hero, .macos-settings-group, .macos-release-card),
+html.widgets-translucent body[data-theme="glass"] .desktop-widget-card {
+  background: var(--widget-glass-sheen), radial-gradient(ellipse at 50% 110%, rgba(var(--glass-tint), calc(var(--glass-tint-alpha) * var(--widget-surface-opacity))), transparent 75%), color-mix(in srgb, var(--bg-card) var(--widget-surface-percent), transparent) !important;
+  backdrop-filter: blur(calc(24px * var(--widget-surface-opacity))) saturate(145%) !important;
+  -webkit-backdrop-filter: blur(calc(24px * var(--widget-surface-opacity))) saturate(145%) !important;
+}
+
+html.widgets-translucent body[data-theme="glass"] {
+  --widget-glass-sheen: linear-gradient(135deg, rgba(255, 255, 255, calc(0.14 * var(--widget-surface-opacity))), rgba(255, 255, 255, calc(0.025 * var(--widget-surface-opacity))) 38%, transparent 65%, rgba(240, 242, 246, calc(0.08 * var(--widget-surface-opacity))));
+}
+
+html.widgets-translucent body[data-theme="glass"][data-glass-mode="light"] {
+  --widget-glass-sheen: linear-gradient(135deg, rgba(255, 255, 255, calc(0.7 * var(--widget-surface-opacity))), rgba(255, 255, 255, calc(0.05 * var(--widget-surface-opacity))) 38%, transparent 65%, rgba(255, 255, 255, calc(0.36 * var(--widget-surface-opacity))));
+}
+
+html.widgets-translucent body[data-theme="glass"] .app-container :is(.stats-item, .planned-item-row) {
+  background: color-mix(in srgb, var(--glass-secondary) var(--widget-surface-percent), transparent) !important;
+}
+
+html body[data-theme] #tab-settings .settings-content {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 0 4px !important;
+}
+
+html body[data-theme] #tab-settings .settings-group {
+  border: 1px solid color-mix(in srgb, var(--border-color) 75%, var(--text-primary));
+  border-radius: 18px !important;
+  padding: 20px !important;
+  margin-bottom: 18px !important;
+  background: var(--bg-card);
+}
+
+html body[data-theme] #tab-settings .settings-group.is-hidden {
+  display: none !important;
+}
+
+html body[data-theme] #tab-settings .theme-desc {
+  color: var(--text-secondary) !important;
+}
+
+html.has-wallpaper body[data-theme]:not([data-theme="glass"]) .app-container :is(.timer-card, .planned-outage-card, .stats-overview-card, .activity-heatmap-card, .github-activity-card, .info-list, .card-container, .settings-group, .setup-card, .logs-card, .macos-progress-card, .history-day-card, .history-item, .sim-card, .iphone-card, .macos-update-hero, .macos-settings-group, .macos-release-card) {
+  backdrop-filter: blur(calc(18px * var(--widget-surface-opacity, 1)));
+  -webkit-backdrop-filter: blur(calc(18px * var(--widget-surface-opacity, 1)));
+}
+
+.transparency-setting-heading,
+.transparency-range-labels {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.transparency-setting-heading .settings-label {
+  margin-bottom: 0;
+}
+
+.transparency-setting-heading output {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+  min-width: 4ch;
+  text-align: right;
+}
+
+.transparency-range {
+  display: block;
+  width: 100%;
+  height: 28px;
+  margin: 12px 0 5px;
+  accent-color: var(--accent-blue);
+  cursor: pointer;
+}
+
+.transparency-range:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.transparency-range-labels,
+.transparency-help {
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.transparency-help {
+  margin-top: 8px;
+}

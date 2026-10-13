@@ -669,11 +669,9 @@
 .theme-preview.light .tp-header { background: rgba(0, 0, 0, 0.2); }
 .theme-preview.light .tp-body { background: rgba(0, 0, 0, 0.1); }
 .theme-preview.glass {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.04) 100%), #11131b;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 12px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.28), transparent 55%), rgba(46, 48, 52, 0.55);
+  border: 1px solid rgba(240, 242, 246, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32);
 }
 .theme-preview.glass .tp-header {
   background: rgba(255, 255, 255, 0.35);
@@ -956,4 +954,207 @@ input:checked + .slider:before {
 [data-theme="glass"][data-glass-mode="light"] .sim-status-banner svg {
   color: #059669 !important;
   stroke: #059669 !important;
+}
+
+[data-theme="glass"] .timer-card,
+[data-theme="glass"] .planned-outage-card {
+  border-radius: 22px !important;
+}
+
+[data-theme="glass"][data-power-status="ON"] .timer-card,
+[data-theme="glass"][data-power-status="ON"] .desktop-widget-card,
+[data-theme="glass"] .app-container.power-on .timer-card {
+  --glass-tint: 48, 209, 128;
+  --glass-tint-alpha: 0.18;
+  --glass-glow-alpha: 0.32;
+  --glass-border-alpha: 0.48;
+}
+
+[data-theme="glass"][data-power-status="OFF"] .timer-card,
+[data-theme="glass"][data-power-status="OFF"] .desktop-widget-card,
+[data-theme="glass"] .app-container.power-off .timer-card {
+  --glass-tint: 255, 82, 94;
+  --glass-tint-alpha: 0.16;
+  --glass-glow-alpha: 0.28;
+  --glass-border-alpha: 0.44;
+}
+
+[data-theme="glass"][data-power-status="PLANNED"] .timer-card,
+[data-theme="glass"][data-power-status="PLANNED"] .desktop-widget-card,
+[data-theme="glass"] .app-container.power-planned .timer-card,
+[data-theme="glass"] .planned-outage-card.has-planned {
+  --glass-tint: 255, 193, 64;
+  --glass-tint-alpha: 0.19;
+  --glass-glow-alpha: 0.32;
+  --glass-border-alpha: 0.48;
+}
+
+[data-theme="glass"] .status-heading-on,
+[data-theme="glass"] .status-heading-off {
+  font-family: var(--font-main);
+  font-size: 31px;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  text-shadow: none !important;
+}
+
+[data-theme="glass"] .status-bolt {
+  filter: none;
+}
+
+[data-theme="glass"] .status-heading-on {
+  color: var(--glass-on-text) !important;
+  text-shadow: 0 0 22px rgba(48, 209, 128, 0.18) !important;
+}
+
+[data-theme="glass"] .planned-outage-card.has-planned .planned-title {
+  color: var(--glass-planned-text) !important;
+}
+
+[data-theme="glass"] .status-sub-on,
+[data-theme="glass"] .status-sub-off,
+[data-theme="glass"] .monitor-heading,
+[data-theme="glass"] .stats-title-group,
+[data-theme="glass"] .stats-item-label {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="glass"] .stats-item {
+  padding: 10px 8px;
+}
+
+[data-theme="glass"] .stats-item-value,
+[data-theme="glass"] .planned-title {
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+
+[data-theme="glass"] .stats-title-group svg {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="glass"] .stat-dot,
+[data-theme="glass"] .planned-dot,
+[data-theme="glass"] .widget-planned-dot,
+[data-theme="glass"] .slim-progress-fill {
+  box-shadow: none !important;
+}
+
+[data-theme="glass"] .stat-dot.on,
+[data-theme="glass"] .stats-ratio-fill.on {
+  background: var(--status-on) !important;
+}
+
+[data-theme="glass"] .stat-dot.warn {
+  background: var(--text-secondary) !important;
+}
+
+[data-theme="glass"] .stats-ratio-fill {
+  box-shadow: none;
+}
+
+[data-theme="glass"] .desktop-widget-card {
+  background: var(--glass-sheen), radial-gradient(ellipse at 50% 110%, rgba(var(--glass-tint), var(--glass-tint-alpha)), transparent 75%), var(--bg-card);
+  border: 1px solid rgba(var(--glass-tint), var(--glass-border-alpha));
+  backdrop-filter: blur(24px) saturate(145%);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 12px 24px -12px var(--glass-shadow), 0 0 22px -8px rgba(var(--glass-tint), var(--glass-glow-alpha));
+  border-radius: 24px;
+  position: relative;
+}
+
+[data-theme="glass"] .widget-countdown,
+[data-theme="glass"] .widget-heading-on {
+  color: var(--text-primary) !important;
+  font-family: var(--font-main);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+[data-theme="glass"] .widget-heading-off {
+  text-shadow: none !important;
+}
+
+[data-theme="glass"] .widget-icon-btn {
+  background: var(--glass-control);
+  color: var(--text-secondary);
+  border-radius: 8px;
+}
+
+[data-theme="glass"] .widget-status {
+  color: var(--status-on);
+}
+
+[data-theme="glass"] .widget-status.off {
+  color: var(--status-off);
+}
+
+[data-theme="glass"] .widget-status.warn {
+  color: var(--status-warn) !important;
+}
+
+[data-theme="glass"][data-glass-mode="light"] .status-bolt {
+  color: var(--status-on);
+}
+
+[data-theme="glass"] .widget-icon-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+[data-theme="glass"] .widget-progress-track {
+  background: var(--border-color);
+}
+
+[data-theme="glass"] .widget-planned-alert,
+[data-theme="glass"] .widget-planned-alert.is-active-now,
+[data-theme="glass"][data-glass-mode="light"] .widget-planned-alert,
+[data-theme="glass"][data-glass-mode="light"] .widget-planned-alert.is-active-now {
+  background: var(--glass-secondary) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: none !important;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :root[data-theme="glass"],
+  html[data-theme="glass"],
+  body[data-theme="glass"] {
+    --bg-card: #26272b;
+    --glass-control: #343539;
+    --glass-sheen: linear-gradient(transparent, transparent);
+  }
+
+  :root[data-theme="glass"][data-glass-mode="light"],
+  html[data-theme="glass"][data-glass-mode="light"],
+  body[data-theme="glass"][data-glass-mode="light"] {
+    --bg-card: #ffffff;
+    --glass-control: #eeeef1;
+  }
+
+  [data-theme="glass"] .app-container,
+  html[data-theme="glass"][data-glass-mode] .titlebar,
+  [data-theme="glass"] .timer-card,
+  [data-theme="glass"] .planned-outage-card,
+  [data-theme="glass"] .stats-overview-card,
+  [data-theme="glass"] .activity-heatmap-card,
+  [data-theme="glass"] .info-list,
+  [data-theme="glass"] .desktop-widget-card {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  [data-theme="glass"] .app-container {
+    background-color: var(--bg-card) !important;
+  }
+
+  [data-theme="glass"] .app-container::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="glass"] .app-container::before {
+    animation: none;
+  }
 }

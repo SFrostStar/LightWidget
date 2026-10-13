@@ -147,6 +147,7 @@ function updateNetworkConnectivityUI(online) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  restorePersistedState(window.__lightwidgetInitialState);
   setupTabs();
   setupSettings();
   setupInterfaceEnhancements();
@@ -261,11 +262,20 @@ function startSystemClock() {
 }
 
 function formatLightOnDuration(ms) {
-  const totalMinutes = Math.floor(ms / 60000);
+  const totalMinutes = Number.isFinite(ms) ? Math.max(0, Math.floor(ms / 60000)) : 0;
+  const days = Math.floor(totalMinutes / 1440);
   const hours = Math.floor(totalMinutes / 60);
   const minutes = totalMinutes % 60;
-  if (hours > 0) return `${hours} ч ${minutes} мин`;
-  return `${minutes} мин`;
+  const plural = (count, one, few, many) => {
+    const lastTwo = count % 100;
+    const last = count % 10;
+    const word = lastTwo >= 11 && lastTwo <= 14 ? many : last === 1 ? one : last >= 2 && last <= 4 ? few : many;
+    return `${count} ${word}`;
+  };
+  const minuteText = plural(minutes, 'минута', 'минуты', 'минут');
+  if (hours === 0) return minuteText;
+  const details = `${plural(hours, 'час', 'часа', 'часов')}, ${minuteText}`;
+  return days > 0 ? `${plural(days, 'день', 'дня', 'дней')} (${details})` : details;
 }
 
 function showLightOnStatus(extraNote) {
@@ -277,7 +287,7 @@ function showLightOnStatus(extraNote) {
       elTimerLabel.textContent = extraNote;
     } else {
       const sinceText = lightOnSince ? formatLightOnDuration(Date.now() - lightOnSince) : null;
-      setTimerText(elTimerLabel, sinceText ? `Со светом уже: ${sinceText}` : 'Электросеть работает в штатном режиме');
+      setTimerText(elTimerLabel, sinceText ? `Со светом уже ${sinceText}` : 'Электросеть работает в штатном режиме');
     }
     elTimerLabel.className = 'timer-subtitle status-sub-on';
     elTimerLabel.style.color = '';
@@ -808,7 +818,7 @@ function formatWithRelativeDay(dateStr) {
 }
 
 function renderState(state) {
-  if (!state) return;
+  if (!state || !['ON', 'OFF', 'PLANNED'].includes(state.status)) return;
   currentState = state;
 
   const isOutage = state.status === 'OFF';
@@ -905,6 +915,16 @@ function renderState(state) {
   countdownInterval = setInterval(updateCountdown, 1000);
   updateNetworkStats();
 }
+
+function restorePersistedState(state) {
+  if (!state || !['ON', 'OFF', 'PLANNED'].includes(state.status)) return false;
+  window.__lightwidgetInitialState = state;
+  if (document.readyState === 'loading') return false;
+  if (currentState) return true;
+  renderState(state);
+  return true;
+}
+window.restorePersistedState = restorePersistedState;
 
 let cachedHistory = [];
 try {
@@ -1227,6 +1247,7 @@ let appSettings = {
   theme: localStorage.getItem('lightwidget_theme') || 'midnight',
   accent: localStorage.getItem('lightwidget_accent') || 'blue',
   glassMode: localStorage.getItem('lightwidget_glass_mode') || 'dark',
+  panelTransparency: localStorage.getItem('lightwidget_panel_transparency') ?? 0,
   showSeconds: localStorage.getItem('lightwidget_show_seconds') !== 'false',
   smoothTimers: localStorage.getItem('lightwidget_smooth_timers') !== 'false',
   showPulse: localStorage.getItem('lightwidget_show_pulse') !== 'false',
@@ -1254,11 +1275,36 @@ const themeDefaultAccent = {
   glass: 'white'
 };
 
+function applyPanelTransparency(value, save = true) {
+  const available = appSettings.theme === 'glass' || document.getElementById('settingWallpaperEnabled')?.checked === true;
+  const number = value == null ? 0 : Number(value);
+  const transparency = available && Number.isFinite(number) ? Math.round(Math.min(100, Math.max(0, number))) : 0;
+  appSettings.panelTransparency = transparency;
+  document.documentElement.style.setProperty('--widget-surface-opacity', String(1 - transparency / 100));
+  document.documentElement.style.setProperty('--widget-surface-percent', `${100 - transparency}%`);
+  document.documentElement.classList.toggle('widgets-translucent', transparency > 0);
+  const slider = document.getElementById('settingPanelTransparency');
+  if (slider) {
+    slider.value = String(transparency);
+    slider.setAttribute('aria-valuetext', `${transparency}% прозрачности`);
+  }
+  const output = document.getElementById('panelTransparencyValue');
+  if (output) output.textContent = `${transparency}%`;
+  document.getElementById('widgetTransparencySettingsGroup')?.classList.toggle('is-hidden', !available);
+  localStorage.setItem('lightwidget_panel_transparency', String(transparency));
+  if (save && window.pywebview?.api?.save_config) {
+    window.pywebview.api.save_config({ appearance: { panel_transparency: transparency } });
+  }
+}
+
+window.updatePanelTransparencyAvailability = () => applyPanelTransparency(appSettings.panelTransparency, false);
+
 function applyGlassMode(mode, save = true) {
   if (!mode) return;
   appSettings.glassMode = mode;
-  document.body.setAttribute('data-glass-mode', mode);
-  document.documentElement.setAttribute('data-glass-mode', mode);
+  const displayMode = mode;
+  document.body.setAttribute('data-glass-mode', displayMode);
+  document.documentElement.setAttribute('data-glass-mode', displayMode);
   document.querySelectorAll('.glass-mode-btn').forEach(btn => {
     if (btn.getAttribute('data-mode') === mode) {
       btn.classList.add('active');
@@ -1278,10 +1324,13 @@ function applyGlassMode(mode, save = true) {
 
 function applyTheme(themeName, save = true) {
   if (!themeName) return;
+  if (themeName === 'transparent') themeName = 'glass';
+  const resetTransparency = save && appSettings.theme !== themeName && themeName !== 'glass';
   appSettings.theme = themeName;
   document.body.setAttribute('data-theme', themeName);
   document.documentElement.setAttribute('data-theme', themeName);
   document.querySelectorAll('.theme-card').forEach(card => {
+    if (card.hasAttribute('aria-pressed')) card.setAttribute('aria-pressed', String(card.getAttribute('data-theme') === themeName));
     if (card.getAttribute('data-theme') === themeName) {
       card.classList.add('active');
     } else {
@@ -1291,6 +1340,7 @@ function applyTheme(themeName, save = true) {
 
   const accentGroup = document.getElementById('accentSettingsGroup');
   const glassGroup = document.getElementById('glassModeSettingsGroup');
+  applyPanelTransparency(resetTransparency ? 0 : appSettings.panelTransparency, false);
   let effectiveAccent = appSettings.accent;
 
   if (themeName === 'glass') {
@@ -1320,7 +1370,8 @@ function applyTheme(themeName, save = true) {
       appearance: {
         theme: themeName,
         accent: effectiveAccent,
-        glass_mode: appSettings.glassMode
+        glass_mode: appSettings.glassMode,
+        panel_transparency: appSettings.panelTransparency
       }
     });
   }
@@ -1460,6 +1511,7 @@ function applySettingsState() {
 }
 
 window.applyTheme = applyTheme;
+window.applyPanelTransparency = applyPanelTransparency;
 window.applyAccent = applyAccent;
 window.applyGlassMode = applyGlassMode;
 window.applySettingsState = applySettingsState;
@@ -1669,6 +1721,8 @@ function setupSettings() {
     btnReset.addEventListener('click', () => {
       appSettings.theme = 'midnight';
       appSettings.accent = 'blue';
+      appSettings.panelTransparency = 0;
+      window.resetWallpaperSettings?.();
       appSettings.showSeconds = true;
       appSettings.smoothTimers = true;
       appSettings.showPulse = true;
@@ -1683,6 +1737,7 @@ function setupSettings() {
       appSettings.soundName = 'Submarine';
       localStorage.removeItem('lightwidget_theme');
       localStorage.removeItem('lightwidget_accent');
+      localStorage.removeItem('lightwidget_panel_transparency');
       localStorage.removeItem('lightwidget_show_seconds');
       localStorage.removeItem('lightwidget_smooth_timers');
       localStorage.removeItem('lightwidget_show_pulse');
@@ -1703,6 +1758,11 @@ function setupSettings() {
           appearance: {
             theme: 'midnight',
             accent: 'blue',
+            panel_transparency: 0,
+            wallpaper_enabled: false,
+            wallpaper_dim: 20,
+            wallpaper: '',
+            wallpaper_recent: [],
             show_seconds: true,
             smooth_timers: true,
             show_pulse: true,
@@ -1766,6 +1826,11 @@ function triggerRefreshCooldown(btn) {
 }
 
 function setupEventListeners() {
+  const panelTransparencySlider = document.getElementById('settingPanelTransparency');
+  if (panelTransparencySlider) {
+    panelTransparencySlider.addEventListener('input', () => applyPanelTransparency(panelTransparencySlider.value, false));
+    panelTransparencySlider.addEventListener('change', () => applyPanelTransparency(panelTransparencySlider.value, true));
+  }
   if (btnToggleAddress) {
     btnToggleAddress.addEventListener('click', () => {
       isAddressRevealed = !isAddressRevealed;
@@ -2464,6 +2529,7 @@ window.onTelegramStatusChange = function (status, message) {
 };
 
 let isAppInitialized = false;
+let isAppInitializing = false;
 
 window.addEventListener('pywebviewready', () => {
   initApp();
@@ -2472,33 +2538,36 @@ window.addEventListener('pywebviewready', () => {
 function waitForPywebview() {
   if (window.pywebview?.api) {
     initApp();
-    return;
   }
   let attempts = 0;
   const timer = setInterval(async () => {
     attempts++;
     if (window.pywebview?.api) {
-      clearInterval(timer);
       initApp();
-    } else if (attempts > 150) {
+      if (isAppInitialized) clearInterval(timer);
+    }
+    if (attempts > 150 && !isAppInitialized) {
       clearInterval(timer);
-      console.warn('Pywebview API not found after 15s');
+      console.warn('Saved status could not be initialized after 15s');
     }
   }, 100);
 }
 
 async function initApp() {
-  if (isAppInitialized) return;
+  if (isAppInitialized || isAppInitializing) return;
   if (!window.pywebview?.api) return;
-  isAppInitialized = true;
+  isAppInitializing = true;
 
   try {
     loadInstalledAppVersion();
     const state = await window.pywebview.api.get_state();
+    if (!state || !['ON', 'OFF', 'PLANNED'].includes(state.status)) throw new Error('Saved status is unavailable');
     renderState(state);
+    isAppInitialized = true;
     await loadHistory();
 
     const cfg = await window.pywebview.api.get_config();
+    window.initWallpaperSettings?.(cfg?.appearance || {});
     if (cfg?.telegram) {
       if (tgApiId) tgApiId.value = cfg.telegram.api_id || '';
       if (tgApiHash) tgApiHash.value = cfg.telegram.api_hash || '';
@@ -2524,6 +2593,7 @@ async function initApp() {
         appSettings.glassMode = cfg.appearance.glass_mode;
         localStorage.setItem('lightwidget_glass_mode', appSettings.glassMode);
       }
+      applyPanelTransparency(cfg.appearance.panel_transparency ?? 0, false);
       if (cfg.appearance.show_seconds !== undefined) {
         appSettings.showSeconds = cfg.appearance.show_seconds;
         localStorage.setItem('lightwidget_show_seconds', appSettings.showSeconds);
@@ -2673,6 +2743,8 @@ async function initApp() {
     }
   } catch (e) {
     console.error('Init error:', e);
+  } finally {
+    isAppInitializing = false;
   }
 }
 

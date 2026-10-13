@@ -68,6 +68,7 @@ def build():
         '--hidden-import=telethon',
         '--hidden-import=webview',
         '--hidden-import=urllib.request',
+        '--collect-all=pillow_heif',
     ]
     
     if sys.platform == 'win32':
@@ -79,6 +80,7 @@ def build():
             '--hidden-import=webview.platforms.edgechromium',
             '--hidden-import=clr',
             '--hidden-import=pythonnet',
+            '--collect-all=imageio_ffmpeg',
         ])
     else:
         if os.path.exists("ui/AppIcon.icns"):
@@ -87,6 +89,8 @@ def build():
             '--hidden-import=objc',
             '--hidden-import=Cocoa',
             '--hidden-import=Quartz',
+            '--hidden-import=AVFoundation',
+            '--hidden-import=CoreMedia',
         ])
     
     PyInstaller.__main__.run(params)
@@ -134,5 +138,3 @@ def build():
 
 if __name__ == '__main__':
     build()
-
-

@@ -3,6 +3,8 @@ import os
 import json
 import time
 import threading
+import copy
+import tempfile
 from datetime import datetime
 from .crypto import encrypt_value ,decrypt_value ,DATA_DIR
 
@@ -35,7 +37,7 @@ class StorageManager :
     def __init__ (self ):
         self ._state_lock =threading .RLock ()
         os .makedirs (DATA_DIR ,exist_ok =True )
-        self .state =DEFAULT_STATE .copy ()
+        self .state =copy.deepcopy(DEFAULT_STATE)
         self .state =self .load_state ()
         if isinstance (self .state ,dict )and self .state .get ("status")=="ON"and not self .state .get ("light_on_since"):
             self .state ["light_on_since"]=int (time .time ()*1000 )
@@ -80,14 +82,18 @@ class StorageManager :
 
     def load_state (self ):
         if not os .path .exists (STATE_FILE ):
-            self .save_state (DEFAULT_STATE )
-            return DEFAULT_STATE .copy ()
+            return copy.deepcopy(DEFAULT_STATE)
         try :
             with open (STATE_FILE ,"r",encoding ="utf-8")as f :
                 data =json .load (f )
-                return self ._decrypt_record (data )
-        except Exception :
-            return DEFAULT_STATE .copy ()
+                if not isinstance(data, dict) or data.get("status") not in ("ON", "OFF", "PLANNED"):
+                    raise ValueError("Invalid saved status")
+                state = copy.deepcopy(DEFAULT_STATE)
+                state.update(self._decrypt_record(data))
+                return state
+        except Exception as error:
+            print(f"[Storage] Error loading state: {error}")
+            return copy.deepcopy(DEFAULT_STATE)
 
     def _is_planned_blocked (self ,item ,blocked ):
         return any (entry .get ("start_timestamp")==item .get ("start_timestamp")and (entry .get ("end_timestamp")is None or entry .get ("end_timestamp")==item .get ("end_timestamp"))for entry in blocked )
@@ -176,12 +182,23 @@ class StorageManager :
             state["light_on_since"] = previous.get("light_on_since") if previous.get("status") == "ON" else None
             state["light_on_since"] = state["light_on_since"] or int(time.time() * 1000)
         self.state = state
+        temporary = None
         try:
             encrypted_state = self._encrypt_record(self.state)
-            with open(STATE_FILE, "w", encoding="utf-8") as file:
+            with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=DATA_DIR, prefix=".state-", suffix=".tmp", delete=False) as file:
+                temporary = file.name
                 json.dump(encrypted_state, file, ensure_ascii=False, indent=2)
+                file.flush()
+                os.fsync(file.fileno())
+            os.replace(temporary, STATE_FILE)
         except Exception as error:
             print(f"[Storage] Error saving state: {error}")
+        finally:
+            if temporary and os.path.exists(temporary):
+                try:
+                    os.unlink(temporary)
+                except OSError:
+                    pass
         return self.state
 
     def get_state (self ):
